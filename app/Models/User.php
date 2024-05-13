@@ -14,7 +14,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
-    use SoftDeletes;
 
     public $incrementing = false;
     public $keyType = 'char';
