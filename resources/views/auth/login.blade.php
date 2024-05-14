@@ -24,7 +24,7 @@
                     <a class="text-primary fw-medium" href="authentication-forgot-password.html">Forgot Password ?</a>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Masuk</button>
-                <div class="d-flex align-items-center justify-content-center">
+                    <div class="d-flex align-items-center justify-content-center">
                     <p class="fs-4 mb-0 fw-medium">Belum Punya Akun?</p>
                     <a class="text-primary fw-medium ms-2" href="authentication-register.html">Buat Akun</a>
                 </div>

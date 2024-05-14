@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('outlet_id')->constrained()->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('outlet_id')->constrained()->restrictOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->text('address');
             $table->timestamps();
