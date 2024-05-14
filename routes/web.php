@@ -1,11 +1,8 @@
 <?php
 
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
->>>>>>> e74adc429922911db32fba69461d4dfb60935222
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
