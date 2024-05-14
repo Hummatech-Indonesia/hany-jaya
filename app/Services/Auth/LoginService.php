@@ -15,18 +15,22 @@ class LoginService
      * @param  mixed $request
      * @return mixed
      */
-    public function handleLogin($request, UserInterface $user): mixed
+    public function handleLogin(LoginRequest $request, UserInterface $user): mixed
     {
-        $data['email'] = $request->email;
+        $data = $request->validated();
+        $data['email'] = $data['email'];
         $user = $user->getWhere($data);
-        if ($user->email_verified_at) {
-            if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-                return redirect()->route('home')->with('success', 'Berhasil Login.');
+        if (auth()->attempt(['email' => $data['email'], 'password' => $data['password']])) {
+            if (isset($data['remember_me']) && !empty($data['remember_me'])) {
+                setcookie("email", $data['email'], time() + 3600);
+                setcookie("password", $data['password'], time() + 3600);
             } else {
-                return redirect()->back()->withErrors(trans('auth.login_failed'))->withInput();
+                setcookie("email", "");
+                setcookie("password", "");
             }
+            return redirect()->route('home')->with('success', 'Berhasil Login.');
         } else {
-            return redirect()->back()->withErrors('Harap Verifikasi Akun Anda Terlebih Dahulu');
+            return redirect()->back()->withErrors('Password dan Email anda tidak sesuai')->withInput();
         }
     }
 }
