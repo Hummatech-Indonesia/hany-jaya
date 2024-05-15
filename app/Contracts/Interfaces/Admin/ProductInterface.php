@@ -9,6 +9,6 @@ use App\Contracts\Interfaces\Eloquent\DeleteInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 use Illuminate\Http\Request;
 
-interface SupplierInterface extends GetInterface, StoreInterface, DeleteInterface, UpdateInterface, ShowInterface
+interface ProductInterface extends GetInterface, StoreInterface, DeleteInterface, UpdateInterface, ShowInterface
 {
 }

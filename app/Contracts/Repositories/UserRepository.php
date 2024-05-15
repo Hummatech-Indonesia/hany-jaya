@@ -72,19 +72,6 @@ class UserRepository extends BaseRepository implements UserInterface
     }
 
     /**
-     * search
-     *
-     * @param  mixed $request
-     * @return mixed
-     */
-    public function search(Request $request): mixed
-    {
-        return $this->model->query()
-
-            ->get();
-    }
-
-    /**
      * getWhere
      *
      * @param  mixed $data

@@ -18,8 +18,9 @@ return new class extends Migration
             $table->foreignId('unit_id')->constrained()->restrictOnDelete()->restrictOnUpdate();
             $table->string('code')->unique();
             $table->string('name');
-            $table->integer('quantity');
+            $table->integer('quantity')->default(0);
             $table->integer('selling_price');
+            $table->string('image');
             $table->timestamps();
         });
     }

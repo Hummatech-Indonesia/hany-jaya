@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SupplierRequest;
+use App\Http\Requests\Admin\SupplierRequest;
 use App\Models\Supplier;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;

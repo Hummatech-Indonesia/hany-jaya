@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             StoreSeeder::class,
             OutletSeeder::class,
             RoleSeeder::class,
+            CategorySeeder::class,
+            UnitSeeder::class,
             UserSeeder::class,
         ]);
     }

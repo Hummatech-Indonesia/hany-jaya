@@ -2,11 +2,12 @@
 
 namespace App\Contracts\Repositories\Admin;
 
-use App\Contracts\Interfaces\Admin\SupplierInterface;
+use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
-class SupplierRepository extends BaseRepository implements SupplierInterface
+class ProductRepository extends BaseRepository implements ProductInterface
 {
     public function __construct(Product $product)
     {
@@ -33,8 +34,15 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
      */
     public function store(array $data): mixed
     {
-        return $this->model->query()
+        $product = $this->model->query()
             ->create($data);
+
+        foreach ($data['supplier_id'] as $supplier_id) {
+            $data['supplier_id'] = $supplier_id;
+
+            $product->supplierProducts()->create($data);
+        }
+        return $product;
     }
 
     /**
@@ -58,7 +66,17 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
      */
     public function update(mixed $id, array $data): mixed
     {
-        return $this->show($id)->update($data);
+        $product = $this->show($id);
+        $product->update($data);
+
+        $product->supplierProducts()->delete();
+
+        foreach ($data['supplier_id'] as $supplier_id) {
+            $data['supplier_id'] = $supplier_id;
+            $product->supplierProducts()->create($data);
+        }
+
+        return $product;
     }
 
     /**

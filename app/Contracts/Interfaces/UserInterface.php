@@ -11,7 +11,6 @@ use App\Contracts\Interfaces\Eloquent\SearchInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 use Illuminate\Http\Request;
 
-interface UserInterface extends GetInterface, StoreInterface, SearchInterface, DeleteInterface, UpdateInterface, ShowInterface, GetWhereInterface
+interface UserInterface extends GetInterface, StoreInterface, DeleteInterface, UpdateInterface, ShowInterface, GetWhereInterface
 {
-  
 }

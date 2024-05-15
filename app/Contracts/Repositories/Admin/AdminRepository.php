@@ -4,13 +4,14 @@ namespace App\Contracts\Repositories\Admin;
 
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Contracts\Repositories\BaseRepository;
-use App\Models\Product;
+use App\Models\Supplier;
+use Illuminate\Http\Request;
 
-class SupplierRepository extends BaseRepository implements SupplierInterface
+class AdminRepository extends BaseRepository implements SupplierInterface
 {
-    public function __construct(Product $product)
+    public function __construct(Supplier $supplier)
     {
-        $this->model = $product;
+        $this->model = $supplier;
     }
 
     /**
@@ -70,5 +71,18 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
     public function delete(mixed $id): mixed
     {
         return $this->show($id)->delete($id);
+    }
+
+    /**
+     * search
+     *
+     * @param  mixed $request
+     * @return mixed
+     */
+    public function search(Request $request): mixed
+    {
+        return $this->model->query()
+
+            ->get();
     }
 }
