@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- Mirrored from demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/html/main/authentication-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 06 Jul 2023 02:01:04 GMT -->
-
     <head>
         <!--  Title -->
         <title>Mordenize</title>
@@ -27,7 +25,6 @@
             href="{{ asset('assets/css/style.min.css') }}"
         />
     </head>
-
     <body>
         <!-- Preloader -->
         <div class="preloader">
@@ -54,42 +51,7 @@
             data-sidebar-position="fixed"
             data-header-position="fixed"
         >
-            <div
-                class="position-relative overflow-hidden radial-gradient min-vh-100"
-            >
-                <div class="position-relative z-index-5">
-                    <div class="row">
-                        <div class="col-xl-7 col-xxl-8">
-                            <a
-                                href="index-2.html"
-                                class="text-nowrap logo-img d-block px-4 py-9 w-100"
-                            >
-                                <img
-                                    src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/dark-logo.svg"
-                                    width="180"
-                                    alt=""
-                                />
-                            </a>
-                            <div
-                                class="d-none d-xl-flex align-items-center justify-content-center"
-                                style="height: calc(100vh - 80px)"
-                            >
-                                <img
-                                    src="{{
-                                        asset(
-                                            'assets/images/illustration/cashier.png'
-                                        )
-                                    }}"
-                                    alt=""
-                                    class="img-fluid"
-                                    width="500"
-                                />
-                            </div>
-                        </div>
-                        <div class="col-xl-5 col-xxl-4">@yield('content')</div>
-                    </div>
-                </div>
-            </div>
+            @yield('content')
         </div>
 
         <!--  Import Js Files -->
@@ -111,5 +73,5 @@
         <script src="{{ asset('assets/js/custom.js') }}"></script>
     </body>
 
-    <!-- Mirrored from demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/html/main/authentication-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 06 Jul 2023 02:01:04 GMT -->
+    <!-- Mirrored from demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/html/main/authentication-login2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 06 Jul 2023 02:01:04 GMT -->
 </html>

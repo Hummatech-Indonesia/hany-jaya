@@ -44,4 +44,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/products', function () {
         return view('dashboard.product.index');
     })->name('products');
+    Route::get('/cashiers', function () {
+        return view('dashboard.cashier.index');
+    })->name('cashiers');
 });

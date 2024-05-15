@@ -36,6 +36,14 @@
             rel="stylesheet"
             href="{{ asset('assets/css/style.min.css') }}"
         />
+
+        <!-- --------------------------------------------------- -->
+        <!-- Select2 -->
+        <!-- --------------------------------------------------- -->
+        <link
+            rel="stylesheet"
+            href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}"
+        />
     </head>
 
     <body>

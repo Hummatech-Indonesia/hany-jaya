@@ -6,8 +6,8 @@
         <div class="card-body px-4 py-3">
             <div class="row align-items-center">
                 <div class="col-9">
-                    <h4 class="fw-semibold mb-8">Pemasok</h4>
-                    <p>List pemasok di toko anda.</p>
+                    <h4 class="fw-semibold mb-8">Kasir</h4>
+                    <p>List kasir di toko anda.</p>
                     <button
                         type="button"
                         class="btn btn-primary"
@@ -276,275 +276,323 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-end">
-        <div class="col-3">
-            <input
-                type="text"
-                class="form-control"
-                id="nametext"
-                aria-describedby="name"
-                placeholder="Produk"
-            />
+
+    <div class="widget-content searchable-container list">
+        <!-- --------------------- start Contact ---------------- -->
+        <div class="card card-body">
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    <form class="position-relative">
+                        <input
+                            type="text"
+                            class="form-control product-search ps-5"
+                            id="input-search"
+                            placeholder="Search Contacts..."
+                        />
+                        <i
+                            class="ti ti-search position-absolute top-50 start-0 translate-middle-y fs-6 text-dark ms-3"
+                        ></i>
+                    </form>
+                </div>
+                <div
+                    class="col-md-8 col-xl-9 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0"
+                >
+                    <div class="action-btn show-btn" style="display: none">
+                        <a
+                            href="javascript:void(0)"
+                            class="delete-multiple btn-light-danger btn me-2 text-danger d-flex align-items-center font-medium"
+                        >
+                            <i class="ti ti-trash text-danger me-1 fs-5"></i>
+                            Delete All Row
+                        </a>
+                    </div>
+                    <a
+                        href="javascript:void(0)"
+                        id="btn-add-contact"
+                        class="btn btn-info d-flex align-items-center"
+                    >
+                        <i class="ti ti-users text-white me-1 fs-5"></i> Add
+                        Contact
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="col-3">
-            <input
-                type="text"
-                class="form-control"
-                id="nametext"
-                aria-describedby="name"
-                placeholder="Name"
-            />
-        </div>
-        <div class="col-1">
-            <button class="btn btn-primary">Cari</button>
-        </div>
-    </div>
-    <!--  Row 1 -->
-    <div class="row mt-5">
-        <div class="col-md-6 col-lg-4">
-            <div class="card rounded-3">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <span class="flex-shrink-0"
-                            ><i class="ti ti-users text-success display-6"></i
-                        ></span>
-                        <div class="ms-4">
-                            <div class="row">
-                                <div class="col-10">
-                                    <h4 class="card-title text-dark">
-                                        PT. Danone Indonesia
-                                    </h4>
-                                    <h6
-                                        class="card-subtitle mb-0 fs-2 fw-normal mb-1"
-                                    >
-                                        Jl. Soekarno-Hatta No.90, Kota Malang
-                                    </h6>
-                                </div>
-                                <div class="col-2">
-                                    <div class="dropdown">
-                                        <a
-                                            class=""
-                                            href="javascript:void(0)"
-                                            id="t2"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            <i
-                                                class="ti ti-dots-vertical fs-4"
-                                            ></i>
-                                        </a>
-                                        <ul
-                                            class="dropdown-menu"
-                                            aria-labelledby="t2"
-                                        >
-                                            <li>
-                                                <a
-                                                    class="dropdown-item"
-                                                    href="#"
-                                                >
-                                                    <i
-                                                        class="ti ti-share text-muted me-1 fs-4"
-                                                    ></i
-                                                    >Share
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    class="dropdown-item"
-                                                    href="#"
-                                                >
-                                                    <i
-                                                        class="ti ti-download text-muted me-1 fs-4"
-                                                    ></i
-                                                    >Download
-                                                </a>
-                                            </li>
-                                        </ul>
+        <!-- ---------------------
+                        end Contact
+                    ---------------- -->
+        <!-- Modal -->
+        <div
+            class="modal fade"
+            id="addContactModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="addContactModalTitle"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h5 class="modal-title">Contact</h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="add-contact-box">
+                            <div class="add-contact-content">
+                                <form id="addContactModalTitle">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3 contact-name">
+                                                <input
+                                                    type="text"
+                                                    id="c-name"
+                                                    class="form-control"
+                                                    placeholder="Name"
+                                                />
+                                                <span
+                                                    class="validation-text text-danger"
+                                                ></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3 contact-email">
+                                                <input
+                                                    type="text"
+                                                    id="c-email"
+                                                    class="form-control"
+                                                    placeholder="Email"
+                                                />
+                                                <span
+                                                    class="validation-text text-danger"
+                                                ></span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <span
-                                    class="mb-1 badge rounded-pill font-medium bg-light-primary text-primary"
-                                    ><small>Chitato</small></span
-                                >
-                                <span
-                                    class="mb-1 badge rounded-pill font-medium bg-light-primary text-primary"
-                                    ><small>Aqua</small></span
-                                >
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div
+                                                class="mb-3 contact-occupation"
+                                            >
+                                                <input
+                                                    type="text"
+                                                    id="c-occupation"
+                                                    class="form-control"
+                                                    placeholder="Occupation"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3 contact-phone">
+                                                <input
+                                                    type="text"
+                                                    id="c-phone"
+                                                    class="form-control"
+                                                    placeholder="Phone"
+                                                />
+                                                <span
+                                                    class="validation-text text-danger"
+                                                ></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="mb-3 contact-location">
+                                                <input
+                                                    type="text"
+                                                    id="c-location"
+                                                    class="form-control"
+                                                    placeholder="Location"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            id="btn-add"
+                            class="btn btn-success rounded-pill px-4"
+                        >
+                            Add
+                        </button>
+                        <button
+                            id="btn-edit"
+                            class="btn btn-success rounded-pill px-4"
+                        >
+                            Save
+                        </button>
+                        <button
+                            class="btn btn-danger rounded-pill px-4"
+                            data-bs-dismiss="modal"
+                        >
+                            Discard
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card rounded-3">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <span class="flex-shrink-0"
-                            ><i class="ti ti-users text-success display-6"></i
-                        ></span>
-                        <div class="ms-4">
-                            <div class="row">
-                                <div class="col-10">
-                                    <h4 class="card-title text-dark">
-                                        PT. Danone Indonesia
-                                    </h4>
-                                    <h6
-                                        class="card-subtitle mb-0 fs-2 fw-normal mb-1"
-                                    >
-                                        Jl. Soekarno-Hatta No.90, Kota Malang
-                                    </h6>
-                                </div>
-                                <div class="col-2">
-                                    <div class="dropdown">
-                                        <a
-                                            class=""
-                                            href="javascript:void(0)"
-                                            id="t2"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            <i
-                                                class="ti ti-dots-vertical fs-4"
-                                            ></i>
-                                        </a>
-                                        <ul
-                                            class="dropdown-menu"
-                                            aria-labelledby="t2"
-                                        >
-                                            <li>
-                                                <a
-                                                    class="dropdown-item"
-                                                    href="#"
-                                                >
-                                                    <i
-                                                        class="ti ti-share text-muted me-1 fs-4"
-                                                    ></i
-                                                    >Share
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    class="dropdown-item"
-                                                    href="#"
-                                                >
-                                                    <i
-                                                        class="ti ti-download text-muted me-1 fs-4"
-                                                    ></i
-                                                    >Download
-                                                </a>
-                                            </li>
-                                        </ul>
+        <div class="card card-body">
+            <div class="table-responsive">
+                <table class="table search-table align-middle text-nowrap">
+                    <thead class="header-item">
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Location</th>
+                        <th>Phone</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        <!-- start row -->
+                        <tr class="search-items">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img
+                                        src="{{
+                                            asset(
+                                                'assets/images/profile/user-1.jpg'
+                                            )
+                                        }}"
+                                        alt="avatar"
+                                        class="rounded-circle"
+                                        width="35"
+                                    />
+                                    <div class="ms-3">
+                                        <div class="user-meta-info">
+                                            <h6
+                                                class="user-name mb-0"
+                                                data-name="Emma Adams"
+                                            >
+                                                Emma Adams
+                                            </h6>
+                                            <span
+                                                class="user-work fs-3"
+                                                data-occupation="Web Developer"
+                                                >Web Developer</span
+                                            >
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mt-3">
+                            </td>
+                            <td>
                                 <span
-                                    class="mb-1 badge rounded-pill font-medium bg-light-primary text-primary"
-                                    ><small>Chitato</small></span
+                                    class="usr-email-addr"
+                                    data-email="adams@mail.com"
+                                    >adams@mail.com</span
                                 >
+                            </td>
+                            <td>
                                 <span
-                                    class="mb-1 badge rounded-pill font-medium bg-light-primary text-primary"
-                                    ><small>Aqua</small></span
+                                    class="usr-location"
+                                    data-location="Boston, USA"
+                                    >Boston, USA</span
                                 >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card rounded-3">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <span class="flex-shrink-0"
-                            ><i class="ti ti-users text-success display-6"></i
-                        ></span>
-                        <div class="ms-4">
-                            <div class="row">
-                                <div class="col-10">
-                                    <h4 class="card-title text-dark">
-                                        PT. Danone Indonesia
-                                    </h4>
-                                    <h6
-                                        class="card-subtitle mb-0 fs-2 fw-normal mb-1"
+                            </td>
+                            <td>
+                                <span
+                                    class="usr-ph-no"
+                                    data-phone="+1 (070) 123-4567"
+                                    >+91 (070) 123-4567</span
+                                >
+                            </td>
+                            <td>
+                                <div class="action-btn">
+                                    <a
+                                        href="javascript:void(0)"
+                                        class="text-info edit"
                                     >
-                                        Jl. Soekarno-Hatta No.90, Kota Malang
-                                    </h6>
+                                        <i class="ti ti-eye fs-5"></i>
+                                    </a>
+                                    <a
+                                        href="javascript:void(0)"
+                                        class="text-dark delete ms-2"
+                                    >
+                                        <i class="ti ti-trash fs-5"></i>
+                                    </a>
                                 </div>
-                                <div class="col-2">
-                                    <div class="dropdown">
-                                        <a
-                                            class=""
-                                            href="javascript:void(0)"
-                                            id="t2"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            <i
-                                                class="ti ti-dots-vertical fs-4"
-                                            ></i>
-                                        </a>
-                                        <ul
-                                            class="dropdown-menu"
-                                            aria-labelledby="t2"
-                                        >
-                                            <li>
-                                                <a
-                                                    class="dropdown-item"
-                                                    href="#"
-                                                >
-                                                    <i
-                                                        class="ti ti-share text-muted me-1 fs-4"
-                                                    ></i
-                                                    >Share
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    class="dropdown-item"
-                                                    href="#"
-                                                >
-                                                    <i
-                                                        class="ti ti-download text-muted me-1 fs-4"
-                                                    ></i
-                                                    >Download
-                                                </a>
-                                            </li>
-                                        </ul>
+                            </td>
+                        </tr>
+                        <!-- end row -->
+                        <!-- start row -->
+                        <tr class="search-items">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img
+                                        src="{{
+                                            asset(
+                                                'assets/images/profile/user-2.jpg'
+                                            )
+                                        }}"
+                                        alt="avatar"
+                                        class="rounded-circle"
+                                        width="35"
+                                    />
+                                    <div class="ms-3">
+                                        <div class="user-meta-info">
+                                            <h6
+                                                class="user-name mb-0"
+                                                data-name="Olivia Allen"
+                                            >
+                                                Olivia Allen
+                                            </h6>
+                                            <span
+                                                class="user-work fs-3"
+                                                data-occupation="Web Designer"
+                                                >Web Designer</span
+                                            >
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mt-3">
+                            </td>
+                            <td>
                                 <span
-                                    class="mb-1 badge rounded-pill font-medium bg-light-primary text-primary"
-                                    ><small>Chitato</small></span
+                                    class="usr-email-addr"
+                                    data-email="allen@mail.com"
+                                    >allen@mail.com</span
                                 >
+                            </td>
+                            <td>
                                 <span
-                                    class="mb-1 badge rounded-pill font-medium bg-light-primary text-primary"
-                                    ><small>Aqua</small></span
+                                    class="usr-location"
+                                    data-location="Sydney, Australia"
+                                    >Sydney, Australia</span
                                 >
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            </td>
+                            <td>
+                                <span
+                                    class="usr-ph-no"
+                                    data-phone="+91 (125) 450-1500"
+                                    >+91 (125) 450-1500</span
+                                >
+                            </td>
+                            <td>
+                                <div class="action-btn">
+                                    <a
+                                        href="javascript:void(0)"
+                                        class="text-info edit"
+                                    >
+                                        <i class="ti ti-eye fs-5"></i>
+                                    </a>
+                                    <a
+                                        href="javascript:void(0)"
+                                        class="text-dark delete ms-2"
+                                    >
+                                        <i class="ti ti-trash fs-5"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- end row -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
-@endsection @section('script')
-<script src="{{
-        asset('assets/libs/select2/dist/js/select2.full.min.js')
-    }}"></script>
-<script src="{{
-        asset('assets/libs/select2/dist/js/select2.min.js')
-    }}"></script>
-<script src="{{ asset('assets/js/forms/select2.init.js') }}"></script>
-<script>
-    $("#select-product").select2({
-        dropdownParent: $("#modalAddSuplier"),
-    });
-</script>
 @endsection

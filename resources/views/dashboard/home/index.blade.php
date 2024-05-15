@@ -112,7 +112,7 @@
         </div>
     </div>
     <!--  Row 1 -->
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-lg-8 d-flex align-items-strech">
             <div class="card w-100">
                 <div class="card-body">
@@ -197,7 +197,6 @@
         <div class="col-lg-4">
             <div class="row">
                 <div class="col-lg-12 col-md-6 col-sm-12">
-                    <!-- Yearly Breakup -->
                     <div class="card overflow-hidden">
                         <div class="card-body">
                             <div class="row align-items-center">
@@ -244,7 +243,6 @@
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-6 col-sm-12">
-                    <!-- Monthly Earnings -->
                     <div class="card">
                         <div class="card-body">
                             <div class="row alig n-items-start">
@@ -285,6 +283,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 @endsection
