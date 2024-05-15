@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Models\Outlet;
 use App\Models\Store;
+use App\Models\Supplier;
 use App\Models\User;
 use App\Observers\OutletObserver;
 use App\Observers\StoreObserver;
+use App\Observers\SupplierObserver;
 use App\Observers\UserObserve;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
@@ -35,6 +37,7 @@ class EventServiceProvider extends ServiceProvider
         Store::observe(StoreObserver::class);
         Outlet::observe(OutletObserver::class);
         User::observe(UserObserver::class);
+        Supplier::observe(SupplierObserver::class);
     }
 
     /**

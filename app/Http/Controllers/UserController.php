@@ -29,7 +29,7 @@ class UserController extends Controller
     public function store(UserRequest $request): RedirectResponse
     {
         $this->userService->store($request, $this->user);
-        return redirect()->back(trans('alert.add_success'));
+        return redirect()->back()->with('success', trans('alert.add_success'));
     }
 
     /**
@@ -42,6 +42,6 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $this->user->update($user->id, $data);
-        return redirect()->back(trans('alert.update_success'));
+        return redirect()->back()->with('success', trans('alert.update_success'));
     }
 }
