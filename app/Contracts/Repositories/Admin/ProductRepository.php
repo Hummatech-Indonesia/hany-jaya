@@ -22,7 +22,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
     public function get(): mixed
     {
         return $this->model->query()
-            ->where('oulet_id', auth()->user()->outlet->id)
+            ->where('outlet_id', auth()->user()->outlet->id)
             ->get();
     }
 

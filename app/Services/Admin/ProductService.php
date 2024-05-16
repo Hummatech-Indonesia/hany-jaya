@@ -23,14 +23,12 @@ class ProductService
 
         return [
             'category_id' => $data['category_id'],
-            'outlet_id' => $data['outlet_id'],
             'unit_id' => $data['unit_id'],
             'code' => $data['code'],
             'name' => $data['name'],
             'quantity' => isset($data['quantity']) ? $data['quantity'] : 0,
             'image' => $imageUrl,
-            'item' => $data['item'],
-            'description' => $data['description'],
+            'selling_price' => $data['selling_price'],
             'supplier_id' => $data['supplier_id']
         ];
     }
@@ -54,14 +52,12 @@ class ProductService
 
         return [
             'category_id' => $data['category_id'],
-            'outlet_id' => $data['outlet_id'],
             'unit_id' => $data['unit_id'],
             'code' => $data['code'],
             'name' => $data['name'],
             'quantity' => isset($data['quantity']) ? $data['quantity'] : 0,
             'image' => $old_image,
-            'item' => $data['item'],
-            'description' => $data['description'],
+            'selling_price' => $data['selling_price'],
             'supplier_id' => $data['supplier_id']
         ];
     }

@@ -17,7 +17,6 @@ class ProductRequest extends FormRequest
     {
         return [
             'category_id' => 'required|exists:categories,id',
-            'outlet_id' => 'required|exists:outlets,id',
             'unit_id' => 'required|exists:units,id',
             'code' => ['required', Rule::unique('products', 'code')->ignore($this->product)],
             'name' => 'required|max:255',

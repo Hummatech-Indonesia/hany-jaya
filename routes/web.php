@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -45,9 +46,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
         return view('dashboard.home.index');
     })->name('home');
-    Route::get('/products', function () {
-        return view('dashboard.product.index');
-    })->name('products');
+    Route::resources([
+        'products' => ProductController::class
+    ]);
     Route::get('/cashiers', function () {
         return view('dashboard.cashier.index');
     })->name('cashiers');
