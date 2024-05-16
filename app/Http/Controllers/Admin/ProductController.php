@@ -59,4 +59,16 @@ class ProductController extends Controller
         $this->product->update($product->id, $data);
         return redirect()->back()->with('success', trans('alert.update_success'));
     }
+
+    /**
+     * delete
+     *
+     * @param  mixed $product
+     * @return RedirectResponse
+     */
+    public function delete(Product $product): RedirectResponse
+    {
+        $this->product->delete($product->id);
+        return redirect()->back()->with('success', trans('alert.delete_success'));
+    }
 }

@@ -4,11 +4,13 @@ namespace App\Providers;
 
 use App\Models\Outlet;
 use App\Models\Product;
+use App\Models\Purchase;
 use App\Models\Store;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Observers\OutletObserver;
 use App\Observers\ProductObserver;
+use App\Observers\PurchaseObserver;
 use App\Observers\StoreObserver;
 use App\Observers\SupplierObserver;
 use App\Observers\UserObserve;
@@ -41,6 +43,7 @@ class EventServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Supplier::observe(SupplierObserver::class);
         Product::observe(ProductObserver::class);
+        Purchase::observe(PurchaseObserver::class);
     }
 
     /**
