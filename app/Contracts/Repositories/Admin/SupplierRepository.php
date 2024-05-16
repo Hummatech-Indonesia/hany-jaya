@@ -4,13 +4,13 @@ namespace App\Contracts\Repositories\Admin;
 
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Contracts\Repositories\BaseRepository;
-use App\Models\Product;
+use App\Models\Supplier;
 
 class SupplierRepository extends BaseRepository implements SupplierInterface
 {
-    public function __construct(Product $product)
+    public function __construct(Supplier $supplier)
     {
-        $this->model = $product;
+        $this->model = $supplier;
     }
 
     /**
@@ -21,7 +21,7 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
     public function get(): mixed
     {
         return $this->model->query()
-            ->where('oulet_id', auth()->user()->outlet->id)
+            ->where('outlet_id', auth()->user()->outlet->id)
             ->get();
     }
 

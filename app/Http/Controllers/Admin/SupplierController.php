@@ -26,8 +26,10 @@ class SupplierController extends Controller
      */
     public function index(): View
     {
-        $this->supplier->get();
-        return view('');
+        $data = [
+            'suppliers' => $this->supplier->get()
+        ];
+        return view('dashboard.supplier.index', $data);
     }
 
     /**
@@ -61,7 +63,7 @@ class SupplierController extends Controller
      * @param  mixed $supplier
      * @return RedirectResponse
      */
-    public function delete(Supplier $supplier): RedirectResponse
+    public function destroy(Supplier $supplier): RedirectResponse
     {
         $this->supplier->delete($supplier->id);
         return redirect()->back()->with('success', trans('alert.delete_success'));

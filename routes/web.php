@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -34,13 +35,16 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::middleware('auth')->group(function () {
+    Route::resources([
+        'suppliers' => SupplierController::class,
+    ]);
+});
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
         return view('dashboard.home.index');
     })->name('home');
-    Route::get('/suppliers', function () {
-        return view('dashboard.supplier.index');
-    })->name('suppliers');
     Route::get('/products', function () {
         return view('dashboard.product.index');
     })->name('products');
