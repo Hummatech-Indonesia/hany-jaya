@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\PurchasesController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\SupplierProductController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -22,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('guest')->group(function () {
-    Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [LoginController::class, 'login']);
 });
 
@@ -35,22 +37,26 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('dashboard', function () {
-    return view('dashboard.home.index');
-})->name('home');
-
 Route::middleware('auth')->group(function () {
-    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', function () {
+        return view('dashboard.home.index');
+    })->name('home');
 
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('supplier-products/{product?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
         Route::resources([
             'products' => ProductController::class,
             'suppliers' => SupplierController::class,
         ]);
         Route::prefix('cashiers')->name('cashiers.')->group(function () {
             Route::get('/', [UserController::class, 'getCashier'])->name('index');
-            Route::post('cashiers', [UserController::class, 'store'])->name('store');
-            Route::put('cashiers/{user}', [UserController::class, 'update'])->name('update');
-            Route::delete('cashiers/{user}', [UserController::class, 'destroy'])->name('destroy');
+            Route::post('/', [UserController::class, 'store'])->name('store');
+            Route::put('{user}', [UserController::class, 'update'])->name('update');
+            Route::delete('{user}', [UserController::class, 'destroy'])->name('destroy');
+        });
+        Route::prefix('purchases')->name('purchases.')->group(function () {
+            Route::get('/', [PurchasesController::class, 'create'])->name('create');
+            Route::post('/', [PurchasesController::class, 'store'])->name('store');
         });
     });
 });

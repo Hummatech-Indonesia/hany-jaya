@@ -13,5 +13,6 @@ class PurchaseObserver
     public function creating(Purchase $purchase): void
     {
         $purchase->id = Uuid::uuid();
+        $purchase->user_id = auth()->user()->id;
     }
 }

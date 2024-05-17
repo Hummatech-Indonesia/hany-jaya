@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\PurchaseInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PurchaseRequest;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class PurchasesController extends Controller
@@ -19,6 +20,17 @@ class PurchasesController extends Controller
     }
 
     /**
+     * index
+     *
+     * @return View
+     */
+    public function create(): View
+    {
+        $products = $this->product->get();
+        return view('dashboard.purchase.create', compact('products'));
+    }
+
+    /**
      * store
      *
      * @return RedirectResponse
@@ -29,7 +41,7 @@ class PurchasesController extends Controller
         $product = $this->product->show($data['product_id']);
 
         $product->update([
-            'quantity' => $product->quantity + 1
+            'quantity' => $product->quantity + $data['quantity']
         ]);
 
         $this->purchase->store($data);

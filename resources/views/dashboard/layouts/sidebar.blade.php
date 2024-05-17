@@ -78,7 +78,7 @@
                     <span class="hide-menu">Transaksi</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="app-calendar.html" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.purchases.create') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-calendar"></i>
                         </span>
