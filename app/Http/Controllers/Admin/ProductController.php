@@ -37,9 +37,9 @@ class ProductController extends Controller
      *
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $products = $this->product->get();
+        $products = $this->product->customPaginate($request, 8);
         return view('dashboard.product.index', compact('products'));
     }
 

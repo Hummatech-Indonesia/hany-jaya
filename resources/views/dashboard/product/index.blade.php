@@ -21,17 +21,21 @@
                 </div>
             </div>
         </div>
-        <div class="row justify-content-end">
-            <div class="col-3">
-                <input type="text" class="form-control" id="nametext" aria-describedby="name" placeholder="Pemasok" />
+        <form action="" method="get">
+            <div class="row justify-content-end">
+                <div class="col-3">
+                    <input type="text" class="form-control" id="nametext" aria-describedby="name"
+                        placeholder="Pemasok" />
+                </div>
+                <div class="col-3">
+                    <input type="text" name="name" value="{{ Request::get('name') }}" class="form-control"
+                        id="nametext" aria-describedby="name" placeholder="Name" />
+                </div>
+                <div class="col-1">
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                </div>
             </div>
-            <div class="col-3">
-                <input type="text" class="form-control" id="nametext" aria-describedby="name" placeholder="Name" />
-            </div>
-            <div class="col-1">
-                <button class="btn btn-primary">Cari</button>
-            </div>
-        </div>
+        </form>
         <!--  Row 1 -->
         <div class="row mt-5">
             @forelse ($products as $product)
