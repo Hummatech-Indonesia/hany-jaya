@@ -13,4 +13,11 @@ use Illuminate\Http\Request;
 
 interface UserInterface extends GetInterface, StoreInterface, DeleteInterface, UpdateInterface, ShowInterface, GetWhereInterface
 {
+    /**
+     * Handle the Get all data event from models.
+     *
+     * @return mixed
+     */
+
+    public function getCashier(): mixed;
 }

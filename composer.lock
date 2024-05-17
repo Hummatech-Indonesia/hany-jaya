@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "914b51dd6e3d7dc66d7130d35bd8027a",
+    "content-hash": "79eb64a25003ab87e8af2ce8fdfb3cf4",
     "packages": [
         {
             "name": "brick/math",
@@ -1049,6 +1049,60 @@
                 }
             ],
             "time": "2023-12-03T19:50:20+00:00"
+        },
+        {
+            "name": "hammerstone/fast-paginate",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hammerstonedev/fast-paginate.git",
+                "reference": "a4bf5cf427df617baf44a91a340e893d853f9629"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hammerstonedev/fast-paginate/zipball/a4bf5cf427df617baf44a91a340e893d853f9629",
+                "reference": "a4bf5cf427df617baf44a91a340e893d853f9629",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^8.37|^9.0|^10.0|^11.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "laravel/scout": "^9.4|^10.8",
+                "mockery/mockery": "^1.3.3",
+                "orchestra/testbench": "^6|^7|^8.0|^9.0",
+                "phpunit/phpunit": ">=8.5.23|^9"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Hammerstone\\FastPaginate\\FastPaginateProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hammerstone\\FastPaginate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Francis",
+                    "email": "aaron@hammerstone.dev"
+                }
+            ],
+            "description": "Fast paginate for Laravel",
+            "support": {
+                "issues": "https://github.com/hammerstonedev/fast-paginate/issues",
+                "source": "https://github.com/hammerstonedev/fast-paginate/tree/v1.1.0"
+            },
+            "time": "2024-05-15T17:15:34+00:00"
         },
         {
             "name": "laravel/framework",
@@ -8287,5 +8341,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

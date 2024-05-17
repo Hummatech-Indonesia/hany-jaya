@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -47,9 +48,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return view('dashboard.home.index');
     })->name('home');
     Route::resources([
-        'products' => ProductController::class
+        'products' => ProductController::class,
     ]);
-    Route::get('/cashiers', function () {
-        return view('dashboard.cashier.index');
-    })->name('cashiers');
+    Route::prefix('cashiers')->name('cashiers.')->group(function () {
+        Route::get('/', [UserController::class, 'getCashier'])->name('index');
+        Route::post('cashiers', [UserController::class, 'store'])->name('store');
+        Route::put('cashiers/{user}', [UserController::class, 'update'])->name('update');
+        Route::delete('cashiers/{user}', [UserController::class, 'destroy'])->name('destroy');
+    });
 });

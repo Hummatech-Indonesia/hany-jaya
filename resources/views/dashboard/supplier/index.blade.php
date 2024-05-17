@@ -1,4 +1,5 @@
-@extends('dashboard.layouts.dashboard') @section('content')
+@extends('dashboard.layouts.dashboard')
+@section('content')
     <div class="container-fluid">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
@@ -64,7 +65,8 @@
                                                     <li>
                                                         <a class="dropdown-item btn-delete" href="#"
                                                             data-url="{{ route('suppliers.destroy', $supplier->id) }}">
-                                                            <i class="ti ti-download text-muted me-1 fs-4"></i>Hapus
+                                                            <i class="ti ti-trash fs-5"></i>
+                                                            Hapus
                                                         </a>
                                                     </li>
                                                 </ul>
