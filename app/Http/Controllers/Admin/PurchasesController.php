@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PurchaseRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View as ViewView;
 
 class PurchasesController extends Controller
 {
@@ -46,6 +48,17 @@ class PurchasesController extends Controller
 
         $this->purchase->store($data);
 
-        return redirect()->back()->with('success', trans('alert.add_success'));
+        return to_route('admin.purchases.index')->with('success', trans('alert.add_success'));
+    }
+
+    /**
+     * history
+     *
+     * @return View
+     */
+    public function history(Request $request): View
+    {
+        $purchases = $this->purchase->customPaginate($request, 10);
+        return view('dashboard.purchase.history', compact('purchases'));
     }
 }

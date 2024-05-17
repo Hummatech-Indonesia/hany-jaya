@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('purchases')->name('purchases.')->group(function () {
             Route::get('/', [PurchasesController::class, 'create'])->name('create');
             Route::post('/', [PurchasesController::class, 'store'])->name('store');
+            Route::get('history', [PurchasesController::class, 'history'])->name('index');
         });
     });
 });
