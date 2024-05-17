@@ -64,7 +64,7 @@
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item btn-delete" href="#"
-                                                            data-url="{{ route('suppliers.destroy', $supplier->id) }}">
+                                                            data-url="{{ route('admin.suppliers.destroy', $supplier->id) }}">
                                                             <i class="ti ti-trash fs-5"></i>
                                                             Hapus
                                                         </a>

@@ -1,4 +1,4 @@
-<form action="{{ route('suppliers.store') }}" method="POST">
+<form action="{{ route('admin.suppliers.store') }}" method="POST">
     @csrf
     <!-- Modal -->
     <div class="modal fade" id="modalAddSuplier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

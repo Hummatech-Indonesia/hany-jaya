@@ -21,12 +21,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('guest')->group(function () {
+    Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
 });
-
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'login']);
 
 Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -35,25 +33,24 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('dashboard', function () {
+    return view('dashboard.home.index');
+})->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::resources([
-        'suppliers' => SupplierController::class,
-    ]);
-});
+    Route::prefix('admin')->name('admin.')->group(function () {
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', function () {
-        return view('dashboard.home.index');
-    })->name('home');
-    Route::resources([
-        'products' => ProductController::class,
-    ]);
-    Route::prefix('cashiers')->name('cashiers.')->group(function () {
-        Route::get('/', [UserController::class, 'getCashier'])->name('index');
-        Route::post('cashiers', [UserController::class, 'store'])->name('store');
-        Route::put('cashiers/{user}', [UserController::class, 'update'])->name('update');
-        Route::delete('cashiers/{user}', [UserController::class, 'destroy'])->name('destroy');
+        Route::resources([
+            'products' => ProductController::class,
+            'suppliers' => SupplierController::class,
+        ]);
+        Route::prefix('cashiers')->name('cashiers.')->group(function () {
+            Route::get('/', [UserController::class, 'getCashier'])->name('index');
+            Route::post('cashiers', [UserController::class, 'store'])->name('store');
+            Route::put('cashiers/{user}', [UserController::class, 'update'])->name('update');
+            Route::delete('cashiers/{user}', [UserController::class, 'destroy'])->name('destroy');
+        });
     });
 });
