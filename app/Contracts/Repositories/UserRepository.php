@@ -3,6 +3,7 @@
 namespace App\Contracts\Repositories;
 
 use App\Contracts\Interfaces\UserInterface;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -82,5 +83,17 @@ class UserRepository extends BaseRepository implements UserInterface
         return $this->model->query()
             ->where('email', $data['email'])
             ->first();
+    }
+
+    /**
+     * getCashier
+     *
+     * @return mixed
+     */
+    public function getCashier(): mixed
+    {
+        return $this->model->query()
+            ->role(RoleEnum::CASHIER->value)
+            ->fastPaginate(10);
     }
 }

@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\UserInterface;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -20,6 +21,16 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
+    /**
+     * getCashier
+     *
+     * @return View
+     */
+    public function getCashier(): View
+    {
+        $cashiers = $this->user->getCashier();
+        return view('dashboard.cashier.index', compact('cashiers'));
+    }
     /**
      * store
      *
@@ -43,5 +54,17 @@ class UserController extends Controller
         $data['password'] = bcrypt($data['password']);
         $this->user->update($user->id, $data);
         return redirect()->back()->with('success', trans('alert.update_success'));
+    }
+
+    /**
+     * destroy
+     *
+     * @param  mixed $user
+     * @return RedirectResponse
+     */
+    public function destroy(User $user): RedirectResponse
+    {
+        $this->user->delete($user->id);
+        return redirect()->back()->with('success', trans('alert.delete_success'));
     }
 }

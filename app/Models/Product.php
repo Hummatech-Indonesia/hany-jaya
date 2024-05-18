@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasCategory;
+use App\Base\Interfaces\HasOutlet;
+use App\Base\Interfaces\HasSupplier;
 use App\Base\Interfaces\HasSupplierProducts;
+use App\Base\Interfaces\HasUnit;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Product extends Model implements HasSupplierProducts
+class Product extends Model implements HasSupplierProducts, HasCategory, HasUnit
 {
     use HasFactory;
     public $incrementing = false;
@@ -27,5 +32,26 @@ class Product extends Model implements HasSupplierProducts
     public function supplierProducts(): HasMany
     {
         return $this->hasMany(SupplierProduct::class);
+    }
+
+    /**
+     * category
+     *
+     * @return BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+
+     * unit
+     *
+     * @return BelongsTo
+     */
+    public function unit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class);
     }
 }

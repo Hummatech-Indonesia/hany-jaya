@@ -30,6 +30,7 @@ class UserService
             'store_id' => auth()->user()->store->id,
             'outlet_id' => auth()->user()->outlet->id,
             'email' => $data['email'],
+            'email_verified_at' => now(),
             'password' => isset($data['password']) ? bcrypt($data['password']) : bcrypt('password'),
         ]);
 

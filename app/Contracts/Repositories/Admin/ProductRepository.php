@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductRepository extends BaseRepository implements ProductInterface
 {
@@ -22,8 +23,18 @@ class ProductRepository extends BaseRepository implements ProductInterface
     public function get(): mixed
     {
         return $this->model->query()
-            ->where('oulet_id', auth()->user()->outlet->id)
+            ->where('outlet_id', auth()->user()->outlet->id)
             ->get();
+    }
+
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()
+            ->where('outlet_id', auth()->user()->outlet->id)
+            ->when($request->name, function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->name . '%')->orWhere('code', $request->name);
+            })
+            ->fastPaginate($pagination);
     }
 
     /**

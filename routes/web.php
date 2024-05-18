@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\PurchasesController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\SupplierProductController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,12 +23,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('guest')->group(function () {
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
 });
-
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'login']);
 
 Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -33,22 +35,29 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::resources([
-        'suppliers' => SupplierController::class,
-    ]);
-});
-
-Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
         return view('dashboard.home.index');
     })->name('home');
-    Route::get('/products', function () {
-        return view('dashboard.product.index');
-    })->name('products');
-    Route::get('/cashiers', function () {
-        return view('dashboard.cashier.index');
-    })->name('cashiers');
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('supplier-products/{product?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
+        Route::resources([
+            'products' => ProductController::class,
+            'suppliers' => SupplierController::class,
+        ]);
+        Route::prefix('cashiers')->name('cashiers.')->group(function () {
+            Route::get('/', [UserController::class, 'getCashier'])->name('index');
+            Route::post('/', [UserController::class, 'store'])->name('store');
+            Route::put('{user}', [UserController::class, 'update'])->name('update');
+            Route::delete('{user}', [UserController::class, 'destroy'])->name('destroy');
+        });
+        Route::prefix('purchases')->name('purchases.')->group(function () {
+            Route::get('/', [PurchasesController::class, 'create'])->name('create');
+            Route::post('/', [PurchasesController::class, 'store'])->name('store');
+            Route::get('history', [PurchasesController::class, 'history'])->name('index');
+        });
+    });
 });
