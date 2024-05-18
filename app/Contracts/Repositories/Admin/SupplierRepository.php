@@ -21,6 +21,7 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
     public function get(): mixed
     {
         return $this->model->query()
+            ->with('supplierProducts.product')
             ->where('outlet_id', auth()->user()->outlet->id)
             ->get();
     }
