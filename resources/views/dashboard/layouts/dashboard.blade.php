@@ -27,6 +27,7 @@
     <!-- Select2 -->
     <!-- --------------------------------------------------- -->
     <link rel="stylesheet" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}" />
+    @yield('style')
 </head>
 
 <body>
@@ -46,7 +47,8 @@
         @include('dashboard.layouts.sidebar')
         <!--  Main wrapper -->
         <div class="body-wrapper">
-            @include('dashboard.layouts.header') @yield('content')
+            @include('dashboard.layouts.header')
+            @yield('content')
         </div>
     </div>
 

@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\PurchaseInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PurchaseRequest;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -58,6 +59,10 @@ class PurchasesController extends Controller
      */
     public function history(Request $request): View
     {
+        if ($request->daterange) {
+            $array_date = explode(" - ", $request->daterange);
+            $request->merge(['date' => $array_date]);
+        }
         $purchases = $this->purchase->customPaginate($request, 10);
         return view('dashboard.purchase.history', compact('purchases'));
     }
