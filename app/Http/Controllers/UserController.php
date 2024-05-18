@@ -26,9 +26,9 @@ class UserController extends Controller
      *
      * @return View
      */
-    public function getCashier(): View
+    public function getCashier(Request $request): View
     {
-        $cashiers = $this->user->getCashier();
+        $cashiers = $this->user->getCashier($request);
         return view('dashboard.cashier.index', compact('cashiers'));
     }
     /**

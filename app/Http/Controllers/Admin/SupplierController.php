@@ -24,10 +24,10 @@ class SupplierController extends Controller
      *
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         $data = [
-            'suppliers' => $this->supplier->get()
+            'suppliers' => $this->supplier->customPaginate($request, 3)
         ];
         return view('dashboard.supplier.index', $data);
     }

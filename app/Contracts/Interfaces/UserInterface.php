@@ -19,5 +19,5 @@ interface UserInterface extends GetInterface, StoreInterface, DeleteInterface, U
      * @return mixed
      */
 
-    public function getCashier(): mixed;
+    public function getCashier(Request $request): mixed;
 }

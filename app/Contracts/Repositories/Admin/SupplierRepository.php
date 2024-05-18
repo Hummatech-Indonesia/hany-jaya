@@ -5,6 +5,8 @@ namespace App\Contracts\Repositories\Admin;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Supplier;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SupplierRepository extends BaseRepository implements SupplierInterface
 {
@@ -26,6 +28,26 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
             ->get();
     }
 
+    /**
+     * customPaginate
+     *
+     * @param  mixed $request
+     * @param  mixed $pagination
+     * @return LengthAwarePaginator
+     */
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()
+            ->with('supplierProducts.product')
+            ->when($request->name, function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->name . '%');
+            })
+            ->when($request->product, function ($query) use ($request) {
+                $query->whereRelation('supplierProducts.product', 'name', 'LIKE', '%' . $request->product . '%');
+            })
+            ->where('outlet_id', auth()->user()->outlet->id)
+            ->fastPaginate(10);
+    }
     /**
      * store
      *

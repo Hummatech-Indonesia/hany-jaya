@@ -21,7 +21,17 @@
                 </div>
             </div>
         </div>
-
+        <form action="" method="get">
+            <div class="row justify-content-end">
+                <div class="col-3">
+                    <input type="text" value="{{ Request::get('name') }}" class="form-control" id="name"
+                        name="name" aria-describedby="name" placeholder="Name" />
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-primary">Cari</button>
+                </div>
+            </div>
+        </form>
         <div class="widget-content searchable-container list">
             <div class="card card-body">
                 <div class="table-responsive">

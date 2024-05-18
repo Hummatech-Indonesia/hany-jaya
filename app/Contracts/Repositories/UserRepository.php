@@ -90,10 +90,13 @@ class UserRepository extends BaseRepository implements UserInterface
      *
      * @return mixed
      */
-    public function getCashier(): mixed
+    public function getCashier(Request $request): mixed
     {
         return $this->model->query()
             ->role(RoleEnum::CASHIER->value)
+            ->when($request->name, function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->name . '%');
+            })
             ->fastPaginate(10);
     }
 }
