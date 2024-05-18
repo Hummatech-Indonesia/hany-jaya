@@ -24,10 +24,6 @@
         <form action="" method="get">
             <div class="row justify-content-end">
                 <div class="col-3">
-                    <input type="text" class="form-control" id="nametext" aria-describedby="name"
-                        placeholder="Pemasok" />
-                </div>
-                <div class="col-3">
                     <input type="text" name="name" value="{{ Request::get('name') }}" class="form-control"
                         id="nametext" aria-describedby="name" placeholder="Name" />
                 </div>
