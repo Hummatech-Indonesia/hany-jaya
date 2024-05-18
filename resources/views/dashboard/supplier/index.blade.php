@@ -96,8 +96,17 @@
                                         >
                                             <li>
                                                 <a
-                                                    class="dropdown-item"
+                                                    class="dropdown-item btn-update"
                                                     href="#"
+                                                    data-supplier="{{
+                                                        $supplier
+                                                    }}"
+                                                    data-url="{{
+                                                        route(
+                                                            'suppliers.update',
+                                                            $supplier->id
+                                                        )
+                                                    }}"
                                                 >
                                                     <i
                                                         class="ti ti-share text-muted me-1 fs-4"
@@ -121,16 +130,16 @@
                                     </div>
                                 </div>
                             </div>
+                            @if (count($supplier->supplierProducts) > 0)
                             <div class="mt-3">
                                 <span
                                     class="mb-1 badge rounded-pill font-medium bg-light-primary text-primary"
-                                    ><small>Chitato</small></span
-                                >
-                                <span
-                                    class="mb-1 badge rounded-pill font-medium bg-light-primary text-primary"
-                                    ><small>Aqua</small></span
+                                    ><small
+                                        >{{ $supplier->supplierProducts }}</small
+                                    ></span
                                 >
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -140,6 +149,8 @@
         <p>Belum ada data supplier di toko anda.</p>
         @endforelse
     </div>
+
+    @include('dashboard.supplier.widgets.modal-update')
 
     <x-dialog.delete title="Hapus Pemasok" />
 </div>
@@ -157,6 +168,15 @@
     });
 </script>
 <script>
+    $(".btn-update").on("click", function () {
+        $("#modalUpdateSuplier").modal("show");
+        let url = $(this).attr("data-url");
+        let supplier = $(this).data("supplier");
+
+        $("#modalUpdateSuplier").find("#input-name").val(supplier.name);
+        $("#modalUpdateSuplier").find("#input-address").val(supplier.address);
+        $("#form-update").attr("action", url);
+    });
     $(".btn-delete").on("click", function () {
         $("#delete-modal").modal("show");
 
