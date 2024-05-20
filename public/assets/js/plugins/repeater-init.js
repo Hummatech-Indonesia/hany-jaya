@@ -17,25 +17,60 @@ $(function () {
     });
 });
 
-
-
-
 var room = 1;
 
+$(document).ready(function () {
+    $.ajax({
+        url: `{{ route('admin.product.get) }}`,
+        type: "GET",
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+        },
+    });
+});
 function education_fields() {
     room++;
     var objTo = document.getElementById("education_fields");
     var divtest = document.createElement("div");
     divtest.setAttribute("class", "mb-3 removeclass" + room);
     var rdiv = "removeclass" + room;
-    divtest.innerHTML =
-        '<form class="row"><div class="col-sm-3"><div class="form-group"><input type="text" class="form-control" id="Schoolname" name="Schoolname" placeholder="School Name"></div></div><div class="col-sm-2"> <div class="form-group"> <input type="text" class="form-control" id="Age" name="Age" placeholder="Age"> </div></div><div class="col-sm-2"> <div class="form-group"> <input type="text" class="form-control" id="Degree" name="Degree" placeholder="Degree"> </div></div><div class="col-sm-3"> <div class="form-group"> <select class="form-control" id="educationDate" name="educationDate"> <option>Date</option> <option value="2015">2015</option> <option value="2016">2016</option> <option value="2017">2017</option> <option value="2018">2018</option> </select> </div></div><div class="col-sm-2"> <div class="form-group"> <button class="btn btn-danger" type="button" onclick="remove_education_fields(' +
-        room +
-        ');"> <i class="ti ti-minus"></i> </button> </div></div></form>';
-
+    divtest.innerHTML = `
+    <div class="row">
+    <div class="col-sm-4">
+    <div class="mb-3">
+        <label for="unit_id">Pilih Satuan</label>
+        <select name="unit_id" class="form-control" id="">
+            <option value="Pilih Satuan">Pilih Satuan</option>
+            @foreach ($units as $unit)
+                <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+<div class="col-sm-2">
+    <div class="mb-3">
+        <label for="">Total dalam pcs</label>
+        <input type="number" class="form-control" id="Age" name="Age"
+            placeholder="10" />
+    </div>
+</div>
+<div class="col-sm-4">
+    <label for="">Harga Jual</label>
+    <div class="mb-3">
+        <input type="number" name="selling_price[]" id="" class="form-control"
+            placeholder="10.000">
+    </div>
+</div>
+<div class="col-sm-2" style="margin-top: 1.35rem">
+<button class="btn btn-danger" type="button"  onclick="remove_education_fields(${room});"> <i class="ti ti-minus"></i> </button>
+</div>
+</div>`;
     objTo.appendChild(divtest);
 }
 
-function remove_education_fields(rid) {
-    $(".removeclass" + rid).remove();
+function remove_education_fields(rdid) {
+    $(".removeclass" + rdid).remove();
 }

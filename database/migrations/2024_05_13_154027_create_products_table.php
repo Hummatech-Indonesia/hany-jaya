@@ -15,12 +15,11 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('outlet_id')->constrained()->restrictOnDelete()->cascadeOnUpdate();
             $table->foreignId('category_id')->constrained()->restrictOnDelete()->restrictOnUpdate();
-            $table->foreignId('unit_id')->constrained()->restrictOnDelete()->restrictOnUpdate();
             $table->string('code')->unique();
             $table->string('name');
             $table->integer('quantity')->default(0);
             $table->integer('selling_price');
-            $table->string('image'); 
+            $table->string('image');
             $table->timestamps();
         });
     }

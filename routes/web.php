@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('supplier-products/{product?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
+        Route::get('products-ajax', [ProductController::class, 'get'])->name('product.get');
         Route::resources([
             'products' => ProductController::class,
             'suppliers' => SupplierController::class,

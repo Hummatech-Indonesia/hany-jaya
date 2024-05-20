@@ -78,7 +78,6 @@
     <script>
         $(document).ready(function() {
             $('#product_id').change(function() {
-                var productId = $(this).val();
                 console.log(productId);
                 $.ajax({
                     url: `{{ route('admin.supplier.product.index', ['product' => '']) }}/${productId}`,

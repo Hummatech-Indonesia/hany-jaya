@@ -6,11 +6,13 @@ use App\Contracts\Interfaces\Admin\CategoryInterface;
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Contracts\Interfaces\Admin\UnitInterface;
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Product;
 use App\Services\Admin\ProductService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View as ViewView;
@@ -32,6 +34,17 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
+    /**
+     * get
+     *
+     * @return JsonResponse
+     */
+    public function get(): JsonResponse
+    {
+        $products = $this->product->get();
+
+        return ResponseHelper::success($products);
+    }
     /**
      * index
      *
