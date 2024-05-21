@@ -10,6 +10,6 @@ use App\Contracts\Interfaces\Eloquent\DeleteInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 use Illuminate\Http\Request;
 
-interface ProductInterface extends GetInterface, StoreInterface, DeleteInterface, UpdateInterface, ShowInterface, CustomPaginationInterface
+interface ProductInterface extends StoreInterface, DeleteInterface, UpdateInterface, ShowInterface, CustomPaginationInterface
 {
 }

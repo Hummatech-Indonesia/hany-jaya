@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PurchasesController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\SupplierProductController;
+use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -44,7 +45,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('supplier-products/{product?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
-        Route::get('products-ajax', [ProductController::class, 'get'])->name('product.get');
+        Route::get('units-ajax', [UnitController::class, 'index'])->name('units.index');
         Route::resources([
             'products' => ProductController::class,
             'suppliers' => SupplierController::class,
