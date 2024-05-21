@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('product_units', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('product_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignUuid('unit_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->integer('quantity_in_pcs');
+            $table->foreignId('unit_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('quantity_in_small_unit');
             $table->integer('selling_price');
             $table->timestamps();
         });

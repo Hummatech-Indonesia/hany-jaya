@@ -20,16 +20,16 @@ $(function () {
 var room = 1;
 
 $(document).ready(function () {
-    $.ajax({
-        url: `{{ route('admin.product.get) }}`,
-        type: "GET",
-        success: function (response) {
-            console.log(response);
-        },
-        error: function (xhr) {
-            console.log(xhr.responseText);
-        },
-    });
+    // $.ajax({
+    //     url: `{{ route('admin.product.get) }}`,
+    //     type: "GET",
+    //     success: function (response) {
+    //         console.log(response);
+    //     },
+    //     error: function (xhr) {
+    //         console.log(xhr.responseText);
+    //     },
+    // });
 });
 function education_fields() {
     room++;
@@ -41,7 +41,7 @@ function education_fields() {
     <div class="row">
     <div class="col-sm-4">
     <div class="mb-3">
-        <label for="unit_id">Pilih Satuan</label>
+        <label class="mb-2" for="unit_id">Pilih Satuan</label>
         <select name="unit_id" class="form-control" id="">
             <option value="Pilih Satuan">Pilih Satuan</option>
             @foreach ($units as $unit)
@@ -50,15 +50,15 @@ function education_fields() {
         </select>
     </div>
 </div>
-<div class="col-sm-2">
+<div class="col-sm-3">
     <div class="mb-3">
-        <label for="">Total dalam pcs</label>
+        <label class="mb-2" for="">Total dalam satuan terkecil</label>
         <input type="number" class="form-control" id="Age" name="Age"
             placeholder="10" />
     </div>
 </div>
-<div class="col-sm-4">
-    <label for="">Harga Jual</label>
+<div class="col-sm-3">
+    <label class="mb-2" for="">Harga Jual</label>
     <div class="mb-3">
         <input type="number" name="selling_price[]" id="" class="form-control"
             placeholder="10.000">

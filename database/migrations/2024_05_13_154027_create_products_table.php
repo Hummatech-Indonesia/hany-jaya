@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->integer('quantity')->default(0);
+            $table->foreignId('unit_id')->constrained()->restrictOnDelete()->cascadeOnUpdate();
             $table->integer('selling_price');
             $table->string('image');
             $table->timestamps();
