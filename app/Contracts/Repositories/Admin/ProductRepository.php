@@ -15,17 +15,6 @@ class ProductRepository extends BaseRepository implements ProductInterface
         $this->model = $product;
     }
 
-    /**
-     * get
-     *
-     * @return mixed
-     */
-    public function get(): mixed
-    {
-        return $this->model->query()
-            ->where('outlet_id', auth()->user()->outlet->id)
-            ->get();
-    }
 
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {

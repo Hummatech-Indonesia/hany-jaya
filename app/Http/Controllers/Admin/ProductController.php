@@ -35,17 +35,6 @@ class ProductController extends Controller
     }
 
     /**
-     * get
-     *
-     * @return JsonResponse
-     */
-    public function get(): JsonResponse
-    {
-        $products = $this->product->get();
-
-        return ResponseHelper::success($products);
-    }
-    /**
      * index
      *
      * @return View
