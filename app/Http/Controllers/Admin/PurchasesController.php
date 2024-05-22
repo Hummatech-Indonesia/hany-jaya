@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\PurchaseInterface;
+use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PurchaseRequest;
 use Carbon\Carbon;
@@ -16,9 +17,11 @@ class PurchasesController extends Controller
 {
     private PurchaseInterface $purchase;
     private ProductInterface $product;
-    public function __construct(PurchaseInterface $purchase, ProductInterface $product)
+    private SupplierInterface $suppliers;
+    public function __construct(PurchaseInterface $purchase, ProductInterface $product, SupplierInterface $suppliers)
     {
         $this->purchase = $purchase;
+        $this->suppliers = $suppliers;
         $this->product = $product;
     }
 
@@ -29,8 +32,8 @@ class PurchasesController extends Controller
      */
     public function create(): View
     {
-        $products = $this->product->get();
-        return view('dashboard.purchase.create', compact('products'));
+        $suppliers = $this->suppliers->get();
+        return view('dashboard.purchase.create', compact('suppliers'));
     }
 
     /**

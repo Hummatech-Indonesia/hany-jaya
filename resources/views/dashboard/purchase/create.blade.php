@@ -28,23 +28,13 @@
                         <form action="{{ route('admin.purchases.store') }}" method="POST">
                             @csrf
                             <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="name">Nama Produk</label>
-                                    <select name="product_id" id="product_id" class="form-control">
-                                        <option value="">Pilih Produk</option>
-                                        @foreach ($products as $product)
-                                            <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('product_id')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <label for="name">Nama Supplier</label>
                                     <select name="supplier_id" id="supplier_id" class="form-control">
                                         <option value="">Pilih Supplier</option>
-                                        <option value="" id="supplier_id"></option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                        @endforeach
                                     </select>
                                     @error('supplier_id')
                                         <div class="text-danger">{{ $message }}</div>
@@ -52,15 +42,62 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="name">Total Pembelian</label>
-                                    <input type="number" name="quantity" id="" class="form-control"
-                                        placeholder="20">
+                                <div id="education_fields" class="my-1"></div>
+                                <div class="col-sm-2">
+                                    <div class="mb-3">
+                                        <label class="mb-2" for="product_id" style="font-size: 0.8rem">Pilih
+                                            Produk</label>
+                                        <select name="product_id[]" class="select_product form-control" id="">
+                                            <option value="">Pilih Produk</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="name">Harga Beli</label>
-                                    <input type="number" name="buy_price" id="" class="form-control"
-                                        placeholder="20.000">
+                                <div class="col-sm-2">
+                                    <div class="mb-3">
+                                        <label class="mb-2" for="unit_id" style="font-size: 0.8rem">Pilih Satuan</label>
+                                        <select name="unit_id[]" class="form-control" id="unit_id">
+                                            <option value="Pilih Satuan">Pilih Satuan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="mb-3">
+                                        <label class="d-flex gap-2 align-items-center mb-2" style="font-size: 0.8rem">Harga
+                                            Beli per
+                                            Satuan</label>
+                                        <input type="number" class="form-control" id="Age"
+                                            name="quantity_in_small_unit[]" placeholder="10" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="mb-3">
+                                        <label class="d-flex gap-2 align-items-center mb-2" style="font-size: 0.8rem">Jumlah
+                                            Pembelian</label>
+                                        <input type="number" class="form-control" id="Age"
+                                            name="quantity_in_small_unit[]" placeholder="10" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="mb-2" for="" style="font-size: 0.8rem">Total Harga
+                                        Pembelian</label>
+                                    <div class="mb-3">
+                                        <input type="number" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="" style="margin-top: 1.35rem">
+                                        <button id="add_click"
+                                            class="
+                                        btn
+                                        btn-success
+                                        font-weight-medium
+                                        waves-effect waves-light
+                                        mt-2
+                                      "
+                                            type="button">
+                                            <i class="ti ti-circle-plus fs-5"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <button class="btn btn-info rounded-md px-4 mt-3" type="submit">
@@ -74,24 +111,56 @@
     </div>
 @endsection
 @section('script')
+    @include('dashboard.purchase.widgets.repeater')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#product_id').change(function() {
-                console.log(productId);
+            $('.select_product').change(function() {
+                if ($(this).val() !== '') {
+                    $('#supplier_id').prop('disabled', true);
+                } else {
+                    $('#supplier_id').prop('disabled', false);
+                }
+
+                var productId = $(this).val();
                 $.ajax({
-                    url: `{{ route('admin.supplier.product.index', ['product' => '']) }}/${productId}`,
+                    url: `{{ route('admin.product.unit.index', ['product' => '']) }}/${productId}`,
                     type: 'GET',
                     success: function(response) {
                         console.log(response);
-                        $('#supplier_id')
+                        $('#unit_id')
                             .empty();
-                        $('#supplier_id').append(
-                            '<option value="">Pilih Supplier</option>'
+                        $('#unit_id').append(
+                            '<option value="">Pilih Produk</option>'
                         );
                         response.data.forEach(function(item) {
-                            $('#supplier_id').append(
-                                `<option value="${item.supplier_id}">${item.supplier}</option>`
+                            $('#unit_id').append(
+                                `<option value="${item.unit_id}">${item.unit}</option>`
+                            );
+                        });
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $('#supplier_id').change(function() {
+                var supplierId = $(this).val();
+                $.ajax({
+                    url: `{{ route('admin.supplier.product.index', ['supplier' => '']) }}/${supplierId}`,
+                    type: 'GET',
+                    success: function(response) {
+                        $('.select_product')
+                            .empty();
+                        $('.select_product').append(
+                            '<option value="">Pilih Produk</option>'
+                        );
+                        response.data.forEach(function(item) {
+                            $('.select_product').append(
+                                `<option value="${item.product_id}">${item.product}</option>`
                             );
                         });
                     },

@@ -17,11 +17,16 @@ class ProductRequest extends FormRequest
     {
         return [
             'category_id' => 'required|exists:categories,id',
-            'unit_id' => 'required|exists:units,id',
+            'unit_id' => 'required|array',
+            'unit_id.*' => 'required|exists:units,id',
+            'quantity_in_small_unit' => 'required|array',
+            'quantity_in_small_unit.*' => 'required',
+            'small_unit_id' => 'required|exists:units,id',
             'code' => ['required', Rule::unique('products', 'code')->ignore($this->product)],
             'name' => 'required|max:255',
             'quantity' => 'nullable',
-            'selling_price' => 'required|integer',
+            'selling_price' => 'required|array',
+            'selling_price.*' => 'required',
             'image' => 'nullable|mimes:png,jpg,jpeg',
             'supplier_id' => 'required|array',
             'supplier_id.*' => [Rule::exists('suppliers', 'id')]

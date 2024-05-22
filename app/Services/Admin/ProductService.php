@@ -28,6 +28,8 @@ class ProductService
             'name' => $data['name'],
             'quantity' => isset($data['quantity']) ? $data['quantity'] : 0,
             'image' => $imageUrl,
+            'small_unit_id' => $data['small_unit_id'],
+            'quantity_in_small_unit' => $data['quantity_in_small_unit'],
             'selling_price' => $data['selling_price'],
             'supplier_id' => $data['supplier_id']
         ];

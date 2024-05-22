@@ -7,6 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SupplierProductResource;
 use App\Models\Product;
+use App\Models\Supplier;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -23,9 +24,9 @@ class SupplierProductController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Product $product): JsonResponse
+    public function index(Supplier $supplier): JsonResponse
     {
-        $supplierProduct = $this->supplierProduct->getWhere(['product_id' => $product->id]);
+        $supplierProduct = $this->supplierProduct->getWhere(['supplier_id' => $supplier->id]);
         return ResponseHelper::success(SupplierProductResource::collection($supplierProduct));
     }
 }

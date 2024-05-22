@@ -34,6 +34,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
      */
     public function store(array $data): mixed
     {
+        $data['unit_id'] = $data['small_unit_id'];
         $product = $this->model->query()
             ->create($data);
 
@@ -42,6 +43,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
 
             $product->supplierProducts()->create($data);
         }
+
         return $product;
     }
 
@@ -88,5 +90,15 @@ class ProductRepository extends BaseRepository implements ProductInterface
     public function delete(mixed $id): mixed
     {
         return $this->show($id)->delete($id);
+    }
+
+    /**
+     * get
+     *
+     * @return mixed
+     */
+    public function get(): mixed
+    {
+        return $this->model->query()->get();
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductUnitController;
 use App\Http\Controllers\Admin\PurchasesController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\SupplierProductController;
@@ -44,7 +45,8 @@ Route::middleware('auth')->group(function () {
     })->name('home');
 
     Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('supplier-products/{product?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
+        Route::get('supplier-products/{supplier?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
+        Route::get('product-units/{product?}', [ProductUnitController::class, 'index'])->name('product.unit.index');
         Route::get('units-ajax', [UnitController::class, 'index'])->name('units.index');
         Route::resources([
             'products' => ProductController::class,

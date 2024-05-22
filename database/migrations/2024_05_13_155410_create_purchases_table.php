@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained()->restrictOnUpdate()->cascadeOnUpdate();
-            $table->foreignUuid('product_id')->constrained()->restrictOnUpdate()->cascadeOnUpdate();
             $table->foreignUuid('supplier_id')->constrained()->restrictOnUpdate()->cascadeOnUpdate();
-            $table->integer('quantity');
+            $table->string('invoice_number')->unique();
             $table->integer('buy_price');
             $table->timestamps();
         });

@@ -196,7 +196,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="" style="margin-top: 1.35rem">
-                                        <button onclick="education_fields();"
+                                        <button id="add_click"
                                             class="
                                         btn
                                         btn-success

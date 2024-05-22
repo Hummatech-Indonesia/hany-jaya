@@ -2,15 +2,16 @@
 
 namespace App\Contracts\Repositories\Admin;
 
-use App\Contracts\Interfaces\Admin\SupplierProductInterface;
+use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Repositories\BaseRepository;
+use App\Models\ProductUnit;
 use App\Models\SupplierProduct;
 
-class SupplierProductRepository extends BaseRepository implements SupplierProductInterface
+class ProductUnitRepository extends BaseRepository implements ProductUnitInterface
 {
-    public function __construct(SupplierProduct $supplierProduct)
+    public function __construct(ProductUnit $productUnit)
     {
-        $this->model = $supplierProduct;
+        $this->model = $productUnit;
     }
 
     /**
@@ -22,7 +23,7 @@ class SupplierProductRepository extends BaseRepository implements SupplierProduc
     public function getWhere(array $data): mixed
     {
         return $this->model->query()
-            ->where('supplier_id', $data['supplier_id'])
+            ->where('product_id', $data['product_id'])
             ->get();
     }
 }

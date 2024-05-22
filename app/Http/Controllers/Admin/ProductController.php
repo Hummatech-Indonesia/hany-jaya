@@ -10,6 +10,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Product;
+use App\Models\ProductUnit;
 use App\Services\Admin\ProductService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -66,7 +67,17 @@ class ProductController extends Controller
     public function store(ProductRequest $request): RedirectResponse
     {
         $data = $this->productService->store($request);
-        $this->product->store($data);
+        $product = $this->product->store($data);
+        for ($i = 0; $i < count($data['unit_id']); $i++) {
+            ProductUnit::query()->create(
+                [
+                    'product_id' => $product->id,
+                    'unit_id' => $data['unit_id'][$i],
+                    'quantity_in_small_unit' => $data['quantity_in_small_unit'][$i],
+                    'selling_price' => $data['selling_price'][$i],
+                ]
+            );
+        }
         return to_route('admin.products.index')->with('success', trans('alert.add_success'));
     }
 
