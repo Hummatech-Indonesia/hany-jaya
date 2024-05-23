@@ -19,7 +19,7 @@ class Purchase extends Model implements HasUser, HasProduct, HasSupplier
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'user_id', 'product_id', 'supplier_id', 'quantity', 'buy_price'
+        'id', 'user_id', 'supplier_id','invoice_number', 'buy_price'
     ];
 
     /**

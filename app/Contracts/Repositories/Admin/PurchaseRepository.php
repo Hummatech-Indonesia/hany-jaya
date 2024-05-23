@@ -41,6 +41,7 @@ class PurchaseRepository extends BaseRepository implements PurchaseInterface
      */
     public function store(array $data): mixed
     {
+        $data['buy_price'] = $data['total_buy_price'];
         return $this->model->query()
             ->create($data);
     }

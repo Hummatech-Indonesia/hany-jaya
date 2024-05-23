@@ -7,6 +7,15 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Pembelian</h4>
                         <p>Tambah pembelian pada toko anda.</p>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
@@ -54,8 +63,9 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="mb-3">
-                                        <label class="mb-2" for="unit_id" style="font-size: 0.8rem">Pilih Satuan</label>
-                                        <select name="unit_id[]" class="form-control" id="unit_id">
+                                        <label class="mb-2" for="product_unit_id" style="font-size: 0.8rem">Pilih
+                                            Satuan</label>
+                                        <select name="product_unit_id[]" class="form-control" id="product_unit_id">
                                             <option value="Pilih Satuan">Pilih Satuan</option>
                                         </select>
                                     </div>
@@ -66,22 +76,22 @@
                                             Beli per
                                             Satuan</label>
                                         <input type="number" class="form-control" id="Age"
-                                            name="quantity_in_small_unit[]" placeholder="10" />
+                                            name="buy_price_per_unit[]" placeholder="10" />
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="mb-3">
                                         <label class="d-flex gap-2 align-items-center mb-2" style="font-size: 0.8rem">Jumlah
                                             Pembelian</label>
-                                        <input type="number" class="form-control" id="Age"
-                                            name="quantity_in_small_unit[]" placeholder="10" />
+                                        <input type="number" class="form-control" id="Age" name="quantity[]"
+                                            placeholder="10" />
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <label class="mb-2" for="" style="font-size: 0.8rem">Total Harga
                                         Pembelian</label>
                                     <div class="mb-3">
-                                        <input type="number" class="form-control">
+                                        <input name="buy_price[]" type="number" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
@@ -116,11 +126,7 @@
     <script>
         $(document).ready(function() {
             $('.select_product').change(function() {
-                if ($(this).val() !== '') {
-                    $('#supplier_id').prop('disabled', true);
-                } else {
-                    $('#supplier_id').prop('disabled', false);
-                }
+
 
                 var productId = $(this).val();
                 $.ajax({
@@ -128,14 +134,14 @@
                     type: 'GET',
                     success: function(response) {
                         console.log(response);
-                        $('#unit_id')
+                        $('#product_unit_id')
                             .empty();
-                        $('#unit_id').append(
-                            '<option value="">Pilih Produk</option>'
+                        $('#product_unit_id').append(
+                            '<option value="">Pilih Satuan</option>'
                         );
                         response.data.forEach(function(item) {
-                            $('#unit_id').append(
-                                `<option value="${item.unit_id}">${item.unit}</option>`
+                            $('#product_unit_id').append(
+                                `<option value="${item.id}">${item.unit}</option>`
                             );
                         });
                     },

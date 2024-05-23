@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Interfaces\Admin\DetailPurchaseInterface;
 use App\Contracts\Interfaces\Admin\ProductInterface;
+use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Interfaces\Admin\PurchaseInterface;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PurchaseRequest;
+use App\Services\Admin\PurchaseService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -16,13 +19,15 @@ use Illuminate\View\View as ViewView;
 class PurchasesController extends Controller
 {
     private PurchaseInterface $purchase;
-    private ProductInterface $product;
     private SupplierInterface $suppliers;
-    public function __construct(PurchaseInterface $purchase, ProductInterface $product, SupplierInterface $suppliers)
+    private PurchaseService $service;
+    private DetailPurchaseInterface $detailPurchase;
+    public function __construct(PurchaseInterface $purchase, SupplierInterface $suppliers,  DetailPurchaseInterface $detailPurchase, PurchaseService $service)
     {
         $this->purchase = $purchase;
+        $this->service = $service;
+        $this->detailPurchase = $detailPurchase;
         $this->suppliers = $suppliers;
-        $this->product = $product;
     }
 
     /**
@@ -43,14 +48,21 @@ class PurchasesController extends Controller
      */
     public function store(PurchaseRequest $request): RedirectResponse
     {
-        $data = $request->validated();
-        $product = $this->product->show($data['product_id']);
 
-        $product->update([
-            'quantity' => $product->quantity + $data['quantity']
-        ]);
 
-        $this->purchase->store($data);
+        $data =  $this->service->store($request);
+
+
+        $purchase = $this->purchase->store($data);
+        for ($i = 0; $i < count($data['product_id']); $i++) {
+            $this->detailPurchase->store([
+                'purchase_id' => $purchase->id,
+                'product_id' => $data['product_id'][$i],
+                'product_unit_id' => $data['product_unit_id'][$i],
+                'buy_price_per_unit' => $data['buy_price_per_unit'][$i],
+                'buy_price' => $data['buy_price'][$i]
+            ]);
+        }
 
         return to_route('admin.purchases.index')->with('success', trans('alert.add_success'));
     }

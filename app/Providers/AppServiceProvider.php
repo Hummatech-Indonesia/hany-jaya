@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\Interfaces\Admin\CategoryInterface;
+use App\Contracts\Interfaces\Admin\DetailPurchaseInterface;
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Interfaces\Admin\PurchaseInterface;
@@ -11,6 +12,7 @@ use App\Contracts\Interfaces\Admin\SupplierProductInterface;
 use App\Contracts\Interfaces\Admin\UnitInterface;
 use App\Contracts\Interfaces\UserInterface;
 use App\Contracts\Repositories\Admin\CategoryRepository;
+use App\Contracts\Repositories\Admin\DetailPurchaseRepository;
 use App\Contracts\Repositories\Admin\ProductRepository;
 use App\Contracts\Repositories\Admin\ProductUnitRepository;
 use App\Contracts\Repositories\Admin\PurchaseRepository;
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         PurchaseInterface::class => PurchaseRepository::class,
         SupplierProductInterface::class => SupplierProductRepository::class,
         ProductUnitInterface::class => ProductUnitRepository::class,
+        DetailPurchaseInterface::class => DetailPurchaseRepository::class
     ];
 
     /**

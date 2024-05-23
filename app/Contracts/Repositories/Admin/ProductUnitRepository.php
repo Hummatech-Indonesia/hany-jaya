@@ -26,4 +26,16 @@ class ProductUnitRepository extends BaseRepository implements ProductUnitInterfa
             ->where('product_id', $data['product_id'])
             ->get();
     }
+
+    /**
+     * show
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function show(mixed $id): mixed
+    {
+        return $this->model->query()
+            ->findOrFail($id);
+    }
 }
