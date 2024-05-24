@@ -59,6 +59,7 @@ class PurchasesController extends Controller
                 'purchase_id' => $purchase->id,
                 'product_id' => $data['product_id'][$i],
                 'product_unit_id' => $data['product_unit_id'][$i],
+                'quantity'  => $data['quantity'][$i],
                 'buy_price_per_unit' => $data['buy_price_per_unit'][$i],
                 'buy_price' => $data['buy_price'][$i]
             ]);

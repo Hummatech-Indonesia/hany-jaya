@@ -1,5 +1,5 @@
 <script>
-    $(function() {
+    $(function () {
         "use strict";
 
         // Default
@@ -7,10 +7,10 @@
 
         // Custom Show / Hide Configurations
         $(".file-repeater, .email-repeater").repeater({
-            show: function() {
+            show: function () {
                 $(this).slideDown();
             },
-            hide: function(remove) {
+            hide: function (remove) {
                 if (confirm("Are you sure you want to remove this item?")) {
                     $(this).slideUp(remove);
                 }
@@ -20,15 +20,15 @@
 
     var room = 1;
 
-    $(document).ready(function() {
-        $("#add_click").click(function() {
+    $(document).ready(function () {
+        $("#add_click").click(function () {
             $.ajax({
                 url: `/admin/units-ajax/`,
                 type: "GET",
-                success: function(response) {
+                success: function (response) {
                     education_fields(response.data);
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     console.log(xhr.responseText);
                 },
             });
@@ -37,28 +37,46 @@
 
     function education_fields(units) {
         room++;
-        $(document).ready(function() {
-            $('#product-' + room).change(function() {
+        $(document).ready(function () {
+            var supplierId = $("#supplier_id").val();
+            $.ajax({
+                url: `{{ route('admin.supplier.product.index', ['supplier' => '']) }}/${supplierId}`,
+                type: "GET",
+                success: function (response) {
+                    $(".select_product-repeater").empty();
+                    $(".select_product-repeater").append(
+                        '<option value="">Pilih Produk</option>'
+                    );
+                    response.data.forEach(function (item) {
+                        $(".select_product-repeater").append(
+                            `<option value="${item.product_id}">${item.product}</option>`
+                        );
+                    });
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                },
+            });
+            $("#product-" + room).change(function () {
                 var product = $(this).val();
                 $.ajax({
                     url: `{{ route('admin.product.unit.index', ['product' => '']) }}/${product}`,
-                    type: 'GET',
-                    success: function(response) {
-                        $('#unit-' + room)
-                            .empty();
-                        $('#unit-' + room).append(
+                    type: "GET",
+                    success: function (response) {
+                        $("#unit-" + room).empty();
+                        $("#unit-" + room).append(
                             '<option value="">Pilih Satuan</option>'
                         );
-                        response.data.forEach(function(item) {
+                        response.data.forEach(function (item) {
                             console.log(item.product_id);
-                            $('#unit-' + room).append(
+                            $("#unit-" + room).append(
                                 `<option value="${item.unit_id}">${item.unit}</option>`
                             );
                         });
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         console.log(xhr.responseText);
-                    }
+                    },
                 });
             });
         });
@@ -67,12 +85,12 @@
         divtest.setAttribute("class", "mb-3 removeclass" + room);
         var rdiv = "removeclass" + room;
         var selectHTML = `
-    <div class="row">
+    <div class="row form-repeater">
         <div class="col-sm-2">
             <div class="mb-3">
                 <label class="mb-2" for="product_id" style="font-size: 0.8rem">Pilih
                     Produk</label>
-                <select name="product_id[]" class="select_product form-control" id="product-${room}">
+                <select name="product_id[]" class="select_product-repeater form-control" id="product-${room}">
                     <option value="Pilih Produk">Pilih Produk</option>
                     <option value="" class="product_id"></option>
                 </select>
@@ -91,23 +109,23 @@
                 <label class="d-flex gap-2 align-items-center mb-2" style="font-size: 0.8rem">Harga
                     Beli per
                     Satuan</label>
-                <input type="number" class="form-control" id="Age"
-                    name="quantity_in_small_unit[]" placeholder="10" />
+                <input type="number" oninput="priceUnitInput(${room})" class="form-control price-per-unit" id="price-per-unit-${room}"
+                    name="buy_price_per_unit[]" placeholder="10" />
             </div>
         </div>
         <div class="col-sm-2">
             <div class="mb-3">
                 <label class="d-flex gap-2 align-items-center mb-2" style="font-size: 0.8rem">Jumlah
                     Pembelian</label>
-                <input type="number" class="form-control" id="Age"
-                    name="quantity_in_small_unit[]" placeholder="10" />
+                <input type="number" class="form-control quantity" oninput="quantityInput(${room})" id="quantity-${room}"
+                    name="quantity[]" placeholder="10" />
             </div>
         </div>
         <div class="col-sm-2">
             <label class="mb-2" for="" style="font-size: 0.8rem">Total Harga
                 Pembelian</label>
             <div class="mb-3">
-                <input type="number" disabled class="form-control">
+                <input type="number" name="buy_price[]" readonly value="0" class="form-control">
             </div>
         </div>
         <div class="col-sm-2" style="margin-top: 1.35rem">
@@ -122,5 +140,39 @@
 
     function remove_education_fields(rdid) {
         $(".removeclass" + rdid).remove();
+    }
+
+    function priceUnitInput(idx) {
+        var pricePerUnit = $(`#price-per-unit-${idx}`).val();
+        var quantity = $(`#price-per-unit-${idx}`)
+            .parent()
+            .parent()
+            .parent()
+            .find(".quantity")
+            .val();
+        var totalPrice = pricePerUnit * quantity;
+        $(`#price-per-unit-${idx}`)
+            .parent()
+            .parent()
+            .parent()
+            .find('input[name="buy_price[]"]')
+            .val(totalPrice);
+    }
+
+    function quantityInput(idx) {
+        var quantity = $(`#quantity-${idx}`).val();
+        var pricePerUnit = $(`#quantity-${idx}`)
+            .parent()
+            .parent()
+            .parent()
+            .find(".price-per-unit")
+            .val();
+        var totalPrice = pricePerUnit * quantity;
+        $(`#quantity-${idx}`)
+            .parent()
+            .parent()
+            .parent()
+            .find('input[name="buy_price[]"]')
+            .val(totalPrice);
     }
 </script>
