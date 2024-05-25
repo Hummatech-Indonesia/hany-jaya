@@ -49,11 +49,10 @@
                     <table class="table search-table align-middle text-nowrap">
                         <thead class="header-item">
                             <th>#</th>
-                            <th>Produk</th>
-                            <th>Supplier</th>
-                            <th>Harga Beli</th>
-                            <th>Jumlah Pembelian</th>
+                            <th>No Invoice</th>
+                            <th>Total Harga Beli</th>
                             <th>Tanggal Pembelian</th>
+                            <td>Detail</td>
                         </thead>
                         <tbody>
                             @forelse ($purchases as $index => $purchase)
@@ -61,29 +60,16 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>
                                         <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ $purchase->product->name }}
+                                            {{ $purchase->invoice_number }}
                                         </h6>
                                     </td>
-                                    <td>
-                                        <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ $purchase->supplier->name }}
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ FormatedHelper::rupiahCurrency($purchase->buy_price) }}
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ $purchase->quantity }}
-                                        </h6>
-                                    </td>
+                                    <td>{{ FormatedHelper::rupiahCurrency($purchase->buy_price) }}</td>
                                     <td>
                                         <h6 class="user-name mb-0" data-name="Emma Adams">
                                             {{ FormatedHelper::dateTimeFormat($purchase->created_at) }}
                                         </h6>
                                     </td>
+                                    <td>Detail</td>
                                 </tr>
                             @empty
                                 <p>Data pembelian masih kosong</p>

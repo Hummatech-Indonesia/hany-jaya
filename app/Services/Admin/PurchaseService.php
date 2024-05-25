@@ -42,7 +42,9 @@ class PurchaseService
 
             $data['total_buy_price'] += $data['buy_price'][$i];
         }
-        $data['invoice_number'] = 'KLHM-' . now();
+        $getYear = substr(now()->format('Y'), -2);
+        $data['invoice_number'] = "KLHM" . $getYear . "0001";
+
         return $data;
     }
 }
