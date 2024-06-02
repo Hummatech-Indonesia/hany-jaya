@@ -49,11 +49,12 @@
                                             {{ $category->name }}
                                         </h6>
                                     </td>
-
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="d-flex align-items-center gap-2">
-                                                <a href="" style="color: #5A6A85">
+                                                <a class="dropdown-item btn-update" href="#"
+                                                    data-category="{{ $category }}"
+                                                    data-url="{{ route('admin.categories.update', $category->id) }}">
                                                     <i class="fs-4 ti ti-edit"></i>Edit
                                                 </a>
                                             </div>
@@ -75,11 +76,22 @@
                 </div>
             </div>
         </div>
+        @include('dashboard.category.widgets.modal-update')
+
         <x-dialog.delete title="Hapus Karton" />
     </div>
 @endsection
 @section('script')
     <script>
+        $(".btn-update").on("click", function() {
+            $("#modalUpdateCategory").modal("show");
+            let url = $(this).attr("data-url");
+            console.log(url);
+            let category = $(this).data("category");
+
+            $("#modalUpdateCategory").find("#input-name").val(category.name);
+            $("#form-update").attr("action", url);
+        });
         $(".btn-delete").on("click", function() {
             $("#delete-modal").modal("show");
 

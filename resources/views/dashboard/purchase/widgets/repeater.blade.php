@@ -1,5 +1,5 @@
 <script>
-    $(function () {
+    $(function() {
         "use strict";
 
         // Default
@@ -7,10 +7,10 @@
 
         // Custom Show / Hide Configurations
         $(".file-repeater, .email-repeater").repeater({
-            show: function () {
+            show: function() {
                 $(this).slideDown();
             },
-            hide: function (remove) {
+            hide: function(remove) {
                 if (confirm("Are you sure you want to remove this item?")) {
                     $(this).slideUp(remove);
                 }
@@ -20,15 +20,15 @@
 
     var room = 1;
 
-    $(document).ready(function () {
-        $("#add_click").click(function () {
+    $(document).ready(function() {
+        $("#add_click").click(function() {
             $.ajax({
                 url: `/admin/units-ajax/`,
                 type: "GET",
-                success: function (response) {
+                success: function(response) {
                     education_fields(response.data);
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     console.log(xhr.responseText);
                 },
             });
@@ -37,44 +37,44 @@
 
     function education_fields(units) {
         room++;
-        $(document).ready(function () {
+        $(document).ready(function() {
             var supplierId = $("#supplier_id").val();
             $.ajax({
                 url: `{{ route('admin.supplier.product.index', ['supplier' => '']) }}/${supplierId}`,
                 type: "GET",
-                success: function (response) {
+                success: function(response) {
                     $(".select_product-repeater").empty();
                     $(".select_product-repeater").append(
                         '<option value="">Pilih Produk</option>'
                     );
-                    response.data.forEach(function (item) {
+                    response.data.forEach(function(item) {
                         $(".select_product-repeater").append(
                             `<option value="${item.product_id}">${item.product}</option>`
                         );
                     });
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     console.log(xhr.responseText);
                 },
             });
-            $("#product-" + room).change(function () {
+            $("#product-" + room).change(function() {
                 var product = $(this).val();
                 $.ajax({
                     url: `{{ route('admin.product.unit.index', ['product' => '']) }}/${product}`,
                     type: "GET",
-                    success: function (response) {
+                    success: function(response) {
                         $("#unit-" + room).empty();
                         $("#unit-" + room).append(
                             '<option value="">Pilih Satuan</option>'
                         );
-                        response.data.forEach(function (item) {
+                        response.data.forEach(function(item) {
                             console.log(item.product_id);
                             $("#unit-" + room).append(
                                 `<option value="${item.unit_id}">${item.unit}</option>`
                             );
                         });
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         console.log(xhr.responseText);
                     },
                 });
@@ -99,7 +99,7 @@
         <div class="col-sm-2">
             <div class="mb-3">
                 <label class="mb-2" for="unit_id" style="font-size: 0.8rem">Pilih Satuan</label>
-                <select name="unit_id[]" class="form-control" id="unit-${room}">
+                <select name="product_unit_id[]" class="form-control" id="unit-${room}">
                     <option value="Pilih Satuan">Pilih Satuan</option>
                 </select>
             </div>
