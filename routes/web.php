@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductUnitController;
 use App\Http\Controllers\Admin\PurchasesController;
@@ -51,6 +52,7 @@ Route::middleware('auth')->group(function () {
         Route::resources([
             'products' => ProductController::class,
             'suppliers' => SupplierController::class,
+            'categories' => CategoryController::class
         ]);
         Route::prefix('cashiers')->name('cashiers.')->group(function () {
             Route::get('/', [UserController::class, 'getCashier'])->name('index');
