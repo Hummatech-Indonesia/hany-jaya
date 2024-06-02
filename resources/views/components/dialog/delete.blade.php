@@ -25,7 +25,7 @@
                 <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn btn-light-danger text-danger font-medium waves-effect"
+                        class="btn btn-warning text-white font-medium waves-effect"
                         data-bs-dismiss="modal"
                     >
                         Tutup
