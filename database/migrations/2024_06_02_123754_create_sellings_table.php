@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sellings', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained();
+            $table->foreignUuid('user_id')->constrained()->restrictOnUpdate()->cascadeOnUpdate();
             $table->string('invoice_number')->unique();
             $table->integer('amount_price');
             $table->timestamps();
