@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Interfaces\Admin\CategoryInterface;
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -32,6 +34,18 @@ class CategoryController extends Controller
     {
         $this->category->store($request->validated());
         return redirect()->back()->with('success', trans('alert.add_success'));
+    }
+
+    /**
+     * storeAjax
+     *
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function storeAjax(CategoryRequest $request): JsonResponse
+    {
+        $this->category->store($request->validated());
+        return ResponseHelper::success(null, trans('alert.add_success'));
     }
 
     /**
