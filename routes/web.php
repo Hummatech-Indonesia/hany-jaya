@@ -40,6 +40,11 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('cashier', function () {
+    // dd("Aa");
+    return view('dashboard.selling.index');
+})->name('cashier');
+
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('dashboard.home.index');
