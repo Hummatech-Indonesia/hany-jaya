@@ -41,7 +41,6 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('cashier', function () {
-    // dd("Aa");
     return view('dashboard.selling.index');
 })->name('cashier');
 
@@ -55,7 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::get('product-units/{product?}', [ProductUnitController::class, 'index'])->name('product.unit.index');
         Route::get('units-ajax', [UnitController::class, 'get'])->name('units.get');
 
-        Route::post('category-store', [CategoryController::class, 'storeAjax'])->name('category.store.ajax');
+        Route::post('category-ajax', [CategoryController::class, 'storeAjax'])->name('category.store.ajax');
         Route::resources([
             'products' => ProductController::class,
             'suppliers' => SupplierController::class,
