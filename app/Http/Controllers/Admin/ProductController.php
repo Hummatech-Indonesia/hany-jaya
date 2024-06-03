@@ -91,6 +91,8 @@ class ProductController extends Controller
         $categories = $this->category->get();
         $units = $this->unit->get();
         $suppliers = $this->supplier->get();
+        // dd($suppliers);
+        // dd($product->supplierProducts->pluck('supplier_id')->toArray());
         return view('dashboard.product.edit', compact('categories', 'units', 'suppliers', 'product'));
     }
     /**

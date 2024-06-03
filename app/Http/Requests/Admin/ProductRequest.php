@@ -41,21 +41,24 @@ class ProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'category_id.required' => 'Kategori harus dipilih.',
-            'category_id.exists' => 'Kategori yang dipilih tidak valid.',
-            'outlet_id.required' => 'Outlet harus dipilih.',
-            'outlet_id.exists' => 'Outlet yang dipilih tidak valid.',
-            'unit_id.required' => 'Satuan harus dipilih.',
-            'unit_id.exists' => 'Satuan yang dipilih tidak valid.',
-            'code.required' => 'Kode produk harus diisi.',
-            'code.unique' => 'Kode produk sudah digunakan.',
-            'name.required' => 'Nama produk harus diisi.',
-            'name.max' => 'Nama produk tidak boleh melebihi 255 karakter.',
-            'selling_price.required' => 'Harga jual harus diisi.',
-            'selling_price.integer' => 'Harga jual harus berupa angka.',
-            'image.mimes' => 'Format gambar harus berupa PNG, JPG, atau JPEG.',
-            'supplier_id.required' => 'Supplier wajib diisi',
-            'supplier_id.*.exists' => 'Supplier yang anda pilih tidak tersedia'
+            'category_id.required' => 'The category field is required.',
+            'category_id.exists' => 'The selected category is invalid.',
+            'unit_id.required' => 'The unit field is required.',
+            'unit_id.*.required' => 'The unit field is required.',
+            'unit_id.*.exists' => 'The selected unit is invalid.',
+            'quantity_in_small_unit.required' => 'The quantity in small unit field is required.',
+            'quantity_in_small_unit.*.required' => 'The quantity in small unit field is required.',
+            'small_unit_id.required' => 'The small unit field is required.',
+            'small_unit_id.exists' => 'The selected small unit is invalid.',
+            'code.required' => 'The code field is required.',
+            'code.unique' => 'The code has already been taken.',
+            'name.required' => 'The name field is required.',
+            'name.max' => 'The name may not be greater than 255 characters.',
+            'selling_price.required' => 'The selling price field is required.',
+            'selling_price.*.required' => 'The selling price field is required.',
+            'image.mimes' => 'The image must be a file of type: png, jpg, jpeg.',
+            'supplier_id.required' => 'The supplier field is required.',
+            'supplier_id.*.exists' => 'The selected supplier is invalid.'
         ];
     }
 }

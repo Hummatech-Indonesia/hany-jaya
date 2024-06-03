@@ -11,7 +11,7 @@
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h4 class="fw-semibold mb-8">Tambah Produk</h4>
+                        <h4 class="fw-semibold mb-8">Edit Produk</h4>
                         <p>Isi data dibawah ini dengan benar.</p>
                     </div>
                     <div class="col-3">
@@ -37,16 +37,17 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="border-bottom title-part-padding">
-                        <h4 class="card-title mb-0">Tambah Produk</h4>
+                        <h4 class="card-title mb-0">Edit Produk</h4>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('admin.products.update', $product->id) }}" method="POST"
                             enctype="multipart/form-data">
+                            @method('PATCH')
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="mb-2" for="name">Nama Produk</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Aqua"
+                                    <input type="text" value="{{ $product->name }}" name="name" class="form-control" placeholder="Aqua"
                                         value="{{ old('name') }}" />
                                     @error('name')
                                         <div class="text-danger">{{ $message }}</div>
@@ -54,7 +55,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="mb-2" for="code">Kode Produk</label>
-                                    <input type="text" name="code" class="form-control" placeholder="HSN-1203"
+                                    <input type="text" value="{{ $product->code }}" name="code" class="form-control" placeholder="HSN-1203"
                                         value="{{ old('code') }}" />
                                     @error('code')
                                         <div class="text-danger">{{ $message }}</div>
@@ -68,7 +69,7 @@
                                         <option value="">Pilih Kategori</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}"
-                                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                {{ $product->category_id == $category->id ? 'selected' : '' }}>
                                                 {{ $category->name }}</option>
                                         @endforeach
                                     </select>
@@ -97,7 +98,7 @@
                                         <optgroup label="Pilih Pemasok">
                                             @foreach ($suppliers as $supplier)
                                                 <option value="{{ $supplier->id }}"
-                                                    {{ in_array($supplier->id, old('supplier_id', [])) ? 'selected' : '' }}>
+                                                    {{ in_array($supplier->id, $product->supplierProducts->pluck('supplier_id')->toArray()) ? 'selected' : '' }}>
                                                     {{ $supplier->name }}</option>
                                             @endforeach
                                         </optgroup>
@@ -127,7 +128,7 @@
                                         <option value="">Pilih Satuan Terkecil</option>
                                         @foreach ($units as $unit)
                                             <option value="{{ $unit->id }}"
-                                                {{ old('unit_id') == $unit->id ? 'selected' : '' }}>
+                                                {{ $product->unit_id === $unit->id ? 'selected' : '' }}>
                                                 {{ $unit->name }}</option>
                                         @endforeach
                                     </select>
@@ -163,7 +164,9 @@
                                         <select name="unit_id[]" class="form-control" id="">
                                             <option value="Pilih Satuan">Pilih Satuan</option>
                                             @foreach ($units as $unit)
-                                                <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                                <option value="{{ $unit->id }}"
+                                                    {{ $product->productUnits[0]->unit_id === $unit->id ? 'selected' : '' }}
+                                                    >{{ $unit->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -184,14 +187,14 @@
                                                     <path d="M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483" />
                                                 </svg>
                                             </div></label>
-                                        <input type="number" class="form-control" id="Age"
+                                        <input type="number" value="{{ $product->productUnits[0]->quantity_in_small_unit }}" class="form-control" id="Age"
                                             name="quantity_in_small_unit[]" placeholder="10" />
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="mb-2" for="">Harga Jual</label>
                                     <div class="mb-3">
-                                        <input type="number" name="selling_price[]" id="" class="form-control"
+                                        <input type="number" value="{{ $product->productUnits[0]->selling_price }}" name="selling_price[]" id="" class="form-control"
                                             placeholder="10.000">
                                     </div>
                                 </div>
@@ -225,7 +228,7 @@
 @section('script')
     <!-- current page js files -->
     <!-- ---------------------------------------------- -->
-    <script src="{{ asset('assets/libs/jquery.repeater/jquery.repeater.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/repeater-init.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="{{ asset('assets/libs/jquery.repeater/jquery.repeater.min.js') }}"></script> -->
+    @include('dashboard.product.widgets.repeater-edit')
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 @endsection
