@@ -34,85 +34,95 @@
                         <span class="hide-menu">Beranda</span>
                     </a>
                 </li>
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Master</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="index2.html" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-shopping-cart"></i>
-                        </span>
-                        <span class="hide-menu">Data Admin</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.cashiers.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-currency-dollar"></i>
-                        </span>
-                        <span class="hide-menu">Data Kasir</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.categories.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-currency-dollar"></i>
-                        </span>
-                        <span class="hide-menu">Kategori</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.products.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-activity-heartbeat"></i>
-                        </span>
-                        <span class="hide-menu">Produk</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.suppliers.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-activity-heartbeat"></i>
-                        </span>
-                        <span class="hide-menu">Pemasok</span>
-                    </a>
-                </li>
-                <!-- ============================= -->
-                <!-- Apps -->
-                <!-- ============================= -->
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Transaksi</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.purchases.create') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-calendar"></i>
-                        </span>
-                        <span class="hide-menu">Pembelian</span>
-                    </a>
-                </li>
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Riwayat</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.purchases.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-message-dots"></i>
-                        </span>
-                        <span class="hide-menu">Riwayat Pembelian</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="app-email.html" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-mail"></i>
-                        </span>
-                        <span class="hide-menu">Riwayat Penjualan</span>
-                    </a>
-                </li>
+                @role('admin')
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">Master</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="index2.html" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-shopping-cart"></i>
+                            </span>
+                            <span class="hide-menu">Data Admin</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.cashiers.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-currency-dollar"></i>
+                            </span>
+                            <span class="hide-menu">Data Kasir</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.categories.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-currency-dollar"></i>
+                            </span>
+                            <span class="hide-menu">Kategori</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.units.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-currency-dollar"></i>
+                            </span>
+                            <span class="hide-menu">Satuan</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.products.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-activity-heartbeat"></i>
+                            </span>
+                            <span class="hide-menu">Produk</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.suppliers.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-activity-heartbeat"></i>
+                            </span>
+                            <span class="hide-menu">Pemasok</span>
+                        </a>
+                    </li>
+                    <!-- ============================= -->
+                    <!-- Apps -->
+                    <!-- ============================= -->
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">Transaksi</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.purchases.create') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-calendar"></i>
+                            </span>
+                            <span class="hide-menu">Pembelian</span>
+                        </a>
+                    </li>
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">Riwayat</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.purchases.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-message-dots"></i>
+                            </span>
+                            <span class="hide-menu">Riwayat Pembelian</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="app-email.html" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-mail"></i>
+                            </span>
+                            <span class="hide-menu">Riwayat Penjualan</span>
+                        </a>
+                    </li>
+                @endrole
             </ul>
         </nav>
         <div class="fixed-profile p-3 bg-light-secondary rounded sidebar-ad mt-3">

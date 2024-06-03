@@ -53,11 +53,12 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('supplier-products/{supplier?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
         Route::get('product-units/{product?}', [ProductUnitController::class, 'index'])->name('product.unit.index');
-        Route::get('units-ajax', [UnitController::class, 'index'])->name('units.index');
+        Route::get('units-ajax', [UnitController::class, 'get'])->name('units.get');
         Route::resources([
             'products' => ProductController::class,
             'suppliers' => SupplierController::class,
-            'categories' => CategoryController::class
+            'categories' => CategoryController::class,
+            'units' => UnitController::class,
         ]);
         Route::prefix('cashiers')->name('cashiers.')->group(function () {
             Route::get('/', [UserController::class, 'getCashier'])->name('index');

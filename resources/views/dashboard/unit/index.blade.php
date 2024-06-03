@@ -4,12 +4,12 @@
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h4 class="fw-semibold mb-8">Kategori</h4>
-                        <p>List kategori yang ada di toko anda.</p>
+                        <h4 class="fw-semibold mb-8">Satuan</h4>
+                        <p>List Satuan yang ada di toko anda.</p>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddSuplier">
-                            Tambah Kategori
+                            Tambah Satuan
                         </button>
-                        @include('dashboard.category.widgets.modal-create')
+                        @include('dashboard.unit.widgets.modal-create')
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
@@ -41,26 +41,26 @@
                             <td>Aksi</td>
                         </thead>
                         <tbody>
-                            @forelse ($categories as $index => $category)
+                            @forelse ($units as $index => $unit)
                                 <tr class="search-items">
                                     <td>{{ $index + 1 }}</td>
                                     <td>
                                         <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ $category->name }}
+                                            {{ $unit->name }}
                                         </h6>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="d-flex align-items-center gap-2">
                                                 <a class="dropdown-item btn-update" href="#"
-                                                    data-category="{{ $category }}"
-                                                    data-url="{{ route('admin.categories.update', $category->id) }}">
+                                                    data-unit="{{ $unit }}"
+                                                    data-url="{{ route('admin.units.update', $unit->id) }}">
                                                     <i class="fs-4 ti ti-edit"></i>Edit
                                                 </a>
                                             </div>
                                             <div class="d-flex align-items-center gap-2">
                                                 <a class="dropdown-item btn-delete" href="#"
-                                                    data-url="{{ route('admin.categories.destroy', $category->id) }}">
+                                                    data-url="{{ route('admin.units.destroy', $unit->id) }}">
                                                     <i class="fs-4 ti ti-trash"></i>Delete
                                                 </a>
                                             </div>
@@ -72,24 +72,23 @@
                             @endforelse
                         </tbody>
                     </table>
-                    {{ $categories->links() }}
+                    {{ $units->links() }}
                 </div>
             </div>
         </div>
-        @include('dashboard.category.widgets.modal-update')
+        @include('dashboard.unit.widgets.modal-update')
 
-        <x-dialog.delete title="Hapus Karton" />
+        <x-dialog.delete title="Hapus Satuan" />
     </div>
 @endsection
 @section('script')
     <script>
         $(".btn-update").on("click", function() {
-            $("#modalUpdateCategory").modal("show");
+            $("#modalUpdateUnit").modal("show");
             let url = $(this).attr("data-url");
-            console.log(url);
-            let category = $(this).data("category");
+            let unit = $(this).data("unit");
 
-            $("#modalUpdateCategory").find("#input-name").val(category.name);
+            $("#modalUpdateUnit").find("#input-name").val(unit.name);
             $("#form-update").attr("action", url);
         });
         $(".btn-delete").on("click", function() {
