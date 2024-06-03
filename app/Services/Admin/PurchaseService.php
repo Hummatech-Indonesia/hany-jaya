@@ -4,11 +4,7 @@ namespace App\Services\Admin;
 
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
-use App\Enums\UploadDiskEnum;
-use App\Http\Requests\Admin\ProductRequest;
 use App\Http\Requests\Admin\PurchaseRequest;
-use App\Models\Product;
-use App\Traits\UploadTrait;
 
 class PurchaseService
 {
@@ -42,9 +38,7 @@ class PurchaseService
 
             $data['total_buy_price'] += $data['buy_price'][$i];
         }
-        $getYear = substr(now()->format('Y'), -2);
-        $data['invoice_number'] = "KLHM" . $getYear . "0001";
-
+         
         return $data;
     }
 }

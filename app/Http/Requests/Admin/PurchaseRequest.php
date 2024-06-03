@@ -14,6 +14,7 @@ class PurchaseRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'invoice_number' => 'required|unique:purchases,invoice_number',
             'supplier_id' => 'required|exists:suppliers,id',
             'product_id' => 'required|array',
             'product_id.*' => 'required|exists:products,id',

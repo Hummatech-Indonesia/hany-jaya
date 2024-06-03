@@ -40,7 +40,7 @@ class ProductService
      *
      * @return Returntype
      */
-    public function update(ProductRequest $request, Product $product): array
+    public function     update(ProductRequest $request, Product $product): array
     {
         $data = $request->validated();
 

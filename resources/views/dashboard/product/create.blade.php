@@ -79,7 +79,8 @@
                                     <div class="d-flex justify-content-between mb-2">
                                         <label for="supplier_id">Nama Pemasok</label>
                                         <div class="d-flex flex-row">
-                                            <a href="{{ route('admin.suppliers.index') }}" class="mx-2 text-success"> <svg
+                                            <a data-bs-toggle="modal" style="cursor: pointer"
+                                                data-bs-target="#modalAddSuplier" class="mx-2 text-success"> <svg
                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="#13DEB9" stroke-width="2"
                                                     stroke-linecap="round" stroke-linejoin="round"
@@ -91,6 +92,7 @@
                                                 </svg> Tambah Pemasok</a>
                                         </div>
                                     </div>
+
                                     <select class="select2 form-control" name="supplier_id[]" multiple="multiple"
                                         placeholder="Pilih Pemasok" style="height: 36px; width: 100%">
                                         <optgroup label="Pilih Pemasok">
@@ -220,6 +222,8 @@
             </div>
         </div>
     </div>
+    @include('dashboard.product.widgets.modal-create')
+
 @endsection
 @section('script')
     <!-- current page js files -->
