@@ -63,6 +63,14 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('admin.units.index') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-currency-dollar"></i>
+                        </span>
+                        <span class="hide-menu">Satuan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('admin.products.index') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-activity-heartbeat"></i>
