@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Contracts\Repositories\Cashier;
+
+use App\Contracts\Interfaces\Cashier\SellingInterface;
+use Illuminate\Database\QueryException;
+use App\Contracts\Repositories\BaseRepository;
+use App\Models\Selling;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+class SellingRepository extends BaseRepository implements SellingInterface
+{
+    public function __construct(Selling $selling)
+    {
+        $this->model = $selling;
+    }
+    /**
+     * store
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function store(array $data): mixed
+    {
+        return $this->model->query()
+            ->create($data);
+    }
+}
