@@ -21,6 +21,7 @@ use App\Contracts\Repositories\Admin\PurchaseRepository;
 use App\Contracts\Repositories\Admin\SupplierProductRepository;
 use App\Contracts\Repositories\Admin\SupplierRepository;
 use App\Contracts\Repositories\Admin\UnitRepository;
+use App\Contracts\Repositories\Cashier\DetailSellingRepository;
 use App\Contracts\Repositories\Cashier\SellingRepository;
 use App\Contracts\Repositories\UserRepository;
 use Illuminate\Pagination\Paginator;
@@ -39,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
         ProductUnitInterface::class => ProductUnitRepository::class,
         DetailPurchaseInterface::class => DetailPurchaseRepository::class,
         SellingInterface::class => SellingRepository::class,
-        DetailSellingInterface::class => SellingRepository::class
+        DetailSellingInterface::class => DetailSellingRepository::class
     ];
 
     /**

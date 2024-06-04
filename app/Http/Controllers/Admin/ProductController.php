@@ -9,6 +9,8 @@ use App\Contracts\Interfaces\Admin\UnitInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
+use App\Http\Requests\Cashier\ShowProductRequest;
+use App\Http\Resources\Cashier\ProductResource;
 use App\Models\Product;
 use App\Models\ProductUnit;
 use App\Services\Admin\ProductService;
@@ -119,5 +121,16 @@ class ProductController extends Controller
     {
         $this->product->delete($product->id);
         return redirect()->back()->with('success', trans('alert.delete_success'));
+    }
+
+    /**
+     * showProduct
+     *
+     * @return JsonResponse
+     */
+    public function showProduct(ShowProductRequest $request): JsonResponse
+    {
+        $product = $this->product->getWhere($request->validated());
+        return ResponseHelper::success($product);
     }
 }

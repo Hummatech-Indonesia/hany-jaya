@@ -2,8 +2,9 @@
 
 namespace App\Contracts\Interfaces\Cashier;
 
+use App\Contracts\Interfaces\Eloquent\GetInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 
-interface SellingInterface extends StoreInterface
+interface SellingInterface extends StoreInterface, GetInterface
 {
 }

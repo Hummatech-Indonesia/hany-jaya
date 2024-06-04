@@ -101,4 +101,18 @@ class ProductRepository extends BaseRepository implements ProductInterface
     {
         return $this->model->query()->get();
     }
+
+    /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getWhere(array $data): mixed
+    {
+        return $this->model->query()
+            ->with('productUnits.unit')
+            ->where('code', $data['code'])
+            ->first();
+    }
 }

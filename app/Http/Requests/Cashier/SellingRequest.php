@@ -15,8 +15,6 @@ class SellingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'selling_id' => 'required|array',
-            'selling_id.*' => 'required|exists:sellings,id',
             'product_id' => 'required|array',
             'product_id.*' => 'required|exists:products,id',
             'product_unit_id' => 'required|array',
