@@ -57,7 +57,7 @@
 
                                         </tbody>
                                         <tr>
-                                            <td colspan="3">
+                                            <td colspan="4">
                                                 <h6 class="fs-4 fw-semibold mb-0 text-center">
                                                     Total Harga
                                                 </h6>
@@ -110,15 +110,15 @@
                             <input type="hidden" name="product_id[]" value="${response.data.id}" readonly class="form-control" />
                         </td>
                         <td>
-                            <h6 class="stock" class="fs-4 fw-semibold mb-0 text-start">
-                                ${response.data.quantity} ${response.data.unit.name}
+                            <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                <span class="stock">${response.data.quantity}</span> <span class="quantity_stock">${response.data.unit.name}</span>
                             </h6>
                         </td>
                         <td>
                             <select id="product_unit_${response.data.id}" name="product_unit_id[]" class="form-control product-unit">
                                 <option value="">Pilih Satuan</option>`;
                         $.each(response.data.product_units, function(index, productUnit) {
-                            newRow += `<option value="${productUnit.id}"  id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}">
+                            newRow += `<option value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}">
                             ${productUnit.unit.name}
                         </option>`;
                         });
@@ -146,6 +146,15 @@
             $('#field').on('change', '.product-unit, .quantity', function() {
                 var row = $(this).closest('tr');
                 var selectedPrice = row.find('.product-unit option:selected').data('selling-price');
+                var quantity_in_small_unit = row.find('.product-unit option:selected').data(
+                    'quantity-in-small-unit');
+                var quantity = row.find('.product-unit option:selected').data(
+                    'quantity-in-small-unit');
+                var unit = row.find('.product-unit option:selected').data(
+                    'unit');
+                var stock = quantity / quantity_in_small_unit;
+                $('.stock').html(stock);
+                $('.quantity_stock').html(unit);
                 var quantity = row.find('.quantity').val();
                 var totalPrice = selectedPrice * quantity;
                 row.find('.selling-price').val(totalPrice);
