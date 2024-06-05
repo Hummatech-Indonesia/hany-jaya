@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Base\Interfaces\HasProduct;
+use App\Base\Interfaces\HasProductUnit;
+use App\Base\Interfaces\HasProductUnits;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class DetailSelling extends Model implements HasProduct
+class DetailSelling extends Model implements HasProduct, HasProductUnit
 {
     use HasFactory;
     protected $table = 'detail_sellings';
@@ -25,5 +28,15 @@ class DetailSelling extends Model implements HasProduct
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * productUnit
+     *
+     * @return BelongsTo
+     */
+    public function productUnit(): BelongsTo
+    {
+        return $this->belongsTo(ProductUnit::class);
     }
 }

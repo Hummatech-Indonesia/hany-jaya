@@ -51,6 +51,7 @@ class SellingRepository extends BaseRepository implements SellingInterface
     {
         return $this->model->query()
             ->with('detailSellings.product')
+            ->with('detailSellings.productUnit.product')
             ->fastPaginate();
     }
 }

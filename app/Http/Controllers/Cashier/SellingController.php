@@ -54,18 +54,20 @@ class SellingController extends Controller
 
         for ($i = 0; $i < count($data['selling_price']); $i++) {
             $sellingPrice += $data['selling_price'][$i];
+            $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
+            $quantity = $productUnit->quantity_in_small_unit * $data['quantity'][$i];
+            $product = $this->product->show($data['product_id'][$i]);
+
+            if ($product->quantity < $quantity) {
+                return redirect()->back()->withErrors('Stok tidak mencukupi');
+            }
         }
         $data['amount_price'] = $sellingPrice;
         $service = $this->sellingService->store($data);
         $selling = $this->selling->store($service);
 
         for ($i = 0; $i < count($data['product_id']); $i++) {
-            $product = $this->product->show($data['product_id'][$i]);
-            $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
-            $quantity = $productUnit->quantity_in_small_unit * $data['quantity'][$i];
-            if ($product->quantity < $quantity) {
-                return redirect()->back()->withErrors('Stok tidak mencukupi');
-            }
+
             $product->update([
                 'quantity' => $product->quantity - $quantity
             ]);

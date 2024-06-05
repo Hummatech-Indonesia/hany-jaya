@@ -111,7 +111,7 @@
                         </td>
                         <td>
                             <h6 class="stock" class="fs-4 fw-semibold mb-0 text-start">
-                                ${response.data.quantity}
+                                ${response.data.quantity} ${response.data.unit.name}
                             </h6>
                         </td>
                         <td>

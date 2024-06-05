@@ -14,12 +14,11 @@
                             <thead class="header-item">
                                 <th>#</th>
                                 <th>Nama Produk</th>
-                                <th>Satuan</th>
                                 <th>Jumlah Produk</th>
                                 <th>Harga</th>
                             </thead>
                             <tbody id="value_table">
-                                
+
                             </tbody>
                         </table>
                     </div>

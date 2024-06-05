@@ -61,36 +61,29 @@
 @section('script')
     <script>
         $(".btn-detail").on("click", function() {
+            $("#value_table").empty(); // Mengosongkan isi tabel sebelum menambahkan detail penjualan baru
             $("#modalDetailHistory").modal("show");
             let detailSellings = $(this).data("detail-selling");
-            detailSellings.forEach(function(item) {
+            detailSellings.forEach(function(item, index) {
                 $("#value_table").append(
                     `
-                    <tr class="search-items">
-                        <td>
-                        </td>
-                        <td>
-                            <h6 class="user-name mb-0" data-name="Emma Adams">
-                                ${item.product.name}
-                                haha
-                            </h6>
-                        </td>
-                        <td>
-                            <h6 class="user-name mb-0" data-name="Emma Adams">
-                            </h6>
-                        </td>
-                        <td>
-                            <h6 class="user-name mb-0" data-name="Emma Adams">
-                            </h6>
-                        </td>
-                        <td>
-                            <h6 class="user-name mb-0" data-name="Emma Adams">
-                            </h6>
-                        </td>
-                    </tr>
-                    `
+                <tr class="search-items">
+                    <td>${index + 1}</td>
+                    <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product.name}</h6></td>
+                    <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product_unit.product.name}</h6></td>
+                    <td><h6 class="user-name mb-0" data-name="Emma Adams">Rp ${formatRupiah(item.selling_price)}</h6></td>
+                    <td><h6 class="user-name mb-0" data-name="Emma Adams"></h6></td>
+                </tr>
+                `
                 );
             });
         });
+
+        function formatRupiah(angka) {
+            var reverse = angka.toString().split('').reverse().join(''),
+                ribuan = reverse.match(/\d{1,3}/g);
+            ribuan = ribuan.join('.').split('').reverse().join('');
+            return ribuan;
+        }
     </script>
 @endsection
