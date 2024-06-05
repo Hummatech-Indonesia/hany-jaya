@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasBuyer;
 use App\Base\Interfaces\HasDetailSellings;
 use App\Base\Interfaces\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Selling extends Model implements HasUser, HasDetailSellings
+class Selling extends Model implements HasUser, HasDetailSellings, HasBuyer
 {
     use HasFactory;
     public $incrementing = false;
@@ -40,5 +41,15 @@ class Selling extends Model implements HasUser, HasDetailSellings
     public function detailSellings(): HasMany
     {
         return $this->hasMany(DetailSelling::class);
+    }
+
+    /**
+     * buyer
+     *
+     * @return BelongsTo
+     */
+    public function buyer(): BelongsTo
+    {
+        return $this->belongsTo(Buyer::class);
     }
 }

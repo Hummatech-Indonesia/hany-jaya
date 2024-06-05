@@ -18,7 +18,7 @@ class SellingService
      * @param  mixed $request
      * @return array
      */
-    public function store(array $data): array
+    public function invoiceNumber(array $data): array
     {
         $getYear = substr(now()->format('Y'), -2);
 

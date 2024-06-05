@@ -62,8 +62,9 @@ class SellingController extends Controller
                 return redirect()->back()->withErrors('Stok tidak mencukupi');
             }
         }
+
         $data['amount_price'] = $sellingPrice;
-        $service = $this->sellingService->store($data);
+        $service = $this->sellingService->invoiceNumber($data);
         $selling = $this->selling->store($service);
 
         for ($i = 0; $i < count($data['product_id']); $i++) {

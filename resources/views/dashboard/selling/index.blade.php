@@ -118,9 +118,11 @@
                             <select id="product_unit_${response.data.id}" name="product_unit_id[]" class="form-control product-unit">
                                 <option value="">Pilih Satuan</option>`;
                         $.each(response.data.product_units, function(index, productUnit) {
-                            newRow += `<option value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}">
-                            ${productUnit.unit.name}
-                        </option>`;
+                            var selected = index === 0 ? 'selected' :
+                                '';
+                            newRow += `<option value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
+                    ${productUnit.unit.name}
+                </option>`;
                         });
                         newRow += `</select>
                         </td>
@@ -149,7 +151,7 @@
                 var quantity_in_small_unit = row.find('.product-unit option:selected').data(
                     'quantity-in-small-unit');
                 var quantity = row.find('.product-unit option:selected').data(
-                    'quantity-in-small-unit');
+                    'quantity');
                 var unit = row.find('.product-unit option:selected').data(
                     'unit');
                 var stock = quantity / quantity_in_small_unit;

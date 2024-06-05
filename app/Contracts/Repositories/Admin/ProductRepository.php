@@ -113,6 +113,9 @@ class ProductRepository extends BaseRepository implements ProductInterface
     {
         return $this->model->query()
             ->with('unit')
+            ->with('productUnits', function ($query) {
+                $query->orderBy('quantity_in_small_unit', 'asc');
+            })
             ->with('productUnits.unit')
             ->where('code', $data['code'])
             ->first();
