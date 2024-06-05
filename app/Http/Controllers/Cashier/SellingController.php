@@ -30,9 +30,14 @@ class SellingController extends Controller
         $this->sellingService = $sellingService;
     }
 
+    /**
+     * create
+     *
+     * @return View
+     */
     public function create(): View
     {
-        return view('dashboard.selling.create');
+        return view('dashboard.selling.index');
     }
 
     /**
@@ -57,8 +62,12 @@ class SellingController extends Controller
         for ($i = 0; $i < count($data['product_id']); $i++) {
             $product = $this->product->show($data['product_id'][$i]);
             $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
+            $quantity = $productUnit->quantity_in_small_unit * $data['quantity'][$i];
+            if ($product->quantity < $quantity) {
+                return redirect()->back()->withErrors('Stok tidak mencukupi');
+            }
             $product->update([
-                'quantity' => $product->quantity - $productUnit->quantity_in_small_unit * $data['quantity'][$i]
+                'quantity' => $product->quantity - $quantity
             ]);
             $this->detailSelling->store([
                 'selling_id' => $selling->id,
@@ -69,6 +78,19 @@ class SellingController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', trans('alert.add_success'));
+        return to_route('cashier.selling.history')->with('success', trans('alert.add_success'));
+    }
+
+
+    /**
+     * history
+     *
+     * @param  mixed $request
+     * @return View
+     */
+    public function history(Request $request): View
+    {
+        $histories = $this->selling->customPaginate($request);
+        return view('dashboard.selling.history', compact('histories'));
     }
 }

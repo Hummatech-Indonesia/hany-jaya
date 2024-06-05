@@ -86,7 +86,6 @@
         $(".btn-update").on("click", function() {
             $("#modalUpdateCategory").modal("show");
             let url = $(this).attr("data-url");
-            console.log(url);
             let category = $(this).data("category");
 
             $("#modalUpdateCategory").find("#input-name").val(category.name);

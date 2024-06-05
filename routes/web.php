@@ -39,11 +39,6 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('cashier', function () {
-    return view('dashboard.selling.index');
-})->name('cashier');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
@@ -75,7 +70,9 @@ Route::middleware('auth')->group(function () {
         });
     });
     Route::prefix('cashier')->name('cashier.')->group(function () {
+        Route::get('/', [SellingController::class, 'create'])->name('index');
         Route::post('sellings', [SellingController::class, 'store'])->name('selling.store');
+        Route::get('selling-histories', [SellingController::class, 'history'])->name('selling.history');
         Route::get('show-product', [ProductController::class, 'showProduct'])->name('show.product');
     });
 });

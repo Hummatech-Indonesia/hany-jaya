@@ -33,6 +33,11 @@
                                                 </th>
                                                 <th>
                                                     <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                        Stok Produk Saat Ini
+                                                    </h6>
+                                                </th>
+                                                <th>
+                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
                                                         Satuan
                                                     </h6>
                                                 </th>
@@ -103,6 +108,11 @@
                                 ${response.data.name}
                             </h6>
                             <input type="hidden" name="product_id[]" value="${response.data.id}" readonly class="form-control" />
+                        </td>
+                        <td>
+                            <h6 class="stock" class="fs-4 fw-semibold mb-0 text-start">
+                                ${response.data.quantity}
+                            </h6>
                         </td>
                         <td>
                             <select id="product_unit_${response.data.id}" name="product_unit_id[]" class="form-control product-unit">

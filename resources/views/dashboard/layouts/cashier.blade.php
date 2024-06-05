@@ -2124,9 +2124,9 @@
     <script src="{{ asset('assets/css/icons/iconify-icon.min.js') }}"></script>
     <script src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/libs/owl.carousel/dist/owl.carousel.min.js">
     </script>
+@yield('script')
 </body>
 
 <!-- Mirrored from bootstrapdemos.adminmart.com/modernize/dist/horizontal/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 02 Jun 2024 14:54:05 GMT -->
 
 </html>
-@yield('script')

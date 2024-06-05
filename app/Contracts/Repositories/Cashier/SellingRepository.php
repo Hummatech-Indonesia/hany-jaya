@@ -39,4 +39,18 @@ class SellingRepository extends BaseRepository implements SellingInterface
             ->where('invoice_number', 'LIKE', '%' . "KLHM" . '%')
             ->first();
     }
+
+    /**
+     * customPaginate
+     *
+     * @param  mixed $request
+     * @param  mixed $pagination
+     * @return LengthAwarePaginator
+     */
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()
+            ->with('detailSellings.product')
+            ->fastPaginate();
+    }
 }
