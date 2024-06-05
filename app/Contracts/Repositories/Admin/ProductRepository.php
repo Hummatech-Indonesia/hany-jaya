@@ -68,6 +68,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
      */
     public function update(mixed $id, array $data): mixed
     {
+        $data['unit_id'] = $data['small_unit_id'];
         $product = $this->show($id);
         $product->update($data);
 

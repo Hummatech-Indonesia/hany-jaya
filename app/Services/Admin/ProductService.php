@@ -40,7 +40,7 @@ class ProductService
      *
      * @return Returntype
      */
-    public function     update(ProductRequest $request, Product $product): array
+    public function update(ProductRequest $request, Product $product): array
     {
         $data = $request->validated();
 
@@ -59,6 +59,8 @@ class ProductService
             'name' => $data['name'],
             'quantity' => isset($data['quantity']) ? $data['quantity'] : 0,
             'image' => $old_image,
+            'small_unit_id' => $data['small_unit_id'],
+            'quantity_in_small_unit' => $data['quantity_in_small_unit'],
             'selling_price' => $data['selling_price'],
             'supplier_id' => $data['supplier_id']
         ];

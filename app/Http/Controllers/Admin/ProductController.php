@@ -10,7 +10,6 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Http\Requests\Cashier\ShowProductRequest;
-use App\Http\Resources\Cashier\ProductResource;
 use App\Models\Product;
 use App\Models\ProductUnit;
 use App\Services\Admin\ProductService;
@@ -18,7 +17,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View as ViewView;
 
 class ProductController extends Controller
 {
@@ -93,8 +91,6 @@ class ProductController extends Controller
         $categories = $this->category->get();
         $units = $this->unit->get();
         $suppliers = $this->supplier->get();
-        // dd($suppliers);
-        // dd($product->supplierProducts->pluck('supplier_id')->toArray());
         return view('dashboard.product.edit', compact('categories', 'units', 'suppliers', 'product'));
     }
     /**
@@ -107,7 +103,18 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product): RedirectResponse
     {
         $data = $this->productService->update($request, $product);
-        $this->product->update($product->id, $data);
+        $product = $this->product->update($product->id, $data);
+        $product->productUnits()->delete();
+        for ($i = 0; $i < count($data['unit_id']); $i++) {
+            ProductUnit::query()->create(
+                [
+                    'product_id' => $product->id,
+                    'unit_id' => $data['unit_id'][$i],
+                    'quantity_in_small_unit' => $data['quantity_in_small_unit'][$i],
+                    'selling_price' => $data['selling_price'][$i],
+                ]
+            );
+        }
         return to_route('admin.products.index')->with('success', trans('alert.update_success'));
     }
 
