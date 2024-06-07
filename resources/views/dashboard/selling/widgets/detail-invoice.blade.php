@@ -10,17 +10,65 @@
                 </div>
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
+                        <div class="">
+                            <h5>Pembeli</h5>
+                            <table class="table search-table align-middle text-nowrap">
+                                <tbody>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <td>: </td>
+                                        <td id="name"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Alamat</th>
+                                        <td>: </td>
+                                        <td id="address"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <table class="table search-table align-middle text-nowrap">
                             <thead class="header-item">
                                 <th>#</th>
                                 <th>Nama Produk</th>
                                 <th>Jumlah Produk</th>
+                                <th>Potongan Harga</th>
                                 <th>Harga</th>
                             </thead>
                             <tbody id="value_table">
-
                             </tbody>
                         </table>
+                        <div class="">
+                            <div class="">
+                                <h6>Total Harga: </h6>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

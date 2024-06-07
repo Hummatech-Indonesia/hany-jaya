@@ -63,7 +63,6 @@ class SellingController extends Controller
             $serviceSellingPrice['product']->update([
                 'quantity' => $serviceSellingPrice['product']->quantity - $serviceSellingPrice['quantity']
             ]);
-            $product = $this->product->show($data['product_id'][$i]);
             $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
             $this->detailSelling->store([
                 'selling_id' => $selling->id,

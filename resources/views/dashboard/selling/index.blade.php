@@ -18,93 +18,96 @@
             </form>
             <form action="{{ route('cashier.selling.store') }}" method="post">
                 @csrf
-                <div class="col-12 mt-3">
-                    <div class="mb-n5">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive mb-4 border rounded-1">
-                                    <table class="table text-nowrap mb-0 align-middle">
-                                        <thead class="text-dark fs-4">
-                                            <tr>
-                                                <th>
-                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                        Produk
-                                                    </h6>
-                                                </th>
-                                                <th>
-                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                        Stok Produk Saat Ini
-                                                    </h6>
-                                                </th>
-                                                <th>
-                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                        Satuan
-                                                    </h6>
-                                                </th>
-                                                <th>
-                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                        Jumlah
-                                                    </h6>
-                                                </th>
-                                                <th>
-                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                        Harga
-                                                    </h6>
-                                                </th>
-                                                <th>
-                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                        Aksi
-                                                    </h6>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="field">
+                <div class="grid col-12">
+                    <div class="row">
+                        <div class="col-9 mt-3">
+                            <div class="mb-n5">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive mb-4 border rounded-1">
+                                            <table class="table text-nowrap mb-0 align-middle">
+                                                <thead class="text-dark fs-4">
+                                                    <tr>
+                                                        <th>
+                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                Produk
+                                                            </h6>
+                                                        </th>
+                                                        <th>
+                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                Stok Produk Saat Ini
+                                                            </h6>
+                                                        </th>
+                                                        <th>
+                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                Satuan
+                                                            </h6>
+                                                        </th>
+                                                        <th>
+                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                Jumlah
+                                                            </h6>
+                                                        </th>
+                                                        <th>
+                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                Harga
+                                                            </h6>
+                                                        </th>
+                                                        <th>
+                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                Aksi
+                                                            </h6>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="field">
 
-                                        </tbody>
-                                        <tr>
-                                            <td colspan="4">
-                                                <h6 class="fs-4 fw-semibold mb-0 text-center">
-                                                    Total Harga
-                                                </h6>
-                                            </td>
-                                            <td>
-                                                <h6 class="fs-4 fw-semibold mb-0 text-start" id="total_price">
-                                                    Rp.67.000
-                                                </h6>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="">
-                                    {{-- <div class="d-flex justify-content-between mt-3">
-                                        <h6 style="font-weight: bold">Diskon</h6>
-                                        <input type="text" class="form-control" style="width: 15rem">
-                                    </div> --}}
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <h6 style="font-weight: bold">Bayar</h6>
-                                        <input type="text" name="pay" class="form-control" style="width: 15rem">
-                                    </div>
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <h6 style="font-weight: bold">Kembalian</h6>
-                                        <input type="text" name="return" class="form-control" style="width: 15rem">
-                                    </div>
-                                    <div class="mt-3">
-                                        <div class="" style="border: 1px solid gray"></div>
-                                        <div class="mt-3" style="font-weight: bold">
-                                            <h5>Data Pembeli</h5>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <h6 style="font-weight: bold" class="mt-3">Nama</h6>
-                                            <input type="text" name="name" class="form-control" style="width: 15rem">
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-3 mb-3">
-                                            <h6 style="font-weight: bold" class="mt-3">Alamat</h6>
-                                            <textarea name="address" class="form-control" id="" cols="30" rows="5" style="width: 20.4%"></textarea>
+                                                </tbody>
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <h6 class="fs-4 fw-semibold mb-0 text-center">
+                                                            Total Harga
+                                                        </h6>
+                                                    </td>
+                                                    <td>
+                                                        <h6 class="fs-4 fw-semibold mb-0 text-start" id="total_price">
+                                                            Rp.67.000
+                                                        </h6>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <button class="btn btn-primary">
+                            </div>
+                        </div>
+                        <div class="col-3 mt-3">
+                            <div class="mb-n5">
+                                <div class="card p-4">
+                                    <div class="">
+                                        <p class="fw-bold text-dark">Data Pembeli: </p>
+                                        <div>
+                                            <label for="">Nama: </label>
+                                            <input type="text" name="name" class="form-control">
+                                            <label for="">Alamat: </label>
+                                            <textarea name="address" id="" class="form-control" cols="30" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class=""
+                                        style="border: 1px solid rgb(194, 194, 194); margin-top:1rem; margin-bottom:0.5rem">
+                                    </div>
+                                    <div>
+                                        <label for="">Bayar: </label>
+                                        <input type="text" name="pay" class="form-control">
+                                        <label for="">Kembali: </label>
+                                        <input type="text" name="return" class="form-control">
+                                        <label for="">Pilih Metode Pembayaran</label><br>
+                                        <input type="radio" name="" style="margin-right: 3px;"><span>Tunai</span>
+                                        <br>
+                                        <input type="radio" name="" style="margin-right: 3px;"><span>Hutang</span>
+                                        <br>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-3">
                                         Bayar
                                     </button>
                                 </div>
