@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\StatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained()->restrictOnUpdate()->cascadeOnUpdate();
             $table->string('invoice_number')->unique();
             $table->integer('pay');
+            $table->enum('status_payment', [StatusEnum::DEBT->value, StatusEnum::CASH->value]);
             $table->integer('return');
             $table->integer('amount_price');
             $table->timestamps();
