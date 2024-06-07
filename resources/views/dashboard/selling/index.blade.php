@@ -51,6 +51,11 @@
                                                         Harga
                                                     </h6>
                                                 </th>
+                                                <th>
+                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                        Aksi
+                                                    </h6>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody id="field">
@@ -63,7 +68,7 @@
                                                 </h6>
                                             </td>
                                             <td>
-                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                <h6 class="fs-4 fw-semibold mb-0 text-start" id="total_price">
                                                     Rp.67.000
                                                 </h6>
                                             </td>
@@ -80,7 +85,7 @@
                                         <input type="text" name="pay" class="form-control" style="width: 15rem">
                                     </div>
                                     <div class="d-flex justify-content-between mt-3">
-                                        <h6 style="font-weight: bold">Diterima</h6>
+                                        <h6 style="font-weight: bold">Kembalian</h6>
                                         <input type="text" name="return" class="form-control" style="width: 15rem">
                                     </div>
                                     <div class="mt-3">
@@ -132,6 +137,7 @@
                     },
                     dataType: 'json',
                     success: function(response) {
+                        // var total
                         var newRow = `<tr>
                         <td>
                             <h6 class="fs-4 fw-semibold mb-0 text-start">
@@ -162,22 +168,39 @@
                         <td>
                             <input type="text" value="${response.data.product_units[0].selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" />
                         </td>
+                        <td>
+                            <a id="delete_column" class="btn btn-danger">-</a>
+                        </td>
                     </tr>`;
                         $('#field').append(newRow);
 
+                        $(document).on('click', '#delete_column', function() {
+                            $(this).closest('tr')
+                                .remove();
+                        });
                         $('.quantity').keyup(function() {
                             var id = $(this).data('id')
                             var productId = $('#product_unit_' + id).val()
                             var price = $('#selling-price-' + productId).data('selling-price')
 
                             $('#price-' + id).val(price * $(this).val())
+
+                            var sellingPrices = $('.selling-price').map(function() {
+                                return parseFloat($(this).val());
+                            }).get();
+
+                            var countTotalPrice = 0;
+                            $(sellingPrices).each(function(index, sellingPrice) {
+                                countTotalPrice += sellingPrice;
+                            });
+                            $('#total_price').html(countTotalPrice);
                         })
 
                         index++;
                     },
                 });
             }
-            $('#field').on('change', '.product-unit, .quantity', function() {
+            $('#field').on('change', '.product-unit', function() {
                 var row = $(this).closest('tr');
                 var selectedPrice = row.find('.product-unit option:selected').data('selling-price');
                 var quantity_in_small_unit = row.find('.product-unit option:selected').data(
@@ -191,6 +214,15 @@
                 $('.quantity_stock').html(unit);
                 var quantity = row.find('.quantity').val();
                 var totalPrice = selectedPrice * quantity;
+                var sellingPrices = $('.selling-price').map(function() {
+                    return parseFloat($(this).val());
+                }).get();
+
+                var countTotalPrice = 0;
+                $(sellingPrices).each(function(index, sellingPrice) {
+                    countTotalPrice += sellingPrice;
+                });
+                $('#total_price').html(countTotalPrice);
                 row.find('.selling-price').val(totalPrice);
             });
         });

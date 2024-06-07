@@ -37,6 +37,7 @@ class SellingRepository extends BaseRepository implements SellingInterface
     {
         return $this->model->query()
             ->where('invoice_number', 'LIKE', '%' . "KLHM" . '%')
+            ->orderByDesc('invoice_number')
             ->first();
     }
 

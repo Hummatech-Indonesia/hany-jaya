@@ -38,4 +38,5 @@ class ProductUnitRepository extends BaseRepository implements ProductUnitInterfa
         return $this->model->query()
             ->findOrFail($id);
     }
+   
 }

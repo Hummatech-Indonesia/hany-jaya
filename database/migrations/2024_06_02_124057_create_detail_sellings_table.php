@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignUuid('product_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('product_unit_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('quantity');
+            $table->integer('nominal_discount');
             $table->integer('selling_price');
             $table->timestamps();
         });

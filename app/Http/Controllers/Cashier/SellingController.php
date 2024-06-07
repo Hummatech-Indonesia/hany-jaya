@@ -72,12 +72,15 @@ class SellingController extends Controller
             $product->update([
                 'quantity' => $product->quantity - $quantity
             ]);
+            $product = $this->product->show($data['product_id'][$i]);
+            $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
             $this->detailSelling->store([
                 'selling_id' => $selling->id,
                 'product_id' => $data['product_id'][$i],
                 'product_unit_id' => $data['product_unit_id'][$i],
                 'quantity' => $data['quantity'][$i],
-                'selling_price' => $data['selling_price'][$i]
+                'selling_price' => $data['selling_price'][$i],
+                'nominal_discount' => $productUnit->selling_price - $data['selling_price'][$i]
             ]);
         }
 

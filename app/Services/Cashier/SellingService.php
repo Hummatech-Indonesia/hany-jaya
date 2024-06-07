@@ -26,7 +26,6 @@ class SellingService
         $getYear = substr(now()->format('Y'), -2);
 
         $selling_invoice = $this->selling->get();
-
         if ($selling_invoice) {
             $invoice_number = substr($selling_invoice->invoice_number, -4);
             $invoice_number = intval($invoice_number);
