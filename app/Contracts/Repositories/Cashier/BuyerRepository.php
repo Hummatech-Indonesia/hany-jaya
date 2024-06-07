@@ -23,4 +23,17 @@ class BuyerRepository extends BaseRepository implements BuyerInterface
         return $this->model->query()
             ->create($data);
     }
+
+    /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getWhere(array $data): mixed
+    {
+        return $this->model->query()
+            ->where(['name' => $data['name'], 'address' => $data['address']])
+            ->first();
+    }
 }

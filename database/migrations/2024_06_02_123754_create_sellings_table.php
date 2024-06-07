@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('buyer_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('user_id')->constrained()->restrictOnUpdate()->cascadeOnUpdate();
             $table->string('invoice_number')->unique();
+            $table->integer('pay');
+            $table->integer('return');
             $table->integer('amount_price');
             $table->timestamps();
         });

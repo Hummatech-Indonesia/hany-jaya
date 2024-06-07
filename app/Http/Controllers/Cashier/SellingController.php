@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cashier;
 
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
+use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Http\Controllers\Controller;
@@ -68,7 +69,6 @@ class SellingController extends Controller
         $selling = $this->selling->store($service);
 
         for ($i = 0; $i < count($data['product_id']); $i++) {
-
             $product->update([
                 'quantity' => $product->quantity - $quantity
             ]);

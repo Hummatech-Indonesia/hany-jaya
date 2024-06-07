@@ -16,11 +16,11 @@
                     <input type="text" class="form-control" name="code" id="code" placeholder="8996196005009">
                 </div>
             </form>
-            <div class="col-12 mt-3">
-                <div class="text-center mb-n5">
-                    <div class="card">
-                        <form action="{{ route('cashier.selling.store') }}" method="post">
-                            @csrf
+            <form action="{{ route('cashier.selling.store') }}" method="post">
+                @csrf
+                <div class="col-12 mt-3">
+                    <div class="mb-n5">
+                        <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive mb-4 border rounded-1">
                                     <table class="table text-nowrap mb-0 align-middle">
@@ -70,16 +70,44 @@
                                         </tr>
                                     </table>
                                 </div>
+                                <div class="">
+                                    {{-- <div class="d-flex justify-content-between mt-3">
+                                        <h6 style="font-weight: bold">Diskon</h6>
+                                        <input type="text" class="form-control" style="width: 15rem">
+                                    </div> --}}
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <h6 style="font-weight: bold">Bayar</h6>
+                                        <input type="text" name="pay" class="form-control" style="width: 15rem">
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <h6 style="font-weight: bold">Diterima</h6>
+                                        <input type="text" name="return" class="form-control" style="width: 15rem">
+                                    </div>
+                                    <div class="mt-3">
+                                        <div class="" style="border: 1px solid gray"></div>
+                                        <div class="mt-3" style="font-weight: bold">
+                                            <h5>Data Pembeli</h5>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <h6 style="font-weight: bold" class="mt-3">Nama</h6>
+                                            <input type="text" name="name" class="form-control" style="width: 15rem">
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-3 mb-3">
+                                            <h6 style="font-weight: bold" class="mt-3">Alamat</h6>
+                                            <textarea name="address" class="form-control" id="" cols="30" rows="5" style="width: 20.4%"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <button class="btn btn-primary">
                                         Bayar
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 @endsection
@@ -91,6 +119,8 @@
                 event.preventDefault();
                 sendData();
             });
+
+            var index = 1;
 
             function sendData() {
                 var code = $('#code').val();
@@ -115,22 +145,22 @@
                             </h6>
                         </td>
                         <td>
-                            <select id="product_unit_${response.data.id}" name="product_unit_id[]" class="form-control product-unit">
+                            <select id="product_unit_${response.data.id}-${index}" name="product_unit_id[]" class="form-control product-unit">
                                 <option value="">Pilih Satuan</option>`;
                         $.each(response.data.product_units, function(index, productUnit) {
                             var selected = index === 0 ? 'selected' :
                                 '';
-                            newRow += `<option value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
+                            newRow += `<option data-id="${response.data.id}-${index}" value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
                     ${productUnit.unit.name}
                 </option>`;
                         });
                         newRow += `</select>
                         </td>
                         <td>
-                            <input type="number" data-id="${response.data.id}" name="quantity[]" class="form-control quantity" placeholder="0" min="1" value="1" />
+                            <input type="number" data-id="${response.data.id}-${index}" name="quantity[]" class="form-control quantity" placeholder="0" min="1" value="1" />
                         </td>
                         <td>
-                            <input type="text" name="selling_price[]" id="price-${response.data.id}" class="form-control selling-price" />
+                            <input type="text" value="${response.data.product_units[0].selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" />
                         </td>
                     </tr>`;
                         $('#field').append(newRow);
@@ -142,6 +172,8 @@
 
                             $('#price-' + id).val(price * $(this).val())
                         })
+
+                        index++;
                     },
                 });
             }

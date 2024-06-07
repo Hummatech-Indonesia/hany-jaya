@@ -2,14 +2,17 @@
 
 namespace App\Services\Cashier;
 
+use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 
 class SellingService
 {
     private SellingInterface $selling;
-    public function __construct(SellingInterface $selling)
+    private BuyerInterface $buyer;
+    public function __construct(SellingInterface $selling, BuyerInterface $buyer)
     {
         $this->selling = $selling;
+        $this->buyer = $buyer;
     }
 
     /**
@@ -36,6 +39,12 @@ class SellingService
         }
 
         $data['invoice_number'] = $external_id;
+        $buyer = $this->buyer->getWhere(['name' => $data['name'], 'address' => $data['address']]);
+        if ($buyer == null) {
+            $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address']])->id;
+        } else {
+            $data['buyer_id'] = $buyer->id;
+        }
         return $data;
     }
 }
