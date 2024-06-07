@@ -51,26 +51,17 @@ class SellingController extends Controller
     {
         $data = $request->validated();
 
-        $sellingPrice = 0;
 
-        for ($i = 0; $i < count($data['selling_price']); $i++) {
-            $sellingPrice += $data['selling_price'][$i];
-            $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
-            $quantity = $productUnit->quantity_in_small_unit * $data['quantity'][$i];
-            $product = $this->product->show($data['product_id'][$i]);
+        $serviceSellingPrice = $this->sellingService->sellingPrice($data);
 
-            if ($product->quantity < $quantity) {
-                return redirect()->back()->withErrors('Stok tidak mencukupi');
-            }
-        }
-
-        $data['amount_price'] = $sellingPrice;
+        $data['amount_price'] = $serviceSellingPrice['selling_price'];
         $service = $this->sellingService->invoiceNumber($data);
         $selling = $this->selling->store($service);
 
         for ($i = 0; $i < count($data['product_id']); $i++) {
-            $product->update([
-                'quantity' => $product->quantity - $quantity
+
+            $serviceSellingPrice['product']->update([
+                'quantity' => $serviceSellingPrice['product']->quantity - $serviceSellingPrice['quantity']
             ]);
             $product = $this->product->show($data['product_id'][$i]);
             $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
