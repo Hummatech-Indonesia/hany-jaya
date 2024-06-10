@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
+use App\Enums\StatusEnum;
 
 class SellingService
 {
@@ -46,8 +47,15 @@ class SellingService
         $data['invoice_number'] = $external_id;
         $buyer = $this->buyer->getWhere(['name' => $data['name'], 'address' => $data['address']]);
         if ($buyer == null) {
-            $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address']])->id;
+            if ($data['status_payment']) {
+                $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => 1])->id;
+            } else {
+                $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address']])->id;
+            }
         } else {
+            if ($data['status_payment'] == StatusEnum::DEBT->value) {
+                $buyer->update(['debt' => $buyer->debt + 1]);
+            }
             $data['buyer_id'] = $buyer->id;
         }
         return $data;

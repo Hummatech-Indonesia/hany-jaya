@@ -1,3 +1,6 @@
+@php
+    use App\Enums\StatusEnum;
+@endphp
 @extends('dashboard.layouts.cashier')
 @section('content')
     <div class="flex-col px-5 mt-5 pt-5 mx-0" style="width: 100%">
@@ -96,16 +99,20 @@
                                     <div class=""
                                         style="border: 1px solid rgb(194, 194, 194); margin-top:1rem; margin-bottom:0.5rem">
                                     </div>
-                                    <div>
+                                    <div class="">
+                                        <label for="">Pilih Metode Pembayaran</label><br>
+                                        <input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment"
+                                            style="margin-right: 3px;"><span>Tunai</span>
+                                        <br>
+                                        <input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment"
+                                            style="margin-right: 3px;"><span>Hutang</span>
+                                        <br>
+                                    </div>
+                                    <div id="cash">
                                         <label for="">Bayar: </label>
                                         <input type="text" name="pay" class="form-control">
                                         <label for="">Kembali: </label>
                                         <input type="text" name="return" class="form-control">
-                                        <label for="">Pilih Metode Pembayaran</label><br>
-                                        <input type="radio" name="" style="margin-right: 3px;"><span>Tunai</span>
-                                        <br>
-                                        <input type="radio" name="" style="margin-right: 3px;"><span>Hutang</span>
-                                        <br>
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-3">
                                         Bayar
@@ -227,6 +234,18 @@
                 });
                 $('#total_price').html(countTotalPrice);
                 row.find('.selling-price').val(totalPrice);
+            });
+        });
+
+        $(document).ready(function() {
+            $('#cash').hide();
+
+            $('input[name="status_payment"]').change(function() {
+                if ($(this).val() === "{{ StatusEnum::CASH->value }}") {
+                    $('#cash').show();
+                } else {
+                    $('#cash').hide();
+                }
             });
         });
     </script>

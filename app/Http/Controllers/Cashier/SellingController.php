@@ -51,7 +51,6 @@ class SellingController extends Controller
     {
         $data = $request->validated();
 
-
         $serviceSellingPrice = $this->sellingService->sellingPrice($data);
 
         $data['amount_price'] = $serviceSellingPrice['selling_price'];

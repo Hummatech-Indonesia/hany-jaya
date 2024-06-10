@@ -12,6 +12,6 @@ class Buyer extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'name', 'address'
+        'id', 'name', 'address', 'debt'
     ];
 }

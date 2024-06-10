@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Cashier;
 
+use App\Rules\SellingRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SellingRequest extends FormRequest
@@ -17,8 +18,9 @@ class SellingRequest extends FormRequest
         return [
             'name' => 'required',
             'address' => 'required',
-            'pay' => 'required',
-            'return' => 'required',
+            'pay' => 'nullable',
+            'return' => 'nullable',
+            'status_payment' => ['required', new SellingRule],
             'product_id' => 'required|array',
             'product_id.*' => 'required|exists:products,id',
             'product_unit_id' => 'required|array',

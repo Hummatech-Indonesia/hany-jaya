@@ -19,7 +19,7 @@ class Selling extends Model implements HasUser, HasDetailSellings, HasBuyer
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'user_id', 'invoice_number', 'amount_price', 'buyer_id', 'pay', 'return'
+        'id', 'user_id', 'invoice_number', 'amount_price', 'buyer_id', 'pay', 'return', 'status_payment'
     ];
 
 
