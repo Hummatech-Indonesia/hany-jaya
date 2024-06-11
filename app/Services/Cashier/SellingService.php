@@ -5,6 +5,7 @@ namespace App\Services\Cashier;
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
+use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Enums\StatusEnum;
 
@@ -47,7 +48,7 @@ class SellingService
         $data['invoice_number'] = $external_id;
         $buyer = $this->buyer->getWhere(['name' => $data['name'], 'address' => $data['address']]);
         if ($buyer == null) {
-            if ($data['status_payment']) {
+            if ($data['status_payment'] == StatusEnum::DEBT->value) {
                 $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => 1])->id;
             } else {
                 $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address']])->id;

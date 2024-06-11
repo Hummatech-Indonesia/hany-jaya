@@ -35,10 +35,9 @@ class PurchaseService
                 'quantity' => $productUnit->quantity_in_small_unit * $data['quantity'][$i]
             ]);
 
-
             $data['total_buy_price'] += $data['buy_price'][$i];
         }
-         
+
         return $data;
     }
 }

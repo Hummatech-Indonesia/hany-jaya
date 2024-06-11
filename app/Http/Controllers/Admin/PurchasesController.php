@@ -48,10 +48,7 @@ class PurchasesController extends Controller
      */
     public function store(PurchaseRequest $request): RedirectResponse
     {
-
-
         $data =  $this->service->store($request);
-
 
         $purchase = $this->purchase->store($data);
         for ($i = 0; $i < count($data['product_id']); $i++) {

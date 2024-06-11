@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Cashier\SellingController;
+use App\Http\Controllers\DebtController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -74,5 +75,6 @@ Route::middleware('auth')->group(function () {
         Route::post('sellings', [SellingController::class, 'store'])->name('selling.store');
         Route::get('selling-histories', [SellingController::class, 'history'])->name('selling.history');
         Route::get('show-product', [ProductController::class, 'showProduct'])->name('show.product');
+        Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');
     });
 });

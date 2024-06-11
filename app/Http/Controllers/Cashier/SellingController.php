@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cashier;
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
+use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Http\Controllers\Controller;
@@ -17,14 +18,16 @@ use Illuminate\Http\Request;
 class SellingController extends Controller
 {
     private SellingInterface $selling;
+    private DebtInterface $debt;
     private ProductInterface $product;
     private ProductUnitInterface $productUnit;
     private DetailSellingInterface $detailSelling;
     private SellingService $sellingService;
 
-    public function __construct(SellingInterface $selling, DetailSellingInterface $detailSelling, ProductInterface $product, ProductUnitInterface $productUnit, SellingService $sellingService)
+    public function __construct(SellingInterface $selling, DetailSellingInterface $detailSelling, ProductInterface $product, ProductUnitInterface $productUnit, SellingService $sellingService, DebtInterface $debt)
     {
         $this->selling = $selling;
+        $this->debt = $debt;
         $this->product = $product;
         $this->productUnit = $productUnit;
         $this->detailSelling = $detailSelling;
@@ -57,6 +60,11 @@ class SellingController extends Controller
         $service = $this->sellingService->invoiceNumber($data);
         $selling = $this->selling->store($service);
 
+        $this->debt->store([
+            'buyer_id' => $service['buyer_id'],
+            'selling_id' => $selling->id,
+            'nominal' => $serviceSellingPrice['selling_price']
+        ]);
         for ($i = 0; $i < count($data['product_id']); $i++) {
 
             $serviceSellingPrice['product']->update([

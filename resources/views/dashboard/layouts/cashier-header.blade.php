@@ -389,8 +389,8 @@
                     <a class="nav-link" href="{{ route('cashier.selling.history') }}">Riwayat</a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link"
-                        href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/app-email.html">Email</a>
+                    <a class="nav-link" href="{{ route('cashier.history.debt') }}">History
+                        Hutang</a>
                 </li>
             </ul>
             <div class="d-block d-xl-none">
