@@ -14,6 +14,6 @@ class Store extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'name', 'logo'
+        'id', 'name', 'logo', 'code_debt'
     ];
 }

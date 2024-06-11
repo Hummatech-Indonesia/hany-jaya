@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Store;
 use Faker\Provider\Uuid;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +19,8 @@ class StoreSeeder extends Seeder
         Store::create([
             'id' => Uuid::uuid(),
             'name' => 'Hany Jaya',
-            'logo' => 'storage/logo/logo.jpeg'
+            'logo' => 'storage/logo/logo.jpeg',
+            'code_debt' => Str::random(5)
         ]);
 
         $publicLogoPath = public_path('assets/images/profile/logo.jpeg');
