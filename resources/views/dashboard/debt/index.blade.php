@@ -10,9 +10,8 @@
                     <table class="table search-table align-middle text-nowrap">
                         <thead class="header-item">
                             <th>#</th>
-                            <th>No Invoice</th>
-                            <th>Total Harga Beli</th>
-                            <th>Tanggal Pembelian</th>
+                            <th>Nama </th>
+                            <th>Nominal Hutang</th>
                             <td>Detail</td>
                         </thead>
                         <tbody>
@@ -25,13 +24,24 @@
                                             {{ $debt->buyer->name }}
                                         </h6>
                                     </td>
-                                    <td>{{ FormatedHelper::rupiahCurrency($debt->purchase->name) }}</td>
                                     <td>
                                         <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ FormatedHelper::dateTimeFormat($debt->nominal) }}
+                                            {{ FormatedHelper::rupiahCurrency($debt->nominal) }}
                                         </h6>
                                     </td>
-                                    <td>Detail</td>
+                                    <td>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="btn-detail"
+                                            data-detail-selling="{{ $debt->selling->detailSellings }}"
+                                            data-name="{{ $debt->selling->buyer->name }}"
+                                            data-price="{{ $debt->selling->amount_price }}"
+                                            data-address="{{ $debt->selling->buyer->address }}" width="16"
+                                            height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                            <path
+                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                        </svg>
+                                    </td>
                                 </tr>
                             @empty
                                 <p>Data pembelian masih kosong</p>
@@ -43,7 +53,7 @@
             </div>
         </div>
     </div>
-    @include('dashboard.selling.widgets.detail-invoice')
+    @include('dashboard.debt.widgets.detail-debt')
 @endsection
 @section('script')
     <script>
@@ -51,10 +61,8 @@
             $("#value_table").empty(); // Mengosongkan isi tabel sebelum menambahkan detail penjualan baru
             $("#modalDetailHistory").modal("show");
             let detailSellings = $(this).data("detail-selling");
-            let name = $(this).data('name');
-            let address = $(this).data('address');
-            $('#name').html(name);
-            $('#address').html(address);
+            let price = $(this).data('price');
+            $('#price').html(formatRupiah(price));
             detailSellings.forEach(function(item, index) {
                 $("#value_table").append(
                     `

@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Base\Interfaces\HasBuyer;
-use App\Base\Interfaces\HasPurchase;
+use App\Base\Interfaces\HasSelling;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Debt extends Model implements HasBuyer, HasPurchase
+class Debt extends Model implements HasBuyer, HasSelling
 {
     use HasFactory;
 
@@ -18,7 +18,7 @@ class Debt extends Model implements HasBuyer, HasPurchase
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'buyer_id', 'purchase_id', 'nominal'
+        'id', 'buyer_id', 'selling_id', 'nominal'
     ];
 
     /**
@@ -32,12 +32,12 @@ class Debt extends Model implements HasBuyer, HasPurchase
     }
 
     /**
-     * purchase
+     * selling
      *
      * @return BelongsTo
      */
-    public function purchase(): BelongsTo
+    public function selling(): BelongsTo
     {
-        return $this->belongsTo(Purchase::class);
+        return $this->belongsTo(Selling::class);
     }
 }

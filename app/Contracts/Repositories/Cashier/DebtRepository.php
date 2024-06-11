@@ -27,6 +27,7 @@ class DebtRepository extends BaseRepository implements DebtInterface
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
         return $this->model->query()
+            ->with('selling.detailSellings.product')
             ->fastPaginate($pagination);
     }
 
