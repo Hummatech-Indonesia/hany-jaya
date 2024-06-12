@@ -66,7 +66,9 @@
                         </table>
                         <div class="">
                             <div class="">
-                                <h6>Total Harga: </h6>
+                                <h6>Total Harga: Rp. <span id="price"></span></h6>
+                                <h6>Uang Dibayar: Rp. <span id="pay"></span></h6>
+                                <h6>Uang Kembalian: Rp. <span id="return"></span></h6>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\StatusDebt;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,6 +17,7 @@ return new class extends Migration
             $table->foreignId('buyer_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('selling_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('nominal');
+            $table->enum('status', [StatusDebt::COMPLETED->value, StatusDebt::PENDING->value])->default(StatusDebt::PENDING->value);
             $table->timestamps();
         });
     }

@@ -14,7 +14,8 @@
                             <th>Harga Total</th>
                             <th>Nama Pembeli</th>
                             <th>Tanggal Penjualan</th>
-                            <td>Detail</td>
+                            <th>Status Pembayaran</th>
+                            <td>Aksi</td>
                         </thead>
                         <tbody>
                             @forelse ($histories as $index => $history)
@@ -41,9 +42,18 @@
                                         </h6>
                                     </td>
                                     <td>
+                                        @if ($history->status_payment == 'debt')
+                                            <h6>Hutang</h6>
+                                        @else
+                                            <h6>Tunai</h6>
+                                        @endif
+                                    </td>
+                                    <td>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="btn-detail"
                                             data-detail-selling="{{ $history->detailSellings }}"
                                             data-name="{{ $history->buyer->name }}"
+                                            data-price="{{ $history->amount_price }}" data-pay="{{ $history->pay }}"
+                                            data-return="{{ $history->return }}"
                                             data-address="{{ $history->buyer->address }}" width="16" height="16"
                                             fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                             <path
@@ -67,13 +77,19 @@
 @section('script')
     <script>
         $(".btn-detail").on("click", function() {
-            $("#value_table").empty(); // Mengosongkan isi tabel sebelum menambahkan detail penjualan baru
+            $("#value_table").empty();
             $("#modalDetailHistory").modal("show");
             let detailSellings = $(this).data("detail-selling");
             let name = $(this).data('name');
+            let returns = $(this).data('return');
             let address = $(this).data('address');
+            let price = $(this).data('price');
+            let pay = $(this).data('pay');
             $('#name').html(name);
+            $('#price').html(formatRupiah(price));
             $('#address').html(address);
+            $('#return').html(formatRupiah(returns));
+            $('#pay').html(formatRupiah(pay));
             detailSellings.forEach(function(item, index) {
                 $("#value_table").append(
                     `
