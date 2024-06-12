@@ -58,27 +58,30 @@ class SellingController extends Controller
 
         $data['amount_price'] = $serviceSellingPrice['selling_price'];
         $service = $this->sellingService->invoiceNumber($data);
-        $selling = $this->selling->store($service);
+        if (is_array($service)) {
+            $selling = $this->selling->store($service);
 
-        $this->debt->store([
-            'buyer_id' => $service['buyer_id'],
-            'selling_id' => $selling->id,
-            'nominal' => $serviceSellingPrice['selling_price']
-        ]);
-        for ($i = 0; $i < count($data['product_id']); $i++) {
-
-            $serviceSellingPrice['product']->update([
-                'quantity' => $serviceSellingPrice['product']->quantity - $serviceSellingPrice['quantity']
-            ]);
-            $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
-            $this->detailSelling->store([
+            $this->debt->store([
+                'buyer_id' => $service['buyer_id'],
                 'selling_id' => $selling->id,
-                'product_id' => $data['product_id'][$i],
-                'product_unit_id' => $data['product_unit_id'][$i],
-                'quantity' => $data['quantity'][$i],
-                'selling_price' => $data['selling_price'][$i],
-                'nominal_discount' => $productUnit->selling_price - $data['selling_price'][$i]
+                'nominal' => $serviceSellingPrice['selling_price']
             ]);
+
+            for ($i = 0; $i < count($data['product_id']); $i++) {
+
+                $serviceSellingPrice['product']->update([
+                    'quantity' => $serviceSellingPrice['product']->quantity - $serviceSellingPrice['quantity']
+                ]);
+                $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
+                $this->detailSelling->store([
+                    'selling_id' => $selling->id,
+                    'product_id' => $data['product_id'][$i],
+                    'product_unit_id' => $data['product_unit_id'][$i],
+                    'quantity' => $data['quantity'][$i],
+                    'selling_price' => $data['selling_price'][$i],
+                    'nominal_discount' => $productUnit->selling_price - $data['selling_price'][$i]
+                ]);
+            }
         }
 
         return to_route('cashier.selling.history')->with('success', trans('alert.add_success'));

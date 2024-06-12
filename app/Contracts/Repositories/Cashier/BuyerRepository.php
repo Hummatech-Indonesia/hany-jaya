@@ -36,4 +36,16 @@ class BuyerRepository extends BaseRepository implements BuyerInterface
             ->where(['name' => $data['name'], 'address' => $data['address']])
             ->first();
     }
+
+    /**
+     * show
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function show(mixed $id): mixed
+    {
+        return $this->model->query()
+            ->findOrFail($id);
+    }
 }
