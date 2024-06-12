@@ -14,11 +14,7 @@
                     </ul>
                 </div>
             @endif
-            <form id="myInput">
-                <div class="">
-                    <input type="text" class="form-control" name="code" id="code" placeholder="8996196005009">
-                </div>
-            </form>
+            
             <form action="{{ route('cashier.selling.store') }}" method="post">
                 @csrf
                 <div class="grid col-12">
@@ -27,6 +23,12 @@
                             <div class="mb-n5">
                                 <div class="card">
                                     <div class="card-body">
+                                        <div class="mb-3">
+                                            <form id="myInput">
+                                                <input type="text" class="form-control" name="code" id="code" placeholder="8996196005009">
+                                                <span class="help-block"><small>Silakan memasukkan nama produk atau kode produk.</small></span>
+                                            </form>
+                                        </div>
                                         <div class="table-responsive mb-4 border rounded-1">
                                             <table class="table text-nowrap mb-0 align-middle">
                                                 <thead class="text-dark fs-4">
@@ -74,7 +76,7 @@
                                                     </td>
                                                     <td>
                                                         <h6 class="fs-4 fw-semibold mb-0 text-start" id="total_price">
-                                                            Rp.67.000
+                                                            Rp.0
                                                         </h6>
                                                     </td>
                                                 </tr>
@@ -88,31 +90,36 @@
                             <div class="mb-n5">
                                 <div class="card p-4">
                                     <div class="">
-                                        <p class="fw-bold text-dark">Data Pembeli: </p>
+                                        <h5 class="fw-bold text-dark">Data Pembeli</h5>
                                         <div>
-                                            <label for="">Nama: </label>
-                                            <input type="text" name="name" class="form-control">
-                                            <label for="">Alamat: </label>
-                                            <textarea name="address" id="" class="form-control" cols="30" rows="3"></textarea>
+                                            <label for="customer-name" class="mb-2">Nama: </label>
+                                            <input id="customer-name" type="text" placeholder="Alfan" name="name" class="form-control mb-2">
+                                            <label for="customer-address" class="mb-2">Alamat: </label>
+                                            <textarea name="address" placeholder="Jl pemuda No. 29" id="customer-address" class="form-control" cols="30" rows="3"></textarea>
                                         </div>
                                     </div>
-                                    <div class=""
-                                        style="border: 1px solid rgb(194, 194, 194); margin-top:1rem; margin-bottom:0.5rem">
-                                    </div>
+                                    <hr>
                                     <div class="">
-                                        <label for="">Pilih Metode Pembayaran</label><br>
-                                        <input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment"
-                                            style="margin-right: 3px;"><span>Tunai</span>
-                                        <br>
-                                        <input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment"
-                                            style="margin-right: 3px;"><span>Hutang</span>
+                                        <p class="mb-2">Pilih Metode Pembayaran</p>
+                                        <div class="d-flex flex-row gap-3">
+                                            <div><input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment"
+                                                style="margin-right: 3px;" id="tunai"><label for="tunai">Tunai</label></div>
+                                            <div><input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment"
+                                                style="margin-right: 3px;" id="hutang"><label for="hutang">Hutang</label></div>
+                                        </div>
                                         <br>
                                     </div>
                                     <div id="cash">
-                                        <label for="">Bayar: </label>
-                                        <input type="text" name="pay" class="form-control">
-                                        <label for="">Kembali: </label>
-                                        <input type="text" name="return" class="form-control">
+                                        <label for="pay" class="mb-2">Bayar: </label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">Rp</span>
+                                            <input type="number" placeholder="10000" min="0" id="pay" name="pay" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                                          </div>
+                                        <label for="return" class="mb-2">Kembali: </label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">Rp</span>
+                                            <input type="number" min="0" placeholder="5000" id="return" name="return" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                                          </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-3">
                                         Bayar
