@@ -114,6 +114,10 @@
                                         <label for="">Kembali: </label>
                                         <input type="text" name="return" class="form-control">
                                     </div>
+                                    <div id="code_debt">
+                                        <label for="">Masukkan Kode Toko: </label>
+                                        <input type="text" class="form-control" name="code_debt" id="">
+                                    </div>
                                     <button type="submit" class="btn btn-primary mt-3">
                                         Bayar
                                     </button>
@@ -239,12 +243,15 @@
 
         $(document).ready(function() {
             $('#cash').hide();
+            $('#code_debt').hide();
 
             $('input[name="status_payment"]').change(function() {
                 if ($(this).val() === "{{ StatusEnum::CASH->value }}") {
                     $('#cash').show();
+                    $('#code_debt').hide();
                 } else {
                     $('#cash').hide();
+                    $('#code_debt').show();
                 }
             });
         });

@@ -8,6 +8,7 @@ use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Enums\StatusEnum;
+use Illuminate\Http\RedirectResponse;
 
 class SellingService
 {
@@ -29,7 +30,7 @@ class SellingService
      * @param  mixed $request
      * @return array
      */
-    public function invoiceNumber(array $data): array
+    public function invoiceNumber(array $data): array|RedirectResponse
     {
         $getYear = substr(now()->format('Y'), -2);
 
@@ -49,13 +50,21 @@ class SellingService
         $buyer = $this->buyer->getWhere(['name' => $data['name'], 'address' => $data['address']]);
         if ($buyer == null) {
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => 1])->id;
+                if (auth()->user()->store->code_debt == $data['code_debt']) {
+                    $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => 1])->id;
+                } else {
+                    return redirect()->back()->withErrors('inputkan kode toko dengan benar jika ingin melakukan hutang');
+                }
             } else {
                 $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address']])->id;
             }
         } else {
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                $buyer->update(['debt' => $buyer->debt + 1]);
+                if (auth()->user()->store->code_debt == $data['code_debt']) {
+                    $buyer->update(['debt' => $buyer->debt + 1]);
+                } else {
+                    return redirect()->back()->withErrors('inputkan kode toko dengan benar jika ingin melakukan hutang');
+                }
             }
             $data['buyer_id'] = $buyer->id;
         }

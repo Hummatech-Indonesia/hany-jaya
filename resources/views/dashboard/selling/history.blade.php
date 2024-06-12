@@ -54,6 +54,7 @@
                                             data-name="{{ $history->buyer->name }}"
                                             data-price="{{ $history->amount_price }}" data-pay="{{ $history->pay }}"
                                             data-return="{{ $history->return }}"
+                                            data-status_payment="{{ $history->status_payment }}"
                                             data-address="{{ $history->buyer->address }}" width="16" height="16"
                                             fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                             <path
@@ -83,14 +84,22 @@
             let name = $(this).data('name');
             let returns = $(this).data('return');
             let address = $(this).data('address');
+            let status_payment = $(this).data('status_payment');
             let price = $(this).data('price');
             let pay = $(this).data('pay');
+            console.log(detailSellings);
+            if (status_payment == 'debt') {
+                $('.sembuntikan').hide();
+            } else {
+                $('#return').html(formatRupiah(returns));
+                $('#pay').html(formatRupiah(pay));
+            }
             $('#name').html(name);
             $('#price').html(formatRupiah(price));
             $('#address').html(address);
-            $('#return').html(formatRupiah(returns));
-            $('#pay').html(formatRupiah(pay));
+
             detailSellings.forEach(function(item, index) {
+                console.log(item);
                 $("#value_table").append(
                     `
                 <tr class="search-items">

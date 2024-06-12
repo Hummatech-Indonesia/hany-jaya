@@ -19,6 +19,7 @@ class SellingRequest extends FormRequest
             'name' => 'required',
             'address' => 'required',
             'pay' => 'nullable',
+            'code_debt' => 'nullable',
             'return' => 'nullable',
             'status_payment' => ['required', new SellingRule],
             'product_id' => 'required|array',
