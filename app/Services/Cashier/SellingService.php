@@ -47,11 +47,16 @@ class SellingService
         }
 
         $data['invoice_number'] = $external_id;
-        $buyer = $this->buyer->getWhere(['name' => $data['name'], 'address' => $data['address']]);
+        $buyer = $this->buyer->getWhere(['name' => $data['name']]);
+        $sellingPrice = 0;
+        for ($i = 0; $i < count($data['selling_price']); $i++) {
+            $sellingPrice += $data['selling_price'][$i];
+        }
+
         if ($buyer == null) {
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
                 if (auth()->user()->store->code_debt == $data['code_debt']) {
-                    $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => 1])->id;
+                    $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => $sellingPrice])->id;
                 } else {
                     return redirect()->back()->withErrors('inputkan kode toko dengan benar jika ingin melakukan hutang');
                 }
@@ -61,7 +66,7 @@ class SellingService
         } else {
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
                 if (auth()->user()->store->code_debt == $data['code_debt']) {
-                    $buyer->update(['debt' => $buyer->debt + 1]);
+                    $buyer->update(['debt' => $buyer->debt + $sellingPrice]);
                 } else {
                     return redirect()->back()->withErrors('inputkan kode toko dengan benar jika ingin melakukan hutang');
                 }
@@ -71,6 +76,12 @@ class SellingService
         return $data;
     }
 
+    /**
+     * sellingPrice
+     *
+     * @param  mixed $data
+     * @return void
+     */
     public function sellingPrice(array $data)
     {
         $sellingPrice = 0;

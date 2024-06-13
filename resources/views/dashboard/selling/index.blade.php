@@ -14,7 +14,15 @@
                     </ul>
                 </div>
             @endif
-            
+            <div class="col-9 mt-3">
+                <div class="mb-3">
+                    <form id="myInput">
+                        <input type="text" class="form-control" name="code" id="code" placeholder="8996196005009">
+                        <span class="help-block"><small>Silakan memasukkan nama produk atau kode
+                                produk.</small></span>
+                    </form>
+                </div>
+            </div>
             <form action="{{ route('cashier.selling.store') }}" method="post">
                 @csrf
                 <div class="grid col-12">
@@ -23,12 +31,6 @@
                             <div class="mb-n5">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="mb-3">
-                                            <form id="myInput">
-                                                <input type="text" class="form-control" name="code" id="code" placeholder="8996196005009">
-                                                <span class="help-block"><small>Silakan memasukkan nama produk atau kode produk.</small></span>
-                                            </form>
-                                        </div>
                                         <div class="table-responsive mb-4 border rounded-1">
                                             <table class="table text-nowrap mb-0 align-middle">
                                                 <thead class="text-dark fs-4">
@@ -93,19 +95,23 @@
                                         <h5 class="fw-bold text-dark">Data Pembeli</h5>
                                         <div>
                                             <label for="customer-name" class="mb-2">Nama: </label>
-                                            <input id="customer-name" type="text" placeholder="Alfan" name="name" class="form-control mb-2">
+                                            <input id="customer-name" type="text" placeholder="Alfan" name="name"
+                                                class="form-control mb-2">
                                             <label for="customer-address" class="mb-2">Alamat: </label>
-                                            <textarea name="address" placeholder="Jl pemuda No. 29" id="customer-address" class="form-control" cols="30" rows="3"></textarea>
+                                            <textarea name="address" placeholder="Jl pemuda No. 29" id="customer-address" class="form-control" cols="30"
+                                                rows="3"></textarea>
                                         </div>
                                     </div>
                                     <hr>
                                     <div class="">
                                         <p class="mb-2">Pilih Metode Pembayaran</p>
                                         <div class="d-flex flex-row gap-3">
-                                            <div><input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment"
-                                                style="margin-right: 3px;" id="tunai"><label for="tunai">Tunai</label></div>
-                                            <div><input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment"
-                                                style="margin-right: 3px;" id="hutang"><label for="hutang">Hutang</label></div>
+                                            <div><input type="radio" value="{{ StatusEnum::CASH->value }}"
+                                                    name="status_payment" style="margin-right: 3px;" id="tunai"><label
+                                                    for="tunai">Tunai</label></div>
+                                            <div><input type="radio" value="{{ StatusEnum::DEBT->value }}"
+                                                    name="status_payment" style="margin-right: 3px;" id="hutang"><label
+                                                    for="hutang">Hutang</label></div>
                                         </div>
                                         <br>
                                     </div>
@@ -113,13 +119,17 @@
                                         <label for="pay" class="mb-2">Bayar: </label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1">Rp</span>
-                                            <input type="number" placeholder="10000" min="0" id="pay" name="pay" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
-                                          </div>
+                                            <input type="number" placeholder="10000" min="0" id="pay"
+                                                name="pay" class="form-control" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
                                         <label for="return" class="mb-2">Kembali: </label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1">Rp</span>
-                                            <input type="number" min="0" placeholder="5000" id="return" name="return" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
-                                          </div>
+                                            <input type="number" min="0" placeholder="5000" id="return"
+                                                name="return" class="form-control" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
                                     </div>
                                     <div id="code_debt">
                                         <label for="">Masukkan Kode Toko: </label>

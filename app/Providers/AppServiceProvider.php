@@ -13,6 +13,7 @@ use App\Contracts\Interfaces\Admin\UnitInterface;
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
+use App\Contracts\Interfaces\Cashier\HistoryPayDebtInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Contracts\Interfaces\UserInterface;
 use App\Contracts\Repositories\Admin\CategoryRepository;
@@ -26,8 +27,10 @@ use App\Contracts\Repositories\Admin\UnitRepository;
 use App\Contracts\Repositories\Cashier\BuyerRepository;
 use App\Contracts\Repositories\Cashier\DebtRepository;
 use App\Contracts\Repositories\Cashier\DetailSellingRepository;
+use App\Contracts\Repositories\Cashier\HistoryPayDebtRepository;
 use App\Contracts\Repositories\Cashier\SellingRepository;
 use App\Contracts\Repositories\UserRepository;
+use App\Models\HistoryPayDebt;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -46,7 +49,8 @@ class AppServiceProvider extends ServiceProvider
         SellingInterface::class => SellingRepository::class,
         DetailSellingInterface::class => DetailSellingRepository::class,
         BuyerInterface::class => BuyerRepository::class,
-        DebtInterface::class => DebtRepository::class
+        DebtInterface::class => DebtRepository::class,
+        HistoryPayDebtInterface::class => HistoryPayDebtRepository::class
     ];
 
     /**

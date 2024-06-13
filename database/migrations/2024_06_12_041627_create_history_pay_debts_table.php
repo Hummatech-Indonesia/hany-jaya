@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\StatusDebt;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('debts', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+        Schema::create('history_pay_debts', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('buyer_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignUuid('selling_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->integer('nominal');
+            $table->integer('pay_debt');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('debts');
+        Schema::dropIfExists('history_pay_debts');
     }
 };

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\Cashier\SellingController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\UserController;
@@ -72,10 +73,12 @@ Route::middleware('auth')->group(function () {
     });
     Route::prefix('cashier')->name('cashier.')->group(function () {
         Route::get('/', [SellingController::class, 'create'])->name('index');
-        Route::post('sellings', [SellingController::class, 'store'])->name('selling.store');
-        Route::patch('rolling-student/{debt}', [DebtController::class, 'rolling'])->name('rolling.student');
         Route::get('selling-histories', [SellingController::class, 'history'])->name('selling.history');
         Route::get('show-product', [ProductController::class, 'showProduct'])->name('show.product');
         Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');
+        Route::post('sellings', [SellingController::class, 'store'])->name('selling.store');
+        Route::patch('pay-debt/{buyer}', [DebtController::class, 'payDebt'])->name('pay.debt');
+
+        Route::get('list-user-debt', [BuyerController::class, 'listDebt'])->name('list.debt');
     });
 });

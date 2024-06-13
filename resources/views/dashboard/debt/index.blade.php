@@ -13,7 +13,8 @@
                             <th>#</th>
                             <th>Nama </th>
                             <th>Nominal Hutang</th>
-                            <td>Status</td>
+                            {{-- <td>Status</td> --}}
+                            <td>Tanggal Hutang</td>
                             <td>Aksi</td>
                         </thead>
                         <tbody>
@@ -32,6 +33,11 @@
                                     </td>
                                     <td>
                                         <h6 class="user-name mb-0" data-name="Emma Adams">
+                                            {{ FormatedHelper::dateTimeFormat($debt->created_at) }}
+                                        </h6>
+                                    </td>
+                                    {{-- <td>
+                                        <h6 class="user-name mb-0" data-name="Emma Adams">
                                             @if ($debt->status == StatusDebt::COMPLETED->value)
                                                 <span class="ranslate-middle badge rounded-pill bg-success">
                                                     Lunas
@@ -42,10 +48,10 @@
                                                 </span>
                                             @endif
                                         </h6>
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         <div class="d-flex">
-                                            <form action="{{ route('cashier.rolling.student', $debt->id) }}" method="post">
+                                            {{-- <form action="{{ route('cashier.rolling.student', $debt->id) }}" method="post">
                                                 @csrf
                                                 @method('PATCH')
                                                 <button type="submit" class="btn">
@@ -58,7 +64,7 @@
                                                             d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
                                                     </svg>
                                                 </button>
-                                            </form>
+                                            </form> --}}
                                             <button class="btn">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="btn-detail"
                                                     data-detail-selling="{{ $debt->selling->detailSellings }}"
