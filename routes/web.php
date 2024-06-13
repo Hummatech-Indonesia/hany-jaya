@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
         ]);
         Route::prefix('cashiers')->name('cashiers.')->group(function () {
             Route::get('/', [UserController::class, 'getCashier'])->name('index');
+            Route::get('/admin', [UserController::class, 'getAdmin'])->name('admin');
             Route::post('/', [UserController::class, 'store'])->name('store');
             Route::put('{user}', [UserController::class, 'update'])->name('update');
             Route::delete('{user}', [UserController::class, 'destroy'])->name('destroy');
@@ -69,6 +70,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [PurchasesController::class, 'create'])->name('create');
             Route::post('/', [PurchasesController::class, 'store'])->name('store');
             Route::get('history', [PurchasesController::class, 'history'])->name('index');
+        });
+        Route::prefix('selling')->name('selling.')->group(function () {
+            Route::get('history', [SellingController::class, 'history'])->name('history');
         });
     });
     Route::prefix('cashier')->name('cashier.')->group(function () {

@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="email" class="form-label fw-semibold">Email</label>
-                        <input name="email" type="email" class="form-control" id="email" placeholder="kasir@gmail.com" />
+                        <input name="email" type="email" class="form-control" id="email" placeholder="kasir@gmail.com" value=""/>
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="exampleInputPassword1" class="form-label fw-semibold">Password (opsional)</label>

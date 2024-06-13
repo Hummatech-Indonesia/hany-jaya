@@ -25,6 +25,7 @@ class UserRepository extends BaseRepository implements UserInterface
             ->get();
     }
 
+
     /**
      * store
      *
@@ -97,6 +98,23 @@ class UserRepository extends BaseRepository implements UserInterface
             ->when($request->name, function ($query) use ($request) {
                 $query->where('name', 'LIKE', '%' . $request->name . '%');
             })
+            ->fastPaginate(10);
+    }
+    /**
+     * Method getAdmin
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return mixed
+     */
+    public function getAdmin(Request $request): mixed
+    {
+        return $this->model->query()
+            ->role(RoleEnum::ADMIN->value)
+            ->when($request->name, function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->name . '%');
+            })
+            ->where('email','!=','admin@gmail.com')
             ->fastPaginate(10);
     }
 }
