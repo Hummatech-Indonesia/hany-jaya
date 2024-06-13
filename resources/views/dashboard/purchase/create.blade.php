@@ -37,7 +37,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="name">Nama Supplier</label>
+                                    <label for="name" class="mb-2">Nama Supplier</label>
                                     <select name="supplier_id" id="supplier_id" class="form-control">
                                         <option value="">Pilih Supplier</option>
                                         @foreach ($suppliers as $supplier)
@@ -51,7 +51,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="name">Kode Invoice</label>
+                                    <label for="name" class="mb-2">Kode Invoice</label>
                                     <input type="text" name="invoice_number" class="form-control" placeholder="HSN-2401" id="">
                                 </div>
                                 <div class="col-md-12 mb-3">
