@@ -43,7 +43,7 @@ function education_fields(units) {
     <div class="row">
         <div class="col-sm-4">
             <div class="mb-3">
-                <label for="unit_id">Pilih Satuan</label>
+                <label for="unit_id" class="mb-2">Pilih Satuan</label>
                 <select name="unit_id[]" class="form-control" id="unit_id_${room}">
                     <option value="Pilih Satuan">Pilih Satuan</option>`;
 
@@ -78,9 +78,9 @@ function education_fields(units) {
     </div>
         </div>
         <div class="col-sm-3">
-            <label for="">Harga Jual</label>
+            <label for="selling_price" class="mb-2">Harga Jual</label>
             <div class="mb-3">
-                <input type="number" name="selling_price[]" id="" class="form-control" placeholder="10.000">
+                <input type="number" name="selling_price[]" id="selling_price" class="form-control" placeholder="10.000">
             </div>
         </div>
         <div class="col-sm-2" style="margin-top: 1.35rem">
