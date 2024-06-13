@@ -14,6 +14,9 @@
 
     <!-- Core Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/icons.css') }}" />
+    <!-- <link id="themeColors" rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}" /> -->
+
 
     <title>Modernize Bootstrap Admin</title>
     <!-- Owl Carousel  -->
