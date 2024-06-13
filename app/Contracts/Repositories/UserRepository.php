@@ -114,7 +114,20 @@ class UserRepository extends BaseRepository implements UserInterface
             ->when($request->name, function ($query) use ($request) {
                 $query->where('name', 'LIKE', '%' . $request->name . '%');
             })
-            ->where('email','!=','admin@gmail.com')
+            ->where('email', '!=', 'admin@gmail.com')
             ->fastPaginate(10);
     }
+    /**
+     * Method getTopPurchase
+     *
+     * @return mixed
+     */
+    public function getTopPurchase(): mixed
+    {
+        return $this->model->withCount('purchases')
+            ->orderBy('purchases_count', 'desc')
+            ->limit(5)
+            ->get();
+    }
+
 }
