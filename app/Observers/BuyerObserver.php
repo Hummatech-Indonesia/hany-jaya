@@ -7,11 +7,11 @@ use Faker\Provider\Uuid;
 
 class BuyerObserver
 {
-    // /**
-    //  * Handle the Buyer "created" event.
-    //  */
-    // public function creating(Buyer $buyer): void
-    // {
-    //     $buyer->id = Uuid::uuid();
-    // }
+    /**
+     * Handle the Buyer "created" event.
+     */
+    public function creating(Buyer $buyer): void
+    {
+        $buyer->outlet_id = auth()->user()->outlet_id;
+    }
 }
