@@ -728,7 +728,7 @@
                                             <td class="ps-0">
                                                 <div class="d-flex align-items-center">
                                                     <div class="me-2 pe-1">
-                                                        <img src="../../dist/images/profile/user-1.jpg"
+                                                        <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('assets/images/profile/user-1.jpg') }}"
                                                             class="rounded-circle" width="40" height="40"
                                                             alt="" />
                                                     </div>
