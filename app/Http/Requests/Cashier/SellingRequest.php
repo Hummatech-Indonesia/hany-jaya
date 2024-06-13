@@ -32,4 +32,31 @@ class SellingRequest extends FormRequest
             'selling_price.*' => 'required',
         ];
     }
+    /**
+     * Method messages
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama wajib diisi.',
+            'address.required' => 'Alamat wajib diisi.',
+            'status_payment.required' => 'Status pembayaran wajib diisi.',
+            'product_id.required' => 'Produk wajib dipilih.',
+            'product_id.array' => 'Produk harus berupa array.',
+            'product_id.*.required' => 'Produk wajib dipilih.',
+            'product_id.*.exists' => 'Produk yang dipilih tidak valid.',
+            'product_unit_id.required' => 'Unit produk wajib dipilih.',
+            'product_unit_id.array' => 'Unit produk harus berupa array.',
+            'product_unit_id.*.required' => 'Unit produk wajib dipilih.',
+            'product_unit_id.*.exists' => 'Unit produk yang dipilih tidak valid.',
+            'quantity.required' => 'Kuantitas wajib diisi.',
+            'quantity.array' => 'Kuantitas harus berupa array.',
+            'quantity.*.required' => 'Kuantitas wajib diisi.',
+            'selling_price.required' => 'Harga jual wajib diisi.',
+            'selling_price.array' => 'Harga jual harus berupa array.',
+            'selling_price.*.required' => 'Harga jual wajib diisi.',
+        ];
+    }
 }
