@@ -636,8 +636,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/authentication-login.html"
-                                            class="btn btn-outline-primary">Log Out</a>
+                                        <form action="{{ route('logout') }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-primary">Log Out</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

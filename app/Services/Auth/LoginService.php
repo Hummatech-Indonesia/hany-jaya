@@ -18,7 +18,6 @@ class LoginService
     public function handleLogin(LoginRequest $request, UserInterface $user): mixed
     {
         $data = $request->validated();
-        $data['email'] = $data['email'];
         $user = $user->getWhere($data);
         if (auth()->attempt(['email' => $data['email'], 'password' => $data['password']])) {
             if (isset($data['remember_me']) && !empty($data['remember_me'])) {
@@ -27,6 +26,9 @@ class LoginService
             } else {
                 setcookie("email", "");
                 setcookie("password", "");
+            }
+            if ($user->hasRole(RoleEnum::CASHIER)) {
+                return redirect()->route('cashier.index')->with('success', 'Berhasil Login');
             }
             return redirect()->route('home')->with('success', 'Berhasil Login.');
         } else {
