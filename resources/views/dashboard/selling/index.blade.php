@@ -259,6 +259,7 @@
             });
         });
 
+
         $(document).ready(function() {
             $('#cash').hide();
             $('#code_debt').hide();
