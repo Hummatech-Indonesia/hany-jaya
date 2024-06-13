@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('outlet_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->text('address');
-            $table->integer('debt');
+            $table->integer('debt')->default(0);
             $table->timestamps();
         });
     }
