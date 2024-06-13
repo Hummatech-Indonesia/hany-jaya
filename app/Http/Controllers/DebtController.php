@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\DebtInterface;
-use App\Enums\StatusDebt;
-use App\Models\Debt;
+use App\Contracts\Interfaces\Cashier\HistoryPayDebtInterface;
+use App\Http\Requests\PayDebtRequest;
+use App\Models\Buyer;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,11 +14,11 @@ use Illuminate\Http\Request;
 class DebtController extends Controller
 {
     private DebtInterface $debt;
-    private BuyerInterface $buyer;
-    public function __construct(DebtInterface $debt, BuyerInterface $buyer)
+    private HistoryPayDebtInterface $historyPayDebt;
+    public function __construct(DebtInterface $debt, HistoryPayDebtInterface $historyPayDebt)
     {
-        $this->buyer = $buyer;
         $this->debt = $debt;
+        $this->historyPayDebt = $historyPayDebt;
     }
 
     /**
@@ -32,20 +33,16 @@ class DebtController extends Controller
     }
 
     /**
-     * update
+     * payDebt
      *
      * @return RedirectResponse
      */
-    public function rolling(Debt $debt): RedirectResponse
+    public function payDebt(PayDebtRequest $request, Buyer $buyer): RedirectResponse
     {
-        $buyer = $this->buyer->show($debt->buyer_id);
-        if ($debt->status == StatusDebt::PENDING->value) {
-            $buyer->update(['debt' => $buyer->debt - 1]);
-            $this->debt->update($debt->id, ['status' => StatusDebt::COMPLETED->value]);
-        } else {
-            $buyer->update(['debt' => $buyer->debt + 1]);
-            $this->debt->update($debt->id, ['status' => StatusDebt::PENDING->value]);
-        }
-        return redirect()->back()->with('success', trans('alert.update_success'));
+        $data = $request->validated();
+        $data['buyer_id'] = $buyer->id;
+        $this->historyPayDebt->store($data);
+        $buyer->update(['debt' => $buyer->debt - intval($data['pay_debt'])]);
+        return redirect()->back()->with('success', 'Sukses Membayar Hutang');
     }
 }

@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Buyer extends Model
+class HistoryPayDebt extends Model
 {
     use HasFactory;
-    protected $table = 'buyers';
+
+    protected $table = 'history_pay_debts';
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'name', 'address', 'debt',
+        'id', 'buyer_id', 'pay_debt'
     ];
 }
