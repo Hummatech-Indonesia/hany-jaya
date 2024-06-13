@@ -17,7 +17,7 @@
             <div class="col-9 mt-3">
                 <div class="mb-3">
                     <form id="myInput">
-                        <input type="text" class="form-control" name="code" id="code" placeholder="8996196005009">
+                        <input type="text" class="form-control" name="code" id="code" placeholder="8996196005009" autofocus>
                         <span class="help-block"><small>Silakan memasukkan nama produk atau kode
                                 produk.</small></span>
                     </form>
