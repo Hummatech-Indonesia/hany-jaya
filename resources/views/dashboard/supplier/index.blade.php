@@ -42,7 +42,9 @@
                     <div class="card rounded-3 flex-fill">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <span class="flex-shrink-0"><i class="ti ti-users text-success display-6"></i></span>
+                                <span class="flex-shrink-0">
+                                    <img src="https://ui-avatars.com/api/?name={{ $supplier->name }}&rounded=true&background=EBF3FE" alt="">
+                                </span>
                                 <div class="ms-4 flex-grow-1">
                                     <div class="row">
                                         <div class="col-10">

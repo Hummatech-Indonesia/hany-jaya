@@ -26,14 +26,27 @@
                 <!-- =================== -->
                 <!-- Dashboard -->
                 <!-- =================== -->
+
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="index-2.html" aria-expanded="false">
+                    <a class="sidebar-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-aperture"></i>
                         </span>
                         <span class="hide-menu">Beranda</span>
                     </a>
                 </li>
+                @role('owner')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link {{ request()->routeIs('admin.cashiers.admin') ? 'active' : '' }}"
+                            href="{{ route('admin.cashiers.admin') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-aperture"></i>
+                            </span>
+                            <span class="hide-menu">Admin</span>
+                        </a>
+                    </li>
+                @endrole
                 @role('admin')
                     <li class="nav-small-cap">
                         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -115,7 +128,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="app-email.html" aria-expanded="false">
+                        <a class="sidebar-link" href="{{ route('admin.selling.history') }}" aria-expanded="false">
                             <span>
                                 <i class="ti ti-mail"></i>
                             </span>
@@ -128,8 +141,8 @@
         <div class="fixed-profile p-3 bg-light-secondary rounded sidebar-ad mt-3">
             <div class="hstack gap-3">
                 <div class="john-img">
-                    <img src="../../dist/images/profile/user-1.jpg" class="rounded-circle" width="40" height="40"
-                        alt="" />
+                    <img src="../../dist/images/profile/user-1.jpg" class="rounded-circle" width="40"
+                        height="40" alt="" />
                 </div>
                 <div class="john-title">
                     <h6 class="mb-0 fs-4 fw-semibold">Mathew</h6>

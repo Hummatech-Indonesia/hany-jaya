@@ -20,4 +20,12 @@ interface UserInterface extends GetInterface, StoreInterface, DeleteInterface, U
      */
 
     public function getCashier(Request $request): mixed;
+    /**
+     * Method getAdmin
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return mixed
+     */
+    public function getAdmin(Request $request): mixed;
 }
