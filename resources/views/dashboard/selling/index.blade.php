@@ -154,6 +154,7 @@
             $('#myInput').submit(function(event) {
                 event.preventDefault();
                 sendData();
+                $('#code').val('')
             });
 
             var index = 1;

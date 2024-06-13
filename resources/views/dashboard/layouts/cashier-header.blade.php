@@ -383,7 +383,7 @@
                 <!-- end apps Dropdown -->
                 <!-- ------------------------------- -->
                 <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link" href="{{ route('cashier.index') }}">Pembelian</a>
+                    <a class="nav-link" href="{{ route('cashier.index') }}">Penjualan</a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
                     <a class="nav-link" href="{{ route('cashier.selling.history') }}">Riwayat</a>
