@@ -28,7 +28,8 @@
                 <!-- =================== -->
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="index-2.html" aria-expanded="false">
+                    <a class="sidebar-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-aperture"></i>
                         </span>
@@ -37,7 +38,8 @@
                 </li>
                 @role('owner')
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{route('admin.cashiers.admin')}}" aria-expanded="false">
+                        <a class="sidebar-link {{ request()->routeIs('admin.cashiers.admin') ? 'active' : '' }}"
+                            href="{{ route('admin.cashiers.admin') }}" aria-expanded="false">
                             <span>
                                 <i class="ti ti-aperture"></i>
                             </span>

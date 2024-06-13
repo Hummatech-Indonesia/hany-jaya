@@ -12,7 +12,7 @@
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" name="email" class="form-control" id="email"
-                        placeholder="example@gmail.com" />
+                        placeholder="example@gmail.com"  value="{{old('email')}}"/>
                 </div>
                 <div class="mb-4">
                     <label for="password" class="form-label">Password</label>
