@@ -8,6 +8,7 @@ use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
+use App\Enums\StatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cashier\SellingRequest;
 use App\Services\Cashier\SellingService;
@@ -53,7 +54,6 @@ class SellingController extends Controller
     public function store(SellingRequest $request): RedirectResponse
     {
         $data = $request->validated();
-
         $serviceSellingPrice = $this->sellingService->sellingPrice($data);
 
         $data['amount_price'] = $serviceSellingPrice['selling_price'];
@@ -61,11 +61,13 @@ class SellingController extends Controller
         if (is_array($service)) {
             $selling = $this->selling->store($service);
 
-            $this->debt->store([
-                'buyer_id' => $service['buyer_id'],
-                'selling_id' => $selling->id,
-                'nominal' => $serviceSellingPrice['selling_price']
-            ]);
+            if ($data['status_payment'] == StatusEnum::DEBT->value) {
+                $this->debt->store([
+                    'buyer_id' => $service['buyer_id'],
+                    'selling_id' => $selling->id,
+                    'nominal' => $serviceSellingPrice['selling_price']
+                ]);
+            }
 
             for ($i = 0; $i < count($data['product_id']); $i++) {
 
