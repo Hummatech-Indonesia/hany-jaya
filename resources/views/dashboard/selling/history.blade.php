@@ -94,6 +94,7 @@
                 $('#return').html(formatRupiah(returns));
                 $('#pay').html(formatRupiah(pay));
             }
+
             $('#name').html(name);
             $('#price').html(formatRupiah(price));
             $('#address').html(address);
