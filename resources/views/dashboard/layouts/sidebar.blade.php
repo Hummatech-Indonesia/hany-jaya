@@ -1,4 +1,3 @@
-<!-- Sidebar Start -->
 <aside class="left-sidebar">
     <!-- Sidebar scroll-->
     <div>
@@ -31,7 +30,7 @@
                     <a class="sidebar-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}"
                         aria-expanded="false">
                         <span>
-                            <i class="ti ti-aperture"></i>
+                            <i class="ti ti-home"></i> <!-- Ganti ikon di sini -->
                         </span>
                         <span class="hide-menu">Beranda</span>
                     </a>
@@ -41,7 +40,7 @@
                         <a class="sidebar-link {{ request()->routeIs('admin.cashiers.admin') ? 'active' : '' }}"
                             href="{{ route('admin.cashiers.admin') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-aperture"></i>
+                                <i class="ti ti-user"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Admin</span>
                         </a>
@@ -55,7 +54,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="index2.html" aria-expanded="false">
                             <span>
-                                <i class="ti ti-shopping-cart"></i>
+                                <i class="ti ti-id-badge"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Data Admin</span>
                         </a>
@@ -63,7 +62,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.cashiers.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-currency-dollar"></i>
+                                <i class="ti ti-wallet"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Data Kasir</span>
                         </a>
@@ -71,7 +70,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.categories.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-currency-dollar"></i>
+                                <i class="ti ti-list"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Kategori</span>
                         </a>
@@ -79,7 +78,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.units.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-currency-dollar"></i>
+                                <i class="ti ti-ruler"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Satuan</span>
                         </a>
@@ -87,7 +86,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.products.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-activity-heartbeat"></i>
+                                <i class="ti ti-package"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Produk</span>
                         </a>
@@ -95,7 +94,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.suppliers.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-activity-heartbeat"></i>
+                                <i class="ti ti-truck"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Pemasok</span>
                         </a>
@@ -110,7 +109,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.purchases.create') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-calendar"></i>
+                                <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Pembelian</span>
                         </a>
@@ -122,7 +121,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.purchases.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-message-dots"></i>
+                                <i class="ti ti-history"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Riwayat Pembelian</span>
                         </a>
@@ -130,7 +129,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.selling.history') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-mail"></i>
+                                <i class="ti ti-chart-line"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Riwayat Penjualan</span>
                         </a>
@@ -158,4 +157,3 @@
     </div>
     <!-- End Sidebar scroll-->
 </aside>
-<!--  Sidebar End -->
