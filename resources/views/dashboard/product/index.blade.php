@@ -7,11 +7,13 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Produk</h4>
                         <p>List produk yang ada di toko anda.</p>
-                        <a href="{{ route('admin.products.create') }}">
-                            <button type="button" class="btn btn-primary">
-                                Tambah Produk
-                            </button>
-                        </a>
+                        @role('admin')
+                            <a href="{{ route('admin.products.create') }}">
+                                <button type="button" class="btn btn-primary">
+                                    Tambah Produk
+                                </button>
+                            </a>
+                        @endrole
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
@@ -60,19 +62,22 @@
                                 <p class="mb-0">{{ $product->quantity }} {{ $product->unit->name }}</p>
                             </div>
                             <a class="d-block my-2 fs-5 text-dark fw-semibold" href="#">{{ $product->name }}</a>
-                            <div class="d-flex align-items-center gap-2">
+                            @role('admin')
                                 <div class="d-flex align-items-center gap-2">
-                                    <a href="{{ route('admin.products.edit', $product->id) }}" style="color: #5a6a85">
-                                        <i class="fs-4 ti ti-edit"></i>Edit
-                                    </a>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a href="{{ route('admin.products.edit', $product->id) }}" style="color: #5a6a85">
+                                            <i class="fs-4 ti ti-edit"></i>Edit
+                                        </a>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a class="dropdown-item btn-delete" href="#"
+                                            data-url="{{ route('admin.products.destroy', $product->id) }}">
+                                            <i class="fs-4 ti ti-trash"></i>Delete
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <a class="dropdown-item btn-delete" href="#"
-                                        data-url="{{ route('admin.products.destroy', $product->id) }}">
-                                        <i class="fs-4 ti ti-trash"></i>Delete
-                                    </a>
-                                </div>
-                            </div>
+                            @endrole
+
                         </div>
                     </div>
                 </div>

@@ -13,11 +13,13 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Riwayat Pembelian</h4>
                         <p>Riwayat pembelian di toko anda.</p>
-                        <a href="{{ route('admin.purchases.create') }}">
-                            <button type="button" class="btn btn-primary">
-                                Tambah Produk
-                            </button>
-                        </a>
+                        @role('admin')
+                            <a href="{{ route('admin.purchases.create') }}">
+                                <button type="button" class="btn btn-primary">
+                                    Tambah Produk
+                                </button>
+                            </a>
+                        @endrole
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">

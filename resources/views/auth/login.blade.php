@@ -1,18 +1,20 @@
 @extends('layouts.app') @section('content')
     <div class="authentication-login min-vh-100 bg-body row justify-content-center align-items-center p-4">
         <div class="col-sm-8 col-md-6 col-xl-9">
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
+            @if (session('success'))
+                <x-alert-success></x-alert-success>
+            @elseif ($errors->any())
+                <x-validation-errors :errors="$errors"></x-validation-errors>
+            @elseif(session('error'))
+                <x-alert-failed></x-alert-failed>
             @endif
             <h2 class="mb-3 fs-7 fw-bolder">Masuk</h2>
             <form action="{{ route('login') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" id="email"
-                        placeholder="example@gmail.com"  value="{{old('email')}}"/>
+                    <input type="email" name="email" class="form-control" id="email" placeholder="example@gmail.com"
+                        value="{{ old('email') }}" />
                 </div>
                 <div class="mb-4">
                     <label for="password" class="form-label">Password</label>
