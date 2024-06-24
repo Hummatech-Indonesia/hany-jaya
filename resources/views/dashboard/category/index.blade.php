@@ -55,13 +55,13 @@
                                                 <a class="dropdown-item btn-update" href="#"
                                                     data-category="{{ $category }}"
                                                     data-url="{{ route('admin.categories.update', $category->id) }}">
-                                                    <i class="fs-4 ti ti-edit"></i>Edit
+                                                    <i class="fs-4 ti ti-edit text-warning"></i>Edit
                                                 </a>
                                             </div>
                                             <div class="d-flex align-items-center gap-2">
                                                 <a class="dropdown-item btn-delete" href="#"
                                                     data-url="{{ route('admin.categories.destroy', $category->id) }}">
-                                                    <i class="fs-4 ti ti-trash"></i>Delete
+                                                    <i class="fs-4 ti ti-trash text-danger"></i>Delete
                                                 </a>
                                             </div>
                                         </div>

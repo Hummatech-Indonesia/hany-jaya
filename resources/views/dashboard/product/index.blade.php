@@ -66,13 +66,13 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="d-flex align-items-center gap-2">
                                         <a href="{{ route('admin.products.edit', $product->id) }}" style="color: #5a6a85">
-                                            <i class="fs-4 ti ti-edit"></i>Edit
+                                            <i class="fs-4 ti ti-edit text-warning"></i>Edit
                                         </a>
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
                                         <a class="dropdown-item btn-delete" href="#"
                                             data-url="{{ route('admin.products.destroy', $product->id) }}">
-                                            <i class="fs-4 ti ti-trash"></i>Delete
+                                            <i class="fs-4 ti ti-trash text-danger"></i>Delete
                                         </a>
                                     </div>
                                 </div>
