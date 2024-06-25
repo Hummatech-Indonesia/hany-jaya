@@ -72,7 +72,6 @@
     <script>
         $(".btn-pay-debt").on("click", function() {
             $("#modalPayDebt").modal("show");
-k
             let url = $(this).attr("data-url");
             $("#form-update").attr("action", url);
         });
