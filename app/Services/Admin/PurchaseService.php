@@ -31,8 +31,10 @@ class PurchaseService
             $product = $this->product->show($data['product_id'][$i]);
 
             $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
+            $quantity = $productUnit->quantity_in_small_unit * $data['quantity'][$i];
+
             $product->update([
-                'quantity' => $productUnit->quantity_in_small_unit * $data['quantity'][$i]
+                'quantity' => $product->quantity + $quantity
             ]);
 
             $data['total_buy_price'] += $data['buy_price'][$i];
