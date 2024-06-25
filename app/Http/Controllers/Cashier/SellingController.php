@@ -58,7 +58,11 @@ class SellingController extends Controller
         $data = $request->validated();
         $serviceSellingPrice = $this->sellingService->sellingPrice($data);
 
-        $data['amount_price'] = $serviceSellingPrice['selling_price'];
+        if (is_array($serviceSellingPrice)) {
+            $data['amount_price'] = $serviceSellingPrice['selling_price'];
+        } else {
+            return redirect()->back()->withErrors($serviceSellingPrice);
+        }
         $service = $this->sellingService->invoiceNumber($data);
         if (is_array($service)) {
             $selling = $this->selling->store($service);
@@ -72,7 +76,6 @@ class SellingController extends Controller
             }
 
             for ($i = 0; $i < count($data['product_id']); $i++) {
-
                 $serviceSellingPrice['product']->update([
                     'quantity' => $serviceSellingPrice['product']->quantity - $serviceSellingPrice['quantity']
                 ]);
@@ -83,7 +86,7 @@ class SellingController extends Controller
                     'product_unit_id' => $data['product_unit_id'][$i],
                     'quantity' => $data['quantity'][$i],
                     'selling_price' => $data['selling_price'][$i],
-                    'nominal_discount' => $productUnit->selling_price - $data['selling_price'][$i]
+                    'nominal_discount' => $productUnit->selling_price - intval($data['selling_price'][$i])
                 ]);
             }
             return to_route('cashier.selling.history')->with('success', trans('alert.add_success'));

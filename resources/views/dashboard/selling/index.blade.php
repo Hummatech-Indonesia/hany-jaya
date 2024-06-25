@@ -197,9 +197,15 @@
                 <td>
                     <input type="number" data-id="${response.data.id}-${index}" name="quantity[]" class="form-control quantity" placeholder="0" min="1" value="1" />
                 </td>
-                <td>
-                    <input type="text" value="${response.data.product_units[0].selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" />
-                </td>
+                <td>`;
+                        $.each(response.data.product_units, function(index, productUnit) {
+                            if (response.data.unit.name === productUnit.unit.name) {
+                                newRow +=
+                                    `<input type="text" value="${productUnit.selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" />`
+                            }
+                        });
+                        newRow +=
+                `</td>
                 <td>
                     <a id="delete_column" class="btn btn-danger">-</a>
                 </td>
@@ -212,7 +218,6 @@
                             $(this).closest('tr').remove();
                             updateTotalPrice();
                         });
-
                         $('.quantity').keyup(function() {
                             updateRowPrice($(this));
                         });
