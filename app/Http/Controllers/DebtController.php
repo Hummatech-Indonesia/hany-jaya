@@ -14,8 +14,9 @@ use Illuminate\Http\Request;
 class DebtController extends Controller
 {
     private DebtInterface $debt;
+    private BuyerInterface $buyer;
     private HistoryPayDebtInterface $historyPayDebt;
-    public function __construct(DebtInterface $debt, HistoryPayDebtInterface $historyPayDebt)
+    public function __construct(DebtInterface $debt, HistoryPayDebtInterface $historyPayDebt, BuyerInterface $buyer)
     {
         $this->debt = $debt;
         $this->historyPayDebt = $historyPayDebt;
