@@ -186,7 +186,8 @@
                     <select id="product_unit_${response.data.id}-${index}" name="product_unit_id[]" class="form-control product-unit">
                         <option value="">Pilih Satuan</option>`;
                         $.each(response.data.product_units, function(index, productUnit) {
-                            var selected = index === 0 ? 'selected' : '';
+                            var selected = response.data.unit.name === productUnit.unit.name ?
+                                'selected' : '';
                             newRow += `<option data-id="${response.data.id}-${index}" value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
                 ${productUnit.unit.name}
             </option>`;

@@ -120,4 +120,16 @@ class ProductRepository extends BaseRepository implements ProductInterface
             ->where('code', $data['code'])->orWhere('name', $data['code'])
             ->first();
     }
+
+    /**
+     * count
+     *
+     * @param  mixed $data
+     * @return int
+     */
+    public function count(?array $data): int
+    {
+        return $this->model->query()
+            ->count();
+    }
 }

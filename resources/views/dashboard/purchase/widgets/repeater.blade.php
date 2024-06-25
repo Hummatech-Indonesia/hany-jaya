@@ -69,7 +69,7 @@
                         );
                         response.data.forEach(function(item) {
                             $("#unit-" + room).append(
-                                `<option value="${item.unit_id}">${item.unit}</option>`
+                                `<option value="${item.id}">${item.unit}</option>`
                             );
                         });
                     },
