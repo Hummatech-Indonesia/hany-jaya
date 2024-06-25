@@ -6,8 +6,6 @@ use Carbon\Carbon;
 
 class FormatedHelper
 {
-
-
     /**
      * convert to rupiah currency
      *

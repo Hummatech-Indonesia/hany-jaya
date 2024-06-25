@@ -44,7 +44,7 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('',[DashboardController::class,'index'])->name('home');
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('supplier-products/{supplier?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
         Route::get('product-units/{product?}', [ProductUnitController::class, 'index'])->name('product.unit.index');

@@ -30,7 +30,7 @@ class SellingService
      * @param  mixed $request
      * @return array
      */
-    public function invoiceNumber(array $data): array|RedirectResponse
+    public function invoiceNumber(array $data): array|string
     {
         $getYear = substr(now()->format('Y'), -2);
 
@@ -58,7 +58,7 @@ class SellingService
                 if (auth()->user()->store->code_debt == $data['code_debt']) {
                     $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => $sellingPrice])->id;
                 } else {
-                    return redirect()->back()->withErrors('inputkan kode toko dengan benar jika ingin melakukan hutang');
+                    return 'inputkan kode toko dengan benar jika ingin melakukan hutang';
                 }
             } else {
                 $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address']])->id;
@@ -68,7 +68,7 @@ class SellingService
                 if (auth()->user()->store->code_debt == $data['code_debt']) {
                     $buyer->update(['debt' => $buyer->debt + $sellingPrice]);
                 } else {
-                    return redirect()->back()->withErrors('inputkan kode toko dengan benar jika ingin melakukan hutang');
+                    return 'inputkan kode toko dengan benar jika ingin melakukan hutang';
                 }
             }
             $data['buyer_id'] = $buyer->id;
@@ -93,7 +93,7 @@ class SellingService
             $product = $this->product->show($data['product_id'][$i]);
 
             if ($product->quantity < $quantity) {
-                return redirect()->back()->withErrors('Stok tidak mencukupi');
+                return 'Stok tidak mencukupi';
             }
         }
         return [

@@ -84,9 +84,10 @@ class SellingController extends Controller
                     'nominal_discount' => $productUnit->selling_price - $data['selling_price'][$i]
                 ]);
             }
+            return to_route('cashier.selling.history')->with('success', trans('alert.add_success'));
+        } else {
+            return redirect()->back()->withErrors($service);
         }
-
-        return to_route('cashier.selling.history')->with('success', trans('alert.add_success'));
     }
 
 

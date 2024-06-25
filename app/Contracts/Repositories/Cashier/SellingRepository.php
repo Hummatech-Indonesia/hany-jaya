@@ -56,4 +56,28 @@ class SellingRepository extends BaseRepository implements SellingInterface
             ->with('detailSellings.productUnit.unit')
             ->fastPaginate();
     }
+
+    /**
+     * count
+     *
+     * @param  mixed $data
+     * @return int
+     */
+    public function count(?array $data): int
+    {
+        return $this->model->query()
+            ->count();
+    }
+
+    /**
+     * sum
+     *
+     * @param  mixed $data
+     * @return int
+     */
+    public function sum(?array $data): int
+    {
+        return $this->model->query()
+            ->sum('amount_price');
+    }
 }
