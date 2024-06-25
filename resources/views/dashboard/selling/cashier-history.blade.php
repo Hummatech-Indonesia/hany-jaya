@@ -134,11 +134,11 @@
                 </tr>
                 <tr>
                     <td colspan="5" class="text-end fw-bold">Uang Dibayar</td>
-                    <td>Rp. <span id="pay">${formatRupiah(returns)}</span></td>
+                    <td>Rp. <span id="pay">${formatRupiah(pay)}</span></td>
                 </tr>
                 <tr>
                     <td colspan="5" class="text-end fw-bold">Uang Kembalian</td>
-                    <td>Rp. <span id="return">${formatRupiah(pay)}</span></td>
+                    <td>Rp. <span id="return">${formatRupiah(returns)}</span></td>
                 </tr>`
                 );
             }
