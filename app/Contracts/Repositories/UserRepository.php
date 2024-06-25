@@ -117,17 +117,4 @@ class UserRepository extends BaseRepository implements UserInterface
             ->where('email', '!=', 'admin@gmail.com')
             ->fastPaginate(10);
     }
-    /**
-     * Method getTopPurchase
-     *
-     * @return mixed
-     */
-    public function getTopPurchase(): mixed
-    {
-        return $this->model->withCount('purchases')
-            ->orderBy('purchases_count', 'desc')
-            ->limit(5)
-            ->get();
-    }
-
 }

@@ -28,10 +28,4 @@ interface UserInterface extends GetInterface, StoreInterface, DeleteInterface, U
      * @return mixed
      */
     public function getAdmin(Request $request): mixed;
-    /**
-     * Method getTopPurchase
-     *
-     * @return mixed
-     */
-    public function getTopPurchase(): mixed;
 }

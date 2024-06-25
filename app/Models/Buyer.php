@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasSellings;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Buyer extends Model
+class Buyer extends Model implements HasSellings
 {
     use HasFactory;
     protected $table = 'buyers';
@@ -14,4 +16,14 @@ class Buyer extends Model
     protected $fillable = [
         'id', 'name', 'address', 'debt',
     ];
+
+    /**
+     * sellings
+     *
+     * @return HasMany
+     */
+    public function sellings(): HasMany
+    {
+        return $this->hasMany(Selling::class);
+    }
 }

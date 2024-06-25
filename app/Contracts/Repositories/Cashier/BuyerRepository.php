@@ -67,4 +67,30 @@ class BuyerRepository extends BaseRepository implements BuyerInterface
             })
             ->fastPaginate($pagination);
     }
+
+    /**
+     * sum
+     *
+     * @param  mixed $data
+     * @return int
+     */
+    public function sum(?array $data): int
+    {
+        return $this->model->query()
+            ->sum('debt');
+    }
+
+    /**
+     * get
+     *
+     * @return mixed
+     */
+    public function get(): mixed
+    {
+        return $this->model->query()
+            ->withSum('sellings', 'amount_price')
+            ->orderByDesc('sellings_sum_amount_price')
+            ->take(5)
+            ->get();
+    }
 }
