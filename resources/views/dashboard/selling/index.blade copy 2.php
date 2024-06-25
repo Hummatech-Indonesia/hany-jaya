@@ -165,44 +165,42 @@
                 $.ajax({
                     url: "{{ route('cashier.show.product') }}",
                     type: "GET",
-                    data: {
-                        code: code
-                    },
+                    data: { code: code },
                     dataType: 'json',
                     success: function(response) {
                         var newRow = `<tr>
-                <td>
-                    <h6 class="fs-4 fw-semibold mb-0 text-start">
-                        ${response.data.name}
-                    </h6>
-                    <input type="hidden" name="product_id[]" value="${response.data.id}" readonly class="form-control" />
-                </td>
-                <td>
-                    <h6 class="fs-4 fw-semibold mb-0 text-start">
-                        <span class="stock">${Math.round(response.data.quantity)}</span> <span class="quantity_stock">${response.data.unit.name}</span>
-                    </h6>
-                </td>
-                <td>
-                    <select id="product_unit_${response.data.id}-${index}" name="product_unit_id[]" class="form-control product-unit">
-                        <option value="">Pilih Satuan</option>`;
+                        <td>
+                            <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                ${response.data.name}
+                            </h6>
+                            <input type="hidden" name="product_id[]" value="${response.data.id}" readonly class="form-control" />
+                        </td>
+                        <td>
+                            <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                <span class="stock">${response.data.quantity}</span> <span class="quantity_stock">${response.data.unit.name}</span>
+                            </h6>
+                        </td>
+                        <td>
+                            <select id="product_unit_${response.data.id}-${index}" name="product_unit_id[]" class="form-control product-unit">
+                                <option value="">Pilih Satuan</option>`;
                         $.each(response.data.product_units, function(index, productUnit) {
                             var selected = index === 0 ? 'selected' : '';
                             newRow += `<option data-id="${response.data.id}-${index}" value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
-                ${productUnit.unit.name}
-            </option>`;
+                    ${productUnit.unit.name}
+                </option>`;
                         });
                         newRow += `</select>
-                </td>
-                <td>
-                    <input type="number" data-id="${response.data.id}-${index}" name="quantity[]" class="form-control quantity" placeholder="0" min="1" value="1" />
-                </td>
-                <td>
-                    <input type="text" value="${response.data.product_units[0].selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" />
-                </td>
-                <td>
-                    <a id="delete_column" class="btn btn-danger">-</a>
-                </td>
-            </tr>`;
+                        </td>
+                        <td>
+                            <input type="number" data-id="${response.data.id}-${index}" name="quantity[]" class="form-control quantity" placeholder="0" min="1" value="1" />
+                        </td>
+                        <td>
+                            <input type="text" value="${response.data.product_units[0].selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" />
+                        </td>
+                        <td>
+                            <a id="delete_column" class="btn btn-danger">-</a>
+                        </td>
+                    </tr>`;
                         $('#field').append(newRow);
 
                         updateTotalPrice();
@@ -224,11 +222,10 @@
             $('#field').on('change', '.product-unit', function() {
                 var row = $(this).closest('tr');
                 var selectedPrice = row.find('.product-unit option:selected').data('selling-price');
-                var quantity_in_small_unit = row.find('.product-unit option:selected').data(
-                    'quantity-in-small-unit');
+                var quantity_in_small_unit = row.find('.product-unit option:selected').data('quantity-in-small-unit');
                 var quantity = row.find('.product-unit option:selected').data('quantity');
                 var unit = row.find('.product-unit option:selected').data('unit');
-                var stock = Math.round(quantity / quantity_in_small_unit);
+                var stock = quantity / quantity_in_small_unit;
                 row.find('.stock').html(stock);
                 row.find('.quantity_stock').html(unit);
                 var quantity = row.find('.quantity').val();

@@ -1,7 +1,7 @@
 <form action="{{ route('admin.cashiers.store') }}" method="POST">
     @csrf
     <!-- Modal -->
-    <div class="modal fade" id="modalAddCashier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" id="modalAddCashier" tabindex="-1"
         aria-labelledby="modalAddSuplierLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">

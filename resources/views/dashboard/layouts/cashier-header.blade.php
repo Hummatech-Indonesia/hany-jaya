@@ -383,7 +383,7 @@
                 <!-- end apps Dropdown -->
                 <!-- ------------------------------- -->
                 <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link" href="{{ route('cashier.index') }}">Pembelian</a>
+                    <a class="nav-link" href="{{ route('cashier.index') }}">Penjualan</a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
                     <a class="nav-link" href="{{ route('cashier.selling.history') }}">Riwayat</a>
@@ -392,7 +392,7 @@
                     <a class="nav-link" href="{{ route('cashier.list.debt') }}">Daftar Hutang</a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link" href="{{ route('cashier.history.debt') }}">History
+                    <a class="nav-link" href="{{ route('cashier.history.debt') }}">Riwayat
                         Hutang</a>
                 </li>
             </ul>
@@ -636,8 +636,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/authentication-login.html"
-                                            class="btn btn-outline-primary">Log Out</a>
+                                        <form action="{{ route('logout') }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-primary">Log Out</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

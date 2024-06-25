@@ -117,7 +117,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
                 $query->orderBy('quantity_in_small_unit', 'asc');
             }])
             ->with('productUnits.unit')
-            ->where('code', $data['code'])
+            ->where('code', $data['code'])->orWhere('name', $data['code'])
             ->first();
     }
 }

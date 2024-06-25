@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ asset('assets/libs/codemirror/5.41.0/theme/blackboard.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/libs/codemirror/5.41.0/theme/monokai.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/libs/summernote/dist/summernote-lite.min.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -62,8 +63,20 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="mb-2" for="category_id">Kategori Produk</label>
-                                    <select name="category_id" id="" class="select2 form-control">
+                                    <label class="mb-2 d-flex justify-content-between" for="category_id"><span>Kategori
+                                            Produk</span>
+                                        <a data-bs-toggle="modal" style="cursor: pointer" data-bs-target="#modalAddCategory"
+                                            class="mx-2 text-success"> <svg xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                stroke="#13DEB9" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                                <path d="M9 12h6" />
+                                                <path d="M12 9v6" />
+                                            </svg> Tambah Kategori</a></label>
+                                    <select name="category_id" id="" class="select2category form-control">
                                         <option value="">Pilih Kategori</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}"
@@ -114,8 +127,8 @@
                                         Produk <div data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="Pilih satuan terkecil pada produk yang anda tambahkan, terkadang beberapa produk dijual bukan per-biji melainkan per-pack.">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-help-octagon">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <path
@@ -223,7 +236,7 @@
         </div>
     </div>
     @include('dashboard.product.widgets.modal-create')
-
+    @include('dashboard.category.widgets.modal-create')
 @endsection
 @section('script')
     <!-- current page js files -->
@@ -231,4 +244,13 @@
     <script src="{{ asset('assets/libs/jquery.repeater/jquery.repeater.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/repeater-init.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2category').select2({
+
+            })
+        })
+    </script>
 @endsection
