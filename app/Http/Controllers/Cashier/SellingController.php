@@ -8,7 +8,9 @@ use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
+use App\Enums\RoleEnum;
 use App\Enums\StatusEnum;
+use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cashier\SellingRequest;
 use App\Services\Cashier\SellingService;
@@ -99,6 +101,11 @@ class SellingController extends Controller
     public function history(Request $request): View
     {
         $histories = $this->selling->customPaginate($request);
-        return view('dashboard.selling.history', compact('histories'));
+        if (UserHelper::getUserRole() == RoleEnum::ADMIN->value) {
+            return view('dashboard.selling.history', compact('histories'));
+        } elseif (UserHelper::getUserROle() == RoleEnum::CASHIER->value) {
+            return view('dashboard.selling.cashier-history', compact('histories'));
+
+        }
     }
 }
