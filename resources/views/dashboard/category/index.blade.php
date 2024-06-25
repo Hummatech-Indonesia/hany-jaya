@@ -6,7 +6,7 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Kategori</h4>
                         <p>List kategori yang ada di toko anda.</p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddSuplier">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCategory">
                             Tambah Kategori
                         </button>
                         @include('dashboard.category.widgets.modal-create')

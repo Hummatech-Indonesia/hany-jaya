@@ -1,7 +1,7 @@
 <form action="{{ route('admin.categories.store') }}" method="POST">
     @csrf
     <!-- Modal -->
-    <div class="modal fade" id="modalAddSuplier"  tabindex="-1"
+    <div class="modal fade" id="modalAddCategory"  tabindex="-1"
         aria-labelledby="modalAddSuplierLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
