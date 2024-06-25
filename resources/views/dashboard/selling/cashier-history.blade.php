@@ -59,9 +59,9 @@
                                     </td>
                                     <td>
                                         @if ($history->status_payment == 'debt')
-                                        <span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>
+                                            <span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>
                                         @else
-                                        <span class="mb-1 badge font-medium bg-success text-white">Tunai</span>
+                                            <span class="mb-1 badge font-medium bg-success text-white">Tunai</span>
                                         @endif
                                     </td>
                                     <td>
@@ -103,22 +103,44 @@
             let status_payment = $(this).data('status_payment');
             let price = $(this).data('price');
             let pay = $(this).data('pay');
-            console.log(detailSellings);
-            if (status_payment == 'debt') {
-                $('.sembuyikan').hide();
-            } else {
-                $('.sembunyikan').show();
-                $('#return').html(formatRupiah(returns));
-                $('#pay').html(formatRupiah(pay));
-            }
+            // if (status_payment == 'debt') {
+            //     $('.sembuyikan').hide();
+            // } else {
+            //     $('.sembunyikan').show();
+            //     $('#return').html(formatRupiah(returns));
+            //     $('#pay').html(formatRupiah(pay));
+            // }
 
             $('#name').html(name);
             $('#price').html(formatRupiah(price));
             $('#address').html(address);
             if (status_payment == 'debt') {
                 $('#status').html('<span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>');
+                $('#box_price').html(
+                    `<tr>
+                        <td colspan="5" class="text-end fw-bold">Total Harga</td>
+                        <td>Rp. <span id="price">${formatRupiah(price)}</span></td>
+                    </tr>`
+                );
             } else {
                 $('#status').html('<span class="mb-1 badge font-medium bg-success text-white">Tunai</span>');
+                $('.sembunyikan').show();
+                $('#return').html(formatRupiah(returns));
+                $('#pay').html(formatRupiah(pay));
+                $('#box_price').html(
+                    `<tr>
+                    <td colspan="5" class="text-end fw-bold">Total Harga</td>
+                    <td>Rp. <span id="price">${formatRupiah(price)}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-end fw-bold">Uang Dibayar</td>
+                    <td>Rp. <span id="pay">${formatRupiah(returns)}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-end fw-bold">Uang Kembalian</td>
+                    <td>Rp. <span id="return">${formatRupiah(pay)}</span></td>
+                </tr>`
+                );
             }
 
             detailSellings.forEach(function(item, index) {

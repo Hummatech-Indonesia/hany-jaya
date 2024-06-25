@@ -60,14 +60,6 @@
                         <span class="hide-menu">Master</span>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="index2.html" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-id-badge"></i> <!-- Ganti ikon di sini -->
-                            </span>
-                            <span class="hide-menu">Data Admin</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.cashiers.index') }}" aria-expanded="false">
                             <span>
                                 <i class="ti ti-wallet"></i> <!-- Ganti ikon di sini -->

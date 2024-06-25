@@ -31,9 +31,17 @@ class UserController extends Controller
         $cashiers = $this->user->getCashier($request);
         return view('dashboard.cashier.index', compact('cashiers'));
     }
-    public function getAdmin(Request $request):View{
-        $admins=$this->user->getAdmin($request);
-        return view('dashboard.cashier.admin',compact('admins'));
+
+    /**
+     * getAdmin
+     *
+     * @param  mixed $request
+     * @return View
+     */
+    public function getAdmin(Request $request): View
+    {
+        $admins = $this->user->getAdmin($request);
+        return view('dashboard.cashier.admin', compact('admins'));
     }
     /**
      * store

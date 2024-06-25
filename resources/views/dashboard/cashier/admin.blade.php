@@ -5,10 +5,10 @@
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h4 class="fw-semibold mb-8">Kasir</h4>
-                        <p>List kasir di toko anda.</p>
+                        <h4 class="fw-semibold mb-8">Admin</h4>
+                        <p>List admin di toko anda.</p>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCashier">
-                            Tambah Kasir
+                            Tambah Admin
                         </button>
                         @include('dashboard.cashier.widgets.modal-create')
                     </div>

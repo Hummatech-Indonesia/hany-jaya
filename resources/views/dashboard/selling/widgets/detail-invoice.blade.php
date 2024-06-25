@@ -1,5 +1,4 @@
-    <div class="modal fade" id="modalDetailHistory"  tabindex="-1"
-        aria-labelledby="modalAddSuplierLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDetailHistory" tabindex="-1" aria-labelledby="modalAddSuplierLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header d-flex align-items-center">
@@ -43,16 +42,16 @@
                             </thead>
                             <tbody id="value_table">
                             </tbody>
-                            <tbody>
+                            <tbody id="box_price">
                                 <tr>
                                     <td colspan="5" class="text-end fw-bold">Total Harga</td>
                                     <td>Rp. <span id="price">0</span></td>
                                 </tr>
-                                <tr class="sembunyikan">
+                                <tr>
                                     <td colspan="5" class="text-end fw-bold">Uang Dibayar</td>
                                     <td>Rp. <span id="pay">0</span></td>
                                 </tr>
-                                <tr class="sembunyikan">
+                                <tr>
                                     <td colspan="5" class="text-end fw-bold">Uang Kembalian</td>
                                     <td>Rp. <span id="return">0</span></td>
                                 </tr>

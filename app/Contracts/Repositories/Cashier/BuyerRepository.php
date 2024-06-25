@@ -62,6 +62,9 @@ class BuyerRepository extends BaseRepository implements BuyerInterface
     {
         return $this->model->query()
             ->where('debt', '!=', 0)
+            ->when($request->name, function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->name . '%');
+            })
             ->fastPaginate($pagination);
     }
 }
