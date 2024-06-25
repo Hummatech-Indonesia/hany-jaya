@@ -59,9 +59,9 @@
                                     </td>
                                     <td>
                                         @if ($history->status_payment == 'debt')
-                                            <h6>Hutang</h6>
+                                        <span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>
                                         @else
-                                            <h6>Tunai</h6>
+                                        <span class="mb-1 badge font-medium bg-success text-white">Tunai</span>
                                         @endif
                                     </td>
                                     <td>
@@ -107,6 +107,7 @@
             if (status_payment == 'debt') {
                 $('.sembuyikan').hide();
             } else {
+                $('.sembunyikan').show();
                 $('#return').html(formatRupiah(returns));
                 $('#pay').html(formatRupiah(pay));
             }
@@ -114,6 +115,11 @@
             $('#name').html(name);
             $('#price').html(formatRupiah(price));
             $('#address').html(address);
+            if (status_payment == 'debt') {
+                $('#status').html('<span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>');
+            } else {
+                $('#status').html('<span class="mb-1 badge font-medium bg-success text-white">Tunai</span>');
+            }
 
             detailSellings.forEach(function(item, index) {
                 console.log(item);
@@ -122,6 +128,7 @@
                 <tr class="search-items">
                     <td>${index + 1}</td>
                     <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product.name}</h6></td>
+                    <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product_unit.unit.name}</h6></td>
                     <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.quantity}</h6></td>
                     <td><h6 class="user-name mb-0" data-name="Emma Adams">RP. ${formatRupiah(item.nominal_discount)}</h6></td>
                     <td><h6 class="user-name mb-0" data-name="Emma Adams">Rp. ${formatRupiah(item.selling_price)}</h6></td>
