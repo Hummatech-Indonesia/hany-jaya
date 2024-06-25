@@ -17,38 +17,17 @@
                                     <tr>
                                         <th>Nama</th>
                                         <td>: </td>
-                                        <td id="name"></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td width="70%" id="name"></td>
                                     </tr>
                                     <tr>
                                         <th>Alamat</th>
                                         <td>: </td>
-                                        <td id="address"></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td width="70%" id="address"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status Pembayaran</th>
+                                        <td>: </td>
+                                        <td width="70%" id="status"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -57,20 +36,28 @@
                             <thead class="header-item">
                                 <th>#</th>
                                 <th>Nama Produk</th>
+                                <th>Satuan</th>
                                 <th>Jumlah Produk</th>
                                 <th>Potongan Harga</th>
                                 <th>Harga</th>
                             </thead>
                             <tbody id="value_table">
                             </tbody>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" class="text-end fw-bold">Total Harga</td>
+                                    <td>Rp. <span id="price">0</span></td>
+                                </tr>
+                                <tr class="sembunyikan">
+                                    <td colspan="5" class="text-end fw-bold">Uang Dibayar</td>
+                                    <td>Rp. <span id="pay">0</span></td>
+                                </tr>
+                                <tr class="sembunyikan">
+                                    <td colspan="5" class="text-end fw-bold">Uang Kembalian</td>
+                                    <td>Rp. <span id="return">0</span></td>
+                                </tr>
+                            </tbody>
                         </table>
-                        <div class="">
-                            <div class="">
-                                <h6>Total Harga: Rp. <span id="price"></span></h6>
-                                <h6 class="sembunyikan">Uang Dibayar: Rp. <span id="pay"></span></h6>
-                                <h6 class="sembunyikan">Uang Kembalian: Rp. <span id="return"></span></h6>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
