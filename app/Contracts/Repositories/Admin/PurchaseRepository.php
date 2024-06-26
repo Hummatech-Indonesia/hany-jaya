@@ -30,6 +30,9 @@ class PurchaseRepository extends BaseRepository implements PurchaseInterface
                 $query->where('created_at', '>=', Carbon::createFromFormat('m/d/Y', $request->date[0])->startOfDay()->toDateTimeString())
                     ->where('created_at', '<=',  Carbon::createFromFormat('m/d/Y', $request->date[1])->startOfDay()->toDateTimeString());
             })
+            ->with('detailPurchase.product')
+            ->with('detailPurchase.productUnit.product')
+            ->with('detailPurchase.productUnit.unit')
             ->latest()
             ->fastPaginate($pagination);
     }
