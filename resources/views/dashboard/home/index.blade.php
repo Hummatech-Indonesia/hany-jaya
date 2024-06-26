@@ -48,8 +48,15 @@
         </div>
         <div class="row">
             <!-- Weekly Stats -->
-            <div class="col-lg-4 d-flex align-items-strech">
-                <div class="card" id="pieChart"></div>
+            <div class="col-lg-4 d-flex align-items-center">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <span class="fw-bold">Jumlah Penjualan Per Kategori Produk</span>
+                    </div>
+                    <div class="card-body">
+                        <div  id="pieChart"></div>
+                    </div>
+                </div>
             </div>
             <!-- Top Performers -->
             <div class="col-lg-8 d-flex align-items-strech">
@@ -124,7 +131,7 @@
                 var options = {
                     series: series,
                     chart: {
-                        width: 380,
+                        width: 300,
                         type: 'pie',
                     },
                     labels: labels,
