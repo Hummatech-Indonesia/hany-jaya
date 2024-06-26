@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
+use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Contracts\Interfaces\UserInterface;
 use Illuminate\Http\Request;
@@ -13,14 +14,16 @@ class DashboardController extends Controller
 {
     private UserInterface $user;
     private SellingInterface $selling;
+    private DetailSellingInterface $detailSelling;
     private ProductInterface $product;
     private BuyerInterface $buyer;
-    public function __construct(UserInterface $user, SellingInterface $selling, ProductInterface $product, BuyerInterface $buyer)
+    public function __construct(UserInterface $user, SellingInterface $selling, ProductInterface $product, BuyerInterface $buyer, DetailSellingInterface $detailSelling)
     {
         $this->user = $user;
         $this->buyer = $buyer;
         $this->product = $product;
         $this->selling = $selling;
+        $this->detailSelling = $detailSelling;
     }
 
     /**
@@ -30,7 +33,7 @@ class DashboardController extends Controller
      */
     public function index(): View
     {
-        $selling_count = $this->selling->count(null);
+        $selling_count = $this->detailSelling->count(null);
         $selling_sum = $this->selling->sum(null);
         $debt = $this->buyer->sum(null);
         $buyers = $this->buyer->get();

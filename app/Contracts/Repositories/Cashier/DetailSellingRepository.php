@@ -25,4 +25,15 @@ class DetailSellingRepository extends BaseRepository implements DetailSellingInt
         return $this->model->query()
             ->create($data);
     }
+    /**
+     * count
+     *
+     * @param  mixed $data
+     * @return int
+     */
+    public function count(?array $data): int
+    {
+        return $this->model->query()
+            ->count();
+    }
 }
