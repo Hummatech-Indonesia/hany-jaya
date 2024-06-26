@@ -23,9 +23,9 @@
             <div class="d-block d-lg-none py-4">
                 <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
                     class="text-nowrap logo-img">
-                    <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/dark-logo.svg"
+                    <img src="{{asset('logo.png')}}"
                         class="dark-logo" alt="Logo-Dark" />
-                    <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/light-logo.svg"
+                    <img src="{{asset('logo.png')}}"
                         class="light-logo" alt="Logo-light" />
                 </a>
             </div>
@@ -371,9 +371,9 @@
                 <li class="nav-item d-none d-xl-block">
                     <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
                         class="text-nowrap nav-link">
-                        <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/dark-logo.svg"
+                        <img src="{{asset('logo.png')}}"
                             class="dark-logo" width="180" alt="modernize-img" />
-                        <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/light-logo.svg"
+                        <img src="{{asset('logo.png')}}"
                             class="light-logo" width="180" alt="modernize-img" />
                     </a>
                 </li>
@@ -399,7 +399,7 @@
             <div class="d-block d-xl-none">
                 <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
                     class="text-nowrap nav-link">
-                    <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/dark-logo.svg"
+                    <img src="{{asset('logo.png')}}"
                         width="180" alt="modernize-img" />
                 </a>
             </div>

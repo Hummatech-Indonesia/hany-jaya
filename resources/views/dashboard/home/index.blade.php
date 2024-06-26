@@ -46,9 +46,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!--  Row 3 -->
-    <div class="container-fluid">
         <div class="row">
             <!-- Weekly Stats -->
             <div class="col-lg-4 d-flex align-items-strech">

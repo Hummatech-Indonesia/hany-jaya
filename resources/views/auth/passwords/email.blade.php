@@ -12,7 +12,7 @@
                             class="text-nowrap logo-img text-center d-block mb-5 w-100"
                         >
                             <img
-                                src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/dark-logo.svg"
+                                src="{{asset('logo.png')}}"
                                 width="180"
                                 alt=""
                             />

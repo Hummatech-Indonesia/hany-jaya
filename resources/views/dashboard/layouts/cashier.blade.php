@@ -54,9 +54,9 @@
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
                         class="text-nowrap logo-img">
-                        <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/dark-logo.svg"
+                        <img src="{{asset('logo.png')}}"
                             class="dark-logo" alt="Logo-Dark" />
-                        <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/logos/light-logo.svg"
+                        <img src="{{asset('logo.png')}}"
                             class="light-logo" alt="Logo-light" />
                     </a>
                     <a href="javascript:void(0)"
