@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Base\Interfaces\HasCategory;
+use App\Base\Interfaces\HasDetailSellings;
 use App\Base\Interfaces\HasOutlet;
 use App\Base\Interfaces\HasProductUnits;
 use App\Base\Interfaces\HasSupplier;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Product extends Model implements HasSupplierProducts, HasCategory, HasUnit, HasProductUnits
+class Product extends Model implements HasSupplierProducts, HasCategory, HasUnit, HasProductUnits,HasDetailSellings
 {
     use HasFactory;
     public $incrementing = false;
@@ -33,6 +34,9 @@ class Product extends Model implements HasSupplierProducts, HasCategory, HasUnit
     public function supplierProducts(): HasMany
     {
         return $this->hasMany(SupplierProduct::class);
+    }
+    public function detailSellings(): HasMany{
+        return $this->hasmany(DetailSelling::class);
     }
 
     /**

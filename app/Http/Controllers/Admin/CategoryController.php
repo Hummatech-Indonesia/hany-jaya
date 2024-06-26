@@ -24,6 +24,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+
         $categories = $this->category->customPaginate($request, 10);
         return view('dashboard.category.index', ['categories' => $categories]);
     }
@@ -75,5 +76,13 @@ class CategoryController extends Controller
             return redirect()->back()->withErrors(trans('alert.delete_restrict'));
         }
         return redirect()->back()->with('success', trans('alert.delete_success'));
+    }
+    public function getCategoryAjax(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $this->category->getCategoryAjax($request);
+            // $data->sellingProduct = $data->products->sum('detail_sellings_count');
+            return $data;
+        }
     }
 }

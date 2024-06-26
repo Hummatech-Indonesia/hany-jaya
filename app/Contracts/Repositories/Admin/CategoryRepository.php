@@ -23,7 +23,19 @@ class CategoryRepository extends BaseRepository implements CategoryInterface
      */
     public function get(): mixed
     {
-        return $this->model->query()
+        return $this->model->query()->get();
+
+    }
+    /**
+     * Method getCategoryAjax
+     *
+     * @return mixed
+     */
+    public function getCategoryAjax(Request $request): mixed
+    {
+        return $this->model->query()->whereHas('products.detailSellings')->with('products', function ($query) {
+            return $query->withCount('detailSellings');
+        })
             ->get();
     }
 
@@ -61,7 +73,8 @@ class CategoryRepository extends BaseRepository implements CategoryInterface
         try {
             $this->show($id)->delete($id);
         } catch (QueryException $e) {
-            if ($e->errorInfo[1] == 1451) return false;
+            if ($e->errorInfo[1] == 1451)
+                return false;
         }
 
         return true;

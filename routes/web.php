@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::get('units-ajax', [UnitController::class, 'get'])->name('units.get');
 
         Route::post('category-ajax', [CategoryController::class, 'storeAjax'])->name('category.store.ajax');
+        Route::get('getCategoryAjax',[CategoryController::class,'getCategoryAjax'])->name('get.category.ajax');
         Route::resources([
             'products' => ProductController::class,
             'suppliers' => SupplierController::class,
