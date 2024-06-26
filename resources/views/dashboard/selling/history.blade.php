@@ -59,9 +59,9 @@
                                     </td>
                                     <td>
                                         @if ($history->status_payment == 'debt')
-                                        <span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>
+                                            <span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>
                                         @else
-                                        <span class="mb-1 badge font-medium bg-success text-white">Tunai</span>
+                                            <span class="mb-1 badge font-medium bg-success text-white">Tunai</span>
                                         @endif
                                     </td>
                                     <td>
@@ -85,6 +85,8 @@
                             @endforelse
                         </tbody>
                     </table>
+                    {{ $histories->links() }}
+                    {{-- {{ $topups->appends(['search' => request('search'), 'filter' => request('filter')])->links() }} --}}
                 </div>
             </div>
         </div>
