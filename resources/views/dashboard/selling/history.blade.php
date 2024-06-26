@@ -85,6 +85,8 @@
                             @endforelse
                         </tbody>
                     </table>
+                    {{ $histories->links() }}
+                    {{-- {{ $topups->appends(['search' => request('search'), 'filter' => request('filter')])->links() }} --}}
                 </div>
             </div>
         </div>
