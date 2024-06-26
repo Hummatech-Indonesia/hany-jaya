@@ -54,6 +54,7 @@ class SellingRepository extends BaseRepository implements SellingInterface
             ->with('detailSellings.product')
             ->with('detailSellings.productUnit.product')
             ->with('detailSellings.productUnit.unit')
+            ->latest()
             ->fastPaginate(5);
     }
 
