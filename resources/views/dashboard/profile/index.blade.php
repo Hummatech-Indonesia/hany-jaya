@@ -55,5 +55,5 @@
     @endsection
     @section('script')
         <x-edit-profile-modal></x-edit-profile-modal>
-        {{-- <x-change-password-modal></x-change-password-modal> --}}
+        <x-change-password-modal></x-change-password-modal>
     @endsection

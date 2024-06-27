@@ -47,6 +47,7 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
+    Route::patch('profile-change-password', [ProfileController::class, 'changePassword'])->name('profile.change.password');
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('update-profile', [ProfileController::class, 'index'])->name('profile');
         Route::patch('update-profile', [ProfileController::class, 'update'])->name('update.profile');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\ProfileInterface;
+use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\User;
 use App\Services\ProfileService;
@@ -25,11 +26,22 @@ class ProfileController extends Controller
      *
      * @return View
      */
+    /**
+     * Method index
+     *
+     * @return View
+     */
     public function index(): View
     {
         return view('dashboard.profile.index');
     }
-    public function cashier():View{
+    /**
+     * Method cashier
+     *
+     * @return View
+     */
+    public function cashier(): View
+    {
         return view('dashboard.profile.cashier');
     }
     /**
@@ -44,5 +56,19 @@ class ProfileController extends Controller
     {
         $this->profile->update(auth()->user()->id, $this->service->update($request));
         return back()->with('success', 'Berhasil mengubah profil');
+    }
+    /**
+     * Method changePassword
+     *
+     * @param PasswordRequest $request [explicite description]
+     *
+     * @return RedirectResponse
+     */
+    public function changePassword(PasswordRequest $request): RedirectResponse
+    {
+        $data = $request->validated();
+        $data['password'] = bcrypt($data['password']);
+        $this->profile->update(auth()->user()->id, $data);
+        return back()->with('success', 'Berhasil mengubah password');
     }
 }
