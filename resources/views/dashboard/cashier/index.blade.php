@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <form action="" method="get">
+        <form action="" method="get" style="margin-bottom: 1rem">
             <div class="row justify-content-end">
                 <div class="col-3">
                     <input type="text" value="{{ Request::get('name') }}" class="form-control" id="name"
