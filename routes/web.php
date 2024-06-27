@@ -14,6 +14,7 @@ use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\Cashier\SellingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebtController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -46,12 +47,14 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('update-profile', [ProfileController::class, 'index'])->name('profile');
+        Route::patch('update-profile', [ProfileController::class, 'update'])->name('update.profile');
         Route::get('supplier-products/{supplier?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
         Route::get('product-units/{product?}', [ProductUnitController::class, 'index'])->name('product.unit.index');
         Route::get('units-ajax', [UnitController::class, 'get'])->name('units.get');
 
         Route::post('category-ajax', [CategoryController::class, 'storeAjax'])->name('category.store.ajax');
-        Route::get('getCategoryAjax',[CategoryController::class,'getCategoryAjax'])->name('get.category.ajax');
+        Route::get('getCategoryAjax', [CategoryController::class, 'getCategoryAjax'])->name('get.category.ajax');
         Route::resources([
             'products' => ProductController::class,
             'suppliers' => SupplierController::class,
@@ -59,7 +62,10 @@ Route::middleware('auth')->group(function () {
             'units' => UnitController::class,
         ]);
         Route::prefix('cashiers')->name('cashiers.')->group(function () {
-            Route::get('/', [UserController::class, 'getCashier'])->name('index');
+            Route::get('/', [
+                UserController::class,
+                'getCashier'
+            ])->name('index');
             Route::get('/admin', [UserController::class, 'getAdmin'])->name('admin');
             Route::post('/', [UserController::class, 'store'])->name('store');
             Route::put('{user}', [UserController::class, 'update'])->name('update');
@@ -76,6 +82,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::prefix('cashier')->name('cashier.')->group(function () {
         Route::get('/', [SellingController::class, 'create'])->name('index');
+        Route::get('update-profile',[ProfileController::class,'cashier'])->name('profile');
         Route::get('selling-histories', [SellingController::class, 'history'])->name('selling.history');
         Route::get('show-product', [ProductController::class, 'showProduct'])->name('show.product');
         Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');

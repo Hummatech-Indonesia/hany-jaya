@@ -2,10 +2,8 @@
 <header class="app-header">
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="d-block d-lg-none">
-            <img src="{{asset('logo.png')}}"
-                class="dark-logo" width="180" alt="" />
-            <img src="{{asset('logo.png')}}"
-                class="light-logo" width="180" alt="" />
+            <img src="{{ asset('logo.png') }}" class="dark-logo" width="180" alt="" />
+            <img src="{{ asset('logo.png') }}" class="light-logo" width="180" alt="" />
         </div>
         <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,8 +120,9 @@
                             aria-expanded="false">
                             <div class="d-flex align-items-center">
                                 <div class="user-profile-img">
-                                    <img src="{{ asset('assets/images/profile/user-1.jpg') }}" class="rounded-circle"
-                                        width="35" height="35" alt="" />
+                                    <img src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : asset('assets/images/profile/user-1.jpg') }}"
+                                            alt="photo" class="img-fluid rounded-circle mb-2"
+                                            style="object-fit: cover;" width="35" height="35">
                                 </div>
                             </div>
                         </a>
@@ -136,20 +135,22 @@
                                     </h5>
                                 </div>
                                 <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-                                    <img src="{{ asset('images/profile/user-1.jpg') }}" class="rounded-circle"
-                                        width="80" height="80" alt="" />
+                                    <img src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : asset('assets/images/profile/user-1.jpg') }}"
+                                        alt="photo" class="img-fluid rounded-circle" style="object-fit: cover;"
+                                        width="80" height="80">
                                     <div class="ms-3">
                                         <h5 class="mb-1 fs-3">
-                                            Mathew Anderson
+                                            {{ auth()->user()->name }}
                                         </h5>
                                         <p class="mb-0 d-flex text-dark align-items-center gap-2">
                                             <i class="ti ti-mail fs-4"></i>
-                                            info@modernize.com
+                                            {{ auth()->user()->email }}
                                         </p>
                                     </div>
                                 </div>
                                 <div class="message-body">
-                                    <a href="page-user-profile.html" class="py-8 px-7 mt-8 d-flex align-items-center">
+                                    <a href="{{ route('admin.profile') }}"
+                                        class="py-8 px-7 mt-8 d-flex align-items-center">
                                         <span
                                             class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
                                             <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/icon-account.svg"
@@ -157,9 +158,9 @@
                                         </span>
                                         <div class="w-75 d-inline-block v-middle ps-3">
                                             <h6 class="mb-1 bg-hover-primary fw-semibold">
-                                                My Profile
+                                                Profil Saya
                                             </h6>
-                                            <span class="d-block text-dark">Account Settings</span>
+                                            <span class="d-block text-dark">Pengaturan akun</span>
                                         </div>
                                     </a>
                                     <a href="app-email.html" class="py-8 px-7 d-flex align-items-center">

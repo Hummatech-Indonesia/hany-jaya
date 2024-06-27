@@ -1,3 +1,7 @@
+@php
+    use App\Helpers\UserHelper;
+
+@endphp
 <header class="topbar">
     <div class="with-vertical">
         <!-- Start Vertical Layout Header -->
@@ -23,10 +27,8 @@
             <div class="d-block d-lg-none py-4">
                 <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
                     class="text-nowrap logo-img">
-                    <img src="{{asset('logo.png')}}"
-                        class="dark-logo" alt="Logo-Dark" />
-                    <img src="{{asset('logo.png')}}"
-                        class="light-logo" alt="Logo-light" />
+                    <img src="{{ asset('logo.png') }}" class="dark-logo" alt="Logo-Dark" />
+                    <img src="{{ asset('logo.png') }}" class="light-logo" alt="Logo-light" />
                 </a>
             </div>
             <a class="navbar-toggler nav-icon-hover-bg rounded-circle p-0 mx-0 border-0" href="javascript:void(0)"
@@ -267,12 +269,12 @@
                                             alt="modernize-img" />
                                         <div class="ms-3">
                                             <h5 class="mb-1 fs-3">
-                                                Mathew Anderson
+                                                {{ UserHelper::getUserName() }}
                                             </h5>
-                                            <span class="mb-1 d-block">Designer</span>
+                                            <span class="mb-1 d-block">{{ UserHelper::getUserRole() }}</span>
                                             <p class="mb-0 d-flex align-items-center gap-2">
                                                 <i class="ti ti-mail fs-4"></i>
-                                                info@modernize.com
+                                                {{ UserHelper::getUserEmail() }}
                                             </p>
                                         </div>
                                     </div>
@@ -371,10 +373,8 @@
                 <li class="nav-item d-none d-xl-block">
                     <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
                         class="text-nowrap nav-link">
-                        <img src="{{asset('logo.png')}}"
-                            class="dark-logo" width="180" alt="modernize-img" />
-                        <img src="{{asset('logo.png')}}"
-                            class="light-logo" width="180" alt="modernize-img" />
+                        <img src="{{ asset('logo.png') }}" class="dark-logo" width="180" alt="modernize-img" />
+                        <img src="{{ asset('logo.png') }}" class="light-logo" width="180" alt="modernize-img" />
                     </a>
                 </li>
             </ul>
@@ -399,8 +399,7 @@
             <div class="d-block d-xl-none">
                 <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
                     class="text-nowrap nav-link">
-                    <img src="{{asset('logo.png')}}"
-                        width="180" alt="modernize-img" />
+                    <img src="{{ asset('logo.png') }}" width="180" alt="modernize-img" />
                 </a>
             </div>
             <a class="navbar-toggler nav-icon-hover-bg rounded-circle p-0 mx-0 border-0" href="javascript:void(0)"
@@ -542,9 +541,9 @@
                             <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" aria-expanded="false">
                                 <div class="d-flex align-items-center">
                                     <div class="user-profile-img">
-                                        <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/profile/user-1.jpg"
-                                            class="rounded-circle" width="35" height="35"
-                                            alt="modernize-img" />
+                                        <img src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : asset('assets/images/profile/user-1.jpg') }}"
+                                            alt="photo" class="img-fluid rounded-circle mb-2"
+                                            style="object-fit: cover;" width="35" height="35">
                                     </div>
                                 </div>
                             </a>
@@ -553,26 +552,26 @@
                                 <div class="profile-dropdown position-relative" data-simplebar>
                                     <div class="py-3 px-7 pb-0">
                                         <h5 class="mb-0 fs-5 fw-semibold">
-                                            User Profile
+                                            Profil Pengguna
                                         </h5>
                                     </div>
                                     <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-                                        <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/profile/user-1.jpg"
-                                            class="rounded-circle" width="80" height="80"
-                                            alt="modernize-img" />
+                                        <img src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : asset('assets/images/profile/user-1.jpg') }}"
+                                            alt="photo" class="img-fluid rounded-circle mb-2"
+                                            style="object-fit: cover;" width="80" height="80">
                                         <div class="ms-3">
                                             <h5 class="mb-1 fs-3">
-                                                Mathew Anderson
+                                                {{ UserHelper::getUserName() }}
                                             </h5>
-                                            <span class="mb-1 d-block">Designer</span>
+                                            <span class="mb-1 d-block">{{ UserHelper::getUserRole() }}</span>
                                             <p class="mb-0 d-flex align-items-center gap-2">
                                                 <i class="ti ti-mail fs-4"></i>
-                                                info@modernize.com
+                                                {{ UserHelper::getUserEmail() }}
                                             </p>
                                         </div>
                                     </div>
                                     <div class="message-body">
-                                        <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/page-user-profile.html"
+                                        <a href="{{ route('cashier.profile') }}"
                                             class="py-8 px-7 mt-8 d-flex align-items-center">
                                             <span
                                                 class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
@@ -581,9 +580,9 @@
                                             </span>
                                             <div class="w-100 ps-3">
                                                 <h6 class="mb-1 fs-3 fw-semibold lh-base">
-                                                    My Profile
+                                                    Profil Saya
                                                 </h6>
-                                                <span class="fs-2 d-block text-body-secondary">Account Settings</span>
+                                                <span class="fs-2 d-block text-body-secondary">Pengaturan Akun</span>
                                             </div>
                                         </a>
                                         <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/app-email.html"
