@@ -15,6 +15,7 @@ use App\Http\Controllers\Cashier\SellingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HistoryPayDebtController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -82,7 +83,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::prefix('cashier')->name('cashier.')->group(function () {
         Route::get('/', [SellingController::class, 'create'])->name('index');
-        Route::get('update-profile',[ProfileController::class,'cashier'])->name('profile');
+        Route::get('update-profile', [ProfileController::class, 'cashier'])->name('profile');
         Route::get('selling-histories', [SellingController::class, 'history'])->name('selling.history');
         Route::get('show-product', [ProductController::class, 'showProduct'])->name('show.product');
         Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');
@@ -90,5 +91,6 @@ Route::middleware('auth')->group(function () {
         Route::patch('pay-debt/{buyer}', [DebtController::class, 'payDebt'])->name('pay.debt');
 
         Route::get('list-user-debt', [BuyerController::class, 'listDebt'])->name('list.debt');
+        Route::get('history-pay-debt', [HistoryPayDebtController::class, 'index'])->name('history.pay.debt');
     });
 });
