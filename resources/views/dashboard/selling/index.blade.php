@@ -1,5 +1,6 @@
 @php
     use App\Enums\StatusEnum;
+    use App\Helpers\FormatedHelper;
 @endphp
 @extends('dashboard.layouts.cashier')
 @section('style')
@@ -17,177 +18,201 @@
                     </ul>
                 </div>
             @endif
-            <div class="col-9 mt-3">
-                <div class="mb-3">
-                    <form id="myInput">
-                        <input type="text" class="form-control" name="code" id="code" placeholder="8996196005009"
-                            autofocus>
-                        <span class="help-block"><small>Silakan memasukkan nama produk atau kode
-                                produk.</small></span>
-                    </form>
-                </div>
-            </div>
-            <form action="{{ route('cashier.selling.store') }}" method="post">
-                @csrf
-                <div class="grid col-12">
-                    <div class="row">
-                        <div class="col-9 mt-3">
-                            <div class="mb-n5">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="table-responsive mb-4 border rounded-1">
-                                            <table class="table text-nowrap mb-0 align-middle">
-                                                <thead class="text-dark fs-4">
-                                                    <tr>
-                                                        <th>
-                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                Produk
-                                                            </h6>
-                                                        </th>
-                                                        <th>
-                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                Stok Produk Saat Ini
-                                                            </h6>
-                                                        </th>
-                                                        <th>
-                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                Satuan
-                                                            </h6>
-                                                        </th>
-                                                        <th>
-                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                Jumlah
-                                                            </h6>
-                                                        </th>
-                                                        <th>
-                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                Harga
-                                                            </h6>
-                                                        </th>
-                                                        <th>
-                                                            <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                Aksi
-                                                            </h6>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="field">
-
-                                                </tbody>
-                                                <tr>
-                                                    <td colspan="4">
-                                                        <h6 class="fs-4 fw-semibold mb-0 text-center">
-                                                            Total Harga
-                                                        </h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="fs-4 fw-semibold mb-0 text-start" id="total_price">
-                                                            Rp.0
-                                                        </h6>
-                                                    </td>
-                                                </tr>
-                                            </table>
+            <div class="col-12 mt-3">
+                <form action="{{ route('cashier.selling.store') }}" method="post">
+                    @csrf
+                    <div class="grid col-12">
+                        <div class="row">
+                            <div class="col-9 mt-3" style="margin-bottom: 2rem">
+                                <div class="mb-n5">
+                                    <div class="card p-4">
+                                        <div class="">
+                                            <h5 class="fw-bold text-dark">Data Pembeli</h5>
+                                            <div>
+                                                <label for="customer-name" class="mb-2">Nama: </label>
+                                                <select name="name" class="select2Input form-control">
+                                                    <option value="">Pilih Pembeli</option>
+                                                    @foreach ($buyers as $buyer)
+                                                        <option value="{{ $buyer->id }}">{{ $buyer->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <label for="customer-address" class="mb-2">Alamat: </label>
+                                                <textarea name="address" placeholder="Jl pemuda No. 29" id="customer-address" class="form-control" cols="30"
+                                                    rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="">
+                                            <p class="mb-2">Pilih Metode Pembayaran</p>
+                                            <div class="d-flex flex-row gap-3">
+                                                <div><input type="radio" value="{{ StatusEnum::CASH->value }}"
+                                                        name="status_payment" style="margin-right: 3px;"
+                                                        id="tunai"><label for="tunai">Tunai</label></div>
+                                                <div><input type="radio" value="{{ StatusEnum::DEBT->value }}"
+                                                        name="status_payment" style="margin-right: 3px;"
+                                                        id="hutang"><label for="hutang">Hutang</label></div>
+                                            </div>
+                                            <br>
+                                        </div>
+                                        <div id="cash">
+                                            <label for="pay" class="mb-2">Bayar: </label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">Rp</span>
+                                                <input type="number" placeholder="10000" min="0" id="pay"
+                                                    name="pay" class="form-control" aria-label="Username"
+                                                    aria-describedby="basic-addon1">
+                                            </div>
+                                            <label for="return" class="mb-2">Kembali: </label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">Rp</span>
+                                                <input type="number" min="0" placeholder="5000" id="return"
+                                                    name="return" class="form-control" aria-label="Username"
+                                                    aria-describedby="basic-addon1" readonly>
+                                            </div>
+                                        </div>
+                                        <div id="code_debt">
+                                            <label for="">Masukkan Kode Toko: </label>
+                                            <input type="text" class="form-control" name="code_debt" id="">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-3">
+                                            Bayar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 mt-3">
+                                <div class="mb-n5">
+                                    <div class="card p-4">
+                                        <div class="">
+                                            <div class="d-flex justify-content-between">
+                                                <h5>Data Kasir</h5>
+                                                <p>{{ FormatedHelper::dateTimeFormat(now()) }}</p>
+                                            </div>
+                                            <div class="">
+                                                <p class="font-bold"><span style="font-weight: 700"> Nama:</span>
+                                                    {{ auth()->user()->name }}</p>
+                                                <p class="font-bold"><span style="font-weight: 700"> Email:</span>
+                                                    {{ auth()->user()->email }}</p>
+                                            </div>
+                                            <div class=""></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-3 mt-3">
-                            <div class="mb-n5">
-                                <div class="card p-4">
-                                    <div class="">
-                                        <h5 class="fw-bold text-dark">Data Pembeli</h5>
-                                        <div>
-                                            <label for="customer-name" class="mb-2">Nama: </label>
-                                            <select name="name" class="select2 form-control">
-                                                <option value="">Pilih Pembeli</option>
-                                                @foreach ($buyers as $buyer)
-                                                    <option value="{{ $buyer->id }}">{{ $buyer->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            <label for="customer-address" class="mb-2">Alamat: </label>
-                                            <textarea name="address" placeholder="Jl pemuda No. 29" id="customer-address" class="form-control" cols="30"
-                                                rows="3"></textarea>
+                            <div class="col-12 mt-3">
+                                <div class="mb-3">
+                                    <select name="code" class="select2 form-control" name="code" id="code">
+                                        <option value="">Pilih Produk</option>
+                                        @foreach ($products as $product)
+                                            <option value="{{ $product->code }}">{{ $product->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="help-block"><small>Silakan memasukkan nama produk atau kode
+                                            produk.</small></span>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <div class="mb-n5">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="table-responsive mb-4 border rounded-1">
+                                                <table class="table text-nowrap mb-0 align-middle">
+                                                    <thead class="text-dark fs-4">
+                                                        <tr>
+                                                            <th>
+                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                    Produk
+                                                                </h6>
+                                                            </th>
+                                                            <th>
+                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                    Stok Produk Saat Ini
+                                                                </h6>
+                                                            </th>
+                                                            <th>
+                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                    Satuan
+                                                                </h6>
+                                                            </th>
+                                                            <th>
+                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                    Jumlah
+                                                                </h6>
+                                                            </th>
+                                                            <th>
+                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                    Harga
+                                                                </h6>
+                                                            </th>
+                                                            <th>
+                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                    Aksi
+                                                                </h6>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="field">
+
+                                                    </tbody>
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <h6 class="fs-4 fw-semibold mb-0 text-center">
+                                                                Total Harga
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="fs-4 fw-semibold mb-0 text-start" id="total_price">
+                                                                Rp.0
+                                                            </h6>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                    <hr>
-                                    <div class="">
-                                        <p class="mb-2">Pilih Metode Pembayaran</p>
-                                        <div class="d-flex flex-row gap-3">
-                                            <div><input type="radio" value="{{ StatusEnum::CASH->value }}"
-                                                    name="status_payment" style="margin-right: 3px;" id="tunai"><label
-                                                    for="tunai">Tunai</label></div>
-                                            <div><input type="radio" value="{{ StatusEnum::DEBT->value }}"
-                                                    name="status_payment" style="margin-right: 3px;" id="hutang"><label
-                                                    for="hutang">Hutang</label></div>
-                                        </div>
-                                        <br>
-                                    </div>
-                                    <div id="cash">
-                                        <label for="pay" class="mb-2">Bayar: </label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text" id="basic-addon1">Rp</span>
-                                            <input type="number" placeholder="10000" min="0" id="pay"
-                                                name="pay" class="form-control" aria-label="Username"
-                                                aria-describedby="basic-addon1">
-                                        </div>
-                                        <label for="return" class="mb-2">Kembali: </label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text" id="basic-addon1">Rp</span>
-                                            <input type="number" min="0" placeholder="5000" id="return"
-                                                name="return" class="form-control" aria-label="Username"
-                                                aria-describedby="basic-addon1" readonly>
-                                        </div>
-                                    </div>
-                                    <div id="code_debt">
-                                        <label for="">Masukkan Kode Toko: </label>
-                                        <input type="text" class="form-control" name="code_debt" id="">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary mt-3">
-                                        Bayar
-                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
-@endsection
-@section('script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
-        $(".select2").select2({
-            tags: true
-        });
-        $('.select2').change(function(e) {
-            e.preventDefault();
-            console.log($('.select2').val());
-        });
-
-
-        $(document).ready(function() {
-            $('#myInput').submit(function(event) {
-                event.preventDefault();
-                sendData();
-                $('#code').val('');
+    @endsection
+    @section('script')
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script>
+            $(".select2Input").select2({
+                tags: true
+            });
+            $(".select2").select2({
+                tags: false
             });
 
-            var index = 1;
+            $(document).ready(function() {
+                // $('#myInput').submit(function(event) {
+                //     event.preventDefault();
 
-            function sendData() {
-                var code = $('#code').val();
-                $.ajax({
-                    url: "{{ route('cashier.show.product') }}",
-                    type: "GET",
-                    data: {
-                        code: code
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        var newRow = `<tr>
+                // });
+
+                $('#code').change(function(e) {
+                    e.preventDefault();
+                    console.log($('#code').val());
+                    sendData();
+                });
+                var index = 1;
+
+                function sendData() {
+                    var code = $('#code').val();
+                    $.ajax({
+                        url: "{{ route('cashier.show.product') }}",
+                        type: "GET",
+                        data: {
+                            code: code
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            var newRow = `<tr>
                 <td>
                     <h6 class="fs-4 fw-semibold mb-0 text-start">
                         ${response.data.name}
@@ -202,114 +227,114 @@
                 <td>
                     <select id="product_unit_${response.data.id}-${index}" name="product_unit_id[]" class="form-control product-unit">
                         <option value="">Pilih Satuan</option>`;
-                        $.each(response.data.product_units, function(index, productUnit) {
-                            var selected = response.data.unit.name === productUnit.unit.name ?
-                                'selected' : '';
-                            newRow += `<option data-id="${response.data.id}-${index}" value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
+                            $.each(response.data.product_units, function(index, productUnit) {
+                                var selected = response.data.unit.name === productUnit.unit.name ?
+                                    'selected' : '';
+                                newRow += `<option data-id="${response.data.id}-${index}" value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
                 ${productUnit.unit.name}
             </option>`;
-                        });
-                        newRow += `</select>
+                            });
+                            newRow += `</select>
                 </td>
                 <td>
                     <input type="number" data-id="${response.data.id}-${index}" name="quantity[]" class="form-control quantity" placeholder="0" min="1" value="1" />
                 </td>
                 <td>`;
-                        $.each(response.data.product_units, function(index, productUnit) {
-                            if (response.data.unit.name === productUnit.unit.name) {
-                                newRow +=
-                                    `<input type="text" value="${productUnit.selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" />`
-                            }
-                        });
-                        newRow +=
-                            `</td>
+                            $.each(response.data.product_units, function(index, productUnit) {
+                                if (response.data.unit.name === productUnit.unit.name) {
+                                    newRow +=
+                                        `<input type="text" value="${productUnit.selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" />`
+                                }
+                            });
+                            newRow +=
+                                `</td>
                 <td>
                     <a id="delete_column" class="btn btn-danger">-</a>
                 </td>
             </tr>`;
-                        $('#field').append(newRow);
+                            $('#field').append(newRow);
 
-                        updateTotalPrice();
-
-                        $(document).on('click', '#delete_column', function() {
-                            $(this).closest('tr').remove();
                             updateTotalPrice();
-                        });
-                        $('.quantity').keyup(function() {
-                            updateRowPrice($(this));
-                        });
 
-                        index++;
-                    },
-                });
-            }
+                            $(document).on('click', '#delete_column', function() {
+                                $(this).closest('tr').remove();
+                                updateTotalPrice();
+                            });
+                            $('.quantity').keyup(function() {
+                                updateRowPrice($(this));
+                            });
 
-            $('#field').on('change', '.product-unit', function() {
-                var row = $(this).closest('tr');
-                var selectedPrice = row.find('.product-unit option:selected').data('selling-price');
-                var quantity_in_small_unit = row.find('.product-unit option:selected').data(
-                    'quantity-in-small-unit');
-                var quantity = row.find('.product-unit option:selected').data('quantity');
-                var unit = row.find('.product-unit option:selected').data('unit');
-                var stock = Math.round(quantity / quantity_in_small_unit);
-                row.find('.stock').html(stock);
-                row.find('.quantity_stock').html(unit);
-                var quantity = row.find('.quantity').val();
-                var totalPrice = selectedPrice * quantity;
-                row.find('.selling-price').val(totalPrice);
-                updateTotalPrice();
-            });
-
-            function updateRowPrice(element) {
-                var id = element.data('id');
-                var productId = $('#product_unit_' + id).val();
-                var price = $('#selling-price-' + productId).data('selling-price');
-                $('#price-' + id).val(price * element.val());
-                updateTotalPrice();
-            }
-
-            function updateTotalPrice() {
-                var sellingPrices = $('.selling-price').map(function() {
-                    return parseFloat($(this).val());
-                }).get();
-
-                var countTotalPrice = 0;
-                $(sellingPrices).each(function(index, sellingPrice) {
-                    countTotalPrice += sellingPrice;
-                });
-                $('#total_price').html('Rp.' + countTotalPrice);
-                updateReturnAmount();
-            }
-
-            $('#pay').keyup(function() {
-                updateReturnAmount();
-            });
-
-            function updateReturnAmount() {
-                var totalPrice = parseFloat($('#total_price').text().replace('Rp.', '').replace(',', ''));
-                var payment = parseFloat($('#pay').val());
-                var returnAmount = payment - totalPrice;
-                if (!isNaN(returnAmount) && returnAmount >= 0) {
-                    $('#return').val(returnAmount);
-                } else {
-                    $('#return').val(0);
+                            index++;
+                        },
+                    });
                 }
-            }
 
-            $(document).ready(function() {
-                $('#cash').hide();
-                $('#code_debt').hide();
+                $('#field').on('change', '.product-unit', function() {
+                    var row = $(this).closest('tr');
+                    var selectedPrice = row.find('.product-unit option:selected').data('selling-price');
+                    var quantity_in_small_unit = row.find('.product-unit option:selected').data(
+                        'quantity-in-small-unit');
+                    var quantity = row.find('.product-unit option:selected').data('quantity');
+                    var unit = row.find('.product-unit option:selected').data('unit');
+                    var stock = Math.round(quantity / quantity_in_small_unit);
+                    row.find('.stock').html(stock);
+                    row.find('.quantity_stock').html(unit);
+                    var quantity = row.find('.quantity').val();
+                    var totalPrice = selectedPrice * quantity;
+                    row.find('.selling-price').val(totalPrice);
+                    updateTotalPrice();
+                });
 
-                $('input[name="status_payment"]').change(function() {
-                    if ($(this).val() === "{{ StatusEnum::CASH->value }}") {
-                        $('#cash').show();
-                        $('#code_debt').hide();
+                function updateRowPrice(element) {
+                    var id = element.data('id');
+                    var productId = $('#product_unit_' + id).val();
+                    var price = $('#selling-price-' + productId).data('selling-price');
+                    $('#price-' + id).val(price * element.val());
+                    updateTotalPrice();
+                }
+
+                function updateTotalPrice() {
+                    var sellingPrices = $('.selling-price').map(function() {
+                        return parseFloat($(this).val());
+                    }).get();
+
+                    var countTotalPrice = 0;
+                    $(sellingPrices).each(function(index, sellingPrice) {
+                        countTotalPrice += sellingPrice;
+                    });
+                    $('#total_price').html('Rp.' + countTotalPrice);
+                    updateReturnAmount();
+                }
+
+                $('#pay').keyup(function() {
+                    updateReturnAmount();
+                });
+
+                function updateReturnAmount() {
+                    var totalPrice = parseFloat($('#total_price').text().replace('Rp.', '').replace(',', ''));
+                    var payment = parseFloat($('#pay').val());
+                    var returnAmount = payment - totalPrice;
+                    if (!isNaN(returnAmount) && returnAmount >= 0) {
+                        $('#return').val(returnAmount);
                     } else {
-                        $('#cash').hide();
-                        $('#code_debt').show();
+                        $('#return').val(0);
                     }
+                }
+
+                $(document).ready(function() {
+                    $('#cash').hide();
+                    $('#code_debt').hide();
+
+                    $('input[name="status_payment"]').change(function() {
+                        if ($(this).val() === "{{ StatusEnum::CASH->value }}") {
+                            $('#cash').show();
+                            $('#code_debt').hide();
+                        } else {
+                            $('#cash').hide();
+                            $('#code_debt').show();
+                        }
+                    });
                 });
             });
-        });
-    </script>
-@endsection
+        </script>
+    @endsection

@@ -47,7 +47,8 @@ class SellingController extends Controller
     public function create(): View
     {
         $buyers = $this->buyer->get();
-        return view('dashboard.selling.index', compact('buyers'));
+        $products = $this->product->get();
+        return view('dashboard.selling.index', compact('buyers', 'products'));
     }
 
     /**

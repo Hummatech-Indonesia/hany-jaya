@@ -94,18 +94,30 @@
                     <!-- Apps -->
                     <!-- ============================= -->
                     @role('admin')
-                    <li class="nav-small-cap">
-                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                        <span class="hide-menu">Transaksi</span>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.purchases.create') }}" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
-                            </span>
-                            <span class="hide-menu">Pembelian</span>
-                        </a>
-                    </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Transaksi</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.purchases.create') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
+                                </span>
+                                <span class="hide-menu">Pembelian</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Kasir</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.purchases.create') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
+                                </span>
+                                <span class="hide-menu">Pindah Akun Kasir</span>
+                            </a>
+                        </li>
                     @endrole
                     <li class="nav-small-cap">
                         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -135,8 +147,8 @@
         <div class="fixed-profile p-3 bg-light-secondary rounded sidebar-ad mt-3">
             <div class="hstack gap-3">
                 <div class="john-img">
-                    <img src="../../dist/images/profile/user-1.jpg" class="rounded-circle" width="40" height="40"
-                        alt="" />
+                    <img src="../../dist/images/profile/user-1.jpg" class="rounded-circle" width="40"
+                        height="40" alt="" />
                 </div>
                 <div class="john-title">
                     <h6 class="mb-0 fs-4 fw-semibold">Mathew</h6>
