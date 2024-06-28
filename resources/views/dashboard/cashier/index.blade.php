@@ -7,9 +7,11 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Kasir</h4>
                         <p>List kasir di toko anda.</p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCashier">
-                            Tambah Kasir
-                        </button>
+                        @role('admin')
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCashier">
+                                Tambah Kasir
+                            </button>
+                        @endrole
                         @include('dashboard.cashier.widgets.modal-create')
                     </div>
                     <div class="col-3">
@@ -40,7 +42,9 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
+                            @role('admin')
                             <th>Aksi</th>
+                            @endrole
                         </thead>
                         <tbody>
                             @forelse ($cashiers as $index => $cashier)
@@ -58,6 +62,8 @@
                                             {{ $cashier->email }}
                                         </h6>
                                     </td>
+                                    @role('admin')
+
                                     <td>
                                         <div class="action-btn">
                                             <a href="#" data-url="{{ route('admin.cashiers.update', $cashier->id) }}"
@@ -71,6 +77,7 @@
                                             </a>
                                         </div>
                                     </td>
+                                    @endrole
                                 </tr>
                             @empty
                                 <p>Data Kosong</p>

@@ -6,9 +6,11 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Satuan</h4>
                         <p>List Satuan yang ada di toko anda.</p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddSuplier">
-                            Tambah Satuan
-                        </button>
+                        @role('admin')
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddSuplier">
+                                Tambah Satuan
+                            </button>
+                        @endrole
                         @include('dashboard.unit.widgets.modal-create')
                     </div>
                     <div class="col-3">
@@ -38,7 +40,9 @@
                         <thead class="header-item">
                             <th>#</th>
                             <th>Kategori</th>
-                            <td>Aksi</td>
+                            @role('admin')
+                                <td>Aksi</td>
+                            @endrole
                         </thead>
                         <tbody>
                             @forelse ($units as $index => $unit)
@@ -49,23 +53,26 @@
                                             {{ $unit->name }}
                                         </h6>
                                     </td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-2">
+                                    @role('admin')
+                                        <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <a class="dropdown-item btn-update" href="#"
-                                                    data-unit="{{ $unit }}"
-                                                    data-url="{{ route('admin.units.update', $unit->id) }}">
-                                                    <i class="fs-4 ti ti-edit text-warning"></i>Edit
-                                                </a>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <a class="dropdown-item btn-update" href="#"
+                                                        data-unit="{{ $unit }}"
+                                                        data-url="{{ route('admin.units.update', $unit->id) }}">
+                                                        <i class="fs-4 ti ti-edit text-warning"></i>Edit
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <a class="dropdown-item btn-delete" href="#"
+                                                        data-url="{{ route('admin.units.destroy', $unit->id) }}">
+                                                        <i class="fs-4 ti ti-trash text-danger"></i>Delete
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <a class="dropdown-item btn-delete" href="#"
-                                                    data-url="{{ route('admin.units.destroy', $unit->id) }}">
-                                                    <i class="fs-4 ti ti-trash text-danger"></i>Delete
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    @endrole
+
                                 </tr>
                             @empty
                                 <p>Kategori masih kosong</p>

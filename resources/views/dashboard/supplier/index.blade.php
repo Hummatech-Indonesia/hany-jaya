@@ -6,9 +6,11 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Pemasok</h4>
                         <p>List pemasok di toko anda.</p>
+                        @role('admin')
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddSuplier">
                             Tambah Pemasok
                         </button>
+                        @endrole
                         @include('dashboard.supplier.widgets.modal-create')
                     </div>
                     <div class="col-3">
@@ -55,6 +57,7 @@
                                                 {{ $supplier->address }}
                                             </h6>
                                         </div>
+                                        @role('admin')
                                         <div class="col-2 mx-auto">
                                             <div class="dropdown">
                                                 <a class="" href="javascript:void(0)" id="t2"
@@ -78,6 +81,7 @@
                                                 </ul>
                                             </div>
                                         </div>
+                                        @endrole
                                     </div>
                                     @if (count($supplier->supplierProducts) > 0)
                                         <div class="mt-3">

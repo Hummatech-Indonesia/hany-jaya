@@ -6,9 +6,12 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Kategori</h4>
                         <p>List kategori yang ada di toko anda.</p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCategory">
-                            Tambah Kategori
-                        </button>
+                        @role('admin')
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalAddCategory">
+                                Tambah Kategori
+                            </button>
+                        @endrole
                         @include('dashboard.category.widgets.modal-create')
                     </div>
                     <div class="col-3">
@@ -38,7 +41,9 @@
                         <thead class="header-item">
                             <th>#</th>
                             <th>Kategori</th>
-                            <td>Aksi</td>
+                            @role('admin')
+                                <td>Aksi</td>
+                            @endrole
                         </thead>
                         <tbody>
                             @forelse ($categories as $index => $category)
@@ -49,23 +54,25 @@
                                             {{ $category->name }}
                                         </h6>
                                     </td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-2">
+                                    @role('admin')
+                                        <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <a class="dropdown-item btn-update" href="#"
-                                                    data-category="{{ $category }}"
-                                                    data-url="{{ route('admin.categories.update', $category->id) }}">
-                                                    <i class="fs-4 ti ti-edit text-warning"></i>Edit
-                                                </a>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <a class="dropdown-item btn-update" href="#"
+                                                        data-category="{{ $category }}"
+                                                        data-url="{{ route('admin.categories.update', $category->id) }}">
+                                                        <i class="fs-4 ti ti-edit text-warning"></i>Edit
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <a class="dropdown-item btn-delete" href="#"
+                                                        data-url="{{ route('admin.categories.destroy', $category->id) }}">
+                                                        <i class="fs-4 ti ti-trash text-danger"></i>Delete
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <a class="dropdown-item btn-delete" href="#"
-                                                    data-url="{{ route('admin.categories.destroy', $category->id) }}">
-                                                    <i class="fs-4 ti ti-trash text-danger"></i>Delete
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    @endrole
                                 </tr>
                             @empty
                                 <p>Kategori masih kosong</p>

@@ -113,6 +113,8 @@ class SellingController extends Controller
             return view('dashboard.selling.history', compact('histories'));
         } elseif (UserHelper::getUserROle() == RoleEnum::CASHIER->value) {
             return view('dashboard.selling.cashier-history', compact('histories'));
+        } else {
+            return view('dashboard.selling.history', compact('histories'));
         }
     }
 }
