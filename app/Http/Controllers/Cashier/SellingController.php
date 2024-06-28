@@ -25,10 +25,12 @@ class SellingController extends Controller
     private ProductInterface $product;
     private ProductUnitInterface $productUnit;
     private DetailSellingInterface $detailSelling;
+    private BuyerInterface $buyer;
     private SellingService $sellingService;
 
-    public function __construct(SellingInterface $selling, DetailSellingInterface $detailSelling, ProductInterface $product, ProductUnitInterface $productUnit, SellingService $sellingService, DebtInterface $debt)
+    public function __construct(SellingInterface $selling, DetailSellingInterface $detailSelling, ProductInterface $product, ProductUnitInterface $productUnit, SellingService $sellingService, DebtInterface $debt, BuyerInterface $buyer)
     {
+        $this->buyer = $buyer;
         $this->selling = $selling;
         $this->debt = $debt;
         $this->product = $product;
@@ -44,7 +46,8 @@ class SellingController extends Controller
      */
     public function create(): View
     {
-        return view('dashboard.selling.index');
+        $buyers = $this->buyer->get();
+        return view('dashboard.selling.index', compact('buyers'));
     }
 
     /**
@@ -56,6 +59,7 @@ class SellingController extends Controller
     public function store(SellingRequest $request): RedirectResponse
     {
         $data = $request->validated();
+        // dd($data);
         $serviceSellingPrice = $this->sellingService->sellingPrice($data);
 
         if (is_array($serviceSellingPrice)) {

@@ -2,6 +2,9 @@
     use App\Enums\StatusEnum;
 @endphp
 @extends('dashboard.layouts.cashier')
+@section('style')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
     <div class="flex-col px-5 mt-5 pt-5 mx-0" style="width: 100%">
         <div class="row">
@@ -96,8 +99,12 @@
                                         <h5 class="fw-bold text-dark">Data Pembeli</h5>
                                         <div>
                                             <label for="customer-name" class="mb-2">Nama: </label>
-                                            <input id="customer-name" type="text" placeholder="Alfan" name="name"
-                                                class="form-control mb-2">
+                                            <select name="name" class="select2 form-control">
+                                                <option value="">Pilih Pembeli</option>
+                                                @foreach ($buyers as $buyer)
+                                                    <option value="{{ $buyer->id }}">{{ $buyer->name }}</option>
+                                                @endforeach
+                                            </select>
                                             <label for="customer-address" class="mb-2">Alamat: </label>
                                             <textarea name="address" placeholder="Jl pemuda No. 29" id="customer-address" class="form-control" cols="30"
                                                 rows="3"></textarea>
@@ -150,7 +157,17 @@
 @endsection
 @section('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        $(".select2").select2({
+            tags: true
+        });
+        $('.select2').change(function(e) {
+            e.preventDefault();
+            console.log($('.select2').val());
+        });
+
+
         $(document).ready(function() {
             $('#myInput').submit(function(event) {
                 event.preventDefault();
@@ -205,7 +222,7 @@
                             }
                         });
                         newRow +=
-                `</td>
+                            `</td>
                 <td>
                     <a id="delete_column" class="btn btn-danger">-</a>
                 </td>
