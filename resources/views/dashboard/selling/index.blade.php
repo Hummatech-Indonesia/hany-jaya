@@ -143,7 +143,12 @@
                                                                 </th>
                                                                 <th>
                                                                     <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                        Harga
+                                                                        Harga Satuan
+                                                                    </h6>
+                                                                </th>
+                                                                <th>
+                                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                        Total Harga
                                                                     </h6>
                                                                 </th>
                                                                 <th>
@@ -233,45 +238,42 @@
                         dataType: 'json',
                         success: function(response) {
                             var newRow = `<tr>
-                <td>
-                    <h6 class="fs-4 fw-semibold mb-0 text-start">
-                        ${response.data.name}
-                    </h6>
-                    <input type="hidden" name="product_id[]" value="${response.data.id}" readonly class="form-control" />
-                </td>
-                <td>
-                    <h6 class="fs-4 fw-semibold mb-0 text-start">
-                        <span class="stock">${Math.round(response.data.quantity)}</span> <span class="quantity_stock">${response.data.unit.name}</span>
-                    </h6>
-                </td>
-                <td>
-                    <select id="product_unit_${response.data.id}-${index}" name="product_unit_id[]" class="form-control product-unit">
-                        <option value="">Pilih Satuan</option>`;
+<td>
+    <h6 class="fs-4 fw-semibold mb-0 text-start">
+        ${response.data.name}
+    </h6>
+    <input type="hidden" name="product_id[]" value="${response.data.id}" readonly class="form-control" />
+</td>
+<td>
+    <h6 class="fs-4 fw-semibold mb-0 text-start">
+        <span class="stock">${Math.round(response.data.quantity)}</span> <span class="quantity_stock">${response.data.unit.name}</span>
+    </h6>
+</td>
+<td>
+    <select id="product_unit_${response.data.id}-${index}" name="product_unit_id[]" class="form-control product-unit">
+        <option value="">Pilih Satuan</option>`;
                             $.each(response.data.product_units, function(index, productUnit) {
                                 var selected = response.data.unit.name === productUnit.unit.name ?
                                     'selected' : '';
                                 newRow += `<option data-id="${response.data.id}-${index}" value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
-                ${productUnit.unit.name}
-            </option>`;
+${productUnit.unit.name}
+</option>`;
                             });
                             newRow += `</select>
-                </td>
-                <td>
-                    <input type="number" data-id="${response.data.id}-${index}" name="quantity[]" class="form-control quantity" placeholder="0" min="1" value="1" />
-                </td>
-                <td>`;
-                            $.each(response.data.product_units, function(index, productUnit) {
-                                if (response.data.unit.name === productUnit.unit.name) {
-                                    newRow +=
-                                        `<input type="text" value="${productUnit.selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" />`
-                                }
-                            });
-                            newRow +=
-                                `</td>
-                <td>
-                    <a id="delete_column" class="btn btn-danger">-</a>
-                </td>
-            </tr>`;
+</td>
+<td>
+    <input type="number" data-id="${response.data.id}-${index}" name="quantity[]" class="form-control quantity" placeholder="0" min="1" value="1" />
+</td>
+<td>
+    <input type="text" value="${response.data.product_units[0].selling_price}" name="unit_price[]" id="unit-price-${response.data.id}-${index}" class="form-control unit-price" readonly />
+</td>
+<td>
+    <input type="text" value="${response.data.product_units[0].selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" readonly />
+    </td>
+<td>
+    <a id="delete_column" class="btn btn-danger">-</a>
+</td>
+</tr>`;
                             $('#field').append(newRow);
 
                             updateTotalPrice();
@@ -301,6 +303,7 @@
                     row.find('.quantity_stock').html(unit);
                     var quantity = row.find('.quantity').val();
                     var totalPrice = selectedPrice * quantity;
+                    row.find('.unit-price').val(selectedPrice);
                     row.find('.selling-price').val(totalPrice);
                     updateTotalPrice();
                 });
@@ -309,7 +312,8 @@
                     var id = element.data('id');
                     var productId = $('#product_unit_' + id).val();
                     var price = $('#selling-price-' + productId).data('selling-price');
-                    $('#price-' + id).val(price * element.val());
+                    var totalPrice = price * element.val();
+                    $('#price-' + id).val(totalPrice);
                     updateTotalPrice();
                 }
 
