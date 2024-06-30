@@ -26,16 +26,17 @@
                             <div class="col-9 mt-3" style="margin-bottom: 2rem">
                                 <div class="mb-n5">
                                     <div class="card p-4">
+                                        <h5 class="fw-bold text-dark">Data Pembeli</h5>
+                                        <label for="customer-name" class="mb-2">Nama: </label>
+                                        <select name="name" class="select2Input form-control" id="customer-name">
+                                            <option value="">Pilih Pembeli</option>
+                                            @foreach ($buyers as $buyer)
+                                                <option value="{{ $buyer->id }}">{{ $buyer->name }}</option>
+                                            @endforeach
+                                        </select>
+
                                         <div class="">
-                                            <h5 class="fw-bold text-dark">Data Pembeli</h5>
                                             <div>
-                                                <label for="customer-name" class="mb-2">Nama: </label>
-                                                <select name="name" class="select2Input form-control">
-                                                    <option value="">Pilih Pembeli</option>
-                                                    @foreach ($buyers as $buyer)
-                                                        <option value="{{ $buyer->id }}">{{ $buyer->name }}</option>
-                                                    @endforeach
-                                                </select>
                                                 <label for="customer-address" class="mb-2">Alamat: </label>
                                                 <textarea name="address" placeholder="Jl pemuda No. 29" id="customer-address" class="form-control" cols="30"
                                                     rows="3"></textarea>
@@ -99,74 +100,77 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 mt-3">
-                                <div class="mb-3">
+                            <div class="" id="productPage">
+                                <div class="col-12 mt-3">
                                     <select name="code" class="select2 form-control" name="code" id="code">
                                         <option value="">Pilih Produk</option>
                                         @foreach ($products as $product)
                                             <option value="{{ $product->code }}">{{ $product->name }}</option>
                                         @endforeach
                                     </select>
-                                    <span class="help-block"><small>Silakan memasukkan nama produk atau kode
-                                            produk.</small></span>
+                                    <div class="mb-3">
+                                        <span class="help-block"><small>Silakan memasukkan nama produk atau kode
+                                                produk.</small></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12 mt-3">
-                                <div class="mb-n5">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="table-responsive mb-4 border rounded-1">
-                                                <table class="table text-nowrap mb-0 align-middle">
-                                                    <thead class="text-dark fs-4">
-                                                        <tr>
-                                                            <th>
-                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                    Produk
-                                                                </h6>
-                                                            </th>
-                                                            <th>
-                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                    Stok Produk Saat Ini
-                                                                </h6>
-                                                            </th>
-                                                            <th>
-                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                    Satuan
-                                                                </h6>
-                                                            </th>
-                                                            <th>
-                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                    Jumlah
-                                                                </h6>
-                                                            </th>
-                                                            <th>
-                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                    Harga
-                                                                </h6>
-                                                            </th>
-                                                            <th>
-                                                                <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                                                    Aksi
-                                                                </h6>
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="field">
+                                <div class="col-12 mt-3">
+                                    <div class="mb-n5">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="table-responsive mb-4 border rounded-1">
+                                                    <table class="table text-nowrap mb-0 align-middle">
+                                                        <thead class="text-dark fs-4">
+                                                            <tr>
+                                                                <th>
+                                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                        Produk
+                                                                    </h6>
+                                                                </th>
+                                                                <th>
+                                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                        Stok Produk Saat Ini
+                                                                    </h6>
+                                                                </th>
+                                                                <th>
+                                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                        Satuan
+                                                                    </h6>
+                                                                </th>
+                                                                <th>
+                                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                        Jumlah
+                                                                    </h6>
+                                                                </th>
+                                                                <th>
+                                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                        Harga
+                                                                    </h6>
+                                                                </th>
+                                                                <th>
+                                                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                                                        Aksi
+                                                                    </h6>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="field">
 
-                                                    </tbody>
-                                                    <tr>
-                                                        <td colspan="4">
-                                                            <h6 class="fs-4 fw-semibold mb-0 text-center">
-                                                                Total Harga
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="fs-4 fw-semibold mb-0 text-start" id="total_price">
-                                                                Rp.0
-                                                            </h6>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                        </tbody>
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <h6 class="fs-4 fw-semibold mb-0 text-center">
+                                                                    Total Harga
+                                                                </h6>
+                                                            </td>
+                                                            <td>
+                                                                <h6 class="fs-4 fw-semibold mb-0 text-start"
+                                                                    id="total_price">
+                                                                    Rp.0
+                                                                </h6>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -180,14 +184,30 @@
     @endsection
     @section('script')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
         <script>
-            $(".select2Input").select2({
-                tags: true
+            $(document).ready(function() {
+                $(".select2Input").select2({
+                    tags: true,
+                    placeholder: "Pilih atau tambahkan pembeli",
+                });
             });
+
             $(".select2").select2({
                 tags: false
             });
+
+            $(document).ready(function() {
+                $('#productPage').addClass('d-none');
+                $('#customer-name, #customer-address').on('input', function() {
+                    if ($('#customer-name').val() && $('#customer-address').val()) {
+                        $('#productPage').removeClass('d-none');
+                    } else {
+                        $('#productPage').addClass('d-none');
+                    }
+                });
+            });
+
 
             $(document).ready(function() {
                 // $('#myInput').submit(function(event) {

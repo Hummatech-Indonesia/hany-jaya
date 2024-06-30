@@ -25,8 +25,7 @@
             </ul>
 
             <div class="d-block d-lg-none py-4">
-                <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
-                    class="text-nowrap logo-img">
+                <a href="#" class="text-nowrap logo-img">
                     <img src="{{ asset('logo.png') }}" class="dark-logo" alt="Logo-Dark" />
                     <img src="{{ asset('logo.png') }}" class="light-logo" alt="Logo-light" />
                 </a>
@@ -371,8 +370,7 @@
                     </a>
                 </li>
                 <li class="nav-item d-none d-xl-block">
-                    <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
-                        class="text-nowrap nav-link">
+                    <a href="#" class="text-nowrap nav-link">
                         <img src="{{ asset('logo.png') }}" class="dark-logo" width="180" alt="modernize-img" />
                         <img src="{{ asset('logo.png') }}" class="light-logo" width="180" alt="modernize-img" />
                     </a>
@@ -383,25 +381,29 @@
                 <!-- end apps Dropdown -->
                 <!-- ------------------------------- -->
                 <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link" href="{{ route('cashier.index') }}">Penjualan</a>
+                    <a class="nav-link  {{ request()->routeIs('cashier.index') ? 'text-primary' : '' }}"
+                        href="{{ route('cashier.index') }}">Penjualan</a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link" href="{{ route('cashier.selling.history') }}">Riwayat</a>
+                    <a class="nav-link {{ request()->routeIs('cashier.selling.history') ? 'text-primary' : '' }}"
+                        href="{{ route('cashier.selling.history') }}">Riwayat</a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link" href="{{ route('cashier.list.debt') }}">Daftar Hutang</a>
+                    <a class="nav-link {{ request()->routeIs('cashier.list.debt') ? 'text-primary' : '' }}"
+                        href="{{ route('cashier.list.debt') }}">Daftar Hutang</a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link" href="{{ route('cashier.history.debt') }}">Riwayat
+                    <a class="nav-link {{ request()->routeIs('cashier.history.debt') ? 'text-primary' : '' }}"
+                        href="{{ route('cashier.history.debt') }}">Riwayat
                         Hutang</a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link" href="{{ route('cashier.history.pay.debt') }}">Riwayat Pembayaran Hutang</a>
+                    <a class="nav-link {{ request()->routeIs('cashier.history.pay.debt') ? 'text-primary' : '' }}"
+                        href="{{ route('cashier.history.pay.debt') }}">Riwayat Pembayaran Hutang</a>
                 </li>
             </ul>
             <div class="d-block d-xl-none">
-                <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
-                    class="text-nowrap nav-link">
+                <a href="#" class="text-nowrap nav-link">
                     <img src="{{ asset('logo.png') }}" width="180" alt="modernize-img" />
                 </a>
             </div>
@@ -545,8 +547,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="user-profile-img">
                                         <img src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : asset('assets/images/profile/user-1.jpg') }}"
-                                            alt="photo" class="img-fluid rounded-circle mb-2"
-                                            style="object-fit: cover;" width="35" height="35">
+                                            alt="photo" class="rounded-circle mb-2" style="object-fit: cover;"
+                                            width="35" height="35">
                                     </div>
                                 </div>
                             </a>
@@ -560,8 +562,8 @@
                                     </div>
                                     <div class="d-flex align-items-center py-9 mx-7 border-bottom">
                                         <img src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : asset('assets/images/profile/user-1.jpg') }}"
-                                            alt="photo" class="img-fluid rounded-circle mb-2"
-                                            style="object-fit: cover;" width="80" height="80">
+                                            alt="photo" class="rounded-circle mb-2" style="object-fit: cover;"
+                                            width="80" height="80">
                                         <div class="ms-3">
                                             <h5 class="mb-1 fs-3">
                                                 {{ UserHelper::getUserName() }}
@@ -588,56 +590,9 @@
                                                 <span class="fs-2 d-block text-body-secondary">Pengaturan Akun</span>
                                             </div>
                                         </a>
-                                        <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/app-email.html"
-                                            class="py-8 px-7 d-flex align-items-center">
-                                            <span
-                                                class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                                                <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-inbox.svg"
-                                                    alt="modernize-img" width="24" height="24" />
-                                            </span>
-                                            <div class="w-100 ps-3">
-                                                <h6 class="mb-1 fs-3 fw-semibold lh-base">
-                                                    My Inbox
-                                                </h6>
-                                                <span class="fs-2 d-block text-body-secondary">Messages & Emails</span>
-                                            </div>
-                                        </a>
-                                        <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/app-notes.html"
-                                            class="py-8 px-7 d-flex align-items-center">
-                                            <span
-                                                class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                                                <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-tasks.svg"
-                                                    alt="modernize-img" width="24" height="24" />
-                                            </span>
-                                            <div class="w-100 ps-3">
-                                                <h6 class="mb-1 fs-3 fw-semibold lh-base">
-                                                    My Task
-                                                </h6>
-                                                <span class="fs-2 d-block text-body-secondary">To-do and Daily
-                                                    Tasks</span>
-                                            </div>
-                                        </a>
                                     </div>
                                     <div class="d-grid py-4 px-7 pt-8">
-                                        <div
-                                            class="upgrade-plan bg-primary-subtle position-relative overflow-hidden rounded-4 p-4 mb-9">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <h5 class="fs-4 mb-3 fw-semibold">
-                                                        Unlimited Access
-                                                    </h5>
-                                                    <button class="btn btn-primary">
-                                                        Upgrade
-                                                    </button>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="m-n4 unlimited-img">
-                                                        <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/backgrounds/unlimited-bg.png"
-                                                            alt="modernize-img" class="w-100" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                         <form action="{{ route('logout') }}" method="post">
                                             @csrf
                                             <button type="submit" class="btn btn-outline-primary">Log Out</button>
