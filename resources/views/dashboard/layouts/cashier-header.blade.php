@@ -12,15 +12,21 @@
                 <!-- ------------------------------- -->
                 <li class="nav-item dropdown-hover d-none d-lg-block">
                     <a class="nav-link"
-                        href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/app-chat.html">Chat</a>
+                        href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/app-chat.html">
+                        <i class="ti ti-message-circle"></i> Chat
+                    </a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
                     <a class="nav-link"
-                        href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/app-calendar.html">Calendar</a>
+                        href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/app-calendar.html">
+                        <i class="ti ti-calendar"></i> Calendar
+                    </a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
                     <a class="nav-link"
-                        href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/app-email.html">Email</a>
+                        href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/app-email.html">
+                        <i class="ti ti-mail"></i> Email
+                    </a>
                 </li>
             </ul>
 
@@ -92,7 +98,7 @@
                                                 class="rounded-circle object-fit-cover round-20" />
                                         </div>
                                         <p class="mb-0 fs-3">
-                                            français (French)
+                                            fran��ais (French)
                                         </p>
                                     </a>
                                     <a href="javascript:void(0)"
@@ -381,32 +387,43 @@
                 <!-- end apps Dropdown -->
                 <!-- ------------------------------- -->
                 <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link  {{ request()->routeIs('cashier.index') ? 'text-primary' : '' }}"
-                        href="{{ route('cashier.index') }}">Penjualan</a>
+                    <a class="nav-link {{ request()->routeIs('cashier.index') ? 'text-primary' : '' }}"
+                        href="{{ route('cashier.index') }}">
+                        <i class="ti ti-shopping-cart"></i> Penjualan
+                    </a>
                 </li>
                 @role('cashier')
                     <li class="nav-item dropdown-hover d-none d-lg-block">
                         <a class="nav-link {{ request()->routeIs('cashier.selling.history') ? 'text-primary' : '' }}"
-                            href="{{ route('cashier.selling.history') }}">Riwayat</a>
+                            href="{{ route('cashier.selling.history') }}">
+                            <i class="ti ti-history"></i> Riwayat
+                        </a>
                     </li>
                 @else
                     <li class="nav-item dropdown-hover d-none d-lg-block">
                         <a class="nav-link {{ request()->routeIs('cashier.admin.selling.history') ? 'text-primary' : '' }}"
-                            href="{{ route('cashier.admin.selling.history') }}">Riwayat</a>
+                            href="{{ route('cashier.admin.selling.history') }}">
+                            <i class="ti ti-history"></i> Riwayat
+                        </a>
                     </li>
                 @endrole
                 <li class="nav-item dropdown-hover d-none d-lg-block">
                     <a class="nav-link {{ request()->routeIs('cashier.list.debt') ? 'text-primary' : '' }}"
-                        href="{{ route('cashier.list.debt') }}">Daftar Hutang</a>
+                        href="{{ route('cashier.list.debt') }}">
+                        <i class="ti ti-list"></i> Daftar Hutang
+                    </a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
                     <a class="nav-link {{ request()->routeIs('cashier.history.debt') ? 'text-primary' : '' }}"
-                        href="{{ route('cashier.history.debt') }}">Riwayat
-                        Hutang</a>
+                        href="{{ route('cashier.history.debt') }}">
+                        <i class="ti ti-book"></i> Riwayat Hutang
+                    </a>
                 </li>
                 <li class="nav-item dropdown-hover d-none d-lg-block">
                     <a class="nav-link {{ request()->routeIs('cashier.history.pay.debt') ? 'text-primary' : '' }}"
-                        href="{{ route('cashier.history.pay.debt') }}">Riwayat Pembayaran Hutang</a>
+                        href="{{ route('cashier.history.pay.debt') }}">
+                        <i class="ti ti-credit-card"></i> Riwayat Pembayaran Hutang
+                    </a>
                 </li>
             </ul>
             <div class="d-block d-xl-none">
@@ -430,121 +447,6 @@
                         <i class="ti ti-align-justified fs-7"></i>
                     </a>
                     <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-                        <!-- ------------------------------- -->
-                        <!-- start notification Dropdown -->
-                        <!-- ------------------------------- -->
-                        <li class="nav-item nav-icon-hover-bg rounded-circle dropdown">
-                            <a class="nav-link position-relative" href="javascript:void(0)" id="drop2"
-                                aria-expanded="false">
-                                <i class="ti ti-bell-ringing"></i>
-                                <div class="notification bg-primary rounded-circle"></div>
-                            </a>
-                            <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
-                                aria-labelledby="drop2">
-                                <div class="d-flex align-items-center justify-content-between py-3 px-7">
-                                    <h5 class="mb-0 fs-5 fw-semibold">
-                                        Notifications
-                                    </h5>
-                                    <span class="badge text-bg-primary rounded-4 px-3 py-1 lh-sm">5 new</span>
-                                </div>
-                                <div class="message-body" data-simplebar>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/profile/user-2.jpg"
-                                                alt="user" class="rounded-circle" width="48"
-                                                height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">
-                                                Roman Joined the Team!
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">Congratulate him</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/profile/user-3.jpg"
-                                                alt="user" class="rounded-circle" width="48"
-                                                height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">
-                                                New message
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">Salma sent you new
-                                                message</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/profile/user-4.jpg"
-                                                alt="user" class="rounded-circle" width="48"
-                                                height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">
-                                                Bianca sent payment
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">Check your earnings</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/profile/user-5.jpg"
-                                                alt="user" class="rounded-circle" width="48"
-                                                height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">
-                                                Jolly completed tasks
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">Assign her new tasks</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/profile/user-6.jpg"
-                                                alt="user" class="rounded-circle" width="48"
-                                                height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">
-                                                John received payment
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">$230 deducted from
-                                                account</span>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="py-6 px-7 d-flex align-items-center dropdown-item">
-                                        <span class="me-3">
-                                            <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/profile/user-7.jpg"
-                                                alt="user" class="rounded-circle" width="48"
-                                                height="48" />
-                                        </span>
-                                        <div class="w-100">
-                                            <h6 class="mb-1 fw-semibold lh-base">
-                                                Roman Joined the Team!
-                                            </h6>
-                                            <span class="fs-2 d-block text-body-secondary">Congratulate him</span>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="py-6 px-7 mb-1">
-                                    <button class="btn btn-outline-primary w-100">
-                                        See All Notifications
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- ------------------------------- -->
-                        <!-- end notification Dropdown -->
-                        <!-- ------------------------------- -->
 
                         <!-- ------------------------------- -->
                         <!-- start profile Dropdown -->
