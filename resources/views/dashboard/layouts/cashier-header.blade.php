@@ -384,10 +384,17 @@
                     <a class="nav-link  {{ request()->routeIs('cashier.index') ? 'text-primary' : '' }}"
                         href="{{ route('cashier.index') }}">Penjualan</a>
                 </li>
-                <li class="nav-item dropdown-hover d-none d-lg-block">
-                    <a class="nav-link {{ request()->routeIs('cashier.selling.history') ? 'text-primary' : '' }}"
-                        href="{{ route('cashier.selling.history') }}">Riwayat</a>
-                </li>
+                @role('cashier')
+                    <li class="nav-item dropdown-hover d-none d-lg-block">
+                        <a class="nav-link {{ request()->routeIs('cashier.selling.history') ? 'text-primary' : '' }}"
+                            href="{{ route('cashier.selling.history') }}">Riwayat</a>
+                    </li>
+                @else
+                    <li class="nav-item dropdown-hover d-none d-lg-block">
+                        <a class="nav-link {{ request()->routeIs('cashier.admin.selling.history') ? 'text-primary' : '' }}"
+                            href="{{ route('cashier.admin.selling.history') }}">Riwayat</a>
+                    </li>
+                @endrole
                 <li class="nav-item dropdown-hover d-none d-lg-block">
                     <a class="nav-link {{ request()->routeIs('cashier.list.debt') ? 'text-primary' : '' }}"
                         href="{{ route('cashier.list.debt') }}">Daftar Hutang</a>

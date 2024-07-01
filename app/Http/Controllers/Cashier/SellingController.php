@@ -118,4 +118,16 @@ class SellingController extends Controller
             return view('dashboard.selling.history', compact('histories'));
         }
     }
+    /**
+     * Method adminHistory
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return View
+     */
+    public function adminSellingHistory(Request $request): View
+    {
+        $histories = $this->selling->customPaginate($request);
+        return view('dashboard.selling.cashier-history', compact('histories'));
+    }
 }

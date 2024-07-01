@@ -111,7 +111,7 @@
                             <span class="hide-menu">Kasir</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('admin.purchases.create') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ route('cashier.index') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
                                 </span>
