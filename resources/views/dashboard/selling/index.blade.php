@@ -31,7 +31,7 @@
                                         <select name="name" class="select2Input form-control" id="customer-name">
                                             <option value="">Pilih Pembeli</option>
                                             @foreach ($buyers as $buyer)
-                                                <option value="{{ $buyer->id }}">{{ $buyer->name }}</option>
+                                                <option value="{{ $buyer->name }}">{{ $buyer->name }}</option>
                                             @endforeach
                                         </select>
 
@@ -43,41 +43,6 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="">
-                                            <p class="mb-2">Pilih Metode Pembayaran</p>
-                                            <div class="d-flex flex-row gap-3">
-                                                <div><input type="radio" value="{{ StatusEnum::CASH->value }}"
-                                                        name="status_payment" style="margin-right: 3px;"
-                                                        id="tunai"><label for="tunai">Tunai</label></div>
-                                                <div><input type="radio" value="{{ StatusEnum::DEBT->value }}"
-                                                        name="status_payment" style="margin-right: 3px;"
-                                                        id="hutang"><label for="hutang">Hutang</label></div>
-                                            </div>
-                                            <br>
-                                        </div>
-                                        <div id="cash">
-                                            <label for="pay" class="mb-2">Bayar: </label>
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text" id="basic-addon1">Rp</span>
-                                                <input type="number" placeholder="10000" min="0" id="pay"
-                                                    name="pay" class="form-control" aria-label="Username"
-                                                    aria-describedby="basic-addon1">
-                                            </div>
-                                            <label for="return" class="mb-2">Kembali: </label>
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text" id="basic-addon1">Rp</span>
-                                                <input type="number" min="0" placeholder="5000" id="return"
-                                                    name="return" class="form-control" aria-label="Username"
-                                                    aria-describedby="basic-addon1" readonly>
-                                            </div>
-                                        </div>
-                                        <div id="code_debt">
-                                            <label for="">Masukkan Kode Toko: </label>
-                                            <input type="text" class="form-control" name="code_debt" id="">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary mt-3">
-                                            Bayar
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -98,9 +63,62 @@
                                             <div class=""></div>
                                         </div>
                                     </div>
+                                    <div class="card p-4" id="dataCustomer">
+                                        <div class="">
+                                            <div class="d-flex justify-content-between">
+                                                <h5>Data Pembeli</h5>
+                                                <p>{{ FormatedHelper::dateTimeFormat(now()) }}</p>
+                                            </div>
+                                            <div class="">
+                                                <p class="font-bold"><span style="font-weight: 700" id="customerNama">
+                                                        Nama:</span>
+                                                </p>
+                                                <p class="font-bold"><span style="font-weight: 700" id="customerAddress">
+                                                        Alamat:</span>
+                                                </p>
+                                            </div>
+
+                                            <div class="border-top">
+                                                <p class="mb-2">Pilih Metode Pembayaran</p>
+                                                <div class="d-flex flex-row gap-3">
+                                                    <div><input type="radio" value="{{ StatusEnum::CASH->value }}"
+                                                            name="status_payment" style="margin-right: 3px;"
+                                                            id="tunai"><label for="tunai">Tunai</label></div>
+                                                    <div><input type="radio" value="{{ StatusEnum::DEBT->value }}"
+                                                            name="status_payment" style="margin-right: 3px;"
+                                                            id="hutang"><label for="hutang">Hutang</label></div>
+                                                </div>
+                                                <br>
+                                            </div>
+                                            <div id="cash">
+                                                <label for="pay" class="mb-2">Bayar: </label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="basic-addon1">Rp</span>
+                                                    <input type="number" placeholder="10000" min="0" id="pay"
+                                                        name="pay" class="form-control" aria-label="Username"
+                                                        aria-describedby="basic-addon1">
+                                                </div>
+                                                <label for="return" class="mb-2">Kembali: </label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="basic-addon1">Rp</span>
+                                                    <input type="number" min="0" placeholder="5000" id="return"
+                                                        name="return" class="form-control" aria-label="Username"
+                                                        aria-describedby="basic-addon1" readonly>
+                                                </div>
+                                            </div>
+                                            <div id="code_debt">
+                                                <label for="">Masukkan Kode Toko: </label>
+                                                <input type="text" class="form-control" name="code_debt"
+                                                    id="">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mt-3">
+                                                Bayar
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="" id="productPage">
+                            <div class="mt-5" id="productPage">
                                 <div class="col-12 mt-3">
                                     <select name="code" class="select2 form-control" name="code" id="code">
                                         <option value="">Pilih Produk</option>
@@ -159,7 +177,6 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="field">
-
                                                         </tbody>
                                                         <tr>
                                                             <td colspan="4">
@@ -204,8 +221,8 @@
 
             $(document).ready(function() {
                 $('#productPage').addClass('d-none');
-                $('#customer-name, #customer-address').on('input', function() {
-                    if ($('#customer-name').val() && $('#customer-address').val()) {
+                $('#customer-name').on('input', function() {
+                    if ($('#customer-name').val()) {
                         $('#productPage').removeClass('d-none');
                     } else {
                         $('#productPage').addClass('d-none');
@@ -265,7 +282,7 @@ ${productUnit.unit.name}
     <input type="number" data-id="${response.data.id}-${index}" name="quantity[]" class="form-control quantity" placeholder="0" min="1" value="1" />
 </td>
 <td>
-    <input type="text" value="${response.data.product_units[0].selling_price}" name="unit_price[]" id="unit-price-${response.data.id}-${index}" class="form-control unit-price" readonly />
+    <input type="text" value="${response.data.product_units[0].selling_price}" name="product_unit_price[]" id="unit-price-${response.data.id}-${index}" class="form-control unit-price" />
 </td>
 <td>
     <input type="text" value="${response.data.product_units[0].selling_price}" name="selling_price[]" id="price-${response.data.id}-${index}" class="form-control selling-price" readonly />
@@ -311,11 +328,20 @@ ${productUnit.unit.name}
                 function updateRowPrice(element) {
                     var id = element.data('id');
                     var productId = $('#product_unit_' + id).val();
-                    var price = $('#selling-price-' + productId).data('selling-price');
+                    var price = $('#unit-price-' + id).val(); // Mengambil harga satuan yang diubah
                     var totalPrice = price * element.val();
                     $('#price-' + id).val(totalPrice);
                     updateTotalPrice();
                 }
+
+                $('#field').on('keyup', '.unit-price', function() {
+                    var row = $(this).closest('tr');
+                    var quantity = row.find('.quantity').val();
+                    var unitPrice = $(this).val();
+                    var totalPrice = unitPrice * quantity;
+                    row.find('.selling-price').val(totalPrice);
+                    updateTotalPrice();
+                });
 
                 function updateTotalPrice() {
                     var sellingPrices = $('.selling-price').map(function() {
