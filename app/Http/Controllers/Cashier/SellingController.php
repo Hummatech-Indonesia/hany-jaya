@@ -60,7 +60,6 @@ class SellingController extends Controller
     public function store(SellingRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        // dd($data);
         $serviceSellingPrice = $this->sellingService->sellingPrice($data);
 
         if (is_array($serviceSellingPrice)) {
@@ -88,6 +87,7 @@ class SellingController extends Controller
                 $this->detailSelling->store([
                     'selling_id' => $selling->id,
                     'product_id' => $data['product_id'][$i],
+                    'product_unit_price' => $data['product_unit_price'][$i],
                     'product_unit_id' => $data['product_unit_id'][$i],
                     'quantity' => $data['quantity'][$i],
                     'selling_price' => $data['selling_price'][$i],

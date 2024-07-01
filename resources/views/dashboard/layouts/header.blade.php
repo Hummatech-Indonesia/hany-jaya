@@ -121,7 +121,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="user-profile-img">
                                     <img src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : asset('assets/images/profile/user-1.jpg') }}"
-                                            alt="photo" class="img-fluid rounded-circle mb-2"
+                                            alt="photo" class="rounded-circle mb-2"
                                             style="object-fit: cover;" width="35" height="35">
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="d-flex align-items-center py-9 mx-7 border-bottom">
                                     <img src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : asset('assets/images/profile/user-1.jpg') }}"
-                                        alt="photo" class="img-fluid rounded-circle" style="object-fit: cover;"
+                                        alt="photo" class="rounded-circle" style="object-fit: cover;"
                                         width="80" height="80">
                                     <div class="ms-3">
                                         <h5 class="mb-1 fs-3">

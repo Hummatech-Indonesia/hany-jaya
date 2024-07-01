@@ -18,6 +18,7 @@ class SellingRequest extends FormRequest
         return [
             'name' => 'required',
             'address' => 'required',
+            'product_unit_price'=>'required',
             'pay' => 'nullable',
             'code_debt' => 'nullable',
             'return' => 'nullable',
@@ -41,6 +42,7 @@ class SellingRequest extends FormRequest
     {
         return [
             'name.required' => 'Nama wajib diisi.',
+            'product_unit_price.required'=>'Harga Satuan wajib diisi',
             'address.required' => 'Alamat wajib diisi.',
             'status_payment.required' => 'Status pembayaran wajib diisi.',
             'product_id.required' => 'Produk wajib dipilih.',

@@ -12,7 +12,7 @@
                 <div class="modal-body">
                     <div class="text-center mb-2">
                         <img src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : asset('assets/images/profile/user-1.jpg') }}"
-                            alt="photo" class="img-fluid rounded-circle mb-2" style="object-fit: cover;"
+                            alt="photo" class="rounded-circle mb-2" style="object-fit: cover;"
                             width="150" height="150">
 
                         <div class="d-flex justify-content-center">

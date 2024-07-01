@@ -53,7 +53,7 @@
                 <!-- Start Vertical Layout Sidebar -->
                 <!-- ---------------------------------- -->
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="https://bootstrapdemos.adminmart.com/modernize/dist/horizontal/index.html"
+                    <a href="#"
                         class="text-nowrap logo-img">
                         <img src="{{asset('logo.png')}}"
                             class="dark-logo" alt="Logo-Dark" />
@@ -1700,12 +1700,6 @@
                     );
                 }
             </script>
-            <button
-                class="btn btn-primary p-3 rounded-circle d-flex align-items-center justify-content-center customizer-btn"
-                type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
-                aria-controls="offcanvasExample">
-                <i class="icon ti ti-settings fs-7"></i>
-            </button>
 
             <div class="offcanvas customizer offcanvas-end" tabindex="-1" id="offcanvasExample"
                 aria-labelledby="offcanvasExampleLabel">
