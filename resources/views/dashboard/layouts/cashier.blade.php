@@ -19,7 +19,7 @@
 
     @yield('style')
 
-    <title>Modernize Bootstrap Admin</title>
+    <title>Hany Jaya</title>
     <!-- Owl Carousel  -->
     <link rel="stylesheet"
         href="https://bootstrapdemos.adminmart.com/modernize/dist/assets/libs/owl.carousel/dist/assets/owl.carousel.min.css" />
