@@ -5,6 +5,7 @@ namespace App\Services\Auth;
 use App\Contracts\Interfaces\UserInterface;
 use App\Enums\RoleEnum;
 use App\Enums\StatusEnum;
+use App\Helpers\UserHelper;
 use App\Http\Requests\LoginRequest;
 
 class LoginService
@@ -27,10 +28,11 @@ class LoginService
                 setcookie("email", "");
                 setcookie("password", "");
             }
-            if ($user->hasRole(RoleEnum::CASHIER)) {
+            if (in_array(RoleEnum::ADMIN->value, auth()->user()->roles->pluck('name')->toArray()) ||  $user->hasRole(RoleEnum::OWNER->value)) {
+                return redirect()->route('home')->with('success', 'Berhasil Login.');
+            } else {
                 return redirect()->route('cashier.index')->with('success', 'Berhasil Login');
             }
-            return redirect()->route('home')->with('success', 'Berhasil Login.');
         } else {
             return redirect()->back()->withErrors('Password dan Email anda tidak sesuai')->withInput();
         }
