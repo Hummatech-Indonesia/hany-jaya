@@ -93,4 +93,17 @@ class BuyerRepository extends BaseRepository implements BuyerInterface
             ->take(5)
             ->get();
     }
+
+    /**
+     * getBuyer with query search
+     *
+     * @return mixed
+     */
+    public function getBuyer(Request $request): mixed
+    {
+        return $this->model->query()
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('address', 'LIKE', '%' . $request->search . '%');
+            })->get();
+    }
 }
