@@ -91,7 +91,8 @@ class SellingController extends Controller
                     'product_unit_id' => $data['product_unit_id'][$i],
                     'quantity' => $data['quantity'][$i],
                     'selling_price' => $data['selling_price'][$i],
-                    'nominal_discount' => $productUnit->selling_price - intval($data['selling_price'][$i])
+                    'nominal_discount' => $productUnit->selling_price - intval($data['selling_price'][$i]),
+                    'selling_price_original' => $productUnit->selling_price
                 ]);
             }
             return to_route('cashier.selling.history')->with('success', trans('alert.add_success'));
@@ -129,5 +130,52 @@ class SellingController extends Controller
     {
         $histories = $this->selling->customPaginate($request);
         return view('dashboard.selling.cashier-history', compact('histories'));
+    }
+
+    /**
+     * Get User for api
+     * 
+     * Param search for query LIKE
+     * ?search
+     * 
+     * @return #list buyer
+     */
+    public function listBuyer(Request $request)
+    {
+        $buyer = $this->buyer->getBuyer($request);
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Berhasil mengambil data pembeli",
+            "data" => $buyer
+        ]);
+    }
+
+    /**
+     * Get User history transaction for api
+     * 
+     * Param for get history transaction
+     * findone
+     * 
+     * @return #list buyer
+     */
+    public function dataUserTransactionHistoryLatest(Request $request)
+    {
+        if(!$request->buyer_id)
+        {
+            return response()->json([
+                "status" => 400,
+                "message" => "Field 'buyer_id' ini harus dikirim",
+                "data" => null
+            ]);
+        }
+
+        $transaction = $this->selling->findTransactionByProductAndUser($request);
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Berhasil mengambil data pembeli",
+            "data" => $transaction
+        ]);
     }
 }
