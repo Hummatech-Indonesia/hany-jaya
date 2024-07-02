@@ -10,6 +10,7 @@ use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Enums\RoleEnum;
 use App\Enums\StatusEnum;
+use App\Helpers\BaseResponse;
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cashier\SellingRequest;
@@ -144,11 +145,7 @@ class SellingController extends Controller
     {
         $buyer = $this->buyer->getBuyer($request);
 
-        return response()->json([
-            "status" => 200,
-            "message" => "Berhasil mengambil data pembeli",
-            "data" => $buyer
-        ]);
+        return BaseResponse::Ok("Berhasil mengambil list data pembeli",$buyer);
     }
 
     /**
@@ -163,19 +160,11 @@ class SellingController extends Controller
     {
         if(!$request->buyer_id)
         {
-            return response()->json([
-                "status" => 400,
-                "message" => "Field 'buyer_id' ini harus dikirim",
-                "data" => null
-            ]);
+            return BaseResponse::Error("Field 'buyer_id' ini harus dikirim");
         }
 
         $transaction = $this->selling->findTransactionByProductAndUser($request);
 
-        return response()->json([
-            "status" => 200,
-            "message" => "Berhasil mengambil data pembeli",
-            "data" => $transaction
-        ]);
+        return BaseResponse::Ok("Berhasil megambil data history transaction",$transaction);
     }
 }
