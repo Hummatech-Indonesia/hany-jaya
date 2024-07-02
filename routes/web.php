@@ -88,6 +88,7 @@ Route::middleware('auth')->group(function () {
         Route::get('admin-selling-histories',[SellingController::class,'adminSellingHistory'])->name('admin.selling.history');
         Route::get('selling-histories', [SellingController::class, 'history'])->name('selling.history');
         Route::get('show-product', [ProductController::class, 'showProduct'])->name('show.product');
+        Route::get('get-last-purchases/{productUnit?}/{user?}', [PurchasesController::class, 'getLast'])->name('get.last.purchases');
         Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');
         Route::post('sellings', [SellingController::class, 'store'])->name('selling.store');
         Route::patch('pay-debt/{buyer}', [DebtController::class, 'payDebt'])->name('pay.debt');

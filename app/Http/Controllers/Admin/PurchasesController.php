@@ -7,11 +7,17 @@ use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Interfaces\Admin\PurchaseInterface;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PurchaseRequest;
+use App\Models\DetailPurchase;
+use App\Models\ProductUnit;
+use App\Models\Purchase;
+use App\Models\User;
 use App\Services\Admin\PurchaseService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View as ViewView;
@@ -78,5 +84,18 @@ class PurchasesController extends Controller
         }
         $purchases = $this->purchase->customPaginate($request, 10);
         return view('dashboard.purchase.history', compact('purchases'));
+    }
+
+    /**
+     * getLast
+     *
+     * @param  mixed $productUnit
+     * @param  mixed $user
+     * @return JsonResponse
+     */
+    public function getLast(ProductUnit $productUnit, User $user): JsonResponse
+    {
+        $detailPurchase = DetailPurchase::query()->where('product_unit_id', $productUnit->id)->whereRelation('purchase', 'user_id', $user->id)->latest()->first();
+        return ResponseHelper::success($detailPurchase->buy_price_per_unit);
     }
 }
