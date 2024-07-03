@@ -92,7 +92,9 @@ class SellingRepository extends BaseRepository implements SellingInterface
         return $this->model->query()
         ->with('detailSellings')
         ->when($request->product_unit_id, function ($query) use ($request) {
-            $query->where('detailSellings.product_unit_id',$request->product_unit_id);
+            $query->whereHas('detailSellings',function($query2) use ($request){
+                $query2->where("product_unit_id", $request->product_unit_id);
+            });
         })
         ->where("buyer_id",$request->buyer_id)
         ->latest()->first();
