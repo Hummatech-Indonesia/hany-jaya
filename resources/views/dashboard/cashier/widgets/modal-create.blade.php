@@ -14,17 +14,17 @@
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
                         <label for="cashier-name" class="form-label fw-semibold">Nama <small class="text-danger">*</small></label>
-                        <input name="name" id="cashier-name" type="text" class="form-control" autofocus="true" placeholder="Kasir"
+                        <input tabindex="1" name="name" id="cashier-name" type="text" class="form-control" autofocus="true" placeholder="Kasir"
                             value="{{ old('name') }}" />
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="cashier-email" class="form-label fw-semibold">Email <small class="text-danger">*</small></label>
-                        <input name="email" id="cashier-email" type="email" class="form-control" placeholder="kasir@gmail.com"
+                        <input tabindex="2" name="email" id="cashier-email" type="email" class="form-control" placeholder="kasir@gmail.com"
                             value="{{ old('email') }}" />
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="exampleInputPassword1" class="form-label fw-semibold">Password <small>(opsional)</small></label>
-                        <input name="password" type="password" class="form-control" value="{{ old('password') }}" />
+                        <input tabindex="3" name="password" type="password" class="form-control" value="{{ old('password') }}" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -32,7 +32,7 @@
                         data-bs-dismiss="modal">
                         Tutup
                     </button>
-                    <button type="submit"
+                    <button tabindex="4" type="submit"
                         class="btn btn-primary font-medium waves-effect text-start btn-tambah">
                         Tambah
                     </button>
