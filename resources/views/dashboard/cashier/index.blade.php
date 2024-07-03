@@ -162,6 +162,14 @@
             $("#form-update").submit();
         });
 
+        // set autofocus 
+        $("#modalAddCashier").on("shown.bs.modal", function() {
+            $("#cashier-name").focus();
+        });
+        $("#modalEditCashier").on("shown.bs.modal", function() {
+            $("#edit-cashier-name").focus();
+        });
+
         // clear error message 
         $("#modalAddCashier").on("hidden.bs.modal", function() {
             $("#cashier-name").removeClass("is-invalid");

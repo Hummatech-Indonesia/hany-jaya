@@ -125,6 +125,14 @@
 @endsection
 @section('script')
     <script>
+        // set autofocus 
+        $("#modalAddCategory").on("shown.bs.modal", function() {
+            $("#category-name").focus();
+        });
+        $("#modalUpdateCategory").on("shown.bs.modal", function() {
+            $("#edit-name-category").focus();
+        });
+
         function validate(listId, listMessage) {
             let countError = 0;
             listId.map(id => {

@@ -147,6 +147,14 @@
     </script>
     <script>
 
+        // set autofocus 
+        $('#modalAddSuplier').on('shown.bs.modal', function () {
+            $('#supplier-name').focus();
+        });
+        $('#modalUpdateSuplier').on('shown.bs.modal', function () {
+            $('#edit-supplier-name').focus();
+        });
+
         function validate(listId, listMessage) {
             let countError = 0;
             listId.map(id => {

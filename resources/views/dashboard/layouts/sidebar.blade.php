@@ -90,7 +90,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.products.index') }}" aria-expanded="false">
+                        <a class="sidebar-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}" aria-expanded="false">
                             <span>
                                 <i class="ti ti-package"></i> <!-- Ganti ikon di sini -->
                             </span>
