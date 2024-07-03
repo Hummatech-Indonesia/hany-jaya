@@ -1,6 +1,13 @@
 <!--  Header Start -->
 <header class="app-header">
     <nav class="navbar navbar-expand-lg navbar-light">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse" href="javascript:void(0)">
+                <i class="ti ti-menu-2"></i>
+              </a>
+            </li>
+          </ul>
         <div class="d-block d-lg-none">
             <img src="{{ asset('logo.png') }}" class="dark-logo" width="180" alt="" />
             <img src="{{ asset('logo.png') }}" class="light-logo" width="180" alt="" />

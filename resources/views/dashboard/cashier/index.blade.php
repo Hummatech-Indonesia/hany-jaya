@@ -26,17 +26,17 @@
                 </div>
             </div>
         </div>
-        <form action="" method="get" style="margin-bottom: 1rem">
-            <div class="row justify-content-end">
-                <div class="col-3">
-                    <input type="text" value="{{ Request::get('name') }}" class="form-control" id="name"
-                        name="name" aria-describedby="name" placeholder="Name" />
-                </div>
-                <div class="col-1">
-                    <button class="btn btn-primary">Cari</button>
-                </div>
-            </div>
-        </form>
+        <div class="row">
+                <form class="col-12" action="" method="get">
+                    <div class="d-flex flex-row gap-2 justify-content-end">
+                        <div class="col-md-3 col-sm-6">
+                            <input type="text" value="{{ Request::get('name') }}" class="form-control" id="name"
+                                name="name" aria-describedby="name" placeholder="Name" />
+                        </div>
+                        <button class="btn btn-primary">Cari</button>
+                    </div>
+                </form>
+        </div>
         <div class="row mt-3">
             @if (session()->has('error'))
                 <div class="col-12">
