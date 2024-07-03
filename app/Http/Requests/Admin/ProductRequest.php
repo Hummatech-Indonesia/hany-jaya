@@ -41,24 +41,24 @@ class ProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'category_id.required' => 'The category field is required.',
-            'category_id.exists' => 'The selected category is invalid.',
-            'unit_id.required' => 'The unit field is required.',
-            'unit_id.*.required' => 'The unit field is required.',
-            'unit_id.*.exists' => 'The selected unit is invalid.',
-            'quantity_in_small_unit.required' => 'The quantity in small unit field is required.',
-            'quantity_in_small_unit.*.required' => 'The quantity in small unit field is required.',
-            'small_unit_id.required' => 'The small unit field is required.',
-            'small_unit_id.exists' => 'The selected small unit is invalid.',
-            'code.required' => 'The code field is required.',
-            'code.unique' => 'The code has already been taken.',
-            'name.required' => 'The name field is required.',
-            'name.max' => 'The name may not be greater than 255 characters.',
-            'selling_price.required' => 'The selling price field is required.',
-            'selling_price.*.required' => 'The selling price field is required.',
-            'image.mimes' => 'The image must be a file of type: png, jpg, jpeg.',
-            'supplier_id.required' => 'The supplier field is required.',
-            'supplier_id.*.exists' => 'The selected supplier is invalid.'
+            'category_id.required' => 'Katergori wajib dipilih',
+            'category_id.exists' => 'Kategori tidak ditemukan',
+            'unit_id.required' => 'Satuan wajib dipilih',
+            'unit_id.*.required' => 'Satuan wajib dipilih',
+            'unit_id.*.exists' => 'Satuan tidak ditemukan',
+            'quantity_in_small_unit.required' => 'Jumlah satuan kecil wajib diisi',
+            'quantity_in_small_unit.*.required' => 'Jumlah satuan kecil wajib diisi',
+            'small_unit_id.required' => 'Satuan kecil wajib dipilih',
+            'small_unit_id.exists' => 'Satuan kecil tidak ditemukan',
+            'code.required' => 'Kode wajib diisi',
+            'code.unique' => 'Kode sudah digunakan',
+            'name.required' => 'Nama wajib diisi',
+            'name.max' => 'Nama maksimal 255 karakter',
+            'selling_price.required' => 'Harga jual wajib diisi',
+            'selling_price.*.required' => 'Harga jual wajib diisi',
+            'image.mimes' => 'Format gambar harus png, jpg, jpeg',
+            'supplier_id.required' => 'Pemasok wajib dipilih',
+            'supplier_id.*.exists' => 'Pemasok tidak ditemukan'
         ];
     }
 }
