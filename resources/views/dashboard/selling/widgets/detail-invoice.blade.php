@@ -64,10 +64,6 @@
                         data-bs-dismiss="modal">
                         Tutup
                     </button>
-                    <button type="submit"
-                        class="btn btn-light-primary text-primary font-medium waves-effect text-start">
-                        Edit
-                    </button>
                 </div>
             </div>
         </div>
