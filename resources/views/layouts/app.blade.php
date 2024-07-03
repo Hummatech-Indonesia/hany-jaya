@@ -58,7 +58,7 @@
                     <div class="row">
                         <div class="col-xl-7 col-xxl-8">
                             <a
-                                href="index-2.html"
+                                href="/"
                                 class="text-nowrap logo-img d-block px-4 py-9 w-100"
                             >
                                 <img

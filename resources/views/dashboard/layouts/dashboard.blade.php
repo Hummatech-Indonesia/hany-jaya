@@ -64,188 +64,128 @@
             </div>
             <div class="offcanvas-body profile-dropdown mobile-navbar" data-simplebar="" data-simplebar>
                 <ul id="sidebarnav">
-                    <li class="sidebar-item">
-                        <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-apps"></i>
-                            </span>
-                            <span class="hide-menu">Apps</span>
-                        </a>
-                        <ul aria-expanded="false" class="collapse first-level my-3">
-                            <li class="sidebar-item py-2">
-                                <a href="#" class="d-flex align-items-center">
-                                    <div
-                                        class="bg-light rounded-1 me-3 p-6 d-flex align-items-center justify-content-center">
-                                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/icon-dd-chat.svg"
-                                            alt="" class="img-fluid" width="24" height="24" />
-                                    </div>
-                                    <div class="d-inline-block">
-                                        <h6 class="mb-1 bg-hover-primary">
-                                            Chat Application
-                                        </h6>
-                                        <span class="fs-2 d-block fw-normal text-muted">New messages arrived</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="sidebar-item py-2">
-                                <a href="#" class="d-flex align-items-center">
-                                    <div
-                                        class="bg-light rounded-1 me-3 p-6 d-flex align-items-center justify-content-center">
-                                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/icon-dd-invoice.svg"
-                                            alt="" class="img-fluid" width="24" height="24" />
-                                    </div>
-                                    <div class="d-inline-block">
-                                        <h6 class="mb-1 bg-hover-primary">
-                                            Invoice App
-                                        </h6>
-                                        <span class="fs-2 d-block fw-normal text-muted">Get latest invoice</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="sidebar-item py-2">
-                                <a href="#" class="d-flex align-items-center">
-                                    <div
-                                        class="bg-light rounded-1 me-3 p-6 d-flex align-items-center justify-content-center">
-                                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/icon-dd-mobile.svg"
-                                            alt="" class="img-fluid" width="24" height="24" />
-                                    </div>
-                                    <div class="d-inline-block">
-                                        <h6 class="mb-1 bg-hover-primary">
-                                            Contact Application
-                                        </h6>
-                                        <span class="fs-2 d-block fw-normal text-muted">2 Unsaved Contacts</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="sidebar-item py-2">
-                                <a href="#" class="d-flex align-items-center">
-                                    <div
-                                        class="bg-light rounded-1 me-3 p-6 d-flex align-items-center justify-content-center">
-                                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/icon-dd-message-box.svg"
-                                            alt="" class="img-fluid" width="24" height="24" />
-                                    </div>
-                                    <div class="d-inline-block">
-                                        <h6 class="mb-1 bg-hover-primary">
-                                            Email App
-                                        </h6>
-                                        <span class="fs-2 d-block fw-normal text-muted">Get new emails</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="sidebar-item py-2">
-                                <a href="#" class="d-flex align-items-center">
-                                    <div
-                                        class="bg-light rounded-1 me-3 p-6 d-flex align-items-center justify-content-center">
-                                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/icon-dd-cart.svg"
-                                            alt="" class="img-fluid" width="24" height="24" />
-                                    </div>
-                                    <div class="d-inline-block">
-                                        <h6 class="mb-1 bg-hover-primary">
-                                            User Profile
-                                        </h6>
-                                        <span class="fs-2 d-block fw-normal text-muted">learn more information</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="sidebar-item py-2">
-                                <a href="#" class="d-flex align-items-center">
-                                    <div
-                                        class="bg-light rounded-1 me-3 p-6 d-flex align-items-center justify-content-center">
-                                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/icon-dd-date.svg"
-                                            alt="" class="img-fluid" width="24" height="24" />
-                                    </div>
-                                    <div class="d-inline-block">
-                                        <h6 class="mb-1 bg-hover-primary">
-                                            Calendar App
-                                        </h6>
-                                        <span class="fs-2 d-block fw-normal text-muted">Get dates</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="sidebar-item py-2">
-                                <a href="#" class="d-flex align-items-center">
-                                    <div
-                                        class="bg-light rounded-1 me-3 p-6 d-flex align-items-center justify-content-center">
-                                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/icon-dd-lifebuoy.svg"
-                                            alt="" class="img-fluid" width="24" height="24" />
-                                    </div>
-                                    <div class="d-inline-block">
-                                        <h6 class="mb-1 bg-hover-primary">
-                                            Contact List Table
-                                        </h6>
-                                        <span class="fs-2 d-block fw-normal text-muted">Add new contact</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="sidebar-item py-2">
-                                <a href="#" class="d-flex align-items-center">
-                                    <div
-                                        class="bg-light rounded-1 me-3 p-6 d-flex align-items-center justify-content-center">
-                                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/icon-dd-application.svg"
-                                            alt="" class="img-fluid" width="24" height="24" />
-                                    </div>
-                                    <div class="d-inline-block">
-                                        <h6 class="mb-1 bg-hover-primary">
-                                            Notes Application
-                                        </h6>
-                                        <span class="fs-2 d-block fw-normal text-muted">To-do and Daily tasks</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <ul class="px-8 mt-7 mb-4">
-                                <li class="sidebar-item mb-3">
-                                    <h5 class="fs-5 fw-semibold">
-                                        Quick Links
-                                    </h5>
-                                </li>
-                                <li class="sidebar-item py-2">
-                                    <a class="fw-semibold text-dark" href="#">Pricing Page</a>
-                                </li>
-                                <li class="sidebar-item py-2">
-                                    <a class="fw-semibold text-dark" href="#">Authentication Design</a>
-                                </li>
-                                <li class="sidebar-item py-2">
-                                    <a class="fw-semibold text-dark" href="#">Register Now</a>
-                                </li>
-                                <li class="sidebar-item py-2">
-                                    <a class="fw-semibold text-dark" href="#">404 Error Page</a>
-                                </li>
-                                <li class="sidebar-item py-2">
-                                    <a class="fw-semibold text-dark" href="#">Notes App</a>
-                                </li>
-                                <li class="sidebar-item py-2">
-                                    <a class="fw-semibold text-dark" href="#">User Application</a>
-                                </li>
-                                <li class="sidebar-item py-2">
-                                    <a class="fw-semibold text-dark" href="#">Account Settings</a>
-                                </li>
-                            </ul>
-                        </ul>
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">Menu</span>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="app-chat.html" aria-expanded="false">
+                        <a class="sidebar-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}"
+                            aria-expanded="false">
                             <span>
-                                <i class="ti ti-message-dots"></i>
+                                <i class="ti ti-home"></i> <!-- Ganti ikon di sini -->
                             </span>
-                            <span class="hide-menu">Chat</span>
+                            <span class="hide-menu">Beranda</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="app-calendar.html" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-calendar"></i>
-                            </span>
-                            <span class="hide-menu">Calendar</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="app-email.html" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-mail"></i>
-                            </span>
-                            <span class="hide-menu">Email</span>
-                        </a>
-                    </li>
+    
+                    @role(['admin', 'owner'])
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Master</span>
+                        </li>
+                        @role('owner')
+                            <li class="sidebar-item">
+                                <a class="sidebar-link {{ request()->routeIs('admin.cashiers.admin') ? 'active' : '' }}"
+                                    href="{{ route('admin.cashiers.admin') }}" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-user"></i> <!-- Ganti ikon di sini -->
+                                    </span>
+                                    <span class="hide-menu">Data Admin</span>
+                                </a>
+                            </li>
+                        @endrole
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.cashiers.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-wallet"></i> <!-- Ganti ikon di sini -->
+                                </span>
+                                <span class="hide-menu">Data Kasir</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.categories.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-list"></i> <!-- Ganti ikon di sini -->
+                                </span>
+                                <span class="hide-menu">Kategori</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.units.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-ruler"></i> <!-- Ganti ikon di sini -->
+                                </span>
+                                <span class="hide-menu">Satuan</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.products.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-package"></i> <!-- Ganti ikon di sini -->
+                                </span>
+                                <span class="hide-menu">Produk</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.suppliers.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-truck"></i> <!-- Ganti ikon di sini -->
+                                </span>
+                                <span class="hide-menu">Pemasok</span>
+                            </a>
+                        </li>
+                        <!-- ============================= -->
+                        <!-- Apps -->
+                        <!-- ============================= -->
+                        @role('admin')
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Transaksi</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="{{ route('admin.purchases.create') }}" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
+                                    </span>
+                                    <span class="hide-menu">Pembelian</span>
+                                </a>
+                            </li>
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Kasir</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="{{ route('cashier.index') }}" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
+                                    </span>
+                                    <span class="hide-menu">Pindah Akun Kasir</span>
+                                </a>
+                            </li>
+                        @endrole
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Riwayat</span>
+                        </li>
+                    @endrole
+                    @role(['owner', 'admin'])
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.purchases.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-history"></i> <!-- Ganti ikon di sini -->
+                                </span>
+                                <span class="hide-menu">Riwayat Pembelian</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.selling.history') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-chart-line"></i> <!-- Ganti ikon di sini -->
+                                </span>
+                                <span class="hide-menu">Riwayat Penjualan</span>
+                            </a>
+                        </li>
+                    @endrole
                 </ul>
             </div>
         </nav>
