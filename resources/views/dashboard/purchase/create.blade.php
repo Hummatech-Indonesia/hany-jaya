@@ -1,4 +1,8 @@
-@extends('dashboard.layouts.dashboard') @section('content')
+@extends('dashboard.layouts.dashboard') 
+@push("title")
+    Pembelian
+@endpush
+@section('content')
     <div class="container-fluid">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
@@ -37,7 +41,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="name" class="mb-2">Nama Supplier</label>
+                                    <label for="name" class="mb-2">Nama Supplier <small class="text-danger">*</small></label>
                                     <select name="supplier_id" id="supplier_id" class="form-control">
                                         <option value="">Pilih Supplier</option>
                                         @foreach ($suppliers as $supplier)
@@ -51,7 +55,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="name" class="mb-2">Kode Invoice</label>
+                                    <label for="name" class="mb-2">Kode Invoice <small class="text-danger">*</small></label>
                                     <input type="text" name="invoice_number" class="form-control" placeholder="HSN-2401" id="">
                                 </div>
                                 <div class="col-md-12 mb-3">
@@ -77,7 +81,7 @@
                                 <div class="col-sm-2">
                                     <div class="mb-3">
                                         <label class="mb-2" for="product_id" style="font-size: 0.8rem">Pilih
-                                            Produk</label>
+                                            Produk <small class="text-danger">*</small></label>
                                         <select name="product_id[]" class="select_product form-control" id="">
                                             <option value="">Pilih Produk</option>
                                         </select>
@@ -86,7 +90,7 @@
                                 <div class="col-sm-2">
                                     <div class="mb-3">
                                         <label class="mb-2" for="product_unit_id" style="font-size: 0.8rem">Pilih
-                                            Satuan</label>
+                                            Satuan <small class="text-danger">*</small></label>
                                         <select name="product_unit_id[]" class="form-control" id="product_unit_id">
                                             <option value="Pilih Satuan">
                                                 Pilih Satuan
@@ -97,7 +101,7 @@
                                 <div class="col-sm-2">
                                     <div class="mb-3">
                                         <label class="d-flex gap-2 align-items-center mb-2" style="font-size: 0.8rem">Harga
-                                            Beli per Satuan</label>
+                                            Beli per Satuan <small class="text-danger">*</small></label>
                                         <input type="number" class="form-control price-per-unit" id="Age"
                                             name="buy_price_per_unit[]" placeholder="10" />
                                     </div>
@@ -105,14 +109,14 @@
                                 <div class="col-sm-2">
                                     <div class="mb-3">
                                         <label class="d-flex gap-2 align-items-center mb-2" style="font-size: 0.8rem">Jumlah
-                                            Pembelian</label>
+                                            Pembelian <small class="text-danger">*</small></label>
                                         <input type="number" class="form-control quantity" id="Age" name="quantity[]"
                                             placeholder="10" />
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <label class="mb-2" for="" style="font-size: 0.8rem">Total Harga
-                                        Pembelian</label>
+                                        Pembelian <small class="text-danger">*</small></label>
                                     <div class="mb-3">
                                         <input readonly name="buy_price[]" type="number" class="form-control"
                                             value="0" />

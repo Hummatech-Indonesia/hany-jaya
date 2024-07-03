@@ -1,4 +1,7 @@
 @extends('dashboard.layouts.dashboard')
+@push("title")
+    Profil
+@endpush
 @section('content')
     <div class="container-fluid">
         @if (session('success'))

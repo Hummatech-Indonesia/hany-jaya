@@ -3,6 +3,9 @@
     use App\Enums\StatusDebt;
 @endphp
 @extends('dashboard.layouts.cashier')
+@push("title")
+    Hutang
+@endpush
 @section('content')
     <div class="container-fluid">
         <div class="widget-content searchable-container list mt-4">

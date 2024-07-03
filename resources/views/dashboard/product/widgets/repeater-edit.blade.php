@@ -64,7 +64,7 @@ function education_fields(units) {
     <div class="row">
         <div class="col-sm-4">
             <div class="mb-3">
-                <label for="unit_id" class="mb-2">Pilih Satuan</label>
+                <label for="unit_id" class="mb-2">Pilih Satuan <small class="text-danger">*</small></label>
                 <select name="unit_id[]" class="form-control" id="unit_id_${room}">
                     <option value="Pilih Satuan">Pilih Satuan</option>`;
 
@@ -81,7 +81,7 @@ function education_fields(units) {
         <div class="col-sm-3">
             <div class="mb-3">
             <label class="d-flex gap-2 align-items-center mb-2" for="image">Total dalam
-                satuan terkecil <div data-bs-toggle="tooltip" data-bs-placement="top"
+                satuan terkecil <small class="text-danger">*</small><div data-bs-toggle="tooltip" data-bs-placement="top"
                     title="Masukkan total satuan terkecil dari satuan yang anda pilih. Misal dalam 1 kardus terdapat 12 pcs, maka diisi dengan angka 12, begitupula dengan satuan yang lainnya.">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -99,7 +99,7 @@ function education_fields(units) {
     </div>
         </div>
         <div class="col-sm-3">
-            <label for="" class="mb-2">Harga Jual</label>
+            <label for="" class="mb-2">Harga Jual <small class="text-danger">*</small></label>
             <div class="mb-3">
                 <input type="number" name="selling_price[]" id="" class="form-control" placeholder="10.000">
             </div>
@@ -124,7 +124,7 @@ function edit_field(units, productUnit) {
     <div class="row">
         <div class="col-sm-4">
             <div class="mb-3">
-                <label for="unit_id" class="mb-2">Pilih Satuan</label>
+                <label for="unit_id" class="mb-2">Pilih Satuan <small class="text-danger">*</small></label>
                 <select name="unit_id[]" class="form-control" id="unit_id_${room}">
                     <option value="Pilih Satuan">Pilih Satuan</option>`;
 
@@ -141,7 +141,7 @@ function edit_field(units, productUnit) {
         <div class="col-sm-3">
             <div class="mb-3">
             <label class="d-flex gap-2 align-items-center mb-2" for="image">Total dalam
-                satuan terkecil <div data-bs-toggle="tooltip" data-bs-placement="top"
+                satuan terkecil <small class="text-danger">*</small><div data-bs-toggle="tooltip" data-bs-placement="top"
                     title="Masukkan total satuan terkecil dari satuan yang anda pilih. Misal dalam 1 kardus terdapat 12 pcs, maka diisi dengan angka 12, begitupula dengan satuan yang lainnya.">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -159,7 +159,7 @@ function edit_field(units, productUnit) {
     </div>
         </div>
         <div class="col-sm-3">
-            <label for="" class="mb-2">Harga Jual</label>
+            <label for="" class="mb-2">Harga Jual <small class="text-danger">*</small></label>
             <div class="mb-3">
                 <input type="number" value="${productUnit.selling_price}" name="selling_price[]" id="" class="form-control" placeholder="10.000">
             </div>

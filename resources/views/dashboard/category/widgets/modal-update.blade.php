@@ -1,4 +1,4 @@
-<form action="" id="form-update" method="POST">
+<form action="" id="form-update-category" method="POST">
     @method('PUT') @csrf
     <!-- Modal -->
     <div class="modal fade" id="modalUpdateCategory"  tabindex="-1"
@@ -13,18 +13,18 @@
                 </div>
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
-                        <label for="input-name" class="form-label fw-semibold">Nama Pemasok</label>
-                        <input name="name" type="text" class="form-control" id="input-name"
-                            placeholder="PT Harapan Baru" />
+                        <label for="edit-name-category" class="form-label fw-semibold">Nama Kategori <small class="text-danger">*</small></label>
+                        <input name="name" type="text" class="form-control" id="edit-name-category"
+                            placeholder="Snack" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-danger text-danger font-medium waves-effect text-start"
+                    <button type="button" class="btn btn-light font-medium waves-effect text-start"
                         data-bs-dismiss="modal">
                         Tutup
                     </button>
                     <button type="submit"
-                        class="btn btn-light-primary text-primary font-medium waves-effect text-start">
+                        class="btn btn-primary font-medium waves-effect text-start btn-edit">
                         Edit
                     </button>
                 </div>

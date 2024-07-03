@@ -1,8 +1,8 @@
-<form action="{{ route('admin.units.store') }}" method="POST">
+<form id="form-create-unit" action="{{ route('admin.units.store') }}" method="POST">
     @csrf
     <!-- Modal -->
-    <div class="modal fade" id="modalAddSuplier"  tabindex="-1"
-        aria-labelledby="modalAddSuplierLabel" aria-hidden="true">
+    <div class="modal fade" id="modalAddUnit"  tabindex="-1"
+        aria-labelledby="modalAddUnitLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header d-flex align-items-center">
@@ -13,17 +13,17 @@
                 </div>
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
-                        <label for="units" class="form-label fw-semibold">Nama Satuan</label>
-                        <input name="name" type="text" class="form-control" id="units" placeholder="Karton" />
+                        <label for="name-unit" class="form-label fw-semibold">Nama Satuan <small class="text-danger">*</small></label>
+                        <input name="name" type="text" class="form-control" id="name-unit" placeholder="Karton" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-danger text-danger font-medium waves-effect text-start"
+                    <button type="button" class="btn btn-light font-medium waves-effect text-start"
                         data-bs-dismiss="modal">
                         Tutup
                     </button>
                     <button type="submit"
-                        class="btn btn-light-primary text-primary font-medium waves-effect text-start">
+                        class="btn btn-primary font-medium waves-effect text-start btn-tambah">
                         Tambah
                     </button>
                 </div>

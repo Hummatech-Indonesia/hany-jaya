@@ -13,23 +13,23 @@
                 </div>
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
-                        <label for="exampleInputPassword1" class="form-label fw-semibold">Nama Pemasok</label>
-                        <input name="name" type="text" class="form-control" id="exampleInputtext"
+                        <label for="supplier-name" class="form-label fw-semibold">Nama Pemasok <small class="text-danger">*</small></label>
+                        <input name="name" type="text" class="form-control" id="supplier-name"
                             placeholder="PT Harapan Baru" />
                     </div>
                     <div class="col-md-12 mb-4">
-                        <label for="exampleInputPassword1" class="form-label fw-semibold">Alamat</label>
-                        <textarea class="form-control" name="address" id="" cols="20" rows="4"
+                        <label for="supplier-address" class="form-label fw-semibold">Alamat <small class="text-danger">*</small></label>
+                        <textarea class="form-control" name="address" id="supplier-address" cols="20" rows="4"
                             placeholder="Jl Soekarno Hatta No 9"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-danger text-danger font-medium waves-effect text-start"
+                    <button type="button" class="btn btn-light font-medium waves-effect text-start"
                         data-bs-dismiss="modal">
                         Tutup
                     </button>
                     <button type="submit"
-                        class="btn btn-light-primary text-primary font-medium waves-effect text-start">
+                        class="btn btn-primary font-medium waves-effect text-start btn-tambah">
                         Tambah
                     </button>
                 </div>

@@ -60,13 +60,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-danger text-danger font-medium waves-effect text-start"
+                    <button type="button" class="btn btn-light font-medium waves-effect text-start"
                         data-bs-dismiss="modal">
                         Tutup
-                    </button>
-                    <button type="submit"
-                        class="btn btn-light-primary text-primary font-medium waves-effect text-start">
-                        Edit
                     </button>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-<form action="" id="form-update" method="POST">
+<form action="" id="form-update-supplier" method="POST">
     @method('PATCH') @csrf
     <!-- Modal -->
     <div
@@ -25,27 +25,27 @@
                 </div>
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
-                        <label for="input-name" class="form-label fw-semibold"
-                            >Nama Pemasok</label
+                        <label for="edit-supplier-name" class="form-label fw-semibold"
+                            >Nama Pemasok <small class="text-danger">*</small></label
                         >
                         <input
                             name="name"
                             type="text"
                             class="form-control"
-                            id="input-name"
+                            id="edit-supplier-name"
                             placeholder="PT Harapan Baru"
                         />
                     </div>
                     <div class="col-md-12 mb-4">
                         <label
-                            for="input-address"
+                            for="edit-supplier-address"
                             class="form-label fw-semibold"
-                            >Alamat</label
+                            >Alamat <small class="text-danger">*</small></label
                         >
                         <textarea
                             class="form-control"
                             name="address"
-                            id="input-address"
+                            id="edit-supplier-address"
                             cols="20"
                             rows="4"
                             placeholder="Jl Soekarno Hatta No 9"
@@ -53,17 +53,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-light-danger text-danger font-medium waves-effect text-start"
-                        data-bs-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-light font-medium waves-effect text-start"
+                        data-bs-dismiss="modal">
                         Tutup
                     </button>
-                    <button
-                        type="submit"
-                        class="btn btn-light-primary text-primary font-medium waves-effect text-start"
-                    >
+                    <button type="submit"
+                        class="btn btn-primary font-medium waves-effect text-start btn-edit">
                         Edit
                     </button>
                 </div>

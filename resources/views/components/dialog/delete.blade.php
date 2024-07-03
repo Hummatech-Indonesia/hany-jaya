@@ -25,14 +25,14 @@
                 <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn btn-warning text-white font-medium waves-effect"
+                        class="btn btn-light font-medium waves-effect"
                         data-bs-dismiss="modal"
                     >
                         Tutup
                     </button>
                     <button
                         type="submit"
-                        class="btn btn-light-danger text-danger font-medium waves-effect"
+                        class="btn btn-danger font-medium waves-effect"
                         data-bs-dismiss="modal"
                     >
                         Hapus

@@ -14,26 +14,26 @@
                 </div>
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
-                        <label for="name" class="form-label fw-semibold">Nama</label>
-                        <input name="name" type="text" class="form-control" id="name" placeholder="Kasir" />
+                        <label for="edit-cashier-name" class="form-label fw-semibold">Nama <small class="text-danger">*</small></label>
+                        <input name="name" type="text" class="form-control" id="edit-cashier-name" placeholder="Kasir" />
                     </div>
                     <div class="col-md-12 mb-4">
-                        <label for="email" class="form-label fw-semibold">Email</label>
-                        <input name="email" type="email" class="form-control" id="email" placeholder="kasir@gmail.com" value=""/>
+                        <label for="edit-cashier-email" class="form-label fw-semibold">Email <small class="text-danger">*</small></label>
+                        <input name="email" type="email" class="form-control" id="edit-cashier-email" placeholder="kasir@gmail.com" value=""/>
                     </div>
                     <div class="col-md-12 mb-4">
-                        <label for="exampleInputPassword1" class="form-label fw-semibold">Password (opsional)</label>
-                        <input name="password" type="password" class="form-control" />
+                        <label for="edit-cashier-password" class="form-label fw-semibold">Password <small>(opsional)</small></label>
+                        <input name="password" type="password" id="edit-cashier-password" class="form-control" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-danger text-danger font-medium waves-effect text-start"
+                    <button type="button" class="btn btn-light font-medium waves-effect text-start"
                         data-bs-dismiss="modal">
                         Tutup
                     </button>
                     <button type="submit"
-                        class="btn btn-light-primary text-primary font-medium waves-effect text-start">
-                        Tambah
+                        class="btn btn-primary font-medium waves-effect text-start btn-edit">
+                        Edit
                     </button>
                 </div>
             </div>

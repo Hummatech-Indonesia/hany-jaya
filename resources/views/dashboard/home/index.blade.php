@@ -2,6 +2,9 @@
     use App\Helpers\FormatedHelper;
 @endphp
 @extends('dashboard.layouts.dashboard')
+@push("title")
+    Beranda
+@endpush
 @section('content')
     <div class="container-fluid">
         <div class="row">

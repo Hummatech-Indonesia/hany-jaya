@@ -1,4 +1,7 @@
 @extends('dashboard.layouts.dashboard')
+@push("title")
+    Tambah Produk
+@endpush
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/codemirror/5.41.0/codemirror.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/libs/codemirror/5.41.0/theme/blackboard.min.css') }}" />
@@ -45,7 +48,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="mb-2" for="name">Nama Produk</label>
+                                    <label class="mb-2" for="name">Nama Produk <small class="text-danger">*</small></label>
                                     <input type="text" name="name" class="form-control" placeholder="Aqua"
                                         value="{{ old('name') }}" />
                                     @error('name')
@@ -53,7 +56,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="mb-2" for="code">Kode Produk</label>
+                                    <label class="mb-2" for="code">Kode Produk <small class="text-danger">*</small></label>
                                     <input type="text" name="code" class="form-control" placeholder="HSN-1203"
                                         value="{{ old('code') }}" />
                                     @error('code')
@@ -64,7 +67,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="mb-2 d-flex justify-content-between" for="category_id"><span>Kategori
-                                            Produk</span>
+                                            Produk <small class="text-danger">*</small></span>
                                         <a data-bs-toggle="modal" style="cursor: pointer" data-bs-target="#modalAddCategory"
                                             class="mx-2 text-success"> <svg xmlns="http://www.w3.org/2000/svg"
                                                 width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -90,7 +93,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="d-flex justify-content-between mb-2">
-                                        <label for="supplier_id">Nama Pemasok</label>
+                                        <label for="supplier_id">Nama Pemasok <small class="text-danger">*</small></label>
                                         <div class="d-flex flex-row">
                                             <a data-bs-toggle="modal" style="cursor: pointer"
                                                 data-bs-target="#modalAddSuplier" class="mx-2 text-success"> <svg
@@ -124,7 +127,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="d-flex gap-2 align-items-center mb-2" for="image">Satuan Terkecil
-                                        Produk <div data-bs-toggle="tooltip" data-bs-placement="top"
+                                        Produk <small class="text-danger">*</small><div data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="Pilih satuan terkecil pada produk yang anda tambahkan, terkadang beberapa produk dijual bukan per-biji melainkan per-pack.">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -173,7 +176,7 @@
                                 <div id="education_fields" class="my-1"></div>
                                 <div class="col-sm-4">
                                     <div class="mb-3">
-                                        <label class="mb-2" for="unit_id">Pilih Satuan</label>
+                                        <label class="mb-2" for="unit_id">Pilih Satuan <small class="text-danger">*</small></label>
                                         <select name="unit_id[]" class="form-control" id="">
                                             <option value="Pilih Satuan">Pilih Satuan</option>
                                             @foreach ($units as $unit)
@@ -185,7 +188,7 @@
                                 <div class="col-sm-3">
                                     <div class="mb-3">
                                         <label class="d-flex gap-2 align-items-center mb-2" for="image">Total dalam
-                                            satuan terkecil <div data-bs-toggle="tooltip" data-bs-placement="top"
+                                            satuan terkecil <small class="text-danger">*</small><div data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="Masukkan total satuan terkecil dari satuan yang anda pilih. Misal dalam 1 kardus terdapat 12 pcs, maka diisi dengan angka 12, begitupula dengan satuan yang lainnya.">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -203,7 +206,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="mb-2" for="">Harga Jual</label>
+                                    <label class="mb-2" for="">Harga Jual <small class="text-danger">*</small></label>
                                     <div class="mb-3">
                                         <input type="number" name="selling_price[]" id="" class="form-control"
                                             placeholder="10.000">

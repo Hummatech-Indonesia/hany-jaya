@@ -2,6 +2,9 @@
     use App\Helpers\FormatedHelper;
 @endphp
 @extends('dashboard.layouts.dashboard')
+@push("title")
+    Riwayat Penjualan
+@endpush
 @section('content')
     <div class="container-fluid">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">

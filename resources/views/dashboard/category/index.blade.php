@@ -1,4 +1,8 @@
-@extends('dashboard.layouts.dashboard') @section('content')
+@extends('dashboard.layouts.dashboard') 
+@push("title")
+    Kategori
+@endpush
+@section('content')
     <div class="container-fluid">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
@@ -34,6 +38,31 @@
                 </div>
             </div>
         </form>
+        <div class="row mt-3">
+            @if (session()->has('error'))
+                <div class="col-12">
+                    <x-alert-failed />
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="col-12">
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="alert-message">
+                            <strong>Terjadi Kesalahan</strong>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if (session()->has('success'))
+                <div class="col-12">
+                    <x-alert-success />
+                </div>
+            @endif
+        </div>
         <div class="widget-content searchable-container list mt-4">
             <div class="card card-body">
                 <div class="table-responsive">
@@ -90,13 +119,62 @@
 @endsection
 @section('script')
     <script>
+        function validate(listId, listMessage) {
+            let countError = 0;
+            listId.map(id => {
+                let siblings = $(id).parent().children().length;
+                if (($(id).val() == '' || $(id).val() == null) && siblings == 2) {
+                    $(id).addClass('is-invalid')
+                    $(id).parent().append(
+                        '<small class="text-danger">' + listMessage[listId.indexOf(id)] + '</small>'
+                    )
+                    countError++;
+                }
+                if (($(id).val() == '' || $(id).val() == null) && siblings > 2) {
+                    countError = 1;
+                }
+            })
+
+            return countError > 0 ? true : false;
+        }
+
+        // validate form 
+        $("#form-add-category").on("submit", function(e) {
+            e.preventDefault();
+            let listId = ["#category-name"];
+            let listMessage = ["Nama kategori tidak boleh kosong"];
+            if (validate(listId, listMessage)) {
+                return;
+            }
+            $(this).unbind("submit").submit();
+        });
+        $("#form-update-category").on("submit", function(e) {
+            e.preventDefault();
+            let listId = ["#edit-name-category"];
+            let listMessage = ["Nama kategori tidak boleh kosong"];
+            if (validate(listId, listMessage)) {
+                return;
+            }
+            $(this).unbind("submit").submit();
+        });
+
+        // clear error message 
+        $("#modalAddCategory").on("hidden.bs.modal", function() {
+            $("#category-name").removeClass("is-invalid");
+            $("#category-name").next().remove();
+        });
+        $("#modalUpdateCategory").on("hidden.bs.modal", function() {
+            $("#edit-name-category").removeClass("is-invalid");
+            $("#edit-name-category").next().remove();
+        });
+
         $(".btn-update").on("click", function() {
             $("#modalUpdateCategory").modal("show");
             let url = $(this).attr("data-url");
             let category = $(this).data("category");
 
-            $("#modalUpdateCategory").find("#input-name").val(category.name);
-            $("#form-update").attr("action", url);
+            $("#modalUpdateCategory").find("#edit-name-category").val(category.name);
+            $("#form-update-category").attr("action", url);
         });
         $(".btn-delete").on("click", function() {
             $("#delete-modal").modal("show");

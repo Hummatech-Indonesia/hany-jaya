@@ -1,4 +1,7 @@
 @extends('dashboard.layouts.dashboard')
+@push("title")
+    Admin
+@endpush
 @section('content')
     <div class="container-fluid">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">

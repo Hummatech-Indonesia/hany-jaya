@@ -2,6 +2,9 @@
     use App\Helpers\FormatedHelper;
 @endphp
 @extends('dashboard.layouts.dashboard')
+@push("title")
+    Riwayat Pembelian
+@endpush
 @section('style')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
