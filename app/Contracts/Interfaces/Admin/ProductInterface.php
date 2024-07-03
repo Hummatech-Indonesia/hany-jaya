@@ -10,8 +10,16 @@ use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\DeleteInterface;
 use App\Contracts\Interfaces\Eloquent\GetWhereInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
+use App\Contracts\Interfaces\Eloquent\WithRelationInterface;
 use Illuminate\Http\Request;
 
-interface ProductInterface extends StoreInterface, DeleteInterface, UpdateInterface, ShowInterface, CustomPaginationInterface, GetInterface, GetWhereInterface, CountInterface
+interface ProductInterface extends StoreInterface, DeleteInterface, UpdateInterface, ShowInterface, CustomPaginationInterface, GetInterface, GetWhereInterface, CountInterface, WithRelationInterface
 {
+    /**
+     * Handle the find data elequest event from models.
+     *
+     * @return mixed
+     */
+
+     public function withElequent(array $data): mixed;
 }

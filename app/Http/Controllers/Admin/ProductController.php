@@ -7,6 +7,7 @@ use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Contracts\Interfaces\Admin\UnitInterface;
 use App\Helpers\ResponseHelper;
+use App\Helpers\BaseDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Http\Requests\Cashier\ShowProductRequest;
@@ -17,6 +18,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ProductController extends Controller
 {
@@ -139,5 +141,16 @@ class ProductController extends Controller
     {
         $product = $this->product->getWhere($request->validated());
         return ResponseHelper::success($product);
+    }
+
+    /**
+     * Data table yajra list product
+     *
+     * @return JsonResponse
+     */
+    public function dataTable(): JsonResponse
+    {
+        $product = $this->product->withElequent(["unit","category","supplierProducts"]);
+        return BaseDatatable::Table($product);
     }
 }
