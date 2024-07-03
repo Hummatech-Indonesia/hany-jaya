@@ -142,6 +142,7 @@
 @section('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
     <script>
         $(document).ready(function() {
@@ -165,7 +166,13 @@
 
                 let address = $(this).find(':selected').data('address')
                 $('#cust-address').val(address)
+
+                changeAllProductLastPrice()
             });
+
+            $(document).on('change input', '#cust-address', function() {
+                changeAllProductLastPrice()
+            })
 
             $(document).on('click', '#btn-add-product', function() {
                 const product_code = $('#product-code').val()
@@ -184,9 +191,12 @@
                         $('#tb-product tr th').parent().remove()
                         var latest_index = $('#tb-product tr[data-index]').last().data('index')
                         var current_index = latest_index ? latest_index+1 : 1
+                        var product_unit_id = 0
 
                         $.each(response.data.product_units, function(index, productUnit) {
                             var selected = response.data.unit.name === productUnit.unit.name ? 'selected' : '';
+
+                            if(selected == 'selected') product_unit_id = productUnit.id
                             product_units += `
                                 <option value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
                                     ${productUnit.unit.name}
@@ -195,21 +205,8 @@
                             if(response.data.unit.name === productUnit.unit.name) selected_price = productUnit.selling_price
                         });
 
-                        var latest_price = 0
+                        const latest_price = await getLatestBuy($('#cust-name').val(), $('#cust-address').val(), product_unit_id)
 
-                        // $.ajax({
-                        //     url: "{{ route('transaction.find-by-user-product') }}",
-                        //     type: "GET",
-                        //     data: {
-                        //         buyer_id,
-                        //         product_unit_id
-                        //     },
-                        //     dataType: 'json',
-                        //     success: function(response) {
-                        //         console.log(response.data)
-                        //     }
-                        // })
-                        
                         var newRow = `
                             <tr data-index="${current_index}">
                                 <td>
@@ -236,7 +233,7 @@
                                 </td>
                                 <td>
                                     <input type="text" value="${formatNum(selected_price, true)}" name="formatted_product_unit_price[]" class="form-control format-number input-unit-price" />
-                                    <div class="text-primary">Rp. ${formatNum(latest_price)}</div>
+                                    ${latest_price ? `<div class="text-primary last_price">Rp. ${formatNum(latest_price)}</div>` : '' }
                                 </td>
                                 <td>
                                     <input type="text" value="${formatNum(selected_price, true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
@@ -272,7 +269,7 @@
                 changeTotalPrice()
             })
 
-            $('#tb-product').on('change', '.product-unit', function() {
+            $('#tb-product').on('change', '.product-unit', async function() {
                 var row = $(this).closest('tr');
                 var selected = $(this).find(':selected')
                 var selectedPrice = selected.data('selling-price');
@@ -286,6 +283,21 @@
                 row.find('.input-unit-price').val(formatNum(selectedPrice));
                 row.find('[name=product_unit_price\\[\\]]').val(selectedPrice);
 
+                let last_price_el = row.find('.last_price')
+                let cust_name = $('#cust-name').val()
+                let cust_address = $('#cust-address').val()
+                let product_unit_id = row.find('.product-unit').val()
+
+                const latest_price = await getLatestBuy(cust_name, cust_address, product_unit_id)
+                if(latest_price) {
+                    if(last_price_el.length < 1) {
+                        row.find('.input-unit-price').parent().append(`<div class="text-primary last_price">Rp ${formatNum(latest_price)}</div>`)
+                    } else {
+                        last_price_el.html('Rp '+formatNum(latest_price))
+                    }
+                } else if(!latest_price && last_price_el.length > 0) {
+                    last_price_el.remove()
+                }
                 changeTotalPrice();
             });
 
@@ -296,17 +308,26 @@
                 changeTotalPrice()
             })
 
-            function getLatestBuy(buyer_id, product_unit_id) {
-                $.ajax({
-                    url: "{{ route('transaction.find-by-user-product') }}",
-                    type: "GET",
-                    data: {
-                        buyer_id,
-                        product_unit_id
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        return data
+            async function getLatestBuy(buyer_name, buyer_address, product_unit_id) {
+                const obj_price = await axios.get(`{{ route('transaction.find-by-user-product') }}?buyer_name=${buyer_name}&buyer_address=${buyer_address}&product_unit_id=${product_unit_id}`)
+                return (obj_price.data && obj_price.data.data) ? obj_price.data.data.product_unit_price : 0
+            }
+
+            function changeAllProductLastPrice() {
+                const cust_name = $('#cust-name').val()
+                const cust_address = $('#cust-address').val()
+                $('#tb-product tr[data-index]').each(async function(index) {
+                    const product_unit_id = $(this).find('.product-unit').val();
+                    const latest_price = await getLatestBuy(cust_name, cust_address, product_unit_id)
+                    const last_price_el = $(this).find('.last_price')
+                    if(latest_price) {
+                        if(last_price_el.length < 1) {
+                            $(this).find('.input-unit-price').parent().append(`<div class="text-primary last_price">Rp ${formatNum(latest_price)}</div>`)
+                        } else {
+                            last_price_el.html('Rp '+formatNum(latest_price))
+                        }
+                    } else if(!latest_price && last_price_el.length > 0) {
+                        last_price_el.remove()
                     }
                 })
             }
