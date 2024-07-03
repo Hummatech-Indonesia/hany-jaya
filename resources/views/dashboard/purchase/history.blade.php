@@ -19,7 +19,7 @@
                         @role('admin')
                             <a href="{{ route('admin.purchases.create') }}">
                                 <button type="button" class="btn btn-primary">
-                                    Tambah Produk
+                                    Tambah Pembelian
                                 </button>
                             </a>
                         @endrole
@@ -33,21 +33,24 @@
                 </div>
             </div>
         </div>
-        <form action="" method="get">
-            <div class="row justify-content-end">
-                <div class="col-3">
-                    <input type="text" name="name" value="{{ Request::get('name') }}" class="form-control"
-                        id="nametext" aria-describedby="name" placeholder="Name" />
-                </div>
-                <div class="col-3">
-                    <input type="text" class="form-control" value="{{ Request::get('daterange') }}" id="daterange"
-                        name="daterange" value="" />
-                </div>
-                <div class="col-1">
-                    <button type="submit" class="btn btn-primary">Cari</button>
-                </div>
+        <div class="row">
+            <div class="col-12">
+                <form action="" method="get">
+                    <div class="d-flex flex-row gap-2 justify-content-end">
+                        <div class="col-md-3 col-sm-5">
+                            <input type="text" name="name" value="{{ Request::get('name') }}" class="form-control"
+                                id="nametext" aria-describedby="name" placeholder="Name" />
+                        </div>
+                        <div class="col-md-3 col-sm-5">
+                            <input type="text" class="form-control" value="{{ Request::get('daterange') }}" id="daterange"
+                                name="daterange" value="" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Cari</button>
+                        
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
         <div class="widget-content searchable-container list mt-4">
             <div class="card card-body">
                 <div class="table-responsive">
@@ -101,7 +104,6 @@
     @include('dashboard.selling.widgets.detail-purchase')
 @endsection
 @section('script')
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
