@@ -41,9 +41,9 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="name" class="mb-2">Nama Supplier <small class="text-danger">*</small></label>
+                                    <label for="name" class="mb-2">Nama Pemasok <small class="text-danger">*</small></label>
                                     <select name="supplier_id" id="supplier_id" class="form-control">
-                                        <option value="">Pilih Supplier</option>
+                                        <option value="">Pilih Pemasok</option>
                                         @foreach ($suppliers as $supplier)
                                             <option value="{{ $supplier->id }}">
                                                 {{ $supplier->name }}
@@ -64,11 +64,11 @@
                                         <ol class="mt-3">
                                             <li>
                                                 Pembelian lebih dari satu produk
-                                                hanya dapat dilakukan di supplier
+                                                hanya dapat dilakukan di pemasok
                                                 yang sama.
                                             </li>
                                             <li>
-                                                Ketika supplier diganti, maka
+                                                Ketika pemasok diganti, maka
                                                 seluruh produk yang telah dimasukkan
                                                 akan dihapus.
                                             </li>
