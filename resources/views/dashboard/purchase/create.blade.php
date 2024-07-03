@@ -143,7 +143,6 @@
     </div>
     @endsection @section('script')
     @include('dashboard.purchase.widgets.repeater')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $(".select_product").change(function() {
