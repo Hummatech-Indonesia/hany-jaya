@@ -183,6 +183,10 @@ class SellingController extends Controller
 
         $transaction = $this->selling->findTransactionByProductAndUser($request);
 
+        if($transaction) {
+            $transaction = $transaction?->detailSellings[0];
+        }
+
         return BaseResponse::Ok("Berhasil megambil data history transaction",$transaction);
     }
 }

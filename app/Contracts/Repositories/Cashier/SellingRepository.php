@@ -93,7 +93,9 @@ class SellingRepository extends BaseRepository implements SellingInterface
         ->with('detailSellings')
         ->when($request->product_unit_id, function ($query) use ($request) {
             $query->whereHas('detailSellings',function($query2) use ($request){
-                $query2->where("product_unit_id", $request->product_unit_id);
+                $query2->with("productUnit")->whereHas('productUnit',function($query3) use ($request){
+                    $query3->where("unit_id", $request->product_unit_id);
+                });
             });
         })
         ->where("buyer_id",$request->buyer_id)
