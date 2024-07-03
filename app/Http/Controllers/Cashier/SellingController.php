@@ -18,6 +18,7 @@ use App\Services\Cashier\SellingService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SellingController extends Controller
 {
@@ -81,36 +82,45 @@ class SellingController extends Controller
         if($check_item_qty) return redirect()->back()->withErrors("Quantity item must greather than 0");
         
         $service = $this->sellingService->invoiceNumber($data);
-        if (is_array($service)) {
-            $selling = $this->selling->store($service);
+        DB::beginTransaction();
+        try{ 
+            if (is_array($service)) {
+                $selling = $this->selling->store($service);
+    
+                if ($data['status_payment'] == StatusEnum::DEBT->value) {
+                    $this->debt->store([
+                        'buyer_id' => $service['buyer_id'],
+                        'selling_id' => $selling->id,
+                        'nominal' => $serviceSellingPrice['selling_price']
+                    ]);
+                }
+    
+                for ($i = 0; $i < count($data['product_id']); $i++) {
+                    $serviceSellingPrice['product']->update([
+                        'quantity' => $serviceSellingPrice['product']->quantity - $serviceSellingPrice['quantity']
+                    ]);
+                    $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
+                    $test = $this->detailSelling->store([
+                        'selling_id' => $selling->id,
+                        'product_id' => $data['product_id'][$i],
+                        'product_unit_price' => $productUnit->selling_price,
+                        'product_unit_id' => $data['product_unit_id'][$i],
+                        'quantity' => $data['quantity'][$i],
+                        'selling_price' => $data['selling_price'][$i],
+                        'nominal_discount' => intval($productUnit->selling_price * $data["quantity"][$i]) - intval($data['selling_price'][$i]),
+                        'selling_price_original' => $productUnit->selling_price
+                    ]);
+                }
 
-            if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                $this->debt->store([
-                    'buyer_id' => $service['buyer_id'],
-                    'selling_id' => $selling->id,
-                    'nominal' => $serviceSellingPrice['selling_price']
-                ]);
+                DB::commit();
+                return to_route('cashier.selling.history')->with('success', trans('alert.add_success'));
+            } else {
+                DB::rollBack();
+                return redirect()->back()->withErrors($service);
             }
-
-            for ($i = 0; $i < count($data['product_id']); $i++) {
-                $serviceSellingPrice['product']->update([
-                    'quantity' => $serviceSellingPrice['product']->quantity - $serviceSellingPrice['quantity']
-                ]);
-                $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
-                $this->detailSelling->store([
-                    'selling_id' => $selling->id,
-                    'product_id' => $data['product_id'][$i],
-                    'product_unit_price' => $data['product_unit_price'][$i],
-                    'product_unit_id' => $data['product_unit_id'][$i],
-                    'quantity' => $data['quantity'][$i],
-                    'selling_price' => $data['selling_price'][$i],
-                    'nominal_discount' => $productUnit->selling_price - intval($data['selling_price'][$i]),
-                    'selling_price_original' => $productUnit->selling_price
-                ]);
-            }
-            return to_route('cashier.selling.history')->with('success', trans('alert.add_success'));
-        } else {
-            return redirect()->back()->withErrors($service);
+        }catch(\Throwable $th){
+            DB::rollBack();
+            return redirect()->back()->withErrors($th->getMessage());
         }
     }
 
