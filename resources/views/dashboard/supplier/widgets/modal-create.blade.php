@@ -14,12 +14,12 @@
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
                         <label for="supplier-name" class="form-label fw-semibold">Nama Pemasok <small class="text-danger">*</small></label>
-                        <input name="name" type="text" class="form-control" id="supplier-name"
+                        <input tabindex="1" name="name" type="text" class="form-control" id="supplier-name"
                             placeholder="PT Harapan Baru" />
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="supplier-address" class="form-label fw-semibold">Alamat <small class="text-danger">*</small></label>
-                        <textarea class="form-control" name="address" id="supplier-address" cols="20" rows="4"
+                        <textarea tabindex="2" class="form-control" name="address" id="supplier-address" cols="20" rows="4"
                             placeholder="Jl Soekarno Hatta No 9"></textarea>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                         data-bs-dismiss="modal">
                         Tutup
                     </button>
-                    <button type="submit"
+                    <button tabindex="3" type="submit"
                         class="btn btn-primary font-medium waves-effect text-start btn-tambah">
                         Tambah
                     </button>

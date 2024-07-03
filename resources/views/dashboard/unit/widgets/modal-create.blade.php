@@ -14,7 +14,7 @@
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
                         <label for="name-unit" class="form-label fw-semibold">Nama Satuan <small class="text-danger">*</small></label>
-                        <input name="name" type="text" class="form-control" id="name-unit" placeholder="Karton" />
+                        <input tabindex="1" name="name" type="text" class="form-control" id="name-unit" placeholder="Karton" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -22,7 +22,7 @@
                         data-bs-dismiss="modal">
                         Tutup
                     </button>
-                    <button type="submit"
+                    <button tabindex="2" type="submit"
                         class="btn btn-primary font-medium waves-effect text-start btn-tambah">
                         Tambah
                     </button>

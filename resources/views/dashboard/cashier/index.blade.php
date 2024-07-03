@@ -96,12 +96,12 @@
                                         <div class="action-btn">
                                             <a href="#" data-url="{{ route('admin.cashiers.update', $cashier->id) }}"
                                                 data-name="{{ $cashier->name }}" data-email="{{ $cashier->email }}"
-                                                class="text-dark btn-update ms-2">
-                                                <i class="fs-4 ti ti-edit text-warning"></i>
+                                                class="btn btn-sm btn-primary btn-update ms-2">
+                                                <i class="fs-4 ti ti-edit"></i> Edit
                                             </a>
                                             <a href="#" data-url="{{ route('admin.cashiers.destroy', $cashier->id) }}"
-                                                class="text-dark btn-delete ms-2">
-                                                <i class="ti ti-trash text-danger"></i>
+                                                class="btn btn-sm btn-danger btn-delete ms-2">
+                                                <i class="ti ti-trash"></i> Hapus
                                             </a>
                                         </div>
                                     </td>

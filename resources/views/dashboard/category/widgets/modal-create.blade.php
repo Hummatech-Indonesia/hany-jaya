@@ -14,7 +14,7 @@
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
                         <label for="category-name" class="form-label fw-semibold">Nama Kategori <small class="text-danger">*</small></label>
-                        <input name="name" type="text" class="form-control" id="category-name"
+                        <input tabindex="1" name="name" type="text" class="form-control" id="category-name"
                             placeholder="Snack" />
                     </div>
                 </div>
@@ -24,6 +24,7 @@
                         Tutup
                     </button>
                     <button type="submit"
+                    tabindex="2"
                         class="btn btn-primary font-medium waves-effect text-start btn-tambah">
                         Tambah
                     </button>
