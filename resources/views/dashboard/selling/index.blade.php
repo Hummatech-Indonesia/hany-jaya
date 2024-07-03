@@ -251,7 +251,7 @@
 
             $(document).on('input', '.format-number', function() {
                 var value = unformatNum($(this).val())
-                if(value < 1) $(this).val(1)
+                if(value < 0) $(this).val(0)
                 $(this).val(formatNum($(this).val()))
             })
 
