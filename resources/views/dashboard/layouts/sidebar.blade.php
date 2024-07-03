@@ -58,6 +58,21 @@
                             <span class="hide-menu">Data Kasir</span>
                         </a>
                     </li>
+                    
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.suppliers.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-truck"></i> <!-- Ganti ikon di sini -->
+                            </span>
+                            <span class="hide-menu">Pemasok</span>
+                        </a>
+                    </li>
+
+                    <!-- menu item  -->
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">Item</span>
+                    </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.categories.index') }}" aria-expanded="false">
                             <span>
@@ -80,14 +95,6 @@
                                 <i class="ti ti-package"></i> <!-- Ganti ikon di sini -->
                             </span>
                             <span class="hide-menu">Produk</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.suppliers.index') }}" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-truck"></i> <!-- Ganti ikon di sini -->
-                            </span>
-                            <span class="hide-menu">Pemasok</span>
                         </a>
                     </li>
                     <!-- ============================= -->
