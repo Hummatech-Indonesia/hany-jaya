@@ -86,17 +86,15 @@
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="d-flex align-items-center gap-2">
-                                                    <a class="dropdown-item btn-update" href="#"
-                                                        data-unit="{{ $unit }}"
+                                                    <button type="button" class="btn btn-sm btn-primary btn-update" data-unit="{{ $unit }}"
                                                         data-url="{{ route('admin.units.update', $unit->id) }}">
-                                                        <i class="fs-4 ti ti-edit text-warning"></i>Edit
-                                                    </a>
+                                                        <i class="fs-4 ti ti-edit"></i> <span class="d-none d-md-inline">Edit</span>
+                                                    </button>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
-                                                    <a class="dropdown-item btn-delete" href="#"
-                                                        data-url="{{ route('admin.units.destroy', $unit->id) }}">
-                                                        <i class="fs-4 ti ti-trash text-danger"></i>Delete
-                                                    </a>
+                                                    <button type="button" class="btn btn-sm btn-danger btn-delete" data-url="{{ route('admin.units.destroy', $unit->id) }}">
+                                                        <i class="fs-4 ti ti-trash"></i> <span class="d-none d-md-inline">Hapus</span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </td>
