@@ -15,7 +15,7 @@
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
                         <label for="edit-cashier-name" class="form-label fw-semibold">Nama <small class="text-danger">*</small></label>
-                        <input name="name" type="text" class="form-control" id="edit-cashier-name" placeholder="Kasir" />
+                        <input name="name" autofocus="true" type="text" class="form-control" id="edit-cashier-name" placeholder="Kasir" />
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="edit-cashier-email" class="form-label fw-semibold">Email <small class="text-danger">*</small></label>

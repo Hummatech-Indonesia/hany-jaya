@@ -14,7 +14,7 @@
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
                         <label for="cashier-name" class="form-label fw-semibold">Nama <small class="text-danger">*</small></label>
-                        <input name="name" id="cashier-name" type="text" class="form-control" placeholder="Kasir"
+                        <input name="name" id="cashier-name" type="text" class="form-control" autofocus="true" placeholder="Kasir"
                             value="{{ old('name') }}" />
                     </div>
                     <div class="col-md-12 mb-4">

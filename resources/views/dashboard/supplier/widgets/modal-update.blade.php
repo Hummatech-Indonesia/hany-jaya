@@ -29,6 +29,7 @@
                             >Nama Pemasok <small class="text-danger">*</small></label
                         >
                         <input
+                        tabindex="1"
                             name="name"
                             type="text"
                             class="form-control"
@@ -43,6 +44,7 @@
                             >Alamat <small class="text-danger">*</small></label
                         >
                         <textarea
+                        tabindex="2"
                             class="form-control"
                             name="address"
                             id="edit-supplier-address"
@@ -58,6 +60,7 @@
                         Tutup
                     </button>
                     <button type="submit"
+                    tabindex="3"
                         class="btn btn-primary font-medium waves-effect text-start btn-edit">
                         Edit
                     </button>

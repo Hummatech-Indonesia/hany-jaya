@@ -117,6 +117,14 @@
 @endsection
 @section('script')
     <script>
+        // set autofocus 
+        $('#modalAddUnit').on('shown.bs.modal', function() {
+            $('#name-unit').focus();
+        })
+        $('#modalUpdateUnit').on('shown.bs.modal', function() {
+            $('#edit-name-unit').focus();
+        })
+
         function validate(listId, listMessage) {
             let countError = 0;
             listId.map(id => {
