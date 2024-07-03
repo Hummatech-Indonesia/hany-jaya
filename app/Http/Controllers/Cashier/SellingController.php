@@ -68,6 +68,18 @@ class SellingController extends Controller
         } else {
             return redirect()->back()->withErrors($serviceSellingPrice);
         }
+
+        // mengecek uang pembeli tidak boleh dibawah total barang yang dibeli
+        if(strtolower($data["status_payment"]) == "cash"){
+            if(intval($data["pay"]) < intval($data["amount_price"])) return redirect()->back()->withErrors("Amount paying must be greather than total amount item");
+        }
+
+        // mengecek jumlah barang yang dibeli harus melebihi 0
+        $check_item_qty = collect($data["quantity"])->first(function($qty) {
+            return $qty <= 0;
+        });
+        if($check_item_qty) return redirect()->back()->withErrors("Quantity item must greather than 0");
+        
         $service = $this->sellingService->invoiceNumber($data);
         if (is_array($service)) {
             $selling = $this->selling->store($service);
@@ -160,7 +172,13 @@ class SellingController extends Controller
     {
         if(!$request->buyer_id)
         {
-            return BaseResponse::Error("Field 'buyer_id' ini harus dikirim");
+            $buyer = $this->buyer->getWhere([
+                'name' => $request->buyer_name,
+                'address' => $request->buyer_address
+            ]);
+
+            if(!$buyer) return BaseResponse::Error("Pembeli tidak ditemukan");
+            else $request["buyer_id"] = $buyer->id;
         }
 
         $transaction = $this->selling->findTransactionByProductAndUser($request);
