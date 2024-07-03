@@ -102,6 +102,9 @@ class CategoryRepository extends BaseRepository implements CategoryInterface
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
         return $this->model->query()
+            ->when($request->relations, function ($query) use ($request) {
+                $query->with($request->relations);
+            })
             ->when($request->name, function ($query) use ($request) {
                 $query->where('name', 'LIKE', '%' . $request->name . '%');
             })

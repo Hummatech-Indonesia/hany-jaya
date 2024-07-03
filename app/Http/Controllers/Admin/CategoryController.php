@@ -24,8 +24,9 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-
+        $request["relations"] = ["products"];
         $categories = $this->category->customPaginate($request, 10);
+    
         return view('dashboard.category.index', ['categories' => $categories]);
     }
     /**

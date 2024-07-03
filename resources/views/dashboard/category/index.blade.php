@@ -41,6 +41,7 @@
                         <thead class="header-item">
                             <th>#</th>
                             <th>Kategori</th>
+                            <th>Total Produk</th>
                             @role('admin')
                                 <td>Aksi</td>
                             @endrole
@@ -52,6 +53,11 @@
                                     <td>
                                         <h6 class="user-name mb-0" data-name="Emma Adams">
                                             {{ $category->name }}
+                                        </h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="mb-0">
+                                            {{ $category->products ? count($category->products) : 0 }}
                                         </h6>
                                     </td>
                                     @role('admin')
