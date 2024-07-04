@@ -35,7 +35,11 @@ class BuyerRepository extends BaseRepository implements BuyerInterface
     public function getWhere(array $data): mixed
     {
         return $this->model->query()
-            ->where(['name' => $data['name']])
+            ->when(count($data) > 0, function ($query) use ($data){
+                foreach($data as $index => $value){
+                    $query->where($index, $value);   
+                }
+            })
             ->first();
     }
 
