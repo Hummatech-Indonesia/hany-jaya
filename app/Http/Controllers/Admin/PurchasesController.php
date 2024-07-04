@@ -7,6 +7,7 @@ use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Interfaces\Admin\PurchaseInterface;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
+use App\Helpers\BaseDatatable;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PurchaseRequest;
@@ -97,5 +98,19 @@ class PurchasesController extends Controller
     {
         $detailPurchase = DetailPurchase::query()->where('product_unit_id', $productUnit->id)->whereRelation('purchase', 'user_id', $user->id)->latest()->first();
         return ResponseHelper::success($detailPurchase->buy_price_per_unit);
+    }
+
+    /**
+     * Get data table for data transaction purchase
+     * 
+     * Param for get transaction history purchase
+     * findone
+     * 
+     * @return datatable
+     */
+    public function tablePurchaseHistory(Request $request)
+    {
+        $transaction = $this->purchase->withEloquent($request);
+        return BaseDatatable::Table($transaction);
     }
 }
