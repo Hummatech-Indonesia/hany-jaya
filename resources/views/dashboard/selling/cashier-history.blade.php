@@ -1,7 +1,7 @@
 @php
     use App\Helpers\FormatedHelper;
 @endphp
-@extends('dashboard.layouts.cashier')
+@extends('dashboard.layouts.dashboard')
 @section('content')
     <div class="container-fluid">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
