@@ -27,20 +27,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <form action="" method="get">
-                    <div class="d-flex flex-row gap-2 justify-content-end">
-                        <div class="col-md-4 col-sm-6">
-                            <input type="text" name="name" value="{{ Request::get('name') }}" class="form-control"
-                                id="nametext" aria-describedby="name" placeholder="Name" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Cari</button>
-                        
-                    </div>
-                </form>
-            </div>
-        </div>
         <div class="row mt-3">
             @if (session()->has('error'))
                 <div class="col-12">
@@ -66,66 +52,82 @@
                 </div>
             @endif
         </div>
-        <div class="widget-content searchable-container list mt-4">
-            <div class="card card-body">
-                <div class="table-responsive">
-                    <table class="table search-table align-middle text-nowrap">
-                        <thead class="header-item">
-                            <th>#</th>
-                            <th>Kategori</th>
-                            <th>Total Produk</th>
-                            @role('admin')
-                                <td>Aksi</td>
-                            @endrole
-                        </thead>
-                        <tbody>
-                            @forelse ($categories as $index => $category)
-                                <tr class="search-items">
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>
-                                        <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ $category->name }}
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="mb-0">
-                                            {{ $category->products ? count($category->products) : 0 }}
-                                        </h6>
-                                    </td>
-                                    @role('admin')
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <button type="button" class="btn btn-sm btn-primary btn-update" data-category="{{ $category }}"
-                                                    data-url="{{ route('admin.categories.update', $category->id) }}">
-                                                        <i class="fs-4 ti ti-edit"></i> <span class="d-none d-md-inline">Edit</span>
-                                                    </button>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <button type="button" class="btn btn-sm btn-danger btn-delete" data-url="{{ route('admin.categories.destroy', $category->id) }}">
-                                                        <i class="fs-4 ti ti-trash"></i> <span class="d-none d-md-inline">Hapus</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    @endrole
-                                </tr>
-                            @empty
-                                <p>Kategori masih kosong</p>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    {{ $categories->links() }}
-                </div>
+
+        <div class="card">
+            <div class="card-body table-responsive">
+                <table class="table align-middle" id="tb-categories"></table>
             </div>
         </div>
+
         @include('dashboard.category.widgets.modal-update')
 
         <x-dialog.delete title="Hapus Karton" />
     </div>
 @endsection
+@section('style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+@endsection
 @section('script')
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
     <script>
+
+        $('#tb-categories').DataTable({
+            processing: true,
+            serverSide: true,
+            language: {
+                processing: "Memuat..."
+            },
+            ajax: {
+                url: "{{route('data-table.list-category')}}"
+            },
+            order: [[1, 'asc']],
+            columns: [
+                {
+                    data: 'DT_RowIndex',
+                    title: 'No',
+                    searchable: false,
+                    orderable: false
+                }, {
+                    data: 'name',
+                    title: "Kategori"
+                }, {
+                    data: "products_count",
+                    title: "Total Produk"
+                },
+                @role('admin')
+                {
+                    mRender: (data, type, row) => {
+                        let edit_url = "{{route('admin.categories.update', 'selected_id')}}"
+                        edit_url = edit_url.replace('selected_id', row['id'])
+                        let del_url = "{{route('admin.categories.destroy', 'selected_id')}}"
+                        del_url = del_url.replace('selected_id', row['id'])
+                        let category = JSON.stringify(row).replaceAll('"', "'")
+
+                        return `
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="btn btn-sm btn-primary btn-update" data-category="${category}"
+                                data-url="${edit_url}">
+                                    <i class="fs-4 ti ti-edit"></i> <span class="d-none d-md-inline">Edit</span>
+                                </button>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="btn btn-sm btn-danger btn-delete" data-url="${del_url}">
+                                    <i class="fs-4 ti ti-trash"></i> <span class="d-none d-md-inline">Hapus</span>
+                                </button>
+                            </div>
+                        </div>
+                        `
+                    },
+                    title: 'Aksi',
+                    searchable: false,
+                    orderable: false
+                }
+                @endrole
+            ]
+        })
+
         // set autofocus 
         $("#modalAddCategory").on("shown.bs.modal", function() {
             $("#category-name").focus();
@@ -183,15 +185,16 @@
             $("#edit-name-category").next().remove();
         });
 
-        $(".btn-update").on("click", function() {
+        $(document).on("click", ".btn-update",function() {
             $("#modalUpdateCategory").modal("show");
             let url = $(this).attr("data-url");
-            let category = $(this).data("category");
+            let category_str = $(this).data("category");
+            let category = JSON.parse(category_str.replaceAll("'", '"'))
 
             $("#modalUpdateCategory").find("#edit-name-category").val(category.name);
             $("#form-update-category").attr("action", url);
         });
-        $(".btn-delete").on("click", function() {
+        $(document).on("click", ".btn-delete", function() {
             $("#delete-modal").modal("show");
 
             let url = $(this).attr("data-url");
