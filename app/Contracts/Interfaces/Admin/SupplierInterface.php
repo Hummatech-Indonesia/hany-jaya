@@ -10,8 +10,9 @@ use App\Contracts\Interfaces\Eloquent\DeleteInterface;
 use App\Contracts\Interfaces\Eloquent\GetWhereInterface;
 use App\Contracts\Interfaces\Eloquent\SearchInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
+use App\Contracts\Interfaces\Eloquent\WithRelationInterface;
 use Illuminate\Http\Request;
 
-interface SupplierInterface extends GetInterface, StoreInterface, DeleteInterface, UpdateInterface, ShowInterface, CustomPaginationInterface
+interface SupplierInterface extends GetInterface, StoreInterface, DeleteInterface, UpdateInterface, ShowInterface, CustomPaginationInterface, WithRelationInterface
 {
 }

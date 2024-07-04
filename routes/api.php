@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Cashier\SellingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -29,4 +30,5 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
     Route::get("/list-transaction-history", [SellingController::class, 'tableTransactionHistory'])->name('list-transaction-history');
     Route::get('/list-product', [ProductController::class, 'dataTable'])->name('list-product');
     Route::get('/list-cashier', [UserController::class, 'tableCashier'])->name('list-cashier');
+    Route::get('/list-supplier', [SupplierController::class, 'tableSupplier'])->name('list-supplier');
 });

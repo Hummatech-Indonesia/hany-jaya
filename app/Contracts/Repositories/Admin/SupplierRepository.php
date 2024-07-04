@@ -80,7 +80,7 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
      */
     public function update(mixed $id, array $data): mixed
     {
-        return $this->show($id)->update($data);
+        return $this->model->show($id)->update($data);
     }
 
     /**
@@ -91,6 +91,17 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
      */
     public function delete(mixed $id): mixed
     {
-        return $this->show($id)->delete($id);
+        return $this->model->show($id)->delete($id);
+    }
+
+    /**
+     * with relation
+     *
+     * @param  array data
+     * @return mixed
+     */
+    public function with(array $data): mixed
+    {
+        return $this->model->with($data)->get();
     }
 }
