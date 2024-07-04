@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Cashier\SellingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -34,4 +35,5 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
     Route::get('/list-cashier', [UserController::class, 'tableCashier'])->name('list-cashier');
     Route::get('/list-supplier', [SupplierController::class, 'tableSupplier'])->name('list-supplier');
     Route::get('/list-category', [CategoryController::class, 'tableCategory'])->name('list-category');
+    Route::get('/list-unit', [UnitController::class, 'tableUnit'])->name('list-unit');
 });

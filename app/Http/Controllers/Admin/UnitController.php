@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Interfaces\Admin\UnitInterface;
+use App\Helpers\BaseDatatable;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnitRequest;
@@ -76,5 +77,15 @@ class UnitController extends Controller
             return redirect()->back()->withErrors(trans('alert.delete_restrict'));
         }
         return redirect()->back()->with('success', trans('alert.delete_success'));
+    }
+
+    /**
+     * List datatable
+     * 
+     */
+    public function tableUnit()
+    {
+        $data = $this->unit->get();
+        return BaseDatatable::TableV2($data->toArray());
     }
 }
