@@ -26,20 +26,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <form action="" method="get">
-                    <div class="d-flex flex-row gap-2 justify-content-end">
-                        <div class="col-md-4 col-sm-6">
-                            <input type="text" name="name" value="{{ Request::get('name') }}" class="form-control"
-                                id="nametext" aria-describedby="name" placeholder="Name" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Cari</button>
-                        
-                    </div>
-                </form>
-            </div>
-        </div>
         <div class="row mt-3">
             @if (session()->has('error'))
                 <div class="col-12">
@@ -65,52 +51,10 @@
                 </div>
             @endif
         </div>
-        <div class="widget-content searchable-container list mt-4">
-            <div class="card card-body">
-                <div class="table-responsive">
-                    <table class="table search-table align-middle text-nowrap">
-                        <thead class="header-item">
-                            <th>#</th>
-                            <th>Satuan</th>
-                            @role('admin')
-                                <td>Aksi</td>
-                            @endrole
-                        </thead>
-                        <tbody>
-                            @forelse ($units as $index => $unit)
-                                <tr class="search-items">
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>
-                                        <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ $unit->name }}
-                                        </h6>
-                                    </td>
-                                    @role('admin')
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <button type="button" class="btn btn-sm btn-primary btn-update" data-unit="{{ $unit }}"
-                                                        data-url="{{ route('admin.units.update', $unit->id) }}">
-                                                        <i class="fs-4 ti ti-edit"></i> <span class="d-none d-md-inline">Edit</span>
-                                                    </button>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <button type="button" class="btn btn-sm btn-danger btn-delete" data-url="{{ route('admin.units.destroy', $unit->id) }}">
-                                                        <i class="fs-4 ti ti-trash"></i> <span class="d-none d-md-inline">Hapus</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    @endrole
 
-                                </tr>
-                            @empty
-                                <p>Kategori masih kosong</p>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    {{ $units->links() }}
-                </div>
+        <div class="card">
+            <div class="card-body table-responsive">
+                <table class="table align-middle" id="tb-unit-list"></table>
             </div>
         </div>
         @include('dashboard.unit.widgets.modal-update')
@@ -118,8 +62,62 @@
         <x-dialog.delete title="Hapus Satuan" />
     </div>
 @endsection
+@section('style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+@endsection
 @section('script')
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
     <script>
+        let tb_unit = $('#tb-unit-list').dataTable({
+            processing: true,
+            serverSide: true,
+            order: [[1, 'asc']],
+            ajax: {
+                url: "{{route('data-table.list-unit')}}"
+            },
+            columns: [
+                {
+                    data: "DT_RowIndex",
+                    title: "No",
+                    searchable: false,
+                    orderable: false
+                }, {
+                    data: "name",
+                    title: "Satuan"
+                }, 
+                @role('admin')
+                {
+                    mRender: (data, type, full) => {
+                        let string_data = JSON.stringify(full).replaceAll('"', "'")
+                        let edit_url = "{{route('admin.units.edit', 'selected_id')}}"
+                        edit_url = edit_url.replace("selected_id", full['id'])
+                        let del_url = "{{route('admin.units.destroy', 'selected_id')}}"
+                        del_url = del_url.replace("selected_id", full['id'])
+                        return `
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <button type="button" class="btn btn-sm btn-primary btn-update" data-unit="${string_data}"
+                                        data-url="${edit_url}">
+                                        <i class="fs-4 ti ti-edit"></i> <span class="d-none d-md-inline">Edit</span>
+                                    </button>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button type="button" class="btn btn-sm btn-danger btn-delete" data-url="${del_url}">
+                                        <i class="fs-4 ti ti-trash"></i> <span class="d-none d-md-inline">Hapus</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `
+                    },
+                    title: "Aksi",
+                    searchable: false,
+                    orderable: false
+                }
+                @endrole
+            ]
+        })
+
         // set autofocus 
         $('#modalAddUnit').on('shown.bs.modal', function() {
             $('#name-unit').focus();
@@ -148,7 +146,7 @@
         }
 
         // validasi form 
-        $('#form-create-unit').on('submit', function(e) {
+        $(document).on('submit', '#form-create-unit', function(e) {
             e.preventDefault();
             let listId = ['#name-unit'];
             let listMessage = ['Nama Satuan tidak boleh kosong'];
@@ -157,7 +155,7 @@
             }
             $(this).unbind('submit').submit();
         })
-        $('#form-update-unit').on('submit', function(e) {
+        $(document).on('submit', '#form-update-unit', function(e) {
             e.preventDefault();
             let listId = ['#edit-name-unit'];
             let listMessage = ['Nama Satuan tidak boleh kosong'];
@@ -178,15 +176,16 @@
         })
 
 
-        $(".btn-update").on("click", function() {
+        $(document).on("click", ".btn-update", function() {
             $("#modalUpdateUnit").modal("show");
             let url = $(this).attr("data-url");
-            let unit = $(this).data("unit");
+            let stringify_unit = $(this).data("unit");
+            let unit = JSON.parse(stringify_unit.replaceAll("'", '"'))
 
             $("#modalUpdateUnit").find("#edit-name-unit").val(unit.name);
             $("#form-update-unit").attr("action", url);
         });
-        $(".btn-delete").on("click", function() {
+        $(document).on("click", ".btn-delete", function() {
             $("#delete-modal").modal("show");
 
             let url = $(this).attr("data-url");
