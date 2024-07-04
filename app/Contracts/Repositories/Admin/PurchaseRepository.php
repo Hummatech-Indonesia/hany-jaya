@@ -48,4 +48,37 @@ class PurchaseRepository extends BaseRepository implements PurchaseInterface
         return $this->model->query()
             ->create($data);
     }
+
+    /**
+     * query eloquent with relation
+     *
+     * @return mixed
+     */
+    public function withEloquent(Request $request): mixed
+    {
+        return $this->model->query()
+        ->with(['detailPurchase' => function($query) {
+            $query->with(['product','productUnit' => function($query2){
+                $query2->with('unit','product');
+            }]);    
+        },
+        'user','product','supplier'])
+        ->when($request->date, function ($query) use ($request) {
+            if(strpos($request->date,"s/d")){
+                $date = explode("s/d",$request->date);
+                $start_date = $date[0] . " 00:00:00";
+                $end_date = $date[1] . " 23:59:59";
+            } else if (strpos($request->date,"/")){
+                $date = explode("/",$request->date);
+                $start_date = $date[0] . " 00:00:00";
+                $end_date = $date[1] . " 23:59:59";
+            }
+
+            if($start_date && $end_date){
+                $query->whereBetween('created_at',[$start_date, $end_date]);   
+            }else {
+                $query->whereDate('created_at', $request->date);
+            }
+        });
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\PurchasesController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Cashier\SellingController;
@@ -30,6 +31,7 @@ Route::get("/data-history-transaction/by-buyer",[SellingController::class, 'data
 
 // Route api for data table
 Route::name('data-table.')->prefix('data-table')->group(function() {
+    Route::get("/list-purchase-history", [PurchasesController::class, 'tablePurchaseHistory'])->name('list-purchase-history');
     Route::get("/list-transaction-history", [SellingController::class, 'tableTransactionHistory'])->name('list-transaction-history');
     Route::get('/list-product', [ProductController::class, 'dataTable'])->name('list-product');
     Route::get('/list-cashier', [UserController::class, 'tableCashier'])->name('list-cashier');
