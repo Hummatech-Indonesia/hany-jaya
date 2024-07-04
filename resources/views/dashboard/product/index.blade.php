@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-12">
                 <form action="" method="get">
                     <div class="d-flex flex-row gap-2 justify-content-end">
@@ -40,67 +40,83 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> --}}
         <!--  Row 1 -->
-        <div class="row mt-5">
-            @forelse ($products as $product)
-                <div class="col-lg-3">
-                    <div class="card rounded-2 overflow-hidden hover-img">
-                        <div class="position-relative">
-                            <a href="javascript:void(0)">
-                                <img src="{{ asset('storage/' . $product->image) }}"
-                                    class="card-img-top rounded-0 product-image" alt="..." height="150" />
-                            </a>
-                            @if ($product->quantity == 0)
-                                <span
-                                    class="badge bg-danger text-white fs-2 rounded-4 lh-sm mb-9 me-9 py-1 px-2 fw-semibold position-absolute bottom-0 end-0">Stok
-                                    Habis</span>
-                            @elseif($product->quantity <= 5)
-                                <span
-                                    class="badge bg-danger text-white fs-2 rounded-4 lh-sm mb-9 me-9 py-1 px-2 fw-semibold position-absolute bottom-0 end-0">Hampir
-                                    Habis</span>
-                            @endif
-                        </div>
-                        <div class="card-body px-4 py-3">
-                            <div class="d-flex justify-content-between">
-                                <span
-                                    class="badge rounded-md bg-light-primary text-primary">{{ $product->category->name }}</span>
-                                <p class="mb-0">{{ $product->quantity }} {{ $product->unit->name }}</p>
-                            </div>
-                            <a class="d-block my-2 fs-5 text-dark fw-semibold" href="#">{{ $product->name }}</a>
-                            @role('admin')
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-sm btn-primary">
-                                            <i class="fs-4 ti ti-edit"></i>Edit
-                                        </a>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <a class="btn btn-sm btn-danger btn-delete" href="#"
-                                            data-url="{{ route('admin.products.destroy', $product->id) }}">
-                                            <i class="fs-4 ti ti-trash"></i>Hapus
-                                        </a>
-                                    </div>
-                                </div>
-                            @endrole
 
-                        </div>
-                    </div>
-                </div>
-            @empty
-                <p>Produk Belum Tesedia</p>
-            @endforelse
+        <div class="table-responsive">
+            <table class="table align-middle" id="product-table">
+            </table>
         </div>
         <x-dialog.delete title="Hapus Pemasok" />
     </div>
 @endsection
+@section('style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+@endsection
 @section('script')
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
     <script>
-        $(".btn-delete").on("click", function() {
-            $("#delete-modal").modal("show");
+        
+        $(document).ready(function() {
+            let product_datatable = $('#product-table').DataTable({
+                processing: true,
+                serverSide: true,
+                order: [[2, 'asc']],
+                language: {
+                    processing: `Memuat...`
+                },
+                ajax: {
+                    url: "{{ route('data-table.list-product') }}",
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",
+                        title: "No",
+                        orderable: false,
+                        searchable: false
+                    }, {
+                        data: "image",
+                        title: "Gambar",
+                        orderable: false,
+                        searchable: false,
+                        render: (data, type, row) => {
+                            return `<img src="{{ asset('storage') }}/${data}" alt="gambar produk" class="rounded" style="width: 75px;height: 75px;object-fit: cover"/>`
+                        }
+                    }, {
+                        data: "name",
+                        title: "Nama",
+                    }, {
+                        mRender: (data, type, full) => {
+                            return full['quantity']+" "+full["unit"]["name"];
+                        },
+                        title: "Stok",
+                    }, {
+                        data: "category.name",
+                        title: "Kategori"
+                    }, {
+                        mRender: (data, type, full) => {
+                            let url_edit = "{{ route('admin.products.edit', 'selected_id') }}"
+                            let url_destroy = "{{ route('admin.products.destroy', 'selected_id') }}"
+                            url_edit = url_edit.replace('selected_id', full['id'])
+                            url_destroy = url_destroy.replace('selected_id', full['id'])
 
-            let url = $(this).attr("data-url");
-            $("#form-delete").attr("action", url);
-        });
+                            return `<div class="d-flex gap-2">
+                                <a href="${url_edit}" class="btn btn-primary"><i class="fs-4 ti ti-edit"></i> Edit</a>
+                                <button data-url="${url_destroy}" class="btn btn-delete btn-danger"><i class="fs-4 ti ti-trash"></i> Hapus</button>
+                            </div>`
+                        },
+                        title: "Aksi"
+                    }
+                ]
+            })
+
+            $(document).on("click", '.btn-delete', function() {
+                $("#delete-modal").modal("show");
+    
+                let url = $(this).attr("data-url");
+                $("#form-delete").attr("action", url);
+            });
+        })
     </script>
 @endsection
