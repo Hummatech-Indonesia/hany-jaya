@@ -18,4 +18,12 @@ interface SellingInterface extends StoreInterface, GetInterface, CustomPaginatio
      */
 
      public function findTransactionByProductAndUser(Request $request): mixed;
+    
+     /**
+     * Handle the eloquent data from models.
+     *
+     * @return mixed
+     */
+
+     public function withEloquent(Request $request): mixed;
 }

@@ -10,6 +10,7 @@ use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Enums\RoleEnum;
 use App\Enums\StatusEnum;
+use App\Helpers\BaseDatatable;
 use App\Helpers\BaseResponse;
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
@@ -198,5 +199,19 @@ class SellingController extends Controller
         }
 
         return BaseResponse::Ok("Berhasil megambil data history transaction",$transaction);
+    }
+
+    /**
+     * Get data table for data transaction history
+     * 
+     * Param for get history transaction
+     * findone
+     * 
+     * @return datatable
+     */
+    public function tableTransactionHistory(Request $request)
+    {
+        $transaction = $this->selling->withEloquent($request);
+        return BaseDatatable::Table($transaction);
     }
 }

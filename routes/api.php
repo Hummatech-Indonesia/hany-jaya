@@ -25,5 +25,6 @@ Route::get("/data-history-transaction/by-buyer",[SellingController::class, 'data
 
 // Route api for data table
 Route::name('data-table.')->prefix('data-table')->group(function() {
+    Route::get("/list-transaction-history", [SellingController::class, 'tableTransactionHistory'])->name('list-transaction-history');
     Route::get('/list-product', [ProductController::class, 'dataTable'])->name('list-product');
 });
