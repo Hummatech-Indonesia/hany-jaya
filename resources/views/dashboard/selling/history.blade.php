@@ -26,6 +26,13 @@
         <div class="widget-content searchable-container list mt-4">
             <div class="card card-body">
                 <div class="table-responsive">
+                    <div class="row">
+                        <div class="col-0 col-md-8"></div>
+                        <div class="col-12 col-md-4 d-flex align-items-center">
+                            <div>Tanggal: </div>
+                            <input type="text" id="input-date" class="form-control form-control-sm flex-fill w-100" value="" placeholder="Tanggal Pembelian">
+                        </div>
+                    </div>
                     <table class="table align-middle" id="tb-transaction-history"></table>
                 </div>
             </div>
@@ -35,16 +42,19 @@
 @endsection
 @section('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+    <link rel="stylesheet" href="{{asset('assets/libs/daterangepicker/daterangepicker.css')}}">
 @endsection
 @section('script')
-    <script src="{{asset('assets/js/number-format.js')}}"></script>
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script src="{{asset('assets/libs/daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
+    
     <script>
 
         $(document).ready(function() {
-            $('#tb-transaction-history').DataTable({
+            const datatable_transaction = $('#tb-transaction-history').DataTable({
                 processing: true,
                 serverSide: true,
                 order: [[2, 'desc']],
@@ -101,53 +111,64 @@
                     }
                 ]
             })
-        })
 
-        $(document).on("click", ".btn-detail", function() {
-            $("#value_table").empty();
-            $("#modalDetailHistory").modal("show");
-            let detailSellings = JSON.parse($(this).data("detail-selling").replaceAll("'",'"'));
-            console.log(detailSellings)
-            let name = $(this).data('name');
-            let returns = $(this).data('return');
-            let address = $(this).data('address');
-            let status_payment = $(this).data('status_payment');
-            let price = $(this).data('price');
-            let pay = $(this).data('pay');
-            console.log(detailSellings);
-            if (status_payment == 'debt') {
-                $('.sembuyikan').hide();
-            } else {
-                $('.sembunyikan').show();
-                $('#return').html(formatNum(returns));
-                $('#pay').html(formatNum(pay));
-            }
+            $('#input-date').daterangepicker({
+                autoUpdateInput: false
+            })
 
-            $('#name').html(name);
-            $('#price').html(formatNum(price));
-            $('#address').html(address);
-            if (status_payment == 'debt') {
-                $('#status').html('<span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>');
-            } else {
-                $('#status').html('<span class="mb-1 badge font-medium bg-success text-white">Tunai</span>');
-            }
+            $('#input-date').on('apply.daterangepicker hide.daterangepicker', function(ev, picker) {
+                let val = picker.startDate.format('L')+' s/d '+picker.endDate.format('L')
+                $('#input-date').val(val)
+                let url = "{{ route('data-table.list-transaction-history') }}"
+                url = url+'?date='+$('#input-date').val()
+                datatable_transaction.ajax.url(url).load()
+            })
 
-            detailSellings.forEach(function(item, index) {
-                console.log(item);
-                $("#value_table").append(
+            $(document).on("click", ".btn-detail", function() {
+                $("#value_table").empty();
+                $("#modalDetailHistory").modal("show");
+                let detailSellings = JSON.parse($(this).data("detail-selling").replaceAll("'",'"'));
+                let name = $(this).data('name');
+                let returns = $(this).data('return');
+                let address = $(this).data('address');
+                let status_payment = $(this).data('status_payment');
+                let price = $(this).data('price');
+                let pay = $(this).data('pay');
+                console.log(detailSellings);
+                if (status_payment == 'debt') {
+                    $('.sembuyikan').hide();
+                } else {
+                    $('.sembunyikan').show();
+                    $('#return').html(formatNum(returns));
+                    $('#pay').html(formatNum(pay));
+                }
+    
+                $('#name').html(name);
+                $('#price').html(formatNum(price));
+                $('#address').html(address);
+                if (status_payment == 'debt') {
+                    $('#status').html('<span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>');
+                } else {
+                    $('#status').html('<span class="mb-1 badge font-medium bg-success text-white">Tunai</span>');
+                }
+    
+                detailSellings.forEach(function(item, index) {
+                    console.log(item);
+                    $("#value_table").append(
+                        `
+                    <tr class="search-items">
+                        <td>${index + 1}</td>
+                        <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product.name}</h6></td>
+                        <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product_unit.unit.name}</h6></td>
+                        <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.quantity}</h6></td>
+                        <td><h6 class="user-name mb-0" data-name="Emma Adams">RP. ${formatNum(item.nominal_discount)}</h6></td>
+                        <td><h6 class="user-name mb-0" data-name="Emma Adams">Rp. ${formatNum(item.selling_price)}</h6></td>
+                        <td><h6 class="user-name mb-0" data-name="Emma Adams"></h6></td>
+                    </tr>
                     `
-                <tr class="search-items">
-                    <td>${index + 1}</td>
-                    <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product.name}</h6></td>
-                    <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product_unit.unit.name}</h6></td>
-                    <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.quantity}</h6></td>
-                    <td><h6 class="user-name mb-0" data-name="Emma Adams">RP. ${formatNum(item.nominal_discount)}</h6></td>
-                    <td><h6 class="user-name mb-0" data-name="Emma Adams">Rp. ${formatNum(item.selling_price)}</h6></td>
-                    <td><h6 class="user-name mb-0" data-name="Emma Adams"></h6></td>
-                </tr>
-                `
-                );
+                    );
+                });
             });
-        });
+        })
     </script>
 @endsection
