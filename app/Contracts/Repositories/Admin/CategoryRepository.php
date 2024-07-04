@@ -115,7 +115,7 @@ class CategoryRepository extends BaseRepository implements CategoryInterface
      * get data with relation from this model
      * 
      */
-    public function with(array $data)
+    public function with(array $data): mixed
     {
         return $this->model->with($data)->get();
     }
