@@ -66,12 +66,12 @@ class PurchaseRepository extends BaseRepository implements PurchaseInterface
         ->when($request->date, function ($query) use ($request) {
             if(strpos($request->date,"s/d")){
                 $date = explode("s/d",$request->date);
-                $start_date = $date[0] . " 00:00:00";
-                $end_date = $date[1] . " 23:59:59";
+                $start_date = Carbon::parse($date[0])->format('Y-m-d') . " 00:00:00";
+                $end_date = Carbon::parse($date[1])->format('Y-m-d') . " 23:59:59";
             } else if (strpos($request->date,"/")){
                 $date = explode("/",$request->date);
-                $start_date = $date[0] . " 00:00:00";
-                $end_date = $date[1] . " 23:59:59";
+                $start_date = Carbon::parse($date[0])->format('Y-m-d') . " 00:00:00";
+                $end_date = Carbon::parse($date[1])->format('Y-m-d') . " 23:59:59";
             }
 
             if($start_date && $end_date){

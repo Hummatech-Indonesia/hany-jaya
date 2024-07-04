@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Cashier\SellingInterface;
 use Illuminate\Database\QueryException;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Selling;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -117,12 +118,12 @@ class SellingRepository extends BaseRepository implements SellingInterface
         ->when($request->date, function ($query) use ($request) {
             if(strpos($request->date,"s/d")){
                 $date = explode("s/d",$request->date);
-                $start_date = $date[0] . " 00:00:00";
-                $end_date = $date[1] . " 23:59:59";
+                $start_date = Carbon::parse($date[0])->format('Y-m-d') . " 00:00:00";
+                $end_date = Carbon::parse($date[1])->format('Y-m-d') . " 23:59:59";
             } else if (strpos($request->date,"/")){
                 $date = explode("/",$request->date);
-                $start_date = $date[0] . " 00:00:00";
-                $end_date = $date[1] . " 23:59:59";
+                $start_date = Carbon::parse($date[0])->format('Y-m-d') . " 00:00:00";
+                $end_date = Carbon::parse($date[1])->format('Y-m-d') . " 23:59:59";
             }
 
             if($start_date && $end_date){
