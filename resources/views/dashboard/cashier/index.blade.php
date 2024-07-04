@@ -26,17 +26,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-                <form class="col-12" action="" method="get">
-                    <div class="d-flex flex-row gap-2 justify-content-end">
-                        <div class="col-md-3 col-sm-6">
-                            <input type="text" value="{{ Request::get('name') }}" class="form-control" id="name"
-                                name="name" aria-describedby="name" placeholder="Name" />
-                        </div>
-                        <button class="btn btn-primary">Cari</button>
-                    </div>
-                </form>
-        </div>
         <div class="row mt-3">
             @if (session()->has('error'))
                 <div class="col-12">
@@ -62,67 +51,72 @@
                 </div>
             @endif
         </div>
-        <div class="widget-content searchable-container list">
-            <div class="card card-body">
-                <div class="table-responsive">
-                    <table class="table search-table align-middle text-nowrap">
-                        <thead class="header-item">
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            @role('admin')
-                            <th>Aksi</th>
-                            @endrole
-                        </thead>
-                        <tbody>
-                            @forelse ($cashiers as $index => $cashier)
-                                <tr class="search-items">
-                                    <td>
-                                        {{ $index + 1 }}
-                                    </td>
-                                    <td>
-                                        <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ $cashier->name }}
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ $cashier->email }}
-                                        </h6>
-                                    </td>
-                                    @role('admin')
-
-                                    <td>
-                                        <div class="action-btn">
-                                            <a href="#" data-url="{{ route('admin.cashiers.update', $cashier->id) }}"
-                                                data-name="{{ $cashier->name }}" data-email="{{ $cashier->email }}"
-                                                class="btn btn-sm btn-primary btn-update ms-2">
-                                                <i class="fs-4 ti ti-edit"></i> Edit
-                                            </a>
-                                            <a href="#" data-url="{{ route('admin.cashiers.destroy', $cashier->id) }}"
-                                                class="btn btn-sm btn-danger btn-delete ms-2">
-                                                <i class="ti ti-trash"></i> Hapus
-                                            </a>
-                                        </div>
-                                    </td>
-                                    @endrole
-                                </tr>
-                            @empty
-                                <p>Data Kosong</p>
-                            @endforelse
-
-                        </tbody>
-                    </table>
-                    {{ $cashiers->links() }}
-                </div>
+        <div class="card">
+            <div class="card-body table-responsive">
+                <table class="table align-middle" id="tb-list-cashier"></table>
             </div>
         </div>
         @include('dashboard.cashier.widgets.modal-edit')
         <x-dialog.delete title="Hapus Kasir" />
     </div>
 @endsection
+@section('style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+@endsection
 @section('script')
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
     <script>
+        let cashier_datatable = $('#tb-list-cashier').dataTable({
+            processing: true,
+            serverSide: true,
+            order: [[1, 'asc']],
+            ajax: {
+                url: "{{route('data-table.list-cashier')}}"
+            },
+            columns: [
+                {
+                    data: "DT_RowIndex",
+                    title: "No",
+                    orderable: false,
+                    searchable: false
+                }, {
+                    data: "name",
+                    title: "Nama"
+                }, {
+                    data: "email",
+                    title: "Email"
+                }, 
+                @role('admin')
+                {
+                    mRender: (data, type, full) => {
+                        let edit_url = "{{route('admin.cashiers.update', 'selected_id')}}"
+                        edit_url = edit_url.replace('selected_id', full['id'])
+                        let del_url = "{{route('admin.cashiers.destroy', 'selected_id')}}"
+                        del_url = del_url.replace('selected_id', full['id'])
+                        
+                        return `
+                            <div class="action-btn">
+                                <a href="#" data-url="${edit_url}"
+                                    data-name="${full['name']}" data-email="${full['email']}"
+                                    class="btn btn-sm btn-primary btn-update ms-2">
+                                    <i class="fs-4 ti ti-edit"></i> Edit
+                                </a>
+                                <a href="#" data-url="${del_url}"
+                                    class="btn btn-sm btn-danger btn-delete ms-2">
+                                    <i class="ti ti-trash"></i> Hapus
+                                </a>
+                            </div>
+                        `
+                    },
+                    title: "Aksi",
+                }
+                @endrole
+            ]
+        })
+
+
+
         function validate(listId, listMessage) {
             let countError = 0;
             listId.map(id => {
@@ -143,7 +137,7 @@
         }
 
         // validasi form 
-        $(".btn-tambah").on("click", function(e) {
+        $(document).on("click", ".btn-tambah", function(e) {
             e.preventDefault();
             let listId = ['#cashier-name', '#cashier-email'];
             let listMessage = ['Nama harus diisi', 'Email harus diisi'];
@@ -152,7 +146,7 @@
             }
             $("#form-add-cashier").submit();
         });
-        $(".btn-edit").on("click", function(e) {
+        $(document).on("click", ".btn-edit", function(e) {
             e.preventDefault();
             let listId = ['#edit-cashier-name', '#edit-cashier-email'];
             let listMessage = ['Nama harus diisi', 'Email harus diisi'];
@@ -184,13 +178,13 @@
             $("#edit-cashier-email").next().remove();
         });
 
-        $(".btn-delete").on("click", function() {
+        $(document).on("click", ".btn-delete", function() {
             $("#delete-modal").modal("show");
 
             let url = $(this).attr("data-url");
             $("#form-delete").attr("action", url);
         });
-        $(".btn-update").on("click", function() {
+        $(document).on("click", ".btn-update", function() {
             $("#modalEditCashier").modal("show");
 
 
