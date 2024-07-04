@@ -160,62 +160,43 @@
                                         </ol>
                                     </div>
                                 </div>
-                                <div id="education_fields" class="my-1"></div>
-                                <div class="col-sm-4">
-                                    <div class="mb-3">
-                                        <label class="mb-2" for="unit_id">Pilih Satuan <small class="text-danger">*</small></label>
-                                        <select name="unit_id[]" class="form-control" id="">
-                                            <option value="Pilih Satuan">Pilih Satuan</option>
-                                            @foreach ($units as $unit)
-                                                <option value="{{ $unit->id }}"
-                                                    {{ $product->productUnits[0]->unit_id === $unit->id ? 'selected' : '' }}
-                                                    >{{ $unit->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="mb-3">
-                                        <label class="d-flex gap-2 align-items-center mb-2" for="image">Total dalam
-                                            satuan terkecil <small class="text-danger">*</small><div data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="Masukkan total satuan terkecil dari satuan yang anda pilih. Misal dalam 1 kardus terdapat 12 pcs, maka diisi dengan angka 12, begitupula dengan satuan yang lainnya.">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-help-octagon">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path
-                                                        d="M12.802 2.165l5.575 2.389c.48 .206 .863 .589 1.07 1.07l2.388 5.574c.22 .512 .22 1.092 0 1.604l-2.389 5.575c-.206 .48 -.589 .863 -1.07 1.07l-5.574 2.388c-.512 .22 -1.092 .22 -1.604 0l-5.575 -2.389a2.036 2.036 0 0 1 -1.07 -1.07l-2.388 -5.574a2.036 2.036 0 0 1 0 -1.604l2.389 -5.575c.206 -.48 .589 -.863 1.07 -1.07l5.574 -2.388a2.036 2.036 0 0 1 1.604 0z" />
-                                                    <path d="M12 16v.01" />
-                                                    <path d="M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483" />
-                                                </svg>
-                                            </div></label>
-                                        <input type="number" value="{{ $product->productUnits[0]->quantity_in_small_unit }}" class="form-control" id="Age"
-                                            name="quantity_in_small_unit[]" placeholder="10" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <label class="mb-2" for="">Harga Jual <small class="text-danger">*</small></label>
-                                    <div class="mb-3">
-                                        <input type="number" value="{{ $product->productUnits[0]->selling_price }}" name="selling_price[]" id="" class="form-control"
-                                            placeholder="10.000">
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="" style="margin-top: 1.35rem">
-                                        <button id="add_click"
-                                            class="
-                                        btn
-                                        btn-success
-                                        font-weight-medium
-                                        waves-effect waves-light
-                                        mt-2
-                                      "
-                                            type="button">
-                                            <i class="ti ti-circle-plus fs-5"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="mt-2 table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Satuan <span class="text-danger">*</span></th>
+                                            <th>
+                                                <div class="d-flex justify-content-between">
+
+                                                    <div>
+                                                        Total Dalam Satuan Terkecil  <span class="text-danger">*</span>
+                                                    </div>
+                                                    <div data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Masukkan total satuan terkecil dari satuan yang anda pilih. Misal dalam 1 kardus terdapat 12 pcs, maka diisi dengan angka 12, begitupula dengan satuan yang lainnya.">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-help-octagon">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path
+                                                                d="M12.802 2.165l5.575 2.389c.48 .206 .863 .589 1.07 1.07l2.388 5.574c.22 .512 .22 1.092 0 1.604l-2.389 5.575c-.206 .48 -.589 .863 -1.07 1.07l-5.574 2.388c-.512 .22 -1.092 .22 -1.604 0l-5.575 -2.389a2.036 2.036 0 0 1 -1.07 -1.07l-2.388 -5.574a2.036 2.036 0 0 1 0 -1.604l2.389 -5.575c.206 -.48 .589 -.863 1.07 -1.07l5.574 -2.388a2.036 2.036 0 0 1 1.604 0z" />
+                                                            <path d="M12 16v.01" />
+                                                            <path d="M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th>Harga Jual  <span class="text-danger">*</span></th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-units">
+                                        <tr>
+                                            <th colspan="4" class="text-center text-muted">-- Belum Ada Satuan Dipilih --</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
                             <button class="btn btn-info rounded-md px-4 mt-3" type="submit">
@@ -229,9 +210,132 @@
     </div>
 @endsection
 @section('script')
-    <!-- current page js files -->
-    <!-- ---------------------------------------------- -->
-    <!-- <script src="{{ asset('assets/libs/jquery.repeater/jquery.repeater.min.js') }}"></script> -->
-    @include('dashboard.product.widgets.repeater-edit')
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="{{ asset('assets/js/number-format.js') }}"></script>
+    <script>
+        
+        $(document).ready(function() {
+            var product = @json($product->productUnits);
+
+            initTable()
+
+            function initTable() {
+                $.ajax({
+                    url: `/admin/units-ajax/`,
+                    type: "GET",
+                    success: function (response) {
+                        product.forEach((productUnit, idx) => {
+                            init_new_tb(response.data, productUnit)
+                        });
+                    },
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                    },
+                });
+            }
+            
+            $("#btn-add-unit").click(function () {
+                $.ajax({
+                    url: `/admin/units-ajax/`,
+                    type: "GET",
+                    success: function (response) {
+                        create_new_tb(response.data);
+                    },
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                    },
+                });
+            });
+
+            $(document).on('click', '.btn-delete', function() {
+                let tr = $(this).parent().parent()
+                tr.remove()
+            })
+
+            $(document).on('input', '.format-number',function() {
+                let unformat_val = unformatNum($(this).val())
+                if(unformat_val < 0) unformat_val = 0
+                $(this).val(formatNum($(this).val()))
+            })
+
+            $(document).on('input', '.input-price', function() {
+                $(this).parent().parent().parent().find('.selling-price').val(unformatNum($(this).val()))
+            })
+
+            $(document).on('input', '.input-qty', function() {
+                $(this).parent().parent().find('.qty-small').val(unformatNum($(this).val()))
+            })
+
+            function create_new_tb(data) {
+                let last_index = $('#table-units tr[data-index]').last().data('index')
+                last_index = last_index ? last_index : 0;
+
+                let optionHTML = ''
+                data.forEach(function(unit) {
+                    optionHTML += `<option value="${unit.id}">${unit.name}</option>`
+                })
+
+                let tr_showed = `
+                    <tr data-index="${last_index+1}">
+                        <td>
+                            <select name="unit_id[]" class="form-select" required>
+                                <option value="" selected disabled>-- pilih satuan --</option>
+                                ${optionHTML}
+                            </select>
+                            <input type="hidden" name="quantity_in_small_unit[]" class="qty-small"/>
+                            <input type="hidden" name="selling_price[]" class="selling-price"/>
+                        </td>
+                        <td>
+                            <input type="text" class="format-number input-qty form-control" placeholder="Jumlah dalam satuan terkecil" required/>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <div class="input-group-text">Rp</div>
+                                <input type="text" class="format-number input-price form-control" placeholder="Harga Jual" required />
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-delete">-</button>
+                        </td>
+                    </tr>
+                `
+                if(last_index == 0) $('#table-units').html(tr_showed)
+                else $('#table-units').append(tr_showed)
+            }
+            function init_new_tb(data, selected) {
+                let last_index = $('#table-units tr[data-index]').last().data('index')
+                last_index = last_index ? last_index : 0;
+
+                let optionHTML = ''
+                data.forEach(function(unit) {
+                    optionHTML += `<option value="${unit.id}" ${unit.id == selected.unit_id ? 'selected' : ''}>${unit.name}</option>`
+                })
+
+                let tr_showed = `
+                    <tr data-index="${last_index+1}">
+                        <td>
+                            <select name="unit_id[]" class="form-select" required>
+                                ${optionHTML}
+                            </select>
+                            <input type="hidden" name="quantity_in_small_unit[]" class="qty-small" value="${selected.quantity_in_small_unit}"/>
+                            <input type="hidden" name="selling_price[]" class="selling-price" value="${selected.selling_price}"/>
+                        </td>
+                        <td>
+                            <input type="text" class="format-number input-qty form-control" placeholder="Jumlah dalam satuan terkecil" value="${formatNum(selected.quantity_in_small_unit)}" required/>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <div class="input-group-text">Rp</div>
+                                <input type="text" class="format-number input-price form-control" placeholder="Harga Jual" value="${formatNum(selected.selling_price)}" required />
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-delete">-</button>
+                        </td>
+                    </tr>
+                `
+                if(last_index == 0) $('#table-units').html(tr_showed)
+                else $('#table-units').append(tr_showed)
+            }
+        })
+    </script>
 @endsection
