@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Interfaces\Admin\CategoryInterface;
+use App\Helpers\BaseDatatable;
+use App\Helpers\BaseResponse;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
@@ -86,4 +88,25 @@ class CategoryController extends Controller
             return $data;
         }
     }
+    
+    /**
+     * List data catgory
+     * 
+     * @return JsonResponse
+     */
+    public function listCategory(Request $request){
+        $data = $this->category->with(["products"]);
+        return BaseResponse::Ok("Berhasil mengambil data kategori",$data);
+    }
+
+    /**
+     * List data catgory
+     * 
+     * @return JsonResponse
+     */
+    public function tableCategory(Request $request){
+        $data = $this->category->with(["products"]);
+        return BaseDatatable::TableV2($data->toArray());
+    }
+    
 }

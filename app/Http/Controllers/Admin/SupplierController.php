@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Interfaces\Admin\SupplierInterface;
+use App\Helpers\BaseDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SupplierRequest;
 use App\Models\Supplier;
@@ -67,5 +68,18 @@ class SupplierController extends Controller
     {
         $this->supplier->delete($supplier->id);
         return redirect()->back()->with('success', trans('alert.delete_success'));
+    }
+
+    /**
+     * Data table list supplier and product
+     * 
+     * @return DataTable
+     */
+    public function tableSupplier(Request $request)
+    {
+        $supplier = $this->supplier->with(["supplierProducts" => function ($query){ 
+            $query->with("product");
+        }]);
+        return BaseDatatable::TableV2($supplier->toArray());   
     }
 }
