@@ -117,7 +117,7 @@
             })
 
             $('#input-date').on('apply.daterangepicker hide.daterangepicker', function(ev, picker) {
-                let val = picker.startDate.format('L')+' s/d '+picker.endDate.format('L')
+                let val = picker.startDate.format('DD-MM-YYYY')+' s/d '+picker.endDate.format('DD-MM-YYYY')
                 $('#input-date').val(val)
                 let url = "{{ route('data-table.list-transaction-history') }}"
                 url = url+'?date='+$('#input-date').val()

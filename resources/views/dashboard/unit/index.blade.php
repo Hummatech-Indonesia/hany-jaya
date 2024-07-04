@@ -69,7 +69,7 @@
     <script src="{{asset('assets/js/number-format.js')}}"></script>
     <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
     <script>
-        let tb_unit = $('#tb-unit-list').dataTable({
+        let tb_unit = $('#tb-unit-list').DataTable({
             processing: true,
             serverSide: true,
             order: [[1, 'asc']],
