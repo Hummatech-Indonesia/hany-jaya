@@ -110,4 +110,13 @@ class CategoryRepository extends BaseRepository implements CategoryInterface
             })
             ->fastPaginate($pagination);
     }
+
+    /**
+     * get data with relation from this model
+     * 
+     */
+    public function with(array $data)
+    {
+        return $this->model->with($data)->get();
+    }
 }
