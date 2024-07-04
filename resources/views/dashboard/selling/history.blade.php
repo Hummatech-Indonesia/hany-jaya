@@ -26,82 +26,88 @@
         <div class="widget-content searchable-container list mt-4">
             <div class="card card-body">
                 <div class="table-responsive">
-                    <table class="table search-table align-middle text-nowrap">
-                        <thead class="header-item">
-                            <th>#</th>
-                            <th>No Invoice</th>
-                            <th>Harga Total</th>
-                            <th>Nama Pembeli</th>
-                            <th>Tanggal Penjualan</th>
-                            <th>Status Pembayaran</th>
-                            <td>Aksi</td>
-                        </thead>
-                        <tbody>
-                            @forelse ($histories as $index => $history)
-                                <tr class="search-items">
-                                    <td>
-                                        {{ $index + 1 }}
-                                    </td>
-                                    <td>
-                                        <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ $history->invoice_number }}
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ FormatedHelper::rupiahCurrency($history->amount_price) }}
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <h6>{{ $history->buyer->name }}</h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="user-name mb-0" data-name="Emma Adams">
-                                            {{ FormatedHelper::dateTimeFormat($history->created_at) }}
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        @if ($history->status_payment == 'debt')
-                                            <span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>
-                                        @else
-                                            <span class="mb-1 badge font-medium bg-success text-white">Tunai</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="btn-detail"
-                                            data-detail-selling="{{ $history->detailSellings }}"
-                                            data-name="{{ $history->buyer->name }}"
-                                            data-price="{{ $history->amount_price }}" data-pay="{{ $history->pay }}"
-                                            data-return="{{ $history->return }}"
-                                            data-status_payment="{{ $history->status_payment }}"
-                                            data-address="{{ $history->buyer->address }}" width="16" height="16"
-                                            fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
-                                            <path
-                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
-                                        </svg>
-                                    </td>
-                                </tr>
-                            @empty
-                                <p>Belum ada riwayat penjualan</p>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    {{ $histories->links() }}
-                    {{-- {{ $topups->appends(['search' => request('search'), 'filter' => request('filter')])->links() }} --}}
+                    <table class="table align-middle" id="tb-transaction-history"></table>
                 </div>
             </div>
         </div>
     </div>
     @include('dashboard.selling.widgets.detail-invoice')
 @endsection
+@section('style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+@endsection
 @section('script')
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script>
-        $(".btn-detail").on("click", function() {
+
+        $(document).ready(function() {
+            $('#tb-transaction-history').DataTable({
+                processing: true,
+                serverSide: true,
+                order: [[2, 'desc']],
+                language: {
+                    processing: 'Memuat...'
+                },
+                ajax: {
+                    url: "{{ route('data-table.list-transaction-history') }}"
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",
+                        title: "No",
+                        orderable: false,
+                        searchable: false
+                    }, {
+                        data: "invoice_number",
+                        title: "No. Invoice",
+                    }, {
+                        data: "created_at",
+                        title: "Tanggal",
+                        render: (data, type, row) => {
+                            return moment(data).locale('id').format('LL')
+                        },
+                    }, {
+                        data: "user.name",
+                        title: "Nama Pembeli",
+                    }, {
+                        data: "status_payment",
+                        title: "Status Pembayaran",
+                        render: (data, type, row) => {
+                            if(data == 'debt') return `<span class="badge bg-warning text-white">Hutang</span>`;
+                            else return `<span class="badge bg-success text-white">Tunai</span>`;
+                        }
+                    }, {
+                        mRender: (data, type, full) => {
+                            return `<svg xmlns="http://www.w3.org/2000/svg" class="btn-detail"
+                                data-detail-selling="${JSON.stringify(full['detail_sellings']).replaceAll('"', "'")}"
+                                data-name="${full['buyer']['name']}"
+                                data-price="${full['amount_price']}" data-pay="${full['pay']}"
+                                data-return="${full['return']}"
+                                data-status_payment="${full['status_payment']}"
+                                data-address="${full['buyer']['address']}" width="16" height="16"
+                                fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path
+                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                <path
+                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                            </svg>`
+                        },
+                        title: "Aksi",
+                        searchable: false,
+                        orderable: false
+                    }
+                ]
+            })
+        })
+
+        $(document).on("click", ".btn-detail", function() {
             $("#value_table").empty();
             $("#modalDetailHistory").modal("show");
-            let detailSellings = $(this).data("detail-selling");
+            let detailSellings = JSON.parse($(this).data("detail-selling").replaceAll("'",'"'));
+            console.log(detailSellings)
             let name = $(this).data('name');
             let returns = $(this).data('return');
             let address = $(this).data('address');
@@ -113,12 +119,12 @@
                 $('.sembuyikan').hide();
             } else {
                 $('.sembunyikan').show();
-                $('#return').html(formatRupiah(returns));
-                $('#pay').html(formatRupiah(pay));
+                $('#return').html(formatNum(returns));
+                $('#pay').html(formatNum(pay));
             }
 
             $('#name').html(name);
-            $('#price').html(formatRupiah(price));
+            $('#price').html(formatNum(price));
             $('#address').html(address);
             if (status_payment == 'debt') {
                 $('#status').html('<span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>');
@@ -135,20 +141,13 @@
                     <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product.name}</h6></td>
                     <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product_unit.unit.name}</h6></td>
                     <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.quantity}</h6></td>
-                    <td><h6 class="user-name mb-0" data-name="Emma Adams">RP. ${formatRupiah(item.nominal_discount)}</h6></td>
-                    <td><h6 class="user-name mb-0" data-name="Emma Adams">Rp. ${formatRupiah(item.selling_price)}</h6></td>
+                    <td><h6 class="user-name mb-0" data-name="Emma Adams">RP. ${formatNum(item.nominal_discount)}</h6></td>
+                    <td><h6 class="user-name mb-0" data-name="Emma Adams">Rp. ${formatNum(item.selling_price)}</h6></td>
                     <td><h6 class="user-name mb-0" data-name="Emma Adams"></h6></td>
                 </tr>
                 `
                 );
             });
         });
-
-        function formatRupiah(angka) {
-            var reverse = angka.toString().split('').reverse().join(''),
-                ribuan = reverse.match(/\d{1,3}/g);
-            ribuan = ribuan.join('.').split('').reverse().join('');
-            return ribuan;
-        }
     </script>
 @endsection

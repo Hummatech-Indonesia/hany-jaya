@@ -135,9 +135,9 @@ class SellingController extends Controller
     public function history(Request $request): View
     {
         $histories = $this->selling->customPaginate($request);
-        if (UserHelper::getUserRole() == RoleEnum::ADMIN->value) {
+        if (auth()->user()->hasRole(RoleEnum::ADMIN->value)) {
             return view('dashboard.selling.history', compact('histories'));
-        } elseif (UserHelper::getUserROle() == RoleEnum::CASHIER->value) {
+        } elseif (auth()->user()->hasRole(RoleEnum::CASHIER->value)) {
             return view('dashboard.selling.cashier-history', compact('histories'));
         } else {
             return view('dashboard.selling.history', compact('histories'));
