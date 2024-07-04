@@ -132,4 +132,26 @@ class ProductRepository extends BaseRepository implements ProductInterface
         return $this->model->query()
             ->count();
     }
+
+    /**
+     * with relation get data
+     *
+     * @param  array $data
+     * @return mixed
+     */
+    public function with(array $data): mixed
+    {
+        return $this->model->with($data)->get();
+    }
+
+    /**
+     * with relation get data
+     *
+     * @param  array $data
+     * @return mixed
+     */
+    public function withElequent(array $data): mixed
+    {
+        return $this->model->with($data);
+    }
 }
