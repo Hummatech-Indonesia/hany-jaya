@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Cashier\SellingController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +28,5 @@ Route::get("/data-history-transaction/by-buyer",[SellingController::class, 'data
 Route::name('data-table.')->prefix('data-table')->group(function() {
     Route::get("/list-transaction-history", [SellingController::class, 'tableTransactionHistory'])->name('list-transaction-history');
     Route::get('/list-product', [ProductController::class, 'dataTable'])->name('list-product');
+    Route::get('/list-cashier', [UserController::class, 'tableCashier'])->name('list-cashier');
 });

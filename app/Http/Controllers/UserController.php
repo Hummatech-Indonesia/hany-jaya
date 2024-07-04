@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\UserInterface;
+use App\Helpers\BaseDatatable;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\UserService;
@@ -78,5 +79,16 @@ class UserController extends Controller
     {
         $this->user->delete($user->id);
         return redirect()->back()->with('success', trans('alert.delete_success'));
+    }
+
+    /**
+     * Data table list user cashier
+     * 
+     * @return DataTable
+     */
+    public function tableCashier(Request $request)
+    {
+        $user = $this->user->get();
+        return BaseDatatable::TableV2($user->toArray());   
     }
 }
