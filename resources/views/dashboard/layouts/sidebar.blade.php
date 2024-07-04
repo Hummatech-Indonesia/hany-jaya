@@ -118,7 +118,7 @@
                             <span class="hide-menu">Kasir</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('cashier.index') }}" aria-expanded="false">
+                            <a class="sidebar-link" target="_blank" href="{{ route('cashier.index') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
                                 </span>
@@ -148,6 +148,57 @@
                             <span class="hide-menu">Riwayat Penjualan</span>
                         </a>
                     </li>
+                @endrole
+
+                @role('cashier')
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Transaksi</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeIs('cashier.index') ? 'active' : '' }}" target="_blank" href="{{ route('cashier.index') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
+                        </span>
+                        <span class="hide-menu">Pindah Akun Kasir</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('cashier.list.debt') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-list"></i> <!-- Ganti ikon di sini -->
+                        </span>
+                        <span class="hide-menu">Daftar Piutang</span>
+                    </a>
+                </li>
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Riwayat</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('admin.selling.history') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-chart-line"></i> <!-- Ganti ikon di sini -->
+                        </span>
+                        <span class="hide-menu">Riwayat Penjualan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('cashier.history.debt') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-list"></i> <!-- Ganti ikon di sini -->
+                        </span>
+                        <span class="hide-menu">Riwayat Piutang</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('cashier.history.pay.debt') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-list"></i> <!-- Ganti ikon di sini -->
+                        </span>
+                        <span class="hide-menu">Pembayaran Piutang</span>
+                    </a>
+                </li>
                 @endrole
             </ul>
         </nav>

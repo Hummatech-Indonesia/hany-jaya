@@ -1,20 +1,39 @@
 @php
     use App\Helpers\FormatedHelper;
 @endphp
-@extends('dashboard.layouts.cashier')
+@extends('dashboard.layouts.dashboard')
 @section('content')
     <div class="container-fluid">
-        <form action="" method="get">
-            <div class="row justify-content-end">
-                <div class="col-3 mb-3">
-                    <input type="text" value="{{ Request::get('name') }}" class="form-control" id="name" name="name"
-                        aria-describedby="name" placeholder="Name" />
-                </div>
-                <div class="col-1">
-                    <button class="btn btn-primary">Cari</button>
+        <div class="card bg-light-info shadow-none position-relative overflow-hidden">
+            <div class="card-body px-4 py-3">
+                <div class="row align-items-center">
+                    <div class="col-9">
+                        <h4 class="fw-semibold mb-8">Riwayat Pembayaran Piutang</h4>
+                        <p>Riwayat pembayaran hutang dari pelanggan.</p>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-center mb-n5">
+                            <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}" alt=""
+                                class="img-fluid mb-n4" />
+                        </div>
+                    </div>
                 </div>
             </div>
-        </form>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <form action="" method="get">
+                    <div class="d-flex flex-row gap-2 justify-content-end">
+                        <div class="col-md-3 col-sm-6">
+                            <input type="text" value="{{ Request::get('name') }}" class="form-control" id="name" name="name"
+                                aria-describedby="name" placeholder="Name" />
+                        </div>
+                        <button class="btn btn-primary">Cari</button>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="widget-content searchable-container list">
             <div class="card card-body">
                 <div class="table-responsive">

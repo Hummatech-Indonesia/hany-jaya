@@ -85,14 +85,14 @@ Route::middleware('auth')->group(function () {
     Route::prefix('cashier')->name('cashier.')->group(function () {
         Route::get('/', [SellingController::class, 'create'])->name('index');
         Route::get('update-profile', [ProfileController::class, 'cashier'])->name('profile');
-        Route::get('admin-selling-histories',[SellingController::class,'adminSellingHistory'])->name('admin.selling.history');
+        Route::get('admin-selling-histories', [SellingController::class, 'adminSellingHistory'])->name('admin.selling.history');
         Route::get('selling-histories', [SellingController::class, 'history'])->name('selling.history');
         Route::get('show-product', [ProductController::class, 'showProduct'])->name('show.product');
         Route::get('get-last-purchases/{productUnit?}/{user?}', [PurchasesController::class, 'getLast'])->name('get.last.purchases');
-        Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');
         Route::post('sellings', [SellingController::class, 'store'])->name('selling.store');
         Route::patch('pay-debt/{buyer}', [DebtController::class, 'payDebt'])->name('pay.debt');
 
+        Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');
         Route::get('list-user-debt', [BuyerController::class, 'listDebt'])->name('list.debt');
         Route::get('history-pay-debt', [HistoryPayDebtController::class, 'index'])->name('history.pay.debt');
     });
