@@ -33,7 +33,7 @@
                             <input type="text" id="input-date" class="form-control form-control-sm flex-fill w-100" value="" placeholder="Tanggal Pembelian">
                         </div>
                     </div>
-                    <table class="table align-middle table-striped" id="tb-transaction-history"></table>
+                    <table class="table align-middle table-striped table-hover" id="tb-transaction-history"></table>
                 </div>
             </div>
         </div>

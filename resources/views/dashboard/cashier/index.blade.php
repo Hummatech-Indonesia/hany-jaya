@@ -53,7 +53,7 @@
         </div>
         <div class="card">
             <div class="card-body table-responsive">
-                <table class="table align-middle table-striped" id="tb-list-cashier"></table>
+                <table class="table align-middle table-striped table-hover" id="tb-list-cashier"></table>
             </div>
         </div>
         @include('dashboard.cashier.widgets.modal-edit')

@@ -68,7 +68,7 @@
                     <div class="card border w-100">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table align-middle table-striped text-center mb-0">
+                                <table class="table align-middle table-striped table-hover text-center mb-0">
                                     <thead>
                                         <tr class="text-muted text-nowrap fw-semibold">
                                             <th>Username</th>

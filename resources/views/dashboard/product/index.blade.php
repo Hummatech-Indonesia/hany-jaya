@@ -44,7 +44,7 @@
         <!--  Row 1 -->
 
         <div class="table-responsive">
-            <table class="table align-middle table-striped" id="product-table">
+            <table class="table align-middle table-striped table-hover" id="product-table">
             </table>
         </div>
         <x-dialog.delete title="Hapus Pemasok" />
