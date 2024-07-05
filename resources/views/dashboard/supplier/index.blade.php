@@ -26,24 +26,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <form action="" method="get">
-                    <div class="d-flex flex-row gap-2 justify-content-end">
-                        <div class="col-3">
-                            <input type="text" class="form-control" id="nametext" name="product"
-                                value="{{ Request::get('product') }}" aria-describedby="name" placeholder="Produk" />
-                        </div>
-                        <div class="col-3">
-                            <input type="text" value="{{ Request::get('name') }}" class="form-control" id="name"
-                                name="name" aria-describedby="name" placeholder="Name" />
-                        </div>
-                        <button class="btn btn-primary">Cari</button>
-                        
-                    </div>
-                </form>
-            </div>
-        </div>
         <div class="row mt-3">
             @if (session()->has('error'))
                 <div class="col-12">
@@ -69,80 +51,89 @@
                 </div>
             @endif
         </div>
-        <!--  Row 1 -->
-        <div class="row mt-3">
-            @forelse($suppliers as $supplier)
-                <div class="col-md-6 col-lg-4">
-                    <div class="card rounded-3 flex-fill">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <span class="flex-shrink-0">
-                                    <img src="https://ui-avatars.com/api/?name={{ $supplier->name }}&rounded=true&background=EBF3FE" alt="">
-                                </span>
-                                <div class="ms-4 flex-grow-1">
-                                    <div class="row">
-                                        <div class="col-10">
-                                            <h4 class="card-title text-dark">
-                                                {{ $supplier->name }}
-                                            </h4>
-                                            <h6 class="card-subtitle mb-0 fs-2 fw-normal mb-1">
-                                                {{ $supplier->address }}
-                                            </h6>
-                                        </div>
-                                        @role('admin')
-                                        <div class="col-2 mx-auto">
-                                            <div class="dropdown">
-                                                <a class="" href="javascript:void(0)" id="t2"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="ti ti-dots-vertical fs-4"></i>
-                                                </a>
-                                                <ul class="dropdown-menu" aria-labelledby="t2">
-                                                    <li>
-                                                        <a class="dropdown-item btn-update" href="#"
-                                                            data-supplier="{{ $supplier }}"
-                                                            data-url="{{ route('admin.suppliers.update', $supplier->id) }}">
-                                                            <i class="ti ti-edit text-muted me-1 fs-4"></i>Edit
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item btn-delete" href="#"
-                                                            data-url="{{ route('admin.suppliers.destroy', $supplier->id) }}">
-                                                            <i class="ti ti-trash text-muted me-1 fs-4"></i>Hapus
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        @endrole
-                                    </div>
-                                    @if (count($supplier->supplierProducts) > 0)
-                                        <div class="mt-3">
-                                            @if ($supplier->supplierProducts)
-                                                @foreach ($supplier->supplierProducts as $supplierProduct)
-                                                    <span
-                                                        class="mb-1 badge rounded-pill font-medium bg-light-primary text-primary"><small>{{ $supplierProduct->product->name }}</small></span>
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @empty
-                <p>Belum ada data supplier di toko anda.</p>
-            @endforelse
+
+        <div class="card">
+            <div class="card-body table-responsive">
+                <table class="table align-middle" id="tb-suppliers"></table>
+            </div>
         </div>
 
         @include('dashboard.supplier.widgets.modal-update')
 
         <x-dialog.delete title="Hapus Pemasok" />
     </div>
-    @endsection @section('script')
+@endsection
+@section('style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+    <link rel="stylesheet" href="{{asset('assets/libs/daterangepicker/daterangepicker.css')}}">
+@endsection
+@section('script')
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
     <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/forms/select2.init.js') }}"></script>
+
+    <script>
+        const datatable_supplier = $('#tb-suppliers').DataTable({
+                processing: true,
+                serverSide: true,
+                order: [[1, 'asc']],
+                language: {
+                    processing: 'Memuat...'
+                },
+                ajax: {
+                    url: "{{ route('data-table.list-supplier') }}"
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",
+                        title: "No",
+                        orderable: false,
+                        searchable: false
+                    }, {
+                        data: "name",
+                        title: "Pemasok",
+                    },  {
+                        mRender: (data, type, row) => {
+                            let products = ""
+                            row['supplier_products'].forEach((prod) => {
+                                products += `<span class="badge m-1 bg-primary">${prod.product.name}</span>`
+                            })
+                            return products
+                        },
+                        title: "Produk",
+                        searchable: false,
+                        orderable: false
+                    }, {
+                        mRender: (data, type, full) => {
+                            let edit_url = "{{ route('admin.suppliers.update', 'selected_id') }}"
+                            edit_url = edit_url.replace('selected_id', full['id'])
+                            let del_url = "{{ route('admin.suppliers.destroy', 'selected_id') }}"
+                            del_url = del_url.replace('selected_id', full['id'])
+                            let supplier = JSON.stringify(full).replaceAll('"', "'")
+
+                            return `
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-primary btn-update"
+                                        data-supplier="${supplier}"
+                                        data-url="${edit_url}">
+                                        <i class="ti ti-edit fs-4"></i>Edit
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-delete"
+                                        data-url="${del_url}">
+                                        <i class="ti ti-trash fs-4"></i>Hapus
+                                    </button>
+                                </div>
+                            `
+                        },
+                        title: "Aksi",
+                        searchable: false,
+                        orderable: false
+                    }
+                ]
+            })
+    </script>
     <script>
         $("#select-product").select2({
             dropdownParent: $("#modalAddSuplier"),
@@ -177,16 +168,17 @@
             return countError > 0 ? true : false;
         }
 
-        $(".btn-update").on("click", function() {
+        $(document).on("click", ".btn-update", function() {
             $("#modalUpdateSuplier").modal("show");
             let url = $(this).attr("data-url");
-            let supplier = $(this).data("supplier");
+            let supplier_str = $(this).data("supplier");
+            let supplier = JSON.parse(supplier_str.replaceAll("'", '"'))
 
             $("#modalUpdateSuplier").find("#edit-supplier-name").val(supplier.name);
             $("#modalUpdateSuplier").find("#edit-supplier-address").val(supplier.address);
             $("#form-update-supplier").attr("action", url);
         });
-        $(".btn-delete").on("click", function() {
+        $(document).on("click", ".btn-delete", function() {
             $("#delete-modal").modal("show");
 
             let url = $(this).attr("data-url");
