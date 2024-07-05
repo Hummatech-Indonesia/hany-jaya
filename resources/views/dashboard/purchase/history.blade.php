@@ -131,8 +131,12 @@
         $(document).on("click", ".btn-detail", function() {
             $("#modalDetailHistory").modal("show");
             let detailPurchaseStr = $(this).data("detail-purchase");
-            console.log(detailPurchaseStr)
-            let detailPurchase = JSON.parse(detailPurchaseStr.replaceAll("'", '"'))
+            let detailPurchase
+            if(typeof detailPurchaseStr == 'string') {
+                detailPurchase = JSON.parse(detailPurchaseStr.replaceAll("'", '"'))
+            } else {
+                detailPurchase = detailPurchaseStr
+            }
             let name = $(this).data('name');
             let invoice_number = $(this).data('invoice-number');
             let supplier = $(this).data('supplier');
