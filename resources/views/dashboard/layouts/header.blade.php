@@ -20,11 +20,6 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <div class="d-flex align-items-center justify-content-between">
-                <a href="javascript:void(0)" class="nav-link d-flex d-lg-none align-items-center justify-content-center"
-                    type="button" data-bs-toggle="offcanvas" data-bs-target="#mobilenavbar"
-                    aria-controls="offcanvasWithBothOptions">
-                    <i class="ti ti-align-justified fs-7"></i>
-                </a>
                 <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
                     <li class="nav-item dropdown">
                         <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
