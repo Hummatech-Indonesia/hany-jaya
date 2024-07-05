@@ -93,7 +93,7 @@
                 @role('admin')
                 {
                     mRender: (data, type, row) => {
-                        let detail_string = JSON.stringify(row['detail_purchase']).replaceAll('"', "'")
+                        let detail_string = JSON.stringify(row['list_products']).replaceAll('"', "'")
                         return `
                         <svg xmlns="http://www.w3.org/2000/svg" class="btn-detail"
                             data-detail-purchase="${detail_string}"
@@ -101,6 +101,7 @@
                             data-invoice-number="${row['invoice_number']}"
                             data-price="${row['buy_price']}"
                             data-status_payment="${row['status_payment']}"
+                            data-date="${row['created_at']}"
                             data-address="${row['supplier']['address']}" width="16" height="16"
                             fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                             <path
@@ -130,36 +131,36 @@
         $(document).on("click", ".btn-detail", function() {
             $("#modalDetailHistory").modal("show");
             let detailPurchaseStr = $(this).data("detail-purchase");
+            console.log(detailPurchaseStr)
             let detailPurchase = JSON.parse(detailPurchaseStr.replaceAll("'", '"'))
             let name = $(this).data('name');
             let invoice_number = $(this).data('invoice-number');
             let supplier = $(this).data('supplier');
             let price = $(this).data('price');
             let pay = $(this).data('pay');
-            console.log(detailPurchase.product.name);
-            console.log(name, price)
+            let date = $(this).data('date')
+            console.log(detailPurchase);
 
             $('#name').html(name);
             $('#invoice_number').html(invoice_number);
-            $('#price').html(price.toLocaleString());
+            $('#buy_date').html(moment(date).locale('id').format("LL"));
+            $('#price').html(formatNum(price));
 
             $('#value_table').empty();
-            console.log(detailPurchase);
-            // $.each(detailPurchase, function(index, item) {
+            let total_price = 0
+            $.each(detailPurchase, function(index, item) {
                 $("#value_table").append(
                     `
                 <tr class="search-items">
-                    <td><h6 class="user-name mb-0">1</h6></td>
-                    <td><h6 class="user-name mb-0">${detailPurchase.product.name}</h6></td>
-                    <td><h6 class="user-name mb-0">${detailPurchase.product_unit.unit.name}</h6></td>
-                    <td><h6 class="user-name mb-0">${detailPurchase.quantity}</h6></td>
-                    <td><h6 class="user-name mb-0">Rp. 100.000</h6></td>
-                    <td><h6 class="user-name mb-0">Rp. 100.000</h6></td>
-                    <td><h6 class="user-name mb-0"></h6></td>
+                    <td><h6 class="user-name mb-0">${index+1}</h6></td>
+                    <td><h6 class="user-name mb-0">${item.product.name}</h6></td>
+                    <td><h6 class="user-name mb-0">${item.quantity} ${item.product_unit.unit.name}</h6></td>
+                    <td><h6 class="user-name mb-0">Rp ${formatNum(item.buy_price_per_unit)}</h6></td>
+                    <td><h6 class="user-name mb-0">Rp ${formatNum(item.buy_price)}</h6></td>
                 </tr>
                 `
                 );
-            // });
+            });
 
         });
         $(function() {

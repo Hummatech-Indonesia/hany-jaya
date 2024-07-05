@@ -23,11 +23,11 @@
                                         <td>: </td>
                                         <td width="70%" id="invoice_number"></td>
                                     </tr>
-                                    {{-- <tr>
-                                        <th></th>
+                                    <tr>
+                                        <th>Tanggal Pembelian</th>
                                         <td>: </td>
-                                        <td width="70%" id="status"></td>
-                                    </tr> --}}
+                                        <td width="70%" id="buy_date"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -35,25 +35,16 @@
                             <thead class="header-item">
                                 <th>#</th>
                                 <th>Nama Produk</th>
-                                <th>Satuan</th>
                                 <th>Jumlah Produk</th>
-                                <th>Potongan Harga</th>
                                 <th>Harga</th>
+                                <th>Total</th>
                             </thead>
                             <tbody id="value_table">
                             </tbody>
                             <tbody id="box_price">
                                 <tr>
-                                    <td colspan="5" class="text-end fw-bold">Total Harga</td>
+                                    <td colspan="4" class="text-end fw-bold">Total Harga</td>
                                     <td>Rp. <span id="price">0</span></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5" class="text-end fw-bold">Uang Dibayar</td>
-                                    <td>Rp. <span id="pay">0</span></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5" class="text-end fw-bold">Uang Kembalian</td>
-                                    <td>Rp. <span id="return">0</span></td>
                                 </tr>
                             </tbody>
                         </table>
