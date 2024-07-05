@@ -57,7 +57,7 @@ class PurchaseRepository extends BaseRepository implements PurchaseInterface
     public function withEloquent(Request $request): mixed
     {
         return $this->model->query()
-        ->with(['detailPurchase' => function($query) {
+        ->with(['listProducts' => function($query) {
             $query->with(['product','productUnit' => function($query2){
                 $query2->with('unit','product');
             }]);    

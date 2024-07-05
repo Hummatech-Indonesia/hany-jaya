@@ -51,6 +51,16 @@ class Purchase extends Model implements HasUser, HasProduct, HasSupplier, HasOne
     }
 
     /**
+     * Method detailPurchase
+     *
+     * @return HasMany
+     */
+    public function listProducts(): HasMany
+    {
+        return $this->hasMany(DetailPurchase::class);
+    }
+
+    /**
      * product
      *
      * @return BelongsTo
