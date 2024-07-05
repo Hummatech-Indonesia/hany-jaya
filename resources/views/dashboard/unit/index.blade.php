@@ -54,7 +54,7 @@
 
         <div class="card">
             <div class="card-body table-responsive">
-                <table class="table align-middle" id="tb-unit-list"></table>
+                <table class="table align-middle table-striped" id="tb-unit-list"></table>
             </div>
         </div>
         @include('dashboard.unit.widgets.modal-update')

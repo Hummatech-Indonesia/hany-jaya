@@ -54,7 +54,7 @@
 
         <div class="card">
             <div class="card-body table-responsive">
-                <table class="table align-middle" id="tb-suppliers"></table>
+                <table class="table align-middle table-striped" id="tb-suppliers"></table>
             </div>
         </div>
 
