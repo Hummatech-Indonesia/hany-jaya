@@ -55,7 +55,7 @@
 
         <div class="card">
             <div class="card-body table-responsive">
-                <table class="table align-middle" id="tb-categories"></table>
+                <table class="table align-middle table-striped" id="tb-categories"></table>
             </div>
         </div>
 
@@ -107,14 +107,14 @@
                         return `
                         <div class="d-flex align-items-center gap-2">
                             <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn btn-sm btn-primary btn-update" data-category="${category}"
+                                <button type="button" class="btn btn-sm btn-light btn-update btn-update-icon" data-category="${category}"
                                 data-url="${edit_url}">
-                                    <i class="fs-4 ti ti-edit"></i> <span class="d-none d-md-inline">Edit</span>
+                                    <i class="fs-4 ti ti-edit"></i>
                                 </button>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn btn-sm btn-danger btn-delete" data-url="${del_url}">
-                                    <i class="fs-4 ti ti-trash"></i> <span class="d-none d-md-inline">Hapus</span>
+                                <button type="button" class="btn btn-sm btn-light btn-delete btn-delete-icon" data-url="${del_url}">
+                                    <i class="fs-4 ti ti-trash"></i>
                                 </button>
                             </div>
                         </div>
@@ -122,7 +122,8 @@
                     },
                     title: 'Aksi',
                     searchable: false,
-                    orderable: false
+                    orderable: false,
+                    width: '15%'
                 }
                 @endrole
             ]

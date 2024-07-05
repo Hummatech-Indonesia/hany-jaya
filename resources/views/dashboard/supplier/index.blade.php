@@ -115,21 +115,22 @@
 
                             return `
                                 <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-primary btn-update"
+                                    <button type="button" class="btn btn-sm btn-light btn-update btn-update-icon"
                                         data-supplier="${supplier}"
                                         data-url="${edit_url}">
-                                        <i class="ti ti-edit fs-4"></i>Edit
+                                        <i class="ti ti-edit fs-4"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger btn-delete"
+                                    <button type="button" class="btn btn-sm btn-light btn-delete btn-delete-icon"
                                         data-url="${del_url}">
-                                        <i class="ti ti-trash fs-4"></i>Hapus
+                                        <i class="ti ti-trash fs-4"></i>
                                     </button>
                                 </div>
                             `
                         },
                         title: "Aksi",
                         searchable: false,
-                        orderable: false
+                        orderable: false,
+                        width: "15%"
                     }
                 ]
             })

@@ -102,11 +102,12 @@
                             url_destroy = url_destroy.replace('selected_id', full['id'])
 
                             return `<div class="d-flex gap-2">
-                                <a href="${url_edit}" class="btn btn-primary"><i class="fs-4 ti ti-edit"></i> Edit</a>
-                                <button data-url="${url_destroy}" class="btn btn-delete btn-danger"><i class="fs-4 ti ti-trash"></i> Hapus</button>
+                                <a href="${url_edit}" class="btn btn-light btn-sm btn-update-icon"><i class="fs-4 ti ti-edit"></i></a>
+                                <button data-url="${url_destroy}" class="btn btn-delete btn-light btn-delete-icon btn-sm"><i class="fs-4 ti ti-trash"></i></button>
                             </div>`
                         },
-                        title: "Aksi"
+                        title: "Aksi",
+                        width: "15%",
                     }
                 ]
             })
