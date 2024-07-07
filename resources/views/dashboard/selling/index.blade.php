@@ -154,7 +154,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive border rounded">
-                                        <table class="table table-striped text-nowrap">
+                                        <table class="table text-nowrap">
                                             <thead>
                                                 <tr class="fs-4 fw-semibold">
                                                     <th>Produk</th>

@@ -183,7 +183,7 @@
                                     </button>
                                 </div>
                                 <div class="mt-2 table-responsive">
-                                    <table class="table align-middle table-striped">
+                                    <table class="table align-middle">
                                         <thead>
                                             <tr>
                                                 <th>Satuan <span class="text-danger">*</span></th>
