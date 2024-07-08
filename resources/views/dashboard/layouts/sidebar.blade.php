@@ -64,7 +64,7 @@
                             <span>
                                 <i class="ti ti-truck"></i> <!-- Ganti ikon di sini -->
                             </span>
-                            <span class="hide-menu">Pemasok</span>
+                            <span class="hide-menu">Distributor</span>
                         </a>
                     </li>
 

@@ -64,11 +64,11 @@
                                         <ol class="mt-3">
                                             <li>
                                                 Pembelian lebih dari satu produk
-                                                hanya dapat dilakukan di pemasok
+                                                hanya dapat dilakukan di distributor
                                                 yang sama.
                                             </li>
                                             <li>
-                                                Ketika pemasok diganti, maka
+                                                Ketika distributor diganti, maka
                                                 seluruh produk yang telah dimasukkan
                                                 akan dihapus.
                                             </li>

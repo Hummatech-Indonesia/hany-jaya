@@ -3,13 +3,13 @@
     Pemasok
 @endpush
 @section('content')
-    <div class="container-fluid max-w-full">
+    <div class="container-fluid">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Pemasok</h4>
-                        <p>List pemasok di toko anda.</p>
+                        <p>List distributor di toko anda.</p>
                         @role('admin')
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddSuplier">
                             Tambah Pemasok
@@ -209,8 +209,8 @@
             e.preventDefault();
 
             let isError = validate(['#supplier-name', '#supplier-address'], [
-                'Nama pemasok tidak boleh kosong.',
-                'Alamat pemasok tidak boleh kosong.'
+                'Nama distributor tidak boleh kosong.',
+                'Alamat distributor tidak boleh kosong.'
             ])
 
             if (!isError) {
@@ -223,8 +223,8 @@
             e.preventDefault();
 
             let isError = validate(['#edit-supplier-name', '#edit-supplier-address'], [
-                'Nama pemasok tidak boleh kosong.',
-                'Alamat pemasok tidak boleh kosong.'
+                'Nama distributor tidak boleh kosong.',
+                'Alamat distributor tidak boleh kosong.'
             ])
 
             if (!isError) {
