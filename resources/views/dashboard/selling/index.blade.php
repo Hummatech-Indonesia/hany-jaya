@@ -27,6 +27,7 @@
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
     <link rel="stylesheet" href="{{asset('assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/dist/sweetalert2.min.css')}}">
     <style>
         .form-control:focus, .form-check-input:focus {
             box-shadow:0 0 0 .25rem rgba(93,135,255,.25)!important
@@ -50,17 +51,6 @@
         <!--  Main wrapper -->
         <div class="body-wrapper mx-3">
             <div class="mt-3">
-                <div>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                </div>
                 <form action="{{ route('cashier.selling.store') }}" method="post">
                     @csrf
                     <div class="row rounded">
@@ -206,6 +196,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="{{asset('assets/libs/sweetalert2/dist/sweetalert2.min.js')}}"></script>
 
     <script>
         $(document).ready(function() {
@@ -505,7 +496,6 @@
                 }
             }
 
-
             function changeMethod() {
                 if ($('input[name="status_payment"]:checked').val() === "{{ StatusEnum::CASH->value }}") {
                     $('#cash').show();
@@ -515,6 +505,18 @@
                     $('#code_debt').show();
                 }
             }
+
+            @if ($errors->any())
+                let msg = ''
+                @foreach ($errors->all() as $error)
+                    msg += `<li>{{$error}}</li>`
+                @endforeach
+                Swal.fire({
+                    icon: "error",
+                    html: `<ul>${msg}</ul>`,
+                    timerProgressBar: true,
+                });
+            @endif
         })
     </script>
 </body>
