@@ -26,8 +26,9 @@
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css')}}">
     <style>
-        .form-control:focus {
+        .form-control:focus, .form-check-input:focus {
             box-shadow:0 0 0 .25rem rgba(93,135,255,.25)!important
         }
     </style>
@@ -75,8 +76,8 @@
                                 <div class="card-body px-3">
                                     <h5>Pembeli:</h5>
                                     <div class="form-group mb-2">
-                                        <label for="cust-name">Nama</label>
-                                        <select name="name" class="" id="cust-name" autofocus>
+                                        <label for="cust-name" class="d-flex justify-content-between"><div>Nama</div><span class="text-info">(shift+n)</span></label>
+                                        <select name="name" class="" id="cust-name" tabindex="1">
                                             <option value="">Pilih Pembeli</option>
                                             @foreach ($buyers as $buyer)
                                                 <option value="{{ $buyer->name }}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
@@ -84,25 +85,26 @@
                                         </select>
                                     </div>
                                     <div class="form-group mb-2">
-                                        <label for="cust-address">Alamat</label>
-                                        <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address">
+                                        <label for="cust-address" class="d-flex justify-content-between"><div>Alamat</div> <span class="text-info">(shift+a)</span></label>
+                                        <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
                                     </div>
                                 </div>
                             </div>
                             <div class="card shadow mb-3">
                                 <div class="card-body px-3">
                                     <h5>Pembayaran:</h5>
-                                    <div class="form-group mb-3">
-                                        <label>Metode</label>
-                                        <div class="d-flex flex-row gap-3">
-                                            <div>
-                                                <input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment" id="tunai" class="me-2" selected>
-                                                <label for="tunai">Tunai</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment" id="hutang" class="me-2">
-                                                <label for="hutang">Hutang</label>
-                                            </div>
+                                    <div class="">
+                                        <label for="payment_method" class="mb-2 d-flex justify-content-between"><div>Metode:</div><span class="text-info">(shift+m)</span></label><br/>
+                                        <input type="checkbox" id="payment_method" data-on-text="Tunai" data-off-text="Hutang" data-on-color="primary" data-off-color="success" >
+                                    </div>
+                                    <div class="d-none">
+                                        <div class="form-check">
+                                            <input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment" id="tunai" class="form-check-input" checked>
+                                            <label for="tunai" class="form-check-label">Tunai</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment" id="hutang" class="form-check-input">
+                                            <label for="hutang" class="form-check-label">Hutang</label>
                                         </div>
                                     </div>
                                     <div id="cash">
@@ -135,11 +137,14 @@
                             </div>
                             <div class="card shadow border">
                                 <div class="card-body">
-                                    <h5>Produk</h5>
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Produk</h5>
+                                        <div class="text-info">(shift+p)</div>
+                                    </div>
                                     <div class="row mb-3">
                                         <div class="col-10">
                                             <div>
-                                                <select id="product-code" class="select-product form-control">
+                                                <select id="product-code" class="select-product form-control" tabindex="3">
                                                     @foreach ($products as $product)
                                                         <option value="" selected disabled>Pilih produk</option>
                                                         <option value="{{ $product->code }}">{{ $product->name }}</option>
@@ -148,7 +153,7 @@
                                             </div>
                                         </div>
                                         <div class="col-2">
-                                            <button class="btn btn-primary" type="button" disabled id="btn-add-product">+ Tambah</button>
+                                            <button class="btn btn-primary w-100" type="button" disabled id="btn-add-product" tabindex="4">+ Tambah</button>
                                         </div>
                                     </div>
                                     <div class="table-responsive border rounded">
@@ -197,12 +202,29 @@
     <!--  current page js files -->
     <!-- <script src="{{ asset('assets/js/dashboard.js') }}"></script> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{asset('assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
 
     <script>
         $(document).ready(function() {
+            $('#payment_method').bootstrapSwitch("state", true, true)
+
+            $(document).on('switchChange.bootstrapSwitch', '#payment_method',function(e, data) {
+                if(data) {
+                    $('#tunai').prop('checked', true)
+                    $('#hutang').prop('checked', false)
+                } else {
+                    $('#tunai').prop('checked', false)
+                    $('#hutang').prop('checked', true)
+                }
+
+                changeMethod()
+            })
+
+            changeMethod()
+
             let cust_name_val = ""
             let product_val = ""
 
@@ -242,6 +264,36 @@
                 maxItems: 1
             })
             const select_product = selectize_product[0].selectize
+
+            let shortcuts = {
+                'shift+n': function() { select_cust.focus() },
+                'shift+a': function() { $('#cust-address').focus() },
+                'shift+p': function() { select_product.focus() },
+                'shift+m': function() {
+                    let val = $('#payment_method').bootstrapSwitch("state")
+                    if(val) $('#payment_method').bootstrapSwitch("state", false)
+                    else $('#payment_method').bootstrapSwitch("state", true)
+                },
+                'shift+enter': function() {$('form').submit()}
+            };
+
+            function checkShortcut(e) {
+                var key = [];
+                if (e.altKey) key.push('alt');
+                if (e.ctrlKey) key.push('ctrl');
+                if (e.shiftKey) key.push('shift');
+                key.push(e.key.toLowerCase());
+
+                return key.join('+');
+            }
+
+            $(document).keydown(function(e) {
+                var shortcut = checkShortcut(e);
+                if (shortcuts[shortcut]) {
+                    e.preventDefault(); // Prevent default action
+                    shortcuts[shortcut](); // Trigger shortcut action
+                }
+            });
 
             $(document).on('change input', '#cust-name', function() {
                 var selectedValue = select_cust.getValue();
@@ -313,24 +365,24 @@
                                     </h6>
                                 </td>
                                 <td>
-                                    <select name="product_unit_id[]" class="form-control product-unit">
+                                    <select name="product_unit_id[]" class="form-control product-unit" tabindex="5">
                                         ${product_units}
                                     </select>
                                 </td>
                                 <td class="d-flex flex-row gap-2">
-                                    <button type="button" class="btn btn-sm btn-danger p-2 btn-minus">-</button>
-                                    <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" />
-                                    <button type="button" class="btn btn-sm btn-success p-2 btn-plus">+</button>
+                                    <button type="button" class="btn btn-sm btn-danger p-2 btn-minus"  tabindex="5">-</button>
+                                    <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" tabindex="5"/>
+                                    <button type="button" class="btn btn-sm btn-success p-2 btn-plus" tabindex="5">+</button>
                                 </td>
                                 <td>
-                                    <input type="text" value="${formatNum(selected_price, true)}" name="formatted_product_unit_price[]" class="form-control format-number input-unit-price" />
+                                    <input type="text" value="${formatNum(selected_price, true)}" name="formatted_product_unit_price[]" class="form-control format-number input-unit-price" tabindex="5" />
                                     ${latest_price ? `<div class="text-primary last_price">Rp. ${formatNum(latest_price)}</div>` : '' }
                                 </td>
                                 <td>
                                     <input type="text" value="${formatNum(selected_price, true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
                                 </td>
                                 <td>
-                                    <button type="button" data-id="${current_index}" class="btn btn-light-danger text-danger delete_product"><i class="ti ti-trash"></i></button>
+                                    <button type="button" data-id="${current_index}" class="btn btn-light-danger text-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
                                 </td>
                             </tr>`;
                         $('#tb-product').append(newRow);
@@ -453,18 +505,16 @@
                 }
             }
 
-            $('#cash').hide();
-            $('#code_debt').hide();
 
-            $('input[name="status_payment"]').change(function() {
-                if ($(this).val() === "{{ StatusEnum::CASH->value }}") {
+            function changeMethod() {
+                if ($('input[name="status_payment"]:checked').val() === "{{ StatusEnum::CASH->value }}") {
                     $('#cash').show();
                     $('#code_debt').hide();
                 } else {
                     $('#cash').hide();
                     $('#code_debt').show();
                 }
-            });
+            }
         })
     </script>
 </body>
