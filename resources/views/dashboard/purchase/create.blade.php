@@ -82,7 +82,7 @@
                                     <div class="text-bold">Produk</div>
                                     <button type="button" class="btn btn-success" id="btn-add-product">+ Tambah</button>
                                 </div>
-                                <div class="table-responsive">
+                                <div>
                                     <table class="table align-middle">
                                         <thead>
                                             <tr>
@@ -112,22 +112,51 @@
         </div>
     </div>
 @endsection
+@section('style')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
+@endsection
 @section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
     <script>
         $(document).ready(function() {
             let product_list = []
+            let select_product_list = []
+            let select_unit_list = []
+
+            const selectize_supplier = $('#supplier_id').selectize({
+                plugins: [],
+                create: true,
+                maxItems: 1,
+                placeholder: "Pilih Distributor",
+            })
+            const select_supplier = selectize_supplier[0].selectize
+
+            function isCanAddProduct() {
+                const supplier = select_supplier.getValue()
+                const invoice = $('[name=invoice_number]').val()
+                if(supplier && invoice) $('#btn-add-product').removeClass('disabled')
+                else $('#btn-add-product').addClass('disabled')
+            }
+
+            isCanAddProduct()
+
             $(document).on('change', '#supplier_id',function() {
                 $.ajax({
                     url: `{{ route('admin.supplier.product.index', ['supplier' => '']) }}/${$('#supplier_id').val()}`,
                     type: "GET",
                     success: function(response) {
                         product_list = response.data
+                        isCanAddProduct()
                     },
                     error: function(xhr) {
                         product_list = [];
                     },
                 });
+            })
+
+            $(document).on('input', '[name=invoice_number]', function() {
+                isCanAddProduct()
             })
             
             $(document).on("click", "#btn-add-product", function () {
@@ -172,15 +201,45 @@
                 } else {
                     $('#tb-products').html(new_tr)
                 }
+
+                select_product_list.push({})
+                select_unit_list.push({})
+
+                setSelectizeProduct(current_index-1)
+                setSelectizeUnit(current_index-1)
             });
+
+            function setSelectizeProduct(index) {
+                const tr = $('#tb-products > tr[data-index]').last()
+                const selectize_product = tr.find('.select_product').selectize({
+                    create: false,
+                    maxItems: 1,
+                    placeholder: "Pilih Produk",
+                })
+
+                const select_product = selectize_product[0].selectize
+                select_product_list[index] = select_product
+            }
+            function setSelectizeUnit(index) {
+                const tr = $('#tb-products > tr[data-index]').last()
+                const selectize_unit = tr.find('#product_unit').selectize({
+                    create: false,
+                    maxItems: 1,
+                    placeholder: "Pilih Satuan",
+                })
+
+                const select_unit = selectize_unit[0].selectize
+                select_unit_list[index] = select_unit
+            }
 
             $(document).on("click", ".btn-delete", function() {
                 $(this).parent().parent().remove()
             })
 
             $(document).on("change", ".select_product", function() {
+                let index = $(this).closest('tr').data('index')
                 let productId = $(this).val();
-                let options = `<option value="" disabled selected>-- pilih satuan --</option>`
+                let options = []
                 let unit_input = $(this).parent().parent().find('#product_unit')
                 
                 $.ajax({
@@ -188,9 +247,15 @@
                     type: "GET",
                     success: function(response) {
                         response.data.forEach(function(item) {
-                            options += `<option value="${item.id}">${item.unit}</option>`
+                            options.push({
+                                value: item.id,
+                                text: item.unit
+                            })
                         });
-                        unit_input.html(options)
+
+                        select_unit_list[index-1].clear()
+                        select_unit_list[index-1].clearOptions()
+                        select_unit_list[index-1].addOption(options)
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
