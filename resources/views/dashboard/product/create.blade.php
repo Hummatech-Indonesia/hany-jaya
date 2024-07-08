@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('assets/libs/codemirror/5.41.0/theme/blackboard.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/libs/codemirror/5.41.0/theme/monokai.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/libs/summernote/dist/summernote-lite.min.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
 @endsection
 @section('content')
     <div class="container-fluid max-w-full">
@@ -54,6 +54,7 @@
                                     @error('name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
+                                    <div class="text-danger on_error d-none">Nama Produk tidak boleh kosong</div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="mb-2" for="code">Kode Produk <small class="text-danger">*</small></label>
@@ -62,6 +63,7 @@
                                     @error('code')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
+                                    <div class="text-danger on_error d-none">Kode Produk tidak boleh kosong</div>
                                 </div>
                             </div>
                             <div class="row">
@@ -79,7 +81,7 @@
                                                 <path d="M9 12h6" />
                                                 <path d="M12 9v6" />
                                             </svg> Tambah Kategori</a></label>
-                                    <select name="category_id" id="" class="select2category form-control">
+                                    <select name="category_id" id="" class="form-control">
                                         <option value="">Pilih Kategori</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}"
@@ -90,6 +92,7 @@
                                     @error('category_id')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
+                                    <div class="text-danger on_error d-none">Kategori tidak boleh kosong</div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="d-flex justify-content-between mb-2">
@@ -109,19 +112,18 @@
                                         </div>
                                     </div>
 
-                                    <select class="select2 form-control" name="supplier_id[]" multiple="multiple"
-                                        placeholder="Pilih Distributor" style="height: 36px; width: 100%">
-                                        <optgroup label="Pilih Distributor">
-                                            @foreach ($suppliers as $supplier)
-                                                <option value="{{ $supplier->id }}"
-                                                    {{ in_array($supplier->id, old('supplier_id', [])) ? 'selected' : '' }}>
-                                                    {{ $supplier->name }}</option>
-                                            @endforeach
-                                        </optgroup>
+                                    <select class="form-control" name="supplier_id[]" placeholder="Pilih Distributor" style="height: 36px; width: 100%">
+                                        <option value="">Pilih Distributor</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}"
+                                                {{ in_array($supplier->id, old('supplier_id', [])) ? 'selected' : '' }}>
+                                                {{ $supplier->name }}</option>
+                                        @endforeach
                                     </select>
                                     @error('supplier_id')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
+                                    <div class="text-danger on_error d-none">Distributor tidak boleh kosong</div>
                                 </div>
                             </div>
                             <div class="row">
@@ -151,6 +153,7 @@
                                     @error('category_id')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
+                                    <div class="text-danger on_error d-none">Distributor tidak boleh kosong</div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="mb-2" for="image">Gambar (opsional)</label>
@@ -177,7 +180,7 @@
 
                             <div>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h5>Satuan</h5>
+                                    <h5>Konversi Satuan & Harga Pada Satuan Lain</h5>
                                     <button type="button" class="btn btn-success" id="btn-add-unit">
                                         + Tambah
                                     </button>
@@ -234,15 +237,29 @@
     @include('dashboard.category.widgets.modal-create')
 @endsection
 @section('script')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{ asset('assets/js/number-format.js') }}"></script>
 
     <script>
         $(document).ready(function() {
-            $('.select2category').select2({
+            const selectize_cat = $('[name=category_id]').selectize()
+            const selectize_supplier = $('[name=supplier_id\\[\\]]').selectize({
+                maxItems: null
             })
+            const selectize_small_unit = $('[name=small_unit_id]').selectize()
+
+            const select = {
+                category: selectize_cat[0].selectize,
+                supplier: selectize_supplier[0].selectize,
+                small_unit: selectize_small_unit[0].selectize
+            }
+
+
 
             $("#btn-add-unit").click(function () {
+                let isError = isCanAddUnit()
+                if(isError) return 
+
                 $.ajax({
                     url: `/admin/units-ajax/`,
                     type: "GET",
@@ -309,6 +326,69 @@
                 `
                 if(last_index == 0) $('#table-units').html(tr_showed)
                 else $('#table-units').append(tr_showed)
+            }
+
+            $(document).on('input', '[name=name]', function(){
+                isCanAddUnit()
+            })
+            $(document).on('input', '[name=code]', function(){
+                isCanAddUnit()
+            })
+            $(document).on('change', '[name=category_id]', function(){
+                isCanAddUnit()
+            })
+            $(document).on('change', '[name=supplier_id\\[\\]]', function(){
+                isCanAddUnit()
+            })
+            $(document).on('change', '[name=small_unit_id]', function(){
+                isCanAddUnit()
+            })
+
+            function isCanAddUnit() {
+                let product = $('[name=name]').val()
+                let invoice = $('[name=code]').val()
+                let category = select.category.getValue()
+                let supplier = select.supplier.getValue()
+                let small_unit = select.small_unit.getValue()
+
+                let count_error = 0
+
+                if(!product) {
+                    $('[name=name]').parent().find('.on_error').removeClass('d-none')
+                    count_error++
+                } else {
+                    $('[name=name]').parent().find('.on_error').addClass('d-none')
+                }
+
+                if(!invoice) {
+                    $('[name=code]').parent().find('.on_error').removeClass('d-none')
+                    count_error++
+                } else {
+                    $('[name=code]').parent().find('.on_error').addClass('d-none')
+                }
+
+                if(!category) {
+                    $('[name=category_id]').parent().find('.on_error').removeClass('d-none')
+                    count_error++
+                } else {
+                    $('[name=category_id]').parent().find('.on_error').addClass('d-none')
+                }
+
+                if(!supplier.length) {
+                    $('[name=supplier_id\\[\\]]').parent().find('.on_error').removeClass('d-none')
+                    count_error++
+                } else {
+                    $('[name=supplier_id\\[\\]]').parent().find('.on_error').addClass('d-none')
+                }
+
+                if(!small_unit) {
+                    $('[name=small_unit_id]').parent().find('.on_error').removeClass('d-none')
+                    count_error++
+                } else {
+                    $('[name=small_unit_id]').parent().find('.on_error').addClass('d-none')
+                }
+
+                return count_error
             }
         })
     </script>
