@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.dashboard') 
 @push("title")
-    Pemasok
+    Distributor
 @endpush
 @section('content')
     <div class="container-fluid">
@@ -8,11 +8,11 @@
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h4 class="fw-semibold mb-8">Pemasok</h4>
+                        <h4 class="fw-semibold mb-8">Distributor</h4>
                         <p>List distributor di toko anda.</p>
                         @role('admin')
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddSuplier">
-                            Tambah Pemasok
+                            Tambah Distributor
                         </button>
                         @endrole
                         @include('dashboard.supplier.widgets.modal-create')
@@ -60,7 +60,7 @@
 
         @include('dashboard.supplier.widgets.modal-update')
 
-        <x-dialog.delete title="Hapus Pemasok" />
+        <x-dialog.delete title="Hapus Distributor" />
     </div>
 @endsection
 @section('style')
@@ -93,7 +93,7 @@
                         searchable: false
                     }, {
                         data: "name",
-                        title: "Pemasok",
+                        title: "Distributor",
                     },  {
                         mRender: (data, type, row) => {
                             let products = ""

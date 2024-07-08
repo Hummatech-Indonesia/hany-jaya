@@ -41,9 +41,9 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="name" class="mb-2">Nama Pemasok <small class="text-danger">*</small></label>
+                                    <label for="name" class="mb-2">Nama Distributor <small class="text-danger">*</small></label>
                                     <select name="supplier_id" id="supplier_id" class="form-control">
-                                        <option value="">Pilih Pemasok</option>
+                                        <option value="">Pilih Distributor</option>
                                         @foreach ($suppliers as $supplier)
                                             <option value="{{ $supplier->id }}">
                                                 {{ $supplier->name }}

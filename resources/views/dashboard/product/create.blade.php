@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="d-flex justify-content-between mb-2">
-                                        <label for="supplier_id">Nama Pemasok <small class="text-danger">*</small></label>
+                                        <label for="supplier_id">Nama Distributor <small class="text-danger">*</small></label>
                                         <div class="d-flex flex-row">
                                             <a data-bs-toggle="modal" style="cursor: pointer"
                                                 data-bs-target="#modalAddSuplier" class="mx-2 text-success"> <svg
@@ -105,13 +105,13 @@
                                                     <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
                                                     <path d="M9 12h6" />
                                                     <path d="M12 9v6" />
-                                                </svg> Tambah Pemasok</a>
+                                                </svg> Tambah Distributor</a>
                                         </div>
                                     </div>
 
                                     <select class="select2 form-control" name="supplier_id[]" multiple="multiple"
-                                        placeholder="Pilih Pemasok" style="height: 36px; width: 100%">
-                                        <optgroup label="Pilih Pemasok">
+                                        placeholder="Pilih Distributor" style="height: 36px; width: 100%">
+                                        <optgroup label="Pilih Distributor">
                                             @foreach ($suppliers as $supplier)
                                                 <option value="{{ $supplier->id }}"
                                                     {{ in_array($supplier->id, old('supplier_id', [])) ? 'selected' : '' }}>

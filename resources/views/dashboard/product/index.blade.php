@@ -47,7 +47,7 @@
             <table class="table align-middle table-striped table-hover" id="product-table">
             </table>
         </div>
-        <x-dialog.delete title="Hapus Pemasok" />
+        <x-dialog.delete title="Hapus Distributor" />
     </div>
 @endsection
 @section('style')

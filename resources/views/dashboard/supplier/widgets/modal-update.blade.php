@@ -14,7 +14,7 @@
             <div class="modal-content">
                 <div class="modal-header d-flex align-items-center">
                     <h4 class="modal-title" id="myLargeModalLabel">
-                        Edit Pemasok
+                        Edit Distributor
                     </h4>
                     <button
                         type="button"
@@ -26,7 +26,7 @@
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
                         <label for="edit-supplier-name" class="form-label fw-semibold"
-                            >Nama Pemasok <small class="text-danger">*</small></label
+                            >Nama Distributor <small class="text-danger">*</small></label
                         >
                         <input
                         tabindex="1"

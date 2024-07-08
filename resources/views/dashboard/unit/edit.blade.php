@@ -64,10 +64,10 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="supplier_id">Nama Pemasok</label>
+                                    <label for="supplier_id">Nama Distributor</label>
                                     <select class="select2 form-control" name="supplier_id[]" multiple="multiple"
-                                        placeholder="Pilih Pemasok" style="height: 36px; width: 100%">
-                                        <optgroup label="Pilih Pemasok">
+                                        placeholder="Pilih Distributor" style="height: 36px; width: 100%">
+                                        <optgroup label="Pilih Distributor">
                                             @foreach ($suppliers as $supplier)
                                                 <option value="{{ $supplier->id }}">
                                                     {{ $supplier->name }}</option>

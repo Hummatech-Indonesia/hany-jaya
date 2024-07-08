@@ -7,13 +7,13 @@
             <div class="modal-content">
                 <div class="modal-header d-flex align-items-center">
                     <h4 class="modal-title" id="myLargeModalLabel">
-                        Tambah Pemasok
+                        Tambah Distributor
                     </h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
-                        <label for="categories" class="form-label fw-semibold">Nama Pemasok</label>
+                        <label for="categories" class="form-label fw-semibold">Nama Distributor</label>
                         <input name="name" type="text" class="form-control" id="categories"
                             placeholder="Pt Harapan Jaya" />
                     </div>
