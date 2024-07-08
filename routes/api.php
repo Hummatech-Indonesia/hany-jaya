@@ -25,8 +25,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Route Api List
 Route::get("/list-buyer",[SellingController::class, 'listBuyer'])->name('buyer.list-search');
 Route::get("/list-category",[CategoryController::class, 'listCategory'])->name('category.list-search');
+Route::get("/list-supplier",[SupplierController::class, 'listSupplier'])->name('supplier.list-search');
 Route::get("/data-history-transaction/by-buyer",[SellingController::class, 'dataUserTransactionHistoryLatest'])->name('transaction.find-by-user-product');
 
 // Route api for data table
@@ -43,3 +45,6 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
     // data dashboard
     Route::get('/list-high-transaction', [SellingController::class, 'tableUserHighTransaction'])->name('list-high-transaction');
 });
+
+// Ruoute Api Transaction
+Route::post('/create-supplier',[SupplierController::class, 'storeAjax'])->name('supplier.store.ajax');

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Helpers\BaseDatatable;
+use App\Helpers\BaseResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SupplierRequest;
 use App\Models\Supplier;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -46,6 +48,18 @@ class SupplierController extends Controller
     }
 
     /**
+     * store Ajax
+     *
+     * @param  mixed $request
+     * @return RedirectResponse
+     */
+    public function storeAjax(SupplierRequest $request): JsonResponse
+    {
+        $this->supplier->store($request->validated());
+        return BaseResponse::Ok("Berhasil create data supplier",null);
+    }
+
+    /**
      * update
      *
      * @param  mixed $request
@@ -68,6 +82,19 @@ class SupplierController extends Controller
     {
         $this->supplier->delete($supplier->id);
         return redirect()->back()->with('success', trans('alert.delete_success'));
+    }
+
+    /**
+     * Data table list supplier and product
+     * 
+     * @return DataTable
+     */
+    public function listSupplier(Request $request)
+    {
+        $supplier = $this->supplier->with(["supplierProducts" => function ($query){ 
+            $query->with("product");
+        }]);
+        return BaseResponse::Ok("Berhasil mengambil data supplier",$supplier);   
     }
 
     /**
