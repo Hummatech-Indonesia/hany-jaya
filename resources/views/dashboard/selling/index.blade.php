@@ -147,16 +147,16 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive border rounded">
-                                        <table class="table text-nowrap">
+                                        <table class="table text-break">
                                             <thead>
                                                 <tr class="fs-4 fw-semibold">
-                                                    <th>Produk</th>
-                                                    <th>Stok</th>
-                                                    <th>Satuan</th>
-                                                    <th>Jumlah</th>
-                                                    <th>Harga</th>
-                                                    <th>Total</th>
-                                                    <th>Aksi</th>
+                                                    <th style="min-width: 200px;">Produk</th>
+                                                    <th style="min-width: 150px;">Stok</th>
+                                                    <th style="min-width: 150px;">Satuan</th>
+                                                    <th style="min-width: 150px;">Jumlah</th>
+                                                    <th style="min-width: 150px;">Harga</th>
+                                                    <th style="min-width: 150px;">Total</th>
+                                                    <th style="min-width: 100px;">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tb-product">
