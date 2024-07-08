@@ -6,31 +6,31 @@
     Beranda
 @endpush
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid max-w-full">
         <div class="row">
             <div class="col-lg-3">
-                <div class="card bg-primary-subtle p-3 position-relative overflow-hidden">
+                <div class="card bg-primary-subtle scorecard p-3 position-relative overflow-hidden">
                     <p class="fs-3">Total Penjualan</p>
                     <h4 class="fw-semibold fs-7">{{ $selling_count }}</h4>
                     <i class="ti ti-shopping-cart icon-head"></i>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card bg-info-subtle p-3 position-relative overflow-hidden">
+                <div class="card bg-info-subtle scorecard p-3 position-relative overflow-hidden">
                     <p class="fs-3">Total Omset</p>
                     <h4 class="fw-semibold fs-7">{{ FormatedHelper::rupiahCurrency($selling_sum) }}</h4>
                     <i class="ti ti-chart-line icon-head"></i>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card bg-success-subtle p-3 position-relative overflow-hidden">
+                <div class="card bg-success-subtle scorecard p-3 position-relative overflow-hidden">
                     <p class="fs-3">Total Produk</p>
                     <h4 class="fw-semibold fs-7">{{ $product_count }}</h4>
                     <i class="ti ti-package icon-head"></i>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card bg-warning-subtle p-3 position-relative overflow-hidden">
+                <div class="card bg-warning-subtle scorecard p-3 position-relative overflow-hidden">
                     <p class="fs-3">Jumlah Piutang</p>
                     <h4 class="fw-semibold fs-7">{{ FormatedHelper::rupiahCurrency($debt) }}</h4>
                     <i class="ti ti-wallet icon-head"></i>
@@ -176,6 +176,9 @@
             bottom: -20px;
             font-size: 7rem;
             opacity: 20%;
+        }
+        .scorecard:hover {
+            opacity: .7;
         }
     </style>
 @endsection

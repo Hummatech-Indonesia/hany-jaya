@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.cashier')
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid max-w-full">
         @if (session('success'))
             <x-alert-success></x-alert-success>
         @elseif(session('error'))

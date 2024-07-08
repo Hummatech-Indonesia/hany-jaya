@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.dashboard') 
 @push("title")
-    Pemasok
+    Distributor
 @endpush
 @section('content')
     <div class="container-fluid">
@@ -8,11 +8,11 @@
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h4 class="fw-semibold mb-8">Pemasok</h4>
-                        <p>List pemasok di toko anda.</p>
+                        <h4 class="fw-semibold mb-8">Distributor</h4>
+                        <p>List distributor di toko anda.</p>
                         @role('admin')
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddSuplier">
-                            Tambah Pemasok
+                            Tambah Distributor
                         </button>
                         @endrole
                         @include('dashboard.supplier.widgets.modal-create')
@@ -60,7 +60,7 @@
 
         @include('dashboard.supplier.widgets.modal-update')
 
-        <x-dialog.delete title="Hapus Pemasok" />
+        <x-dialog.delete title="Hapus Distributor" />
     </div>
 @endsection
 @section('style')
@@ -93,7 +93,7 @@
                         searchable: false
                     }, {
                         data: "name",
-                        title: "Pemasok",
+                        title: "Distributor",
                     },  {
                         mRender: (data, type, row) => {
                             let products = ""
@@ -115,21 +115,22 @@
 
                             return `
                                 <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-primary btn-update"
+                                    <button type="button" class="btn btn-sm btn-light btn-update btn-update-icon"
                                         data-supplier="${supplier}"
                                         data-url="${edit_url}">
-                                        <i class="ti ti-edit fs-4"></i>Edit
+                                        <i class="ti ti-edit fs-4"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger btn-delete"
+                                    <button type="button" class="btn btn-sm btn-light btn-delete btn-delete-icon"
                                         data-url="${del_url}">
-                                        <i class="ti ti-trash fs-4"></i>Hapus
+                                        <i class="ti ti-trash fs-4"></i>
                                     </button>
                                 </div>
                             `
                         },
                         title: "Aksi",
                         searchable: false,
-                        orderable: false
+                        orderable: false,
+                        width: "15%"
                     }
                 ]
             })
@@ -208,8 +209,8 @@
             e.preventDefault();
 
             let isError = validate(['#supplier-name', '#supplier-address'], [
-                'Nama pemasok tidak boleh kosong.',
-                'Alamat pemasok tidak boleh kosong.'
+                'Nama distributor tidak boleh kosong.',
+                'Alamat distributor tidak boleh kosong.'
             ])
 
             if (!isError) {
@@ -222,8 +223,8 @@
             e.preventDefault();
 
             let isError = validate(['#edit-supplier-name', '#edit-supplier-address'], [
-                'Nama pemasok tidak boleh kosong.',
-                'Alamat pemasok tidak boleh kosong.'
+                'Nama distributor tidak boleh kosong.',
+                'Alamat distributor tidak boleh kosong.'
             ])
 
             if (!isError) {

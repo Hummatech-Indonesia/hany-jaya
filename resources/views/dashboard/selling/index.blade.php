@@ -25,12 +25,14 @@
 
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}" />
-
-    <!-- --------------------------------------------------- -->
-    <!-- Select2 -->
-    <!-- --------------------------------------------------- -->
-    <link rel="stylesheet" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/dist/sweetalert2.min.css')}}">
+    <style>
+        .form-control:focus, .form-check-input:focus {
+            box-shadow:0 0 0 .25rem rgba(93,135,255,.25)!important
+        }
+    </style>
 </head>
 <body>
     <!-- Preloader -->
@@ -49,17 +51,6 @@
         <!--  Main wrapper -->
         <div class="body-wrapper mx-3">
             <div class="mt-3">
-                <div>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                </div>
                 <form action="{{ route('cashier.selling.store') }}" method="post">
                     @csrf
                     <div class="row rounded">
@@ -75,36 +66,35 @@
                                 <div class="card-body px-3">
                                     <h5>Pembeli:</h5>
                                     <div class="form-group mb-2">
-                                        <label for="cust-name">Nama</label>
-                                        <div>
-                                            <select name="name" class="form-control" id="cust-name">
-                                                <option value="">Pilih Pembeli</option>
-                                                @foreach ($buyers as $buyer)
-                                                    <option value="{{ $buyer->name }}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        <label for="cust-name" class="d-flex justify-content-between"><div>Nama</div><span class="text-info">(shift+n)</span></label>
+                                        <select name="name" class="" id="cust-name" tabindex="1">
+                                            <option value="">Pilih Pembeli</option>
+                                            @foreach ($buyers as $buyer)
+                                                <option value="{{ $buyer->name }}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group mb-2">
-                                        <label for="cust-address">Alamat</label>
-                                        <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address">
+                                        <label for="cust-address" class="d-flex justify-content-between"><div>Alamat</div> <span class="text-info">(shift+a)</span></label>
+                                        <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
                                     </div>
                                 </div>
                             </div>
                             <div class="card shadow mb-3">
                                 <div class="card-body px-3">
                                     <h5>Pembayaran:</h5>
-                                    <div class="form-group mb-3">
-                                        <label>Metode</label>
-                                        <div class="d-flex flex-row gap-3">
-                                            <div>
-                                                <input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment" id="tunai" class="me-2" selected>
-                                                <label for="tunai">Tunai</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment" id="hutang" class="me-2">
-                                                <label for="hutang">Hutang</label>
-                                            </div>
+                                    <div class="">
+                                        <label for="payment_method" class="d-flex justify-content-between mb-2"><div>Metode:</div><span class="text-info">(shift+m)</span></label>
+                                        <input type="checkbox" id="payment_method" data-on-text="Tunai" data-off-text="Hutang" data-on-color="primary" data-off-color="success" >
+                                    </div>
+                                    <div class="d-none">
+                                        <div class="form-check">
+                                            <input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment" id="tunai" class="form-check-input" checked>
+                                            <label for="tunai" class="form-check-label">Tunai</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment" id="hutang" class="form-check-input">
+                                            <label for="hutang" class="form-check-label">Hutang</label>
                                         </div>
                                     </div>
                                     <div id="cash">
@@ -137,11 +127,14 @@
                             </div>
                             <div class="card shadow border">
                                 <div class="card-body">
-                                    <h5>Produk</h5>
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Produk</h5>
+                                        <div class="text-info">(shift+p)</div>
+                                    </div>
                                     <div class="row mb-3">
                                         <div class="col-10">
                                             <div>
-                                                <select id="product-code" class="select-product form-control">
+                                                <select id="product-code" class="select-product form-control" tabindex="3">
                                                     @foreach ($products as $product)
                                                         <option value="" selected disabled>Pilih produk</option>
                                                         <option value="{{ $product->code }}">{{ $product->name }}</option>
@@ -150,11 +143,11 @@
                                             </div>
                                         </div>
                                         <div class="col-2">
-                                            <button class="btn btn-primary" type="button" disabled id="btn-add-product">+ Tambah</button>
+                                            <button class="btn btn-primary w-100" type="button" disabled id="btn-add-product" tabindex="4">+ Tambah</button>
                                         </div>
                                     </div>
                                     <div class="table-responsive border rounded">
-                                        <table class="table table-striped text-nowrap">
+                                        <table class="table text-nowrap">
                                             <thead>
                                                 <tr class="fs-4 fw-semibold">
                                                     <th>Produk</th>
@@ -197,64 +190,113 @@
     <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <!--  current page js files -->
-    <script src="{{ asset('assets/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-    <!-- <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script> -->
     <!-- <script src="{{ asset('assets/js/dashboard.js') }}"></script> -->
-    <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
-    <script src="{{ asset('assets/js/forms/select2.init.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="{{asset('assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
-    <script>
-        
-        $(document).ready(function() {
-            function updateQty(e, action) {
-                var input = e.parent().find('input');
-                var value = parseInt(input.val());
-                if (action === 'plus') {
-                    value += 1;
-                } else {
-                    value -= 1;
-                }
-                if (value < 1) {
-                    value = 1;
-                }
-                input.val(value);
+    <script src="{{asset('assets/libs/sweetalert2/dist/sweetalert2.min.js')}}"></script>
 
-                const data_index = e.parent().parent().data('index')
-                const qty_el = $(`#tb-product tr[data-index=${data_index}] [name=quantity\\[\\]]`)
+    <script>
+        $(document).ready(function() {
+            $('#payment_method').bootstrapSwitch("state", true, true)
+
+            $(document).on('switchChange.bootstrapSwitch', '#payment_method',function(e, data) {
+                if(data) {
+                    $('#tunai').prop('checked', true)
+                    $('#hutang').prop('checked', false)
+                } else {
+                    $('#tunai').prop('checked', false)
+                    $('#hutang').prop('checked', true)
+                }
+
+                changeMethod()
+            })
+
+            changeMethod()
+
+            let cust_name_val = ""
+            let product_val = ""
+
+            function updateQty(e, adder) {
+                var input = e.parent().find('input');
+                var value = unformatNum(input.val());
+                value += adder
+                if (value < 1) value = 1;
+                input.val(formatNum(value));
+
+                const qty_el = e.parent().parent().find(`[name=quantity\\[\\]]`)
                 qty_el.val(unformatNum(value))
                 changeTotalPrice();
             }
 
             $(document).on('click', '.btn-plus', function() {
-                updateQty($(this), 'plus');
+                updateQty($(this), 1);
             });
             $(document).on('click', '.btn-minus', function() {
-                updateQty($(this), 'minus');
+                updateQty($(this), -1);
             });
 
-            $('#cust-name').select2({
-                tags: true,
-                placeholder: "Pilih atau tambahkan pembeli"
+            const selectize_cust = $('#cust-name').selectize({
+                plugins: ['restore_on_backspace'],
+                create: true,
+                maxItems: 1,
+                placeholder: "Pilih atau tambahkan pembeli",
             })
 
-            $('#product-code').select2({
-                placeholder: "Pilih produk"
+            const select_cust = selectize_cust[0].selectize
+            select_cust.focus()
+
+            const selectize_product = $('#product-code').selectize({
+                plugins: ['restore_on_backspace'],
+                placeholder: "Pilih produk",
+                create: true,
+                maxItems: 1
             })
+            const select_product = selectize_product[0].selectize
+
+            let shortcuts = {
+                'shift+n': function() { select_cust.focus() },
+                'shift+a': function() { $('#cust-address').focus() },
+                'shift+p': function() { select_product.focus() },
+                'shift+m': function() {
+                    let val = $('#payment_method').bootstrapSwitch("state")
+                    if(val) $('#payment_method').bootstrapSwitch("state", false)
+                    else $('#payment_method').bootstrapSwitch("state", true)
+                },
+                'shift+enter': function() {$('form').submit()}
+            };
+
+            function checkShortcut(e) {
+                var key = [];
+                if (e.altKey) key.push('alt');
+                if (e.ctrlKey) key.push('ctrl');
+                if (e.shiftKey) key.push('shift');
+                key.push(e.key.toLowerCase());
+
+                return key.join('+');
+            }
+
+            $(document).keydown(function(e) {
+                var shortcut = checkShortcut(e);
+                if (shortcuts[shortcut]) {
+                    e.preventDefault(); // Prevent default action
+                    shortcuts[shortcut](); // Trigger shortcut action
+                }
+            });
 
             $(document).on('change input', '#cust-name', function() {
+                var selectedValue = select_cust.getValue();
+                var selectedItem = select_cust.options[selectedValue];
+                if(!selectedItem.address) cust_name_val = selectedValue
                 if ($(this).val()) {
-                    $('#productPage').removeClass('d-none');
                     $('#btn-add-product').removeAttr('disabled');
                 } else {
-                    $('#productPage').addClass('d-none');
                     $('#btn-add-product').attr('disabled', 'disabled');
                 }
 
-                let address = $(this).find(':selected').data('address')
+                let address = selectedItem.address
                 $('#cust-address').val(address)
 
                 changeAllProductLastPrice()
@@ -265,7 +307,7 @@
             })
 
             $(document).on('click', '#btn-add-product', function() {
-                const product_code = $('#product-code').val()
+                const product_code = select_product.getValue()
                 if(!product_code) return;
 
                 $.ajax({
@@ -314,24 +356,24 @@
                                     </h6>
                                 </td>
                                 <td>
-                                    <select name="product_unit_id[]" class="form-control product-unit">
+                                    <select name="product_unit_id[]" class="form-control product-unit" tabindex="5">
                                         ${product_units}
                                     </select>
                                 </td>
                                 <td class="d-flex flex-row gap-2">
-                                    <button type="button" class="btn btn-sm btn-danger p-2 btn-minus">-</button>
-                                    <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" />
-                                    <button type="button" class="btn btn-sm btn-success p-2 btn-plus">+</button>
+                                    <button type="button" class="btn btn-sm btn-danger p-2 btn-minus"  tabindex="5">-</button>
+                                    <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" tabindex="5"/>
+                                    <button type="button" class="btn btn-sm btn-success p-2 btn-plus" tabindex="5">+</button>
                                 </td>
                                 <td>
-                                    <input type="text" value="${formatNum(selected_price, true)}" name="formatted_product_unit_price[]" class="form-control format-number input-unit-price" />
+                                    <input type="text" value="${formatNum(selected_price, true)}" name="formatted_product_unit_price[]" class="form-control format-number input-unit-price" tabindex="5" />
                                     ${latest_price ? `<div class="text-primary last_price">Rp. ${formatNum(latest_price)}</div>` : '' }
                                 </td>
                                 <td>
                                     <input type="text" value="${formatNum(selected_price, true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
                                 </td>
                                 <td>
-                                    <button type="button" data-id="${current_index}" class="btn btn-light-danger text-danger delete_product"><i class="ti ti-trash"></i></button>
+                                    <button type="button" data-id="${current_index}" class="btn btn-light-danger text-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
                                 </td>
                             </tr>`;
                         $('#tb-product').append(newRow);
@@ -454,18 +496,27 @@
                 }
             }
 
-            $('#cash').hide();
-            $('#code_debt').hide();
-
-            $('input[name="status_payment"]').change(function() {
-                if ($(this).val() === "{{ StatusEnum::CASH->value }}") {
+            function changeMethod() {
+                if ($('input[name="status_payment"]:checked').val() === "{{ StatusEnum::CASH->value }}") {
                     $('#cash').show();
                     $('#code_debt').hide();
                 } else {
                     $('#cash').hide();
                     $('#code_debt').show();
                 }
-            });
+            }
+
+            @if ($errors->any())
+                let msg = ''
+                @foreach ($errors->all() as $error)
+                    msg += `<li>{{$error}}</li>`
+                @endforeach
+                Swal.fire({
+                    icon: "error",
+                    html: `<ul>${msg}</ul>`,
+                    timerProgressBar: true,
+                });
+            @endif
         })
     </script>
 </body>

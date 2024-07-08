@@ -3,7 +3,7 @@
     Kasir
 @endpush
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid max-w-full">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
@@ -99,17 +99,18 @@
                             <div class="action-btn">
                                 <a href="#" data-url="${edit_url}"
                                     data-name="${full['name']}" data-email="${full['email']}"
-                                    class="btn btn-sm btn-primary btn-update ms-2">
-                                    <i class="fs-4 ti ti-edit"></i> Edit
+                                    class="btn btn-sm btn-light btn-update btn-update-icon">
+                                    <i class="fs-4 ti ti-edit"></i>
                                 </a>
                                 <a href="#" data-url="${del_url}"
-                                    class="btn btn-sm btn-danger btn-delete ms-2">
-                                    <i class="ti ti-trash"></i> Hapus
+                                    class="btn btn-sm btn-light btn-delete btn-delete-icon">
+                                    <i class="fs-4 ti ti-trash"></i>
                                 </a>
                             </div>
                         `
                     },
                     title: "Aksi",
+                    width: '15%'
                 }
                 @endrole
             ]

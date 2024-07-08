@@ -27,6 +27,30 @@
     <!-- Select2 -->
     <!-- --------------------------------------------------- -->
     <link rel="stylesheet" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}" />
+    <style>
+        .form-control:focus{
+            box-shadow:0 0 0 .25rem rgba(93,135,255,.25)!important
+        }
+        .max-w-full {
+            max-width: 100%!important;
+        }
+        .btn-update-icon{
+            color: #7e7e7e;
+        }
+        .btn-delete-icon{
+            color: #7e7e7e;
+        }
+        .btn-update-icon:hover {
+            background-color: #FEF5E5;
+            color: #FFAE1F;
+            border-color: #FEF5E5;
+        }
+        .btn-delete-icon:hover {
+            background-color: #FEE2E2;
+            color: #F87171;
+            border-color: #FEE2E2;
+        }
+    </style>
     @yield('style')
 </head>
 
