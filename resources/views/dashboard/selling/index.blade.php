@@ -26,6 +26,11 @@
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
+    <style>
+        .form-control:focus {
+            box-shadow:0 0 0 .25rem rgba(93,135,255,.25)!important
+        }
+    </style>
 </head>
 <body>
     <!-- Preloader -->

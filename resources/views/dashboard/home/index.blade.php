@@ -6,7 +6,7 @@
     Beranda
 @endpush
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid max-w-full">
         <div class="row">
             <div class="col-lg-3">
                 <div class="card bg-primary-subtle p-3 position-relative overflow-hidden">
