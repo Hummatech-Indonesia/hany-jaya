@@ -19208,7 +19208,7 @@ progress{
     background-color:transparent;
     border-color:#aec3ff;
     outline:0;
-    box-shadow:unset,0 0 0 .25rem rgba(93,135,255,.25)
+    box-shadow:0 0 0 .25rem rgba(93,135,255,.25)
 }
 .form-control::-webkit-date-and-time-value{
     min-width:85px;
@@ -19348,7 +19348,7 @@ textarea.form-control-lg{
 .form-select:focus{
     border-color:#aec3ff;
     outline:0;
-    box-shadow:unset,0 0 0 .25rem rgba(93,135,255,.25)
+    box-shadow:0 0 0 .25rem rgba(93,135,255,.25)
 }
 .form-select[multiple],.form-select[size]:not([size="1"]){
     padding-right:16px;

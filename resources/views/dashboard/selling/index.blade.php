@@ -25,12 +25,7 @@
 
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}" />
-
-    <!-- --------------------------------------------------- -->
-    <!-- Select2 -->
-    <!-- --------------------------------------------------- -->
-    <link rel="stylesheet" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
 </head>
 <body>
     <!-- Preloader -->
@@ -76,14 +71,12 @@
                                     <h5>Pembeli:</h5>
                                     <div class="form-group mb-2">
                                         <label for="cust-name">Nama</label>
-                                        <div>
-                                            <select name="name" class="form-control" id="cust-name">
-                                                <option value="">Pilih Pembeli</option>
-                                                @foreach ($buyers as $buyer)
-                                                    <option value="{{ $buyer->name }}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        <select name="name" class="" id="cust-name" autofocus>
+                                            <option value="">Pilih Pembeli</option>
+                                            @foreach ($buyers as $buyer)
+                                                <option value="{{ $buyer->name }}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group mb-2">
                                         <label for="cust-address">Alamat</label>
@@ -197,64 +190,65 @@
     <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <!--  current page js files -->
-    <script src="{{ asset('assets/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-    <!-- <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script> -->
     <!-- <script src="{{ asset('assets/js/dashboard.js') }}"></script> -->
-    <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
-    <script src="{{ asset('assets/js/forms/select2.init.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
-    <script>
-        
-        $(document).ready(function() {
-            function updateQty(e, action) {
-                var input = e.parent().find('input');
-                var value = parseInt(input.val());
-                if (action === 'plus') {
-                    value += 1;
-                } else {
-                    value -= 1;
-                }
-                if (value < 1) {
-                    value = 1;
-                }
-                input.val(value);
 
-                const data_index = e.parent().parent().data('index')
-                const qty_el = $(`#tb-product tr[data-index=${data_index}] [name=quantity\\[\\]]`)
+    <script>
+        $(document).ready(function() {
+            let cust_name_val = ""
+            let product_val = ""
+
+            function updateQty(e, adder) {
+                var input = e.parent().find('input');
+                var value = unformatNum(input.val());
+                value += adder
+                if (value < 1) value = 1;
+                input.val(formatNum(value));
+
+                const qty_el = e.parent().parent().find(`[name=quantity\\[\\]]`)
                 qty_el.val(unformatNum(value))
                 changeTotalPrice();
             }
 
             $(document).on('click', '.btn-plus', function() {
-                updateQty($(this), 'plus');
+                updateQty($(this), 1);
             });
             $(document).on('click', '.btn-minus', function() {
-                updateQty($(this), 'minus');
+                updateQty($(this), -1);
             });
 
-            $('#cust-name').select2({
-                tags: true,
-                placeholder: "Pilih atau tambahkan pembeli"
+            const selectize_cust = $('#cust-name').selectize({
+                plugins: ['restore_on_backspace'],
+                create: true,
+                maxItems: 1,
+                placeholder: "Pilih atau tambahkan pembeli",
             })
 
-            $('#product-code').select2({
-                placeholder: "Pilih produk"
+            const select_cust = selectize_cust[0].selectize
+            select_cust.focus()
+
+            const selectize_product = $('#product-code').selectize({
+                plugins: ['restore_on_backspace'],
+                placeholder: "Pilih produk",
+                create: true,
+                maxItems: 1
             })
+            const select_product = selectize_product[0].selectize
 
             $(document).on('change input', '#cust-name', function() {
+                var selectedValue = select_cust.getValue();
+                var selectedItem = select_cust.options[selectedValue];
+                if(!selectedItem.address) cust_name_val = selectedValue
                 if ($(this).val()) {
-                    $('#productPage').removeClass('d-none');
                     $('#btn-add-product').removeAttr('disabled');
                 } else {
-                    $('#productPage').addClass('d-none');
                     $('#btn-add-product').attr('disabled', 'disabled');
                 }
 
-                let address = $(this).find(':selected').data('address')
+                let address = selectedItem.address
                 $('#cust-address').val(address)
 
                 changeAllProductLastPrice()
@@ -265,7 +259,7 @@
             })
 
             $(document).on('click', '#btn-add-product', function() {
-                const product_code = $('#product-code').val()
+                const product_code = select_product.getValue()
                 if(!product_code) return;
 
                 $.ajax({
