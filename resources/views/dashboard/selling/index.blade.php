@@ -94,7 +94,7 @@
                                 <div class="card-body px-3">
                                     <h5>Pembayaran:</h5>
                                     <div class="">
-                                        <label for="payment_method" class="mb-2 d-flex justify-content-between"><div>Metode:</div><span class="text-info">(shift+m)</span></label><br/>
+                                        <label for="payment_method" class="d-flex justify-content-between mb-2"><div>Metode:</div><span class="text-info">(shift+m)</span></label>
                                         <input type="checkbox" id="payment_method" data-on-text="Tunai" data-off-text="Hutang" data-on-color="primary" data-off-color="success" >
                                     </div>
                                     <div class="d-none">
