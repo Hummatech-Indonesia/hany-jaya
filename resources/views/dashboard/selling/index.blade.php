@@ -137,7 +137,7 @@
                                                 <select id="product-code" class="select-product form-control" tabindex="3">
                                                     @foreach ($products as $product)
                                                         <option value="" selected disabled>Pilih produk</option>
-                                                        <option value="{{ $product->code }}">{{ $product->name }}</option>
+                                                        <option value="{{ $product->code }}">{{ $product->name }} | {{ $product->code }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -343,7 +343,7 @@
                             <tr data-index="${current_index}">
                                 <td>
                                     <h6 class="fs-4 fw-semibold mb-0 text-start">
-                                        ${response.data.name}
+                                        ${response.data.name} | ${response.data.code}
                                     </h6>
                                     <input type="hidden" name="product_id[]" value="${response.data.id}"/>
                                     <input type="hidden" name="quantity[]" value="1"/>

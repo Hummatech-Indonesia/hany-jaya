@@ -86,12 +86,12 @@
                                     <table class="table align-middle">
                                         <thead>
                                             <tr>
-                                                <th>Produk <span class="text-danger">*</span></th>
-                                                <th>Satuan <span class="text-danger">*</span></th>
-                                                <th>Harga per satuan <span class="text-danger">*</span></th>
-                                                <th>Jumlah <span class="text-danger">*</span></th>
-                                                <th>Total Harga <span class="text-danger">*</span></th>
-                                                <th>Aksi</th>
+                                                <th width="200">Produk <span class="text-danger">*</span></th>
+                                                <th width="150">Satuan <span class="text-danger">*</span></th>
+                                                <th width="200">Harga per satuan <span class="text-danger">*</span></th>
+                                                <th width="150">Jumlah <span class="text-danger">*</span></th>
+                                                <th width="250">Total Harga <span class="text-danger">*</span></th>
+                                                <th width="50">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody  id="tb-products">
@@ -167,7 +167,7 @@
                 
                 let str_products = '<option value="" selected disabled>-- pilih produk --</option>'
                 product_list.forEach((data) => {
-                    str_products += `<option value="${data.product_id}">${data.product}</option>`
+                    str_products += `<option value="${data.product_id}">${data.product} | ${data.code}</option>`
                 })
 
                 let new_tr = `
