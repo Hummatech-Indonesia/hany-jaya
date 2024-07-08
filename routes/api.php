@@ -31,6 +31,7 @@ Route::get("/data-history-transaction/by-buyer",[SellingController::class, 'data
 
 // Route api for data table
 Route::name('data-table.')->prefix('data-table')->group(function() {
+    // data master
     Route::get("/list-purchase-history", [PurchasesController::class, 'tablePurchaseHistory'])->name('list-purchase-history');
     Route::get("/list-transaction-history", [SellingController::class, 'tableTransactionHistory'])->name('list-transaction-history');
     Route::get('/list-product', [ProductController::class, 'dataTable'])->name('list-product');
@@ -38,4 +39,7 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
     Route::get('/list-supplier', [SupplierController::class, 'tableSupplier'])->name('list-supplier');
     Route::get('/list-category', [CategoryController::class, 'tableCategory'])->name('list-category');
     Route::get('/list-unit', [UnitController::class, 'tableUnit'])->name('list-unit');
+    
+    // data dashboard
+    Route::get('/list-high-transaction', [SellingController::class, 'tableUserHighTransaction'])->name('list-high-transaction');
 });
