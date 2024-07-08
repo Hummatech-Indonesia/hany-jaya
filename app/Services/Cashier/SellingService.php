@@ -9,6 +9,7 @@ use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Enums\StatusEnum;
 use Illuminate\Http\RedirectResponse;
+use stdClass;
 
 class SellingService
 {
@@ -102,5 +103,47 @@ class SellingService
             'quantity' => $quantity,
             'product' => $product
         ];
+    }
+
+    /**
+     * Function for get data high transaction
+     * @param array $data | integer $take
+     */
+    public function highTransaction(array $data, ?int $take = null): array
+    {
+        $array = [];
+        
+        collect($data)->each(function ($item) use (&$array) {
+            $item = (object) $item;
+            $item->buyer = (object) $item->buyer;
+            
+            $selected = collect($array)->first(function ($value) use ($item) { 
+                return $value->name == $item->buyer->name && $value->address == $item->buyer->address; 
+            });
+            
+            if ($selected) {
+                $selected->total_price += $item->amount_price;
+                $selected->total_transaction += 1;
+            } else {
+                $selectedData = new stdClass();
+                $selectedData->name = $item->buyer->name;
+                $selectedData->address = $item->buyer->address;
+                $selectedData->total_price = $item->amount_price;
+                $selectedData->total_transaction = 1;
+                $array[] = $selectedData;
+            }
+        });
+        
+        // Sort the array by total_price in descending order
+        usort($array, function ($a, $b) {
+            return $b->total_price <=> $a->total_price;
+        });
+        
+        // Limit the results if $take is provided
+        if ($take !== null) {
+            $array = array_slice($array, 0, $take);
+        }
+        
+        return $array;
     }
 }

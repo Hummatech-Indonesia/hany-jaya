@@ -214,4 +214,20 @@ class SellingController extends Controller
         $transaction = $this->selling->withEloquent($request);
         return BaseDatatable::Table($transaction);
     }
+
+    /**
+     * Get data table for data transaction history
+     * 
+     * Param for get history transaction
+     * findone
+     * 
+     * @return datatable
+     */
+    public function tableUserHighTransaction(Request $request)
+    {
+        $transaction = $this->selling->withEloquent($request)->get();
+
+        $data = $this->sellingService->highTransaction($transaction->toArray(), 5);
+        return BaseDatatable::TableV2($data);
+    }    
 }
