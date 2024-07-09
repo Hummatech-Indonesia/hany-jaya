@@ -104,4 +104,14 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
     {
         return $this->model->with($data)->get();
     }
+
+    /**
+     * get first lastest data
+     *
+     * @return mixed
+     */
+    public function firstLastest(): mixed
+    {
+        return $this->model->latest()->first();
+    }
 }

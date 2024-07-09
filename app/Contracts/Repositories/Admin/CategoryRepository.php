@@ -119,4 +119,14 @@ class CategoryRepository extends BaseRepository implements CategoryInterface
     {
         return $this->model->with($data)->withCount($data)->get();
     }
+
+     /**
+     * get first lastest data
+     *
+     * @return mixed
+     */
+    public function firstLastest(): mixed
+    {
+        return $this->model->latest()->first();
+    }
 }

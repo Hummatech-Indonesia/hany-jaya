@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Helpers\BaseDatatable;
 use App\Helpers\BaseResponse;
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SupplierRequest;
 use App\Models\Supplier;
@@ -55,8 +56,10 @@ class SupplierController extends Controller
      */
     public function storeAjax(SupplierRequest $request): JsonResponse
     {
-        $data = $this->supplier->store($request->validated());
-        return BaseResponse::Ok("Berhasil create data supplier",$data);
+        $this->supplier->store($request->validated());
+        $data = $this->supplier->firstLastest();
+        
+        return ResponseHelper::success($data, trans('alert.add_success'));
     }
 
     /**
