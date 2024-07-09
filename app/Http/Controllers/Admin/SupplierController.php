@@ -55,8 +55,8 @@ class SupplierController extends Controller
      */
     public function storeAjax(SupplierRequest $request): JsonResponse
     {
-        $this->supplier->store($request->validated());
-        return BaseResponse::Ok("Berhasil create data supplier",null);
+        $data = $this->supplier->store($request->validated());
+        return BaseResponse::Ok("Berhasil create data supplier",$data);
     }
 
     /**

@@ -48,8 +48,8 @@ class CategoryController extends Controller
      */
     public function storeAjax(CategoryRequest $request): JsonResponse
     {
-        $this->category->store($request->validated());
-        return ResponseHelper::success(null, trans('alert.add_success'));
+        $data = $this->category->store($request->validated());
+        return ResponseHelper::success($data, trans('alert.add_success'));
     }
 
     /**
