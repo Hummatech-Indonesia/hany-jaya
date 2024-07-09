@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('assets/libs/codemirror/5.41.0/theme/monokai.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/libs/summernote/dist/summernote-lite.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/dist/sweetalert2.min.css')}}">
 @endsection
 @section('content')
     <div class="container-fluid max-w-full">
@@ -239,7 +240,8 @@
 @section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{ asset('assets/js/number-format.js') }}"></script>
-
+    <script src="{{asset('assets/libs/sweetalert2/dist/sweetalert2.min.js')}}"></script>
+    @include('components.swal-toast')
     <script>
         $(document).ready(function() {
             const selectize_cat = $('[name=category_id]').selectize()
@@ -271,6 +273,30 @@
                     },
                 });
             });
+
+            $(document).ready(function() {
+                $(document).on('click', '#form-add-category button[type=submit]', function(e) {
+                    e.preventDefault()
+                    $.ajax({
+                        method: 'POST',
+                        url: "{{ route('admin.category.store.ajax') }}",
+                        data: {
+                            name: $('#category-name').val(),
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        success: (res) => {
+                            select.category.addOption({
+                                value: res.data.id,
+                                text: res.data.name
+                            })
+                            Toaster('success', res.meta.message)
+                        },
+                        error: (xhr) => {
+                            Toaster('error', xhr.responseJSON.message)
+                        }
+                    })
+                })
+            })
 
             $(document).on('click', '.btn-delete', function() {
                 let tr = $(this).parent().parent()

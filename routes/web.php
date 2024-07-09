@@ -93,8 +93,9 @@ Route::middleware('auth')->group(function () {
         Route::post('sellings', [SellingController::class, 'store'])->name('selling.store');
         Route::patch('pay-debt/{buyer}', [DebtController::class, 'payDebt'])->name('pay.debt');
 
-        Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');
-        Route::get('list-user-debt', [BuyerController::class, 'listDebt'])->name('list.debt');
-        Route::get('history-pay-debt', [HistoryPayDebtController::class, 'index'])->name('history.pay.debt');
+        // Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');
+        Route::get('debt', [DebtController::class, 'index'])->name('history.debt');
+        // Route::get('list-user-debt', [BuyerController::class, 'listDebt'])->name('list.debt');
+        // Route::get('history-pay-debt', [HistoryPayDebtController::class, 'index'])->name('history.pay.debt');
     });
 });
