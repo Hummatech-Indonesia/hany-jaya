@@ -26,4 +26,12 @@ interface SellingInterface extends StoreInterface, GetInterface, CustomPaginatio
      */
 
      public function withEloquent(Request $request): mixed;
+     
+     /**
+     * Handle the chart data from models.
+     *
+     * @return mixed
+     */
+
+     public function chartData(Request $request): mixed;
 }

@@ -22,6 +22,7 @@ class SupplierProductRepository extends BaseRepository implements SupplierProduc
     public function getWhere(array $data): mixed
     {
         return $this->model->query()
+            ->with('product','supplier')
             ->where('supplier_id', $data['supplier_id'])
             ->get();
     }

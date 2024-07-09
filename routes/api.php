@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PurchasesController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UnitController;
+use App\Http\Controllers\Api\ChartController;
 use App\Http\Controllers\Cashier\SellingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -50,3 +51,7 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
 Route::post('/create-supplier',[SupplierController::class, 'storeAjax'])->name('api.supplier.store.ajax');
 Route::post('/create-category', [CategoryController::class, 'storeAjax'])->name('api.category.store.ajax');
 
+// Route for api chart
+Route::name('chart.')->prefix('chart')->group(function() {
+    Route::get('/chart-penjualan',[ChartController::class, 'chartPenjualan'])->name('penjualan');
+});

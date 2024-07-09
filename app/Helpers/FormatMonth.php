@@ -50,7 +50,7 @@ class FormatMonth
     {
         $kalender = cal_days_in_month(CAL_GREGORIAN, $month, $tahun);
         $tanggal = [];
-        for($i = 0; $i<$kalender; $i++)
+        for($i = 1; $i<=$kalender; $i++)
         {
             $tanggal[] = $i;
         }

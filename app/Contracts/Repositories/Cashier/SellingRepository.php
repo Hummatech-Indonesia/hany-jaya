@@ -133,4 +133,53 @@ class SellingRepository extends BaseRepository implements SellingInterface
             }
         });
     }
+    
+    /**
+     * Get data for chart data
+     * 
+     * @param Request $request
+     * @return data group by 
+     */
+    public function chartData(Request $request): mixed
+    {
+        return $this->model
+        ->when($request->type, function ($query) use ($request){
+            $year = $request->date ? Carbon::parse($request->date)->format('Y') : date('Y');
+            $month = $request->date ? Carbon::parse($request->date)->format('m') : date('m');
+            switch($request->type){
+                case 'all':
+                    $query->selectRaw(
+                        'SUM(amount_price) as total_amount_price, buyer_id, YEAR(created_at) as year'
+                    );
+                    $query->groupBy('year');
+                    break;
+                case 'yearly':
+                    $query->selectRaw(
+                        'SUM(amount_price) as total_amount_price, buyer_id, YEAR(created_at) as year, MONTH(created_at) as month'
+                    );
+                    $query->whereYear('created_at',$year);
+                    $query->groupBy('year');
+                    $query->groupBy('month');
+                    break;
+                case 'monthly':
+                    $query->selectRaw(
+                        'SUM(amount_price) as total_amount_price, buyer_id, YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as date'
+                    );
+                    $query->whereYear('created_at',$year);
+                    $query->whereMonth('created_at',$month);
+                    $query->groupBy('year');
+                    $query->groupBy('month');
+                    $query->groupBy('date');
+                    break;
+                default: 
+                    $query->selectRaw(
+                        'SUM(amount_price) as total_amount_price, buyer_id, YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as date'
+                    );
+                    $query->groupBy('created_at');
+                    break;
+            }
+        })
+        ->groupBy('buyer_id')
+        ->get();
+    }
 }
