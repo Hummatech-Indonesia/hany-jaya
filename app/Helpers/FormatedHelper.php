@@ -31,4 +31,30 @@ class FormatedHelper
         $newFormat = $date->isoFormat('dddd, D MMMM Y');
         return $newFormat;
     }
+
+    /**
+     * return the date without the day
+     *
+     * @param string $dateTime
+     * @return string
+     */
+    public static function dateFormat(string $dateTime): string
+    {
+        $date = Carbon::parse($dateTime);
+        $newFormat = $date->isoFormat('DD MMMM Y');
+        return $newFormat;
+    }
+
+    /**
+     * return the time
+     *
+     * @param string $dateTime
+     * @return string
+     */
+    public static function timeFormat(string $dateTime): string
+    {
+        $date = Carbon::parse($dateTime);
+        $newFormat = $date->isoFormat('hh:mm');
+        return $newFormat;
+    }
 }
