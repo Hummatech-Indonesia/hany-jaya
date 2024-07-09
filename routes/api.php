@@ -48,3 +48,5 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
 
 // Ruoute Api Transaction
 Route::post('/create-supplier',[SupplierController::class, 'storeAjax'])->name('supplier.store.ajax');
+Route::post('/create-category', [CategoryController::class, 'storeAjax'])->name('api.category.store.ajax');
+
