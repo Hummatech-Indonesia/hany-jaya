@@ -28,9 +28,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
     <link rel="stylesheet" href="{{asset('assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/dist/sweetalert2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/icons.css')}}">
     <style>
         .form-control:focus, .form-check-input:focus {
             box-shadow:0 0 0 .25rem rgba(93,135,255,.25)!important
+        }
+        .max-w-full {
+            max-width: 100%!important;
+        }
+        .bootstrap-switch-wrapper {
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -40,98 +47,131 @@
         <img src="{{ asset('favicon.ico') }}"
             alt="loader" class="lds-ripple img-fluid" />
     </div>
-    <!-- Preloader -->
-    <div class="preloader">
-        <img src="{{ asset('favicon.ico') }}"
-            alt="loader" class="lds-ripple img-fluid" />
-    </div>
     <!--  Body Wrapper -->
-    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed">
-        <!--  Main wrapper -->
-        <div class="body-wrapper mx-3">
-            <div class="mt-3">
-                <form action="{{ route('cashier.selling.store') }}" method="post">
-                    @csrf
-                    <div class="row rounded">
-                        <div class="col-12 col-md-4">
-                            <div class="rounded shadow border p-3 mb-3">
-                                <div class="d-flex justify-content-between">
-                                    <h5>Kasir:</h5>
-                                    <p>{{ FormatedHelper::dateTimeFormat(now()) }}</p>
-                                </div>
-                                <h3 class="m-0">{{ auth()->user()->name }} ({{ auth()->user()->email }})</h3>
-                            </div>
-                            <div class="card shadow mb-3">
-                                <div class="card-body px-3">
-                                    <h5>Pembeli:</h5>
-                                    <div class="form-group mb-2">
-                                        <label for="cust-name" class="d-flex justify-content-between"><div>Nama</div><span class="text-info">(shift+n)</span></label>
-                                        <select name="name" class="" id="cust-name" tabindex="1">
-                                            <option value="">Pilih Pembeli</option>
-                                            @foreach ($buyers as $buyer)
-                                                <option value="{{ $buyer->name }}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <label for="cust-address" class="d-flex justify-content-between"><div>Alamat</div> <span class="text-info">(shift+a)</span></label>
-                                        <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
+    <div class="container-fluid max-w-full py-3">
+        <div class="page-wrapper" id="main-wrapper">
+            <!--  Main wrapper -->
+            <div class="body-wrapper mx-0">
+                <div class="">
+                    <form action="{{ route('cashier.selling.store') }}" method="post">
+                        @csrf
+                        <h3 class="fw-bolder">Keranjang Penjualan</h3>
+                        <div class="row rounded">
+                            <div class="col-12 col-md-4">
+                                <div class="card mb-3 shadow border bg-primary-subtle p-3">
+                                    <div class="d-flex justify-content-between align-items-center text-primary fs-5">
+                                        <div>
+                                            <i class="ti ti-calendar-month"></i>
+                                            {{ FormatedHelper::dateFormat(now()) }}
+                                        </div>
+                                        <div id="time-now">
+                                            {{ FormatedHelper::timeFormat(now()) }}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card shadow mb-3">
-                                <div class="card-body px-3">
-                                    <h5>Pembayaran:</h5>
-                                    <div class="">
-                                        <label for="payment_method" class="d-flex justify-content-between mb-2"><div>Metode:</div><span class="text-info">(shift+m)</span></label>
-                                        <input type="checkbox" id="payment_method" data-on-text="Tunai" data-off-text="Hutang" data-on-color="primary" data-off-color="success" >
+                                <div class="rounded shadow border p-3 mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <div class="fw-bolder">Nama Kasir</div>
+                                        <div class="fw-bolder">{{ auth()->user()->email }}</div>
                                     </div>
-                                    <div class="d-none">
-                                        <div class="form-check">
-                                            <input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment" id="tunai" class="form-check-input" checked>
-                                            <label for="tunai" class="form-check-label">Tunai</label>
+                                    <h3 class="m-0 text-primary"><i class="ti ti-user-circle"></i> {{ strtoupper(auth()->user()->name) }}</h3>
+                                </div>
+                                <div class="card shadow mb-3">
+                                    <div class="card-body p-3">
+                                        <div class="form-group mb-3">
+                                            <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama</div><span class="text-info fs-3">(shift+n)</span></label>
+                                            <select name="name" class="" id="cust-name" tabindex="1">
+                                                <option value="">Pilih Pembeli</option>
+                                                @foreach ($buyers as $buyer)
+                                                    <option value="{{ $buyer->name }}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                        <div class="form-check">
-                                            <input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment" id="hutang" class="form-check-input">
-                                            <label for="hutang" class="form-check-label">Hutang</label>
-                                        </div>
-                                    </div>
-                                    <div id="cash">
-                                        <label for="pay" class="mb-2">Bayar: </label>
-                                        <input type="hidden" id="pay" name="pay">
-                                        <input type="hidden" id="return" name="return">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text" id="basic-addon1">Rp</span>
-                                            <input type="text" placeholder="10000" min="0" id="formatted_pay" class="form-control format-number" aria-describedby="basic-addon1">
-                                        </div>
-                                        <label for="return" class="mb-2">Kembali: </label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text" id="basic-addon1">Rp</span>
-                                            <input type="text" min="0" placeholder="5000" id="formatted_return" class="form-control" aria-describedby="basic-addon1" readonly>
+                                        <div class="form-group ">
+                                            <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat</div> <span class="text-info fs-3">(shift+a)</span></label>
+                                            <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
                                         </div>
                                     </div>
-                                    <div id="code_debt">
-                                        <label for="">Masukkan Kode Toko: </label>
-                                        <input type="text" class="form-control" name="code_debt"
-                                            id="">
+                                </div>
+                                <div class="card shadow mb-3">
+                                    <div class="card-header px-3 bg-primary">
+                                        <div class="text-white d-flex align-items-center justify-content-between">
+                                            <div class="fw-bolder">
+                                                <i class="ti ti-credit-card"></i> Pembayaran
+                                            </div>
+                                            <div>
+                                                (shift+m)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <div class="row align-items-center mb-3">
+                                            <div class="col-3">Metode</div>
+                                            <div class="col-9">
+                                                <input type="checkbox" id="payment_method" class="mb-0" data-on-text="Tunai" data-off-text="Hutang" data-on-color="primary" data-off-color="success" >
+                                            </div>
+                                            <div class="d-none">
+                                                <div class="form-check">
+                                                    <input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment" id="tunai" class="form-check-input" checked>
+                                                    <label for="tunai" class="form-check-label">Tunai</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment" id="hutang" class="form-check-input">
+                                                    <label for="hutang" class="form-check-label">Hutang</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="cash">
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-3">
+                                                    <label for="formatted_pay" class="mb-2">Bayar</label>
+                                                    <input type="hidden" id="pay" name="pay" class="mb-0">
+                                                </div>
+                                                <div class="col-9">
+                                                    <div class="input-group mb-0">
+                                                        <span class="input-group-text" id="basic-addon1">Rp</span>
+                                                        <input type="text" placeholder="10000" min="0" id="formatted_pay" class="form-control format-number" aria-describedby="basic-addon1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-3">
+                                                    <label for="return" class="mb-2">Kembali</label>
+                                                    <input type="hidden" id="return" name="return" class="mb-0">
+                                                </div>
+                                                <div class="col-9">
+                                                    <div class="input-group mb-0">
+                                                        <span class="input-group-text" id="basic-addon1">Rp</span>
+                                                        <input type="text" min="0" placeholder="5000" id="formatted_return" class="form-control" aria-describedby="basic-addon1" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="code_debt">
+                                            <div class="row align-items-center mb-3">
+                                                <div class="col-3">
+                                                    <label for="">Kode Toko</label>
+                                                </div>
+                                                <div class="col-9">
+                                                    <input type="text" class="form-control mb-0" name="code_debt" id="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="w-100 btn btn-lg btn-success"><i class="ti ti-shopping-cart"></i> Bayar</button>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="w-100 btn btn-lg btn-success">Bayar</button>
-                        </div>
-                        <div class="col-12 col-md-8">
-                            <div class="bg-primary rounded p-3 mb-3 shadow">
-                                <h5 class="text-light">Total:</h5>
-                                <h3 class="text-light" id="total_price">Rp 0</h3>
-                            </div>
-                            <div class="card shadow border">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <h5>Produk</h5>
-                                        <div class="text-info">(shift+p)</div>
+                            <div class="col-12 col-md-8">
+                                <div class="bg-primary rounded p-3 mb-3 shadow d-flex justify-content-between align-items-center">
+                                    <h5 class="text-light mb-0">Total Harga</h5>
+                                    <h3 class="text-light mb-0 fw-bolder" id="total_price">Rp 0</h3>
+                                </div>
+                                <div class="card shadow mb-3 border">
+                                    <div class="card-header px-3 bg-primary d-flex justify-content-between align-items-center text-white">
+                                        <div class="fw-bolder"><i class="ti ti-search"></i> Cari Produk</div>
+                                        <div>(shift+m)</div>
                                     </div>
-                                    <div class="row mb-3">
+                                    <div class="card-body p-3 row">
                                         <div class="col-10">
                                             <div>
                                                 <select id="product-code" class="select-product form-control" tabindex="3">
@@ -146,39 +186,49 @@
                                             <button class="btn btn-primary w-100" type="button" disabled id="btn-add-product" tabindex="4">+ Tambah</button>
                                         </div>
                                     </div>
-                                    <div class="table-responsive border rounded">
-                                        <table class="table text-break">
-                                            <thead>
-                                                <tr class="fs-4 fw-semibold">
-                                                    <th style="min-width: 200px;">Produk</th>
-                                                    <th style="min-width: 150px;">Stok</th>
-                                                    <th style="min-width: 150px;">Satuan</th>
-                                                    <th style="min-width: 150px;">Jumlah</th>
-                                                    <th style="min-width: 150px;">Harga</th>
-                                                    <th style="min-width: 150px;">Total</th>
-                                                    <th style="min-width: 100px;">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tb-product">
-                                                <tr>
-                                                    <th colspan="7" class="text-center text-muted">-- belum ada produk dipilih --</th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                </div>
+                                <div class="card shadow border">
+                                    <div class="card-header px-3 bg-primary d-flex justify-content-between align-items-center">
+                                        <div class="fw-bolder text-white">
+                                            <i class="ti ti-shopping-cart"></i> Keranjang
+                                        </div>
+                                        <button type="button" id="btn-reset" class="btn btn-sm btn-danger">Reset</button>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <div class="table-responsive border rounded">
+                                            <table class="table text-break">
+                                                <thead>
+                                                    <tr class="fs-4 fw-semibold">
+                                                        <th style="min-width: 180px;">Produk</th>
+                                                        <th style="min-width: 120px;">Stok</th>
+                                                        <th style="min-width: 120px;">Satuan</th>
+                                                        <th style="min-width: 150px;">Jumlah</th>
+                                                        <th style="min-width: 150px;">Harga</th>
+                                                        <th style="min-width: 150px;">Total</th>
+                                                        <th style="min-width: 100px;">Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tb-product">
+                                                    <tr>
+                                                        <th colspan="7" class="text-center text-muted">-- belum ada produk dipilih --</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
+    
+        <!--  Customizer -->
+        <a href="{{ route('home') }}" class="btn btn-primary p-3 rounded-circle d-flex align-items-center justify-content-center customizer-btn">
+            <i class="ti ti-home fs-7" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Beranda"></i>
+        </a>
     </div>
-
-    <!--  Customizer -->
-    <a href="{{ route('home') }}" class="btn btn-primary p-3 rounded-circle d-flex align-items-center justify-content-center customizer-btn">
-        <i class="ti ti-home fs-7" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Beranda"></i>
-      </a>
 
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>
@@ -237,6 +287,10 @@
             $(document).on('click', '.btn-minus', function() {
                 updateQty($(this), -1);
             });
+
+            $(document).on('click', '#btn-reset', function() {
+                $('#tb-product tr[data-index]').remove()
+            })
 
             const selectize_cust = $('#cust-name').selectize({
                 plugins: ['restore_on_backspace'],
@@ -373,7 +427,7 @@
                                     <input type="text" value="${formatNum(selected_price, true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
                                 </td>
                                 <td>
-                                    <button type="button" data-id="${current_index}" class="btn btn-light-danger text-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
+                                    <button type="button" data-id="${current_index}" class="btn btn-danger text-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
                                 </td>
                             </tr>`;
                         $('#tb-product').append(newRow);
