@@ -130,6 +130,11 @@ class ProductRepository extends BaseRepository implements ProductInterface
     public function count(?array $data): int
     {
         return $this->model->query()
+            ->when($data, function ($query) use ($data){
+                try{
+                    if($data["year"]) $query->whereYear('created_at',$data["year"]);
+                }catch(\Throwable $th){}
+            })
             ->count();
     }
 
@@ -153,5 +158,13 @@ class ProductRepository extends BaseRepository implements ProductInterface
     public function withElequent(array $data): mixed
     {
         return $this->model->with($data);
+    }
+
+    /**
+     * Get one latest data from this model
+     */
+    public function firstLastest(): mixed
+    {
+        return $this->model->latest()->first();
     }
 }

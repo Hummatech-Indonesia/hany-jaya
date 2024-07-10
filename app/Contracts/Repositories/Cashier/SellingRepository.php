@@ -68,7 +68,7 @@ class SellingRepository extends BaseRepository implements SellingInterface
     public function count(?array $data): int
     {
         return $this->model->query()
-            ->when(count($data), function ($query) use ($data){
+            ->when($data, function ($query) use ($data){
                 try{
                     if($data["year"]) $query->whereYear('created_at',$data["year"]);
                 }catch(\Throwable $th){}
@@ -85,7 +85,7 @@ class SellingRepository extends BaseRepository implements SellingInterface
     public function sum(?array $data): int
     {
         return $this->model->query()
-            ->when(count($data), function ($query) use ($data){
+            ->when($data, function ($query) use ($data){
                 try{
                     if($data["year"]) $query->whereYear('created_at',$data["year"]);
                 }catch(\Throwable $th){}

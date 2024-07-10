@@ -66,7 +66,7 @@ class DebtRepository extends BaseRepository implements DebtInterface
     public function sum(?array $data): int
     {
         return $this->model->query()
-            ->when(count($data), function ($query) use ($data){
+            ->when($data, function ($query) use ($data){
                 try{
                     if($data["year"]) $query->whereYear('created_at',$data["year"]);
                 }catch(\Throwable $th){}

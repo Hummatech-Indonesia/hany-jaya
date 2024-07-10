@@ -33,10 +33,15 @@ class CategoryRepository extends BaseRepository implements CategoryInterface
      */
     public function getCategoryAjax(Request $request): mixed
     {
-        return $this->model->query()->whereHas('products.detailSellings')->with('products', function ($query) {
-            return $query->withCount('detailSellings');
+        return $this->model->query()
+        ->whereHas('products.detailSellings')
+        ->with('products', function ($query) use ($request){
+            return $query->withCount('detailSellings')
+            ->with(['detailSellings' => function($query2) use ($request){
+                if($request->year) $query2->whereYear('created_at',$request->year);
+            }]);
         })
-            ->get();
+        ->get();
     }
 
     /**
