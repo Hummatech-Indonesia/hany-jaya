@@ -68,6 +68,11 @@ class SellingRepository extends BaseRepository implements SellingInterface
     public function count(?array $data): int
     {
         return $this->model->query()
+            ->when(count($data), function ($query) use ($data){
+                try{
+                    if($data["year"]) $query->whereYear('created_at',$data["year"]);
+                }catch(\Throwable $th){}
+            })
             ->count();
     }
 
@@ -80,6 +85,11 @@ class SellingRepository extends BaseRepository implements SellingInterface
     public function sum(?array $data): int
     {
         return $this->model->query()
+            ->when(count($data), function ($query) use ($data){
+                try{
+                    if($data["year"]) $query->whereYear('created_at',$data["year"]);
+                }catch(\Throwable $th){}
+            })
             ->sum('amount_price');
     }
 
@@ -131,6 +141,9 @@ class SellingRepository extends BaseRepository implements SellingInterface
             }else {
                 $query->whereDate('created_at', $request->date);
             }
+        })
+        ->when($request->year, function ($query) use ($request){
+            $query->whereYear('created_at',$request->year);
         })
         ->when($request->buyer_id, function ($query) use ($request){
             $query->where('buyer_id',$request->buyer_id);

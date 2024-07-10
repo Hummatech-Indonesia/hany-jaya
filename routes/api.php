@@ -61,4 +61,5 @@ Route::post('/create-unit', [UnitController::class, 'storeAjax'])->name('api.uni
 // Route for api chart
 Route::name('chart.')->prefix('chart')->group(function() {
     Route::get('/chart-penjualan',[ChartController::class, 'chartPenjualan'])->name('penjualan');
+    Route::get('/dashboard/chart-card',[ChartController::class, 'chartCard'])->name('card.dashboard');
 });

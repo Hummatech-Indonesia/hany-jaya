@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Interfaces\Admin\ProductInterface;
+use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Helpers\BaseResponse;
 use App\Http\Controllers\Controller;
@@ -12,14 +14,18 @@ use Illuminate\Http\Request;
 
 class ChartController extends Controller
 {
-    private $selling, $chartService;
+    private $selling, $chartService, $product, $debt;
 
     public function __construct(
         SellingInterface $selling,
-        ChartService $chartService
+        ProductInterface $product,
+        DebtInterface $debt,
+        ChartService $chartService,
     )
     {
         $this->selling = $selling;
+        $this->product = $product;
+        $this->debt = $debt;
         $this->chartService = $chartService;
     }
 
@@ -47,6 +53,23 @@ class ChartController extends Controller
                 break;
         }
         
+        return BaseResponse::Ok("Berhasil mengambil data",$data);
+    }
+
+    public function chartCard(Request $request): JsonResponse
+    {
+        $selling_count = $this->selling->count(["year" => $request->year ?? date('Y')]);
+        $selling_sum = $this->selling->sum(["year" => $request->year ?? date('Y')]);
+        $product_count = $this->product->count(["year" => $request->year ?? date('Y')]);
+        $debt_sum = $this->debt->sum(["year" => $request->year ?? date('Y')]);
+
+        $data = [
+            "selling_count" => $selling_count,
+            "selling_sum" => $selling_sum,
+            "product_count" => $product_count,
+            "debt_sum" => $debt_sum
+        ];
+
         return BaseResponse::Ok("Berhasil mengambil data",$data);
     }
 }

@@ -57,6 +57,23 @@ class DebtRepository extends BaseRepository implements DebtInterface
             ->update($data);
     }
 
+     /**
+     * sum
+     *
+     * @param  mixed $data
+     * @return int
+     */
+    public function sum(?array $data): int
+    {
+        return $this->model->query()
+            ->when(count($data), function ($query) use ($data){
+                try{
+                    if($data["year"]) $query->whereYear('created_at',$data["year"]);
+                }catch(\Throwable $th){}
+            })
+            ->sum('nominal');
+    }
+
     /**
      * get data sum
      */
