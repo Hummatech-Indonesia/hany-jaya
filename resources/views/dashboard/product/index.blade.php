@@ -8,14 +8,24 @@
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h4 class="fw-semibold mb-8">Produk</h4>
-                        <p>List produk yang ada di toko anda.</p>
+                        <h4 class="fw-semibold mb-8">Daftar Produk dan Kategori</h4>
+                        <p>List produk, kategori, dan unit yang ada di toko anda.</p>
                         @role('admin')
-                            <a href="{{ route('admin.products.create') }}">
-                                <button type="button" class="btn btn-primary">
-                                    Tambah Produk
-                                </button>
-                            </a>
+                            <div id="add-thing">
+                                <div data-active="product">
+                                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Tambah Produk</a>
+                                </div>
+                                <div data-active="category" class="d-none">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCategory">
+                                        Tambah Kategori
+                                    </button>
+                                </div>
+                                <div data-active="unit" class="d-none">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddUnit">
+                                        Tambah Satuan
+                                    </button>
+                                </div>
+                            </div>
                         @endrole
                     </div>
                     <div class="col-3">
@@ -27,27 +37,54 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="row">
-            <div class="col-12">
-                <form action="" method="get">
-                    <div class="d-flex flex-row gap-2 justify-content-end">
-                        <div class="col-md-4 col-sm-6">
-                            <input type="text" name="name" value="{{ Request::get('name') }}" class="form-control"
-                                id="nametext" aria-describedby="name" placeholder="Name" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Cari</button>
-                        
-                    </div>
-                </form>
-            </div>
-        </div> --}}
-        <!--  Row 1 -->
 
-        <div class="table-responsive">
-            <table class="table align-middle table-striped table-hover" id="product-table">
-            </table>
+        <ul class="nav nav-pills nav-fill mt-4" role="tablist">
+            <li class="nav-item">
+                <a
+                    class="nav-link active"
+                    data-bs-toggle="tab"
+                    href="#pane-product"
+                    role="tab"
+                    data-name="product"
+                >
+                    <i class="ti ti-package"></i> <span>Produk</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    href="#pane-category"
+                    role="tab"
+                    data-name="category"
+                >
+                    <i class="ti ti-list"></i> <span>Kategori</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    data-bs-toggle="tab"
+                    href="#pane-unit"
+                    role="tab"
+                    data-name="unit"
+                >
+                    <i class="ti ti-ruler"></i> <span>Satuan</span>
+                </a>
+            </li>
+        </ul>
+        {{-- panes --}}
+        <div class="tab-content border mt-2">
+            <div class="tab-pane active p-3" id="pane-product" role="tabpanel">
+                @include('dashboard.product.panes.product')
+            </div>
+            <div class="tab-pane p-3" id="pane-category" role="tabpanel" >
+                @include('dashboard.product.panes.category')
+            </div>
+            <div class="tab-pane p-3" id="pane-unit" role="tabpanel" >
+                @include('dashboard.product.panes.unit')
+            </div>
         </div>
-        <x-dialog.delete title="Hapus Distributor" />
     </div>
 @endsection
 @section('style')
@@ -57,67 +94,10 @@
     <script src="{{asset('assets/js/number-format.js')}}"></script>
     <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
     <script>
-        
-        $(document).ready(function() {
-            let product_datatable = $('#product-table').DataTable({
-                processing: true,
-                serverSide: true,
-                order: [[2, 'asc']],
-                language: {
-                    processing: `Memuat...`
-                },
-                ajax: {
-                    url: "{{ route('data-table.list-product') }}",
-                },
-                columns: [
-                    {
-                        data: "DT_RowIndex",
-                        title: "No",
-                        orderable: false,
-                        searchable: false
-                    }, {
-                        data: "image",
-                        title: "Gambar",
-                        orderable: false,
-                        searchable: false,
-                        render: (data, type, row) => {
-                            return `<img src="{{ asset('storage') }}/${data}" alt="gambar produk" class="rounded" style="width: 75px;height: 75px;object-fit: cover"/>`
-                        }
-                    }, {
-                        data: "name",
-                        title: "Nama",
-                    }, {
-                        mRender: (data, type, full) => {
-                            return full['quantity']+" "+full["unit"]["name"];
-                        },
-                        title: "Stok",
-                    }, {
-                        data: "category.name",
-                        title: "Kategori"
-                    }, {
-                        mRender: (data, type, full) => {
-                            let url_edit = "{{ route('admin.products.edit', 'selected_id') }}"
-                            let url_destroy = "{{ route('admin.products.destroy', 'selected_id') }}"
-                            url_edit = url_edit.replace('selected_id', full['id'])
-                            url_destroy = url_destroy.replace('selected_id', full['id'])
-
-                            return `<div class="d-flex gap-2">
-                                <a href="${url_edit}" class="btn btn-light btn-sm btn-update-icon"><i class="fs-4 ti ti-edit"></i></a>
-                                <button data-url="${url_destroy}" class="btn btn-delete btn-light btn-delete-icon btn-sm"><i class="fs-4 ti ti-trash"></i></button>
-                            </div>`
-                        },
-                        title: "Aksi",
-                        width: "15%",
-                    }
-                ]
-            })
-
-            $(document).on("click", '.btn-delete', function() {
-                $("#delete-modal").modal("show");
-    
-                let url = $(this).attr("data-url");
-                $("#form-delete").attr("action", url);
-            });
-        })
+        $(document).on('shown.bs.tab', 'a[data-bs-toggle="tab"]', function (e) {
+            const active_tab = $(this).data('name')
+            $(`#add-thing > [data-active=${active_tab}]`).removeClass('d-none')
+            $(`#add-thing > :not([data-active=${active_tab}])`).addClass('d-none')
+        });
     </script>
 @endsection

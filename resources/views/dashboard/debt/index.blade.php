@@ -34,7 +34,7 @@
                     href="#pane-list"
                     role="tab"
                 >
-                    <span>Daftar Hutang</span>
+                    <i class="ti ti-clipboard-list"></i> <span>Daftar Hutang</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -44,7 +44,7 @@
                     href="#pane-history"
                     role="tab"
                 >
-                    <span>Riwayat Hutang</span>
+                    <i class="ti ti-history"></i> <span>Riwayat Hutang</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -54,7 +54,7 @@
                     href="#pane-pay"
                     role="tab"
                 >
-                    <span>Pembayaran Hutang</span>
+                    <i class="ti ti-credit-card"></i> <span>Pembayaran Hutang</span>
                 </a>
             </li>
         </ul>
@@ -86,7 +86,6 @@
     @include('dashboard.debt.widgets.detail-debt')
 @endsection
 @section('script')
-    <script src="{{asset('assets/libs/simplebar/dist/simplebar.min.js')}}"></script>
     <script>
         $(".btn-detail").on("click", function() {
             $("#value_table").empty(); // Mengosongkan isi tabel sebelum menambahkan detail penjualan baru

@@ -74,22 +74,6 @@
                         <span class="hide-menu">Katalog Produk</span>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.categories.index') }}" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-list"></i> <!-- Ganti ikon di sini -->
-                            </span>
-                            <span class="hide-menu">Kategori</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.units.index') }}" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-ruler"></i> <!-- Ganti ikon di sini -->
-                            </span>
-                            <span class="hide-menu">Satuan</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
                         <a class="sidebar-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}" aria-expanded="false">
                             <span>
                                 <i class="ti ti-package"></i> <!-- Ganti ikon di sini -->
@@ -146,7 +130,7 @@
                             <span>
                                 <i class="ti ti-list"></i> <!-- Ganti ikon di sini -->
                             </span>
-                            <span class="hide-menu">Riwayat Piutang</span>
+                            <span class="hide-menu">Hutang Piutang</span>
                         </a>
                     </li>
                     {{-- <li class="sidebar-item">
