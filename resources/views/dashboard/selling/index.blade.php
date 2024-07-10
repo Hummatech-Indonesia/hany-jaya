@@ -157,6 +157,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="text-end text-primary">(shift+enter)</div>
                                         <button type="submit" class="w-100 btn btn-lg btn-success"><i class="ti ti-shopping-cart"></i> Bayar</button>
                                     </div>
                                 </div>
@@ -169,7 +170,7 @@
                                 <div class="card shadow mb-3 border">
                                     <div class="card-header px-3 bg-primary d-flex justify-content-between align-items-center text-white">
                                         <div class="fw-bolder"><i class="ti ti-search"></i> Cari Produk</div>
-                                        <div>(shift+m)</div>
+                                        <div>(shift+p)</div>
                                     </div>
                                     <div class="card-body p-3 row">
                                         <div class="col-10">
@@ -340,6 +341,13 @@
                 }
             });
 
+            $(document).on('keydown', 'input', function(e) {
+                if (e.originalEvent.key === 'Enter') {
+                    e.preventDefault();
+                    return false;
+                }
+            })
+
             $(document).on('change input', '#cust-name', function() {
                 var selectedValue = select_cust.getValue();
                 var selectedItem = select_cust.options[selectedValue];
@@ -427,7 +435,7 @@
                                     <input type="text" value="${formatNum(selected_price, true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
                                 </td>
                                 <td>
-                                    <button type="button" data-id="${current_index}" class="btn btn-danger text-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
+                                    <button type="button" data-id="${current_index}" class="btn btn-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
                                 </td>
                             </tr>`;
                         $('#tb-product').append(newRow);
