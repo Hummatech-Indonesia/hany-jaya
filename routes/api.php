@@ -56,6 +56,7 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
 // Ruoute Api Transaction
 Route::post('/create-supplier',[SupplierController::class, 'storeAjax'])->name('api.supplier.store.ajax');
 Route::post('/create-category', [CategoryController::class, 'storeAjax'])->name('api.category.store.ajax');
+Route::post('/create-unit', [UnitController::class, 'storeAjax'])->name('api.unit.store.ajax');
 
 // Route for api chart
 Route::name('chart.')->prefix('chart')->group(function() {
