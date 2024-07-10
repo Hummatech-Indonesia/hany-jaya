@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\HistoryPayDebtInterface;
+use App\Helpers\BaseDatatable;
 use App\Http\Requests\PayDebtRequest;
 use App\Models\Buyer;
 use Illuminate\Contracts\View\View;
@@ -45,5 +46,16 @@ class DebtController extends Controller
         $this->historyPayDebt->store($data);
         $buyer->update(['debt' => $buyer->debt - intval($data['pay_debt'])]);
         return redirect()->back()->with('success', 'Sukses Membayar Hutang');
+    }
+
+    /**
+     * api for datatable data debt
+     * 
+     * @return DataTable
+     */
+    public function tableDebt(Request $request)
+    {
+        $data = $this->debt->getSumDebt();
+        return BaseDatatable::TableV2($data->toArray());
     }
 }

@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Api\ChartController;
 use App\Http\Controllers\Cashier\SellingController;
+use App\Http\Controllers\DebtController;
+use App\Http\Controllers\HistoryPayDebtController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +40,9 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
     Route::get("/list-purchase-history", [PurchasesController::class, 'tablePurchaseHistory'])->name('list-purchase-history');
     Route::get("/list-transaction-history", [SellingController::class, 'tableTransactionHistory'])->name('list-transaction-history');
     Route::get("/list-debt-history", [SellingController::class, 'tableDebtHistory'])->name('list-debt-history');
+    Route::get("/list-pay-debt-history", [HistoryPayDebtController::class, 'tablePayDebtHistory'])->name('list-pay-debt-history');
+
+    Route::get('/list-debt', [DebtController::class, 'tableDebt'])->name('list-debt');
     Route::get('/list-product', [ProductController::class, 'dataTable'])->name('list-product');
     Route::get('/list-cashier', [UserController::class, 'tableCashier'])->name('list-cashier');
     Route::get('/list-supplier', [SupplierController::class, 'tableSupplier'])->name('list-supplier');

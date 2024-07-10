@@ -114,7 +114,7 @@ class SellingController extends Controller
                 }
 
                 DB::commit();
-                return to_route('cashier.selling.history')->with('success', trans('alert.add_success'));
+                return to_route('cashier.index')->with('success', trans('alert.add_success'));
             } else {
                 DB::rollBack();
                 return redirect()->back()->withErrors($service);

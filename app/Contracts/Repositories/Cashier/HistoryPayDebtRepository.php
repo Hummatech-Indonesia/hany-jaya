@@ -41,4 +41,9 @@ class HistoryPayDebtRepository extends BaseRepository implements HistoryPayDebtI
         return $this->model->query()
             ->fastPaginate($pagination);
     }
+
+    public function with(array $data): mixed
+    {
+        return $this->model->with($data)->get();
+    }
 }

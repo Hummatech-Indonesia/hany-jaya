@@ -8,4 +8,9 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface DebtInterface extends CustomPaginationInterface, StoreInterface, UpdateInterface
 {
+
+    /**
+     * Get summary data from this data
+     */
+    public function getSumDebt(): mixed;
 }

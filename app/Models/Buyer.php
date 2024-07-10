@@ -26,4 +26,14 @@ class Buyer extends Model implements HasSellings
     {
         return $this->hasMany(Selling::class);
     }
+
+    /**
+     * sellings
+     *
+     * @return HasMany
+     */
+    public function payDebts(): HasMany
+    {
+        return $this->hasMany(HistoryPayDebt::class);
+    }
 }
