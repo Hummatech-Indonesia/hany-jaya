@@ -117,4 +117,12 @@ class UserRepository extends BaseRepository implements UserInterface
             ->where('email', '!=', 'admin@gmail.com')
             ->fastPaginate(10);
     }
+
+    /**
+     * get data with Relation
+     */
+    public function with(array $data): mixed
+    {
+        return $this->model->with($data)->get();
+    }
 }
