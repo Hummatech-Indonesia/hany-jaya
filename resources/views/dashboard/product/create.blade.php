@@ -70,18 +70,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="mb-2 d-flex justify-content-between" for="category_id"><span>Kategori
-                                            Produk <small class="text-danger">*</small></span>
-                                        <a data-bs-toggle="modal" style="cursor: pointer" data-bs-target="#modalAddCategory"
-                                            class="mx-2 text-success"> <svg xmlns="http://www.w3.org/2000/svg"
-                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                stroke="#13DEB9" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-                                                <path d="M9 12h6" />
-                                                <path d="M12 9v6" />
-                                            </svg> Tambah Kategori</a></label>
+                                            Produk <small class="text-danger">*</small></span></label>
                                     <select name="category_id" id="" class="form-control">
                                         <option value="">Pilih Kategori</option>
                                         @foreach ($categories as $category)
@@ -95,39 +84,6 @@
                                     @enderror
                                     <div class="text-danger on_error d-none">Kategori tidak boleh kosong</div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <label for="supplier_id">Nama Distributor <small class="text-danger">*</small></label>
-                                        <div class="d-flex flex-row">
-                                            <a data-bs-toggle="modal" style="cursor: pointer"
-                                                data-bs-target="#modalAddSuplier" class="mx-2 text-success"> <svg
-                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="#13DEB9" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-                                                    <path d="M9 12h6" />
-                                                    <path d="M12 9v6" />
-                                                </svg> Tambah Distributor</a>
-                                        </div>
-                                    </div>
-
-                                    <select class="form-control" name="supplier_id[]" placeholder="Pilih Distributor" style="height: 36px; width: 100%">
-                                        <option value="">Pilih Distributor</option>
-                                        @foreach ($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}"
-                                                {{ in_array($supplier->id, old('supplier_id', [])) ? 'selected' : '' }}>
-                                                {{ $supplier->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('supplier_id')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                    <div class="text-danger on_error d-none">Distributor tidak boleh kosong</div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="d-flex gap-2 align-items-center mb-2" for="image">Satuan Terkecil
                                         Produk <small class="text-danger">*</small><div data-bs-toggle="tooltip" data-bs-placement="top"
@@ -156,6 +112,9 @@
                                     @enderror
                                     <div class="text-danger on_error d-none">Distributor tidak boleh kosong</div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                
                                 <div class="col-md-6 mb-3">
                                     <label class="mb-2" for="image">Gambar (opsional)</label>
                                     <input type="file" name="image" class="form-control">
@@ -235,7 +194,6 @@
         </div>
     </div>
     @include('dashboard.product.widgets.modal-create')
-    @include('dashboard.category.widgets.modal-create')
 @endsection
 @section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
@@ -244,14 +202,52 @@
     @include('components.swal-toast')
     <script>
         $(document).ready(function() {
-            const selectize_cat = $('[name=category_id]').selectize()
+
+            function createNewCategory(val) {
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('api.category.store.ajax') }}",
+                    data: {
+                        name: val,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: (res) => {
+                        select.category.updateOption(
+                        val,
+                        {
+                            value: res.data.id,
+                            text: res.data.name
+                        })
+                        Toaster('success', res.meta.message)
+                    },
+                    error: (xhr) => {
+                        Toaster('error', xhr.responseJSON.message)
+                    }
+                })
+            }
+
+            const selectize_category = $('[name=category_id]').selectize({
+                // plugins: ['restore_on_backspace'],
+                create: true,
+                onOptionAdd: function (val, data) {
+                    console.log(val, data)
+                    createNewCategory(val)
+                },
+            
+            })
             const selectize_supplier = $('[name=supplier_id\\[\\]]').selectize({
                 maxItems: null
             })
-            const selectize_small_unit = $('[name=small_unit_id]').selectize()
+            const selectize_small_unit = $('[name=small_unit_id]').selectize({
+                create: true,
+                onItemAdd: function (val, item) {
+                    console.log(val, item)
+
+                }
+            })
 
             const select = {
-                category: selectize_cat[0].selectize,
+                category: selectize_category[0].selectize,
                 supplier: selectize_supplier[0].selectize,
                 small_unit: selectize_small_unit[0].selectize
             }

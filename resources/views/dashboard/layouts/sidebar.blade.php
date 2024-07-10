@@ -41,8 +41,8 @@
                     </li>
                     @role('owner')
                         <li class="sidebar-item">
-                            <a class="sidebar-link {{ request()->routeIs('admin.cashiers.admin') ? 'active' : '' }}"
-                                href="{{ route('admin.cashiers.admin') }}" aria-expanded="false">
+                            <a class="sidebar-link {{ request()->routeIs('admin.users.admin') ? 'active' : '' }}"
+                                href="{{ route('admin.users.admin') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-user"></i> <!-- Ganti ikon di sini -->
                                 </span>
@@ -51,11 +51,11 @@
                         </li>
                     @endrole
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.cashiers.index') }}" aria-expanded="false">
+                        <a class="sidebar-link" href="{{ route('admin.users.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-wallet"></i> <!-- Ganti ikon di sini -->
+                                <i class="ti ti-users"></i> <!-- Ganti ikon di sini -->
                             </span>
-                            <span class="hide-menu">Data Kasir</span>
+                            <span class="hide-menu">Data Pengguna</span>
                         </a>
                     </li>
                     

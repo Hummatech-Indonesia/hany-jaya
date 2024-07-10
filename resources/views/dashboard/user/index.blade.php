@@ -8,14 +8,14 @@
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h4 class="fw-semibold mb-8">Kasir</h4>
-                        <p>List kasir di toko anda.</p>
+                        <h4 class="fw-semibold mb-8">Pengguna</h4>
+                        <p>List pengguna aplikasi di toko anda.</p>
                         @role('admin')
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCashier">
-                                Tambah Kasir
+                                Tambah Pengguna
                             </button>
                         @endrole
-                        @include('dashboard.cashier.widgets.modal-create')
+                        @include('dashboard.user.widgets.modal-create')
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
@@ -56,7 +56,7 @@
                 <table class="table align-middle table-striped table-hover" id="tb-list-cashier"></table>
             </div>
         </div>
-        @include('dashboard.cashier.widgets.modal-edit')
+        @include('dashboard.user.widgets.modal-edit')
         <x-dialog.delete title="Hapus Kasir" />
     </div>
 @endsection
@@ -86,13 +86,23 @@
                 }, {
                     data: "email",
                     title: "Email"
-                }, 
+                },
+                {
+                    title: "Role",
+                    mRender: (data, type, full) => {
+                        var roles = ''                        
+                        full.roles.map((item) => {
+                            roles += `<span class="badge ${item.name == 'admin' ? 'bg-primary' : 'bg-warning'} mx-1 my-1">${item.name}</span>`
+                        })
+                        return roles
+                    },
+                },
                 @role('admin')
                 {
                     mRender: (data, type, full) => {
-                        let edit_url = "{{route('admin.cashiers.update', 'selected_id')}}"
+                        let edit_url = "{{route('admin.users.update', 'selected_id')}}"
                         edit_url = edit_url.replace('selected_id', full['id'])
-                        let del_url = "{{route('admin.cashiers.destroy', 'selected_id')}}"
+                        let del_url = "{{route('admin.users.destroy', 'selected_id')}}"
                         del_url = del_url.replace('selected_id', full['id'])
                         
                         return `

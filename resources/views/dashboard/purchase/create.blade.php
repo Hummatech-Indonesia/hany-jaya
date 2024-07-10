@@ -124,11 +124,37 @@
             let select_product_list = []
             let select_unit_list = []
 
+            function createNewSupplier(val) {
+                $.ajax({
+                    url: `{{ route('admin.supplier.store.ajax') }}`,
+                    method: "POST",
+                    data: {
+                        name: val,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        select_supplier.updateOption(
+                            val,
+                            {
+                                value: response.data.id,
+                                text: response.data.name
+                            }
+                        )
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseJSON.message)
+                    },
+                });
+            }
+
             const selectize_supplier = $('#supplier_id').selectize({
                 plugins: [],
                 create: true,
                 maxItems: 1,
                 placeholder: "Pilih Distributor",
+                onItemAdd: function(value) {
+                    createNewSupplier(value)
+                },
             })
             const select_supplier = selectize_supplier[0].selectize
 
