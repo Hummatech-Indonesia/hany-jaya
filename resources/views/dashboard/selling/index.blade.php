@@ -48,7 +48,7 @@
             alt="loader" class="lds-ripple img-fluid" />
     </div>
     <!--  Body Wrapper -->
-    <div class="container-fluid max-w-full py-3">
+    <div class="container-fluid max-w-full py-3" style="background: rgb(241 245 249)">
         <div class="page-wrapper" id="main-wrapper">
             <!--  Main wrapper -->
             <div class="body-wrapper mx-0">
@@ -58,7 +58,7 @@
                         <h3 class="fw-bolder">Keranjang Penjualan</h3>
                         <div class="row rounded">
                             <div class="col-12 col-md-4">
-                                <div class="card mb-3 shadow border bg-primary-subtle p-3">
+                                <div class="card mb-3 border bg-primary-subtle p-3">
                                     <div class="d-flex justify-content-between align-items-center text-primary fs-5">
                                         <div>
                                             <i class="ti ti-calendar-month"></i>
@@ -69,14 +69,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="rounded shadow border p-3 mb-3">
+                                <div class="rounded border bg-white p-3 mb-3">
                                     <div class="d-flex justify-content-between mb-2">
                                         <div class="fw-bolder">Nama Kasir</div>
                                         <div class="fw-bolder">{{ auth()->user()->email }}</div>
                                     </div>
                                     <h3 class="m-0 text-primary"><i class="ti ti-user-circle"></i> {{ strtoupper(auth()->user()->name) }}</h3>
                                 </div>
-                                <div class="card shadow mb-3">
+                                <div class="card mb-3">
                                     <div class="card-body p-3">
                                         <div class="form-group mb-3">
                                             <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama</div><span class="text-info fs-3">(shift+n)</span></label>
@@ -93,7 +93,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card shadow mb-3">
+                                <div class="card mb-3">
                                     <div class="card-header px-3 bg-primary">
                                         <div class="text-white d-flex align-items-center justify-content-between">
                                             <div class="fw-bolder">
@@ -157,19 +157,20 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="text-end text-primary">(shift+enter)</div>
                                         <button type="submit" class="w-100 btn btn-lg btn-success"><i class="ti ti-shopping-cart"></i> Bayar</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-8">
-                                <div class="bg-primary rounded p-3 mb-3 shadow d-flex justify-content-between align-items-center">
+                                <div class="bg-primary rounded p-3 mb-3 d-flex justify-content-between align-items-center">
                                     <h5 class="text-light mb-0">Total Harga</h5>
                                     <h3 class="text-light mb-0 fw-bolder" id="total_price">Rp 0</h3>
                                 </div>
-                                <div class="card shadow mb-3 border">
+                                <div class="card mb-3 border">
                                     <div class="card-header px-3 bg-primary d-flex justify-content-between align-items-center text-white">
                                         <div class="fw-bolder"><i class="ti ti-search"></i> Cari Produk</div>
-                                        <div>(shift+m)</div>
+                                        <div>(shift+p)</div>
                                     </div>
                                     <div class="card-body p-3 row">
                                         <div class="col-10">
@@ -187,7 +188,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card shadow border">
+                                <div class="card border">
                                     <div class="card-header px-3 bg-primary d-flex justify-content-between align-items-center">
                                         <div class="fw-bolder text-white">
                                             <i class="ti ti-shopping-cart"></i> Keranjang
@@ -340,6 +341,13 @@
                 }
             });
 
+            $(document).on('keydown', 'input', function(e) {
+                if (e.originalEvent.key === 'Enter') {
+                    e.preventDefault();
+                    return false;
+                }
+            })
+
             $(document).on('change input', '#cust-name', function() {
                 var selectedValue = select_cust.getValue();
                 var selectedItem = select_cust.options[selectedValue];
@@ -427,7 +435,7 @@
                                     <input type="text" value="${formatNum(selected_price, true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
                                 </td>
                                 <td>
-                                    <button type="button" data-id="${current_index}" class="btn btn-danger text-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
+                                    <button type="button" data-id="${current_index}" class="btn btn-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
                                 </td>
                             </tr>`;
                         $('#tb-product').append(newRow);

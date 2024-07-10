@@ -56,4 +56,42 @@ class DebtRepository extends BaseRepository implements DebtInterface
             ->findOrFail($id)
             ->update($data);
     }
+
+     /**
+     * sum
+     *
+     * @param  mixed $data
+     * @return int
+     */
+    public function sum(?array $data): int
+    {
+        return $this->model->query()
+            ->when($data, function ($query) use ($data){
+                try{
+                    if($data["year"]) $query->whereYear('created_at',$data["year"]);
+                }catch(\Throwable $th){}
+            })
+            ->sum('nominal');
+    }
+
+    /**
+     * get data sum
+     */
+    public function getSumDebt(): mixed
+    {
+        return $this->model->query()
+        ->selectRaw(
+            'buyers.name as buyer_name,
+            buyers.address as buyer_address,
+            SUM(sellings.amount_price) as total_debt,
+            COALESCE(SUM(history_pay_debts.pay_debt),0) as total_pay_debt,
+            COALESCE(SUM(sellings.amount_price) - SUM(history_pay_debts.pay_debt),SUM(sellings.amount_price)) as nominal_after_check,
+            IF(COALESCE(SUM(sellings.amount_price) - SUM(history_pay_debts.pay_debt),SUM(sellings.amount_price)) > 0, "BELUM LUNAS", "LUNAS") as debt_status'
+        )
+        ->leftJoin('buyers', 'debts.buyer_id', '=', 'buyers.id')
+        ->leftJoin('history_pay_debts', 'buyers.id', '=', 'history_pay_debts.buyer_id')
+        ->leftJoin('sellings', 'debts.selling_id', '=', 'sellings.id')
+        ->groupBy('buyers.name', 'buyers.address')
+        ->get();
+    }
 }

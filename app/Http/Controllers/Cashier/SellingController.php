@@ -114,7 +114,7 @@ class SellingController extends Controller
                 }
 
                 DB::commit();
-                return to_route('cashier.selling.history')->with('success', trans('alert.add_success'));
+                return to_route('cashier.index')->with('success', trans('alert.add_success'));
             } else {
                 DB::rollBack();
                 return redirect()->back()->withErrors($service);
@@ -211,8 +211,8 @@ class SellingController extends Controller
      */
     public function tableTransactionHistory(Request $request)
     {
-        $transaction = $this->selling->withEloquent($request);
-        return BaseDatatable::Table($transaction);
+        $transaction = $this->selling->withEloquent($request)->get();
+        return BaseDatatable::TableV2($transaction->toArray());
     }
 
     /**
@@ -230,4 +230,19 @@ class SellingController extends Controller
         $data = $this->sellingService->highTransaction($transaction->toArray(), 5);
         return BaseDatatable::TableV2($data);
     }    
+
+     /**
+     * Get data table for data debt history
+     * 
+     * Param for get debt transaction
+     * findone
+     * 
+     * @return datatable
+     */
+    public function tableDebtHistory(Request $request)
+    {
+        $request["type"] = StatusEnum::DEBT->value;
+        $transaction = $this->selling->withEloquent($request)->get();
+        return BaseDatatable::TableV2($transaction->toArray());
+    }
 }

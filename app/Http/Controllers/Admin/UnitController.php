@@ -51,6 +51,17 @@ class UnitController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     */
+    public function storeAjax(UnitRequest $request)
+    {
+        $this->unit->store($request->validated());
+        $data = $this->unit->firstLastest();
+        
+        return ResponseHelper::success($data, trans('alert.add_success'));
+    }
+
+    /**
      * update
      *
      * @param  mixed $request

@@ -39,18 +39,18 @@
         </div>
         <div class="row">
             <!-- Weekly Stats -->
-            <div class="col-lg-5 d-flex align-items-center">
-                <div class="card w-100">
-                    <div class="card-header text-center">
-                        <span class="fw-bold">Jumlah Penjualan Per Kategori Produk</span>
+            <div class="col-lg-5 d-flex align-items-stretch mb-3">
+                <div class="card w-100 h-100 mb-0">
+                    <div class="card-header text-center bg-primary text-white">
+                        <span class="fw-bolder">Jumlah Penjualan Per Kategori Produk</span>
                     </div>
                     <div class="card-body">
-                        <div id="pieChart"></div>
+                        @include('dashboard.home.widgets.pie-product')
                     </div>
                 </div>
             </div>
             <!-- Top Performers -->
-            <div class="col-lg-7 d-flex align-items-strech">
+            <div class="col-lg-7 d-flex d-none align-items-strech">
                 @if($buyers->isEmpty())
                     <div class="card align-self-start w-100 bg-light-info shadow-none position-relative overflow-hidden">
                         <div class="card-body px-4 py-3">
@@ -104,71 +104,40 @@
                     </div>
                 @endif
             </div>
+
+            {{-- top buyer --}}
+            <div class="col-12 col-lg-7 align-items-strech mb-3">
+                <div class="card w-100 h-100 mb-0">
+                    <div class="card-header bg-primary text-white fw-bolder text-center">Pembeli Terbanyak</div>
+                    <div class="card-body pt-0">
+                        @include('dashboard.home.widgets.dt-top-buyer')
+                    </div>
+                </div>
+            </div>
+
+            {{-- sellings chart --}}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header fw-bolder text-center bg-primary text-white" id="selling-title">Penjualan Tahunan</div>
+                    <div class="card-body">
+                        @include('dashboard.home.widgets.chart-sellings')
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     </div>
 @endsection
 @section('script')
+
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script>
-        $.ajax({
-            type: "GET",
-            url: "{{ route('admin.get.category.ajax') }}",
-            success: function(response) {
-                let labels = [];
-                let series = [];
-                let colors = []
-                let count = 0; // Inisialisasi count sebelum melakukan penambahan
-                $.each(response, function(index, value) {
-                    labels.push(value.name);
-                    count = 0;
-                    $.each(value.products, function(i, item) {
-                        if (item.category_id === value.id) {
-                            count += item.detail_sellings_count;
-                        }
-                    });
-                    series.push(count);
-
-                    // Menambah total detail sellings count ke dalam series
-                });
-
-                if(labels.length < 1) {
-                    labels.push("kosong")
-                    series.push(1)
-                    colors.push("#aaaaaa")
-                }
-
-                var options = {
-                    series: series,
-                    chart: {
-                        width: 300,
-                        type: 'pie',
-                    },
-                    colors: colors,
-                    labels: labels,
-                    responsive: [{
-                        breakpoint: 480,
-                        options: {
-                            chart: {
-                                width: 200
-                            },
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
-                    }]
-                };
-
-                var chart = new ApexCharts(document.querySelector("#pieChart"), options);
-                chart.render();
-
-            }
-        });
-    </script>
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
 @endsection
 @section('style')
     <link rel="stylesheet" href="{{asset('assets/css/icons.css')}}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
     <style>
         .icon-head {
             position: absolute;

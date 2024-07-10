@@ -86,4 +86,12 @@ class UnitRepository extends BaseRepository implements UnitInterface
         return $this->show($id)
             ->delete();
     }
+
+    /**
+     * Get one latest data from this model
+     */
+    public function firstLastest(): mixed
+    {
+        return $this->model->latest()->first();
+    }
 }
