@@ -28,7 +28,7 @@ class ProductRequest extends FormRequest
             'selling_price' => 'required|array',
             'selling_price.*' => 'required',
             'image' => 'nullable|mimes:png,jpg,jpeg',
-            'supplier_id' => 'required|array',
+            'supplier_id' => 'nullable|array',
             'supplier_id.*' => [Rule::exists('suppliers', 'id')]
         ];
     }
