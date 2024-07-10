@@ -131,6 +131,9 @@ class SellingRepository extends BaseRepository implements SellingInterface
             }else {
                 $query->whereDate('created_at', $request->date);
             }
+        })
+        ->when($request->type, function ($query) use ($request){
+            $query->where('status_payment',$request->type);
         });
     }
     

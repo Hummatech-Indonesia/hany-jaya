@@ -211,8 +211,8 @@ class SellingController extends Controller
      */
     public function tableTransactionHistory(Request $request)
     {
-        $transaction = $this->selling->withEloquent($request);
-        return BaseDatatable::Table($transaction);
+        $transaction = $this->selling->withEloquent($request)->get();
+        return BaseDatatable::TableV2($transaction->toArray());
     }
 
     /**
@@ -230,4 +230,19 @@ class SellingController extends Controller
         $data = $this->sellingService->highTransaction($transaction->toArray(), 5);
         return BaseDatatable::TableV2($data);
     }    
+
+     /**
+     * Get data table for data debt history
+     * 
+     * Param for get debt transaction
+     * findone
+     * 
+     * @return datatable
+     */
+    public function tableDebtHistory(Request $request)
+    {
+        $request["type"] = StatusEnum::DEBT->value;
+        $transaction = $this->selling->withEloquent($request)->get();
+        return BaseDatatable::TableV2($transaction->toArray());
+    }
 }

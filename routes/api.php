@@ -37,6 +37,7 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
     // data master
     Route::get("/list-purchase-history", [PurchasesController::class, 'tablePurchaseHistory'])->name('list-purchase-history');
     Route::get("/list-transaction-history", [SellingController::class, 'tableTransactionHistory'])->name('list-transaction-history');
+    Route::get("/list-debt-history", [SellingController::class, 'tableDebtHistory'])->name('list-debt-history');
     Route::get('/list-product', [ProductController::class, 'dataTable'])->name('list-product');
     Route::get('/list-cashier', [UserController::class, 'tableCashier'])->name('list-cashier');
     Route::get('/list-supplier', [SupplierController::class, 'tableSupplier'])->name('list-supplier');
