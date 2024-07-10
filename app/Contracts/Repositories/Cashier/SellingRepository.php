@@ -163,8 +163,12 @@ class SellingRepository extends BaseRepository implements SellingInterface
     {
         return $this->model
         ->when($request->type, function ($query) use ($request){
-            $year = $request->date ? Carbon::parse($request->date)->format('Y') : date('Y');
-            $month = $request->date ? Carbon::parse($request->date)->format('m') : date('m');
+            if($request->year) $year = $request->year;
+            else $year = $request->date ? Carbon::parse($request->date)->format('Y') : date('Y');
+            
+            if($request->month) $month = $request->month;
+            else $month = $request->date ? Carbon::parse($request->date)->format('m') : date('m');
+            
             switch($request->type){
                 case 'all':
                     $query->selectRaw(
