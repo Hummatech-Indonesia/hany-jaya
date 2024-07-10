@@ -12,14 +12,14 @@
             yaxis: {
                 labels: {
                     formatter: function(val) {
-                        return formatNum(val)
+                        return formatNum(val, true)
                     }
                 }
             },
             tooltip: {
                 y: {
                     formatter: (val) => {
-                        return formatNum(val)
+                        return formatNum(val, true)
                     }
                 }
             },
