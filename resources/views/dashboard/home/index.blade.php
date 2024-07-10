@@ -7,39 +7,13 @@
 @endpush
 @section('content')
     <div class="container-fluid max-w-full">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="card bg-primary-subtle scorecard p-3 position-relative overflow-hidden">
-                    <p class="fs-3">Total Penjualan</p>
-                    <h4 class="fw-semibold fs-7">{{ $selling_count }}</h4>
-                    <i class="ti ti-shopping-cart icon-head"></i>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="card bg-info-subtle scorecard p-3 position-relative overflow-hidden">
-                    <p class="fs-3">Total Omset</p>
-                    <h4 class="fw-semibold fs-7">{{ FormatedHelper::rupiahCurrency($selling_sum) }}</h4>
-                    <i class="ti ti-chart-line icon-head"></i>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="card bg-success-subtle scorecard p-3 position-relative overflow-hidden">
-                    <p class="fs-3">Total Produk</p>
-                    <h4 class="fw-semibold fs-7">{{ $product_count }}</h4>
-                    <i class="ti ti-package icon-head"></i>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="card bg-warning-subtle scorecard p-3 position-relative overflow-hidden">
-                    <p class="fs-3">Jumlah Piutang</p>
-                    <h4 class="fw-semibold fs-7">{{ FormatedHelper::rupiahCurrency($debt) }}</h4>
-                    <i class="ti ti-wallet icon-head"></i>
-                </div>
-            </div>
+        <div class="d-flex mb-4 justify-content-end">
+            @include('dashboard.home.widgets.select-year')
         </div>
+        @include('dashboard.home.widgets.scorecard')
         <div class="row">
             <!-- Weekly Stats -->
-            <div class="col-lg-5 d-flex align-items-stretch mb-3">
+            <div class="col-lg-5 d-flex align-items-stretch mb-4">
                 <div class="card w-100 h-100 mb-0">
                     <div class="card-header text-center bg-primary text-white">
                         <span class="fw-bolder">Jumlah Penjualan Per Kategori Produk</span>
@@ -106,7 +80,7 @@
             </div>
 
             {{-- top buyer --}}
-            <div class="col-12 col-lg-7 align-items-strech mb-3">
+            <div class="col-12 col-lg-7 align-items-strech mb-4">
                 <div class="card w-100 h-100 mb-0">
                     <div class="card-header bg-primary text-white fw-bolder text-center">Pembeli Terbanyak</div>
                     <div class="card-body pt-0">
@@ -130,14 +104,16 @@
     </div>
 @endsection
 @section('script')
-
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
     <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
 @endsection
 @section('style')
     <link rel="stylesheet" href="{{asset('assets/css/icons.css')}}">
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
+
     <style>
         .icon-head {
             position: absolute;
