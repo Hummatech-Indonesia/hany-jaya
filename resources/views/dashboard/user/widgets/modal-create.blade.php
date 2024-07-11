@@ -18,6 +18,14 @@
                             value="{{ old('name') }}" />
                     </div>
                     <div class="col-md-12 mb-4">
+                        <label for="roleCashier" class="form-label fw-semibold">Role</label>
+                        <select tabindex="4" id="roleCashier" name="role[]" class="form-select role" aria-label="Default select example">
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-12 mb-4">
                         <label for="cashier-email" class="form-label fw-semibold">Email <small class="text-danger">*</small></label>
                         <input tabindex="2" name="email" id="cashier-email" type="email" class="form-control" placeholder="kasir@gmail.com"
                             value="{{ old('email') }}" />
@@ -25,14 +33,6 @@
                     <div class="col-md-12 mb-4">
                         <label for="exampleInputPassword1" class="form-label fw-semibold">Password <small>(opsional)</small></label>
                         <input tabindex="3" name="password" type="password" class="form-control" value="{{ old('password') }}" />
-                    </div>
-                    <div class="col-md-12 mb-4">
-                        <label for="exampleInputPassword1" class="form-label fw-semibold">Role</label>
-                        <select tabindex="4" name="role" class="form-select" aria-label="Default select example">
-                            @foreach ($roles as $role)
-                                <option value="{{ $role->name }}">{{ $role->name }}</option>
-                            @endforeach
-                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

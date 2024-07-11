@@ -97,20 +97,18 @@
                                 <span class="hide-menu">Suplai Produk</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('admin.purchases.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-history"></i> <!-- Ganti ikon di sini -->
+                                </span>
+                                <span class="hide-menu">Riwayat Pembelian</span>
+                            </a>
+                        </li>
                     @endrole
                     <li class="nav-small-cap">
                         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                         <span class="hide-menu">Riwayat</span>
-                    </li>
-                @endrole
-                @role(['owner', 'admin'])
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.purchases.index') }}" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-history"></i> <!-- Ganti ikon di sini -->
-                            </span>
-                            <span class="hide-menu">Riwayat Pembelian</span>
-                        </a>
                     </li>
                 @endrole
                 @role(['owner', 'admin', 'cashier'])

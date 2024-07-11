@@ -19,6 +19,7 @@ class UserRequest extends FormRequest
             'name' => 'required',
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->user)],
             'password' => 'nullable',
+            'role.*' => 'required|exists:roles,name',
         ];
     }
 
@@ -35,6 +36,8 @@ class UserRequest extends FormRequest
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah digunakan.',
             'password.nullable' => 'Kolom password tidak boleh diisi.',
+            'role.*.required' => 'Kolom role harus diisi.',
+            'role.*.exists' => 'Role tidak valid.',
         ];
     }
 }

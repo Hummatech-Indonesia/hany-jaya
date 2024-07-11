@@ -78,6 +78,8 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $this->user->update($user->id, $data);
+        $user->syncRoles($data['role']);
+
         return redirect()->back()->with('success', trans('alert.update_success'));
     }
 
