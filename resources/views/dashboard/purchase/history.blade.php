@@ -32,19 +32,21 @@
         </div>
 
         <div class="card">
-            <div class="card-body table-responsive">
-                <div class="row">
-                    <div class="col ms-auto">
-                        <button type="button" class="btn btn-sm btn-primary" id="btn-show-all-purchase">Tampilkan Semua Data</button>
-                    </div>
-                    <div class="col-12 ms-auto">
-                        <div class="d-flex align-items-center" id="input-date">
-                            <div>Tanggal: </div>
-                            <input type="text" id="input-date" class="form-control form-control-sm flex-fill w-100" value="" placeholder="Tanggal Pembelian">
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert">
+                        Sebelum melakukan export / cetak data, pastikan kolom "entries per page" bernilai "semua" agar keseluruhan data tercetak.
+                </div>
+                <div class="table-responsive">
+                    <div class="row">
+                        <div class="col-12 ms-auto">
+                            <div class="d-flex align-items-center" id="input-date">
+                                <div>Tanggal: </div>
+                                <input type="text" id="input-date" class="form-control form-control-sm flex-fill w-100" value="" placeholder="Tanggal Pembelian">
+                            </div>
                         </div>
                     </div>
+                    <table class="table align-middle table-striped table-hover" id="tb-purchase"></table>
                 </div>
-                <table class="table align-middle table-striped table-hover" id="tb-purchase"></table>
             </div>
         </div>
     </div>
@@ -69,6 +71,7 @@
         const tb_purchasing = $('#tb-purchase').DataTable({
             processing: true,
             serverSide: true,
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Semua']],
             dom: "<'row mt-2 justify-content-between'<'col-md-auto me-auto'B><'col-md-auto ms-auto input-date-container'>><'row mt-2 justify-content-between'<'col-md-auto me-auto'l><'col-md-auto me-start'f>><'row mt-2 justify-content-md-center'<'col-12'rt>><'row mt-2 justify-content-between'<'col-md-auto me-auto'i><'col-md-auto ms-auto'p>>",
             // dom: "<'row mt-2 justify-content-start'<'col-12'B>><'row mt-2 justify-content-between'<'col-md-auto me-auto'l><'col-md-auto me-start'f>><'row mt-2 justify-content-md-center'<'col-12'rt>><'row mt-2 justify-content-between'<'col-md-auto me-auto'i><'col-md-auto ms-auto'p>>",
             buttons: [
@@ -93,6 +96,9 @@
                 let a = $('#input-date').detach()
                 $('.input-date-container').append(a)
                 $('.dt-buttons').addClass('btn-group-sm')
+                $('#input-date').daterangepicker({
+                    autoUpdateInput: false
+                })
             },
             language: {
                 processing: 'Memuat...'
@@ -149,30 +155,16 @@
             ]
         })
 
-        $('#input-date').daterangepicker({
-            autoUpdateInput: false
-        })
-
-        $('#input-date').on('apply.daterangepicker hide.daterangepicker', function(ev, picker) {
-            let val = picker.startDate.format('DD-MM-YYYY')+' s/d '+picker.endDate.format('DD-MM-YYYY')
+        function updateDateRange(val) {
             $('#input-date').val(val)
             let url = "{{ route('data-table.list-purchase-history') }}"
             url = url+'?date='+$('#input-date').val();
             tb_purchasing.ajax.url(url).load()
-        })
+        }
 
-        $(document).on("click", "#btn-show-all-purchase", function() {
-            Swal.fire({
-                title: 'Menampilkan semua data',
-                text: 'Kemungkinan akan membuat server bekerja terlalu berat, apakah anda yakin?',
-                icon: 'question',
-                showCancelButton: true,
-                cancelButtonText: "Batal"
-            }).then((result) => {
-                if(result.isConfirmed) {
-                    tb_purchasing.page.len(-1).draw()
-                }
-            })
+        $('#input-date').on('apply.daterangepicker hide.daterangepicker', function(ev, picker) {
+            let val = picker.startDate.format('DD-MM-YYYY')+' s/d '+picker.endDate.format('DD-MM-YYYY')
+            updateDateRange(val)
         })
 
         $(document).on("click", ".btn-detail", function() {
