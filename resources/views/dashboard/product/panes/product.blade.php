@@ -28,7 +28,8 @@
                     orderable: false,
                     searchable: false,
                     render: (data, type, row) => {
-                        return `<img src="{{ asset('storage') }}/${data}" alt="gambar produk" class="rounded" style="width: 75px;height: 75px;object-fit: cover"/>`
+                        data = data ? `storage/${data}` : 'no_image_available.jpeg';
+                        return `<img src="{{ asset('${data}') }}" alt="gambar produk" class="rounded" style="width: 75px;height: 75px;object-fit: cover"/>`
                     }
                 }, {
                     data: "name",
