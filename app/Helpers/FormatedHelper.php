@@ -57,4 +57,17 @@ class FormatedHelper
         $newFormat = $date->isoFormat('hh:mm');
         return $newFormat;
     }
+
+    /**
+     * return the year
+     *
+     * @param string $dateTime
+     * @return string
+     */
+    public static function getYear(string $dateTime): string
+    {
+        $date = Carbon::parse($dateTime);
+        $newFormat = $date->isoFormat('Y');
+        return $newFormat;
+    }
 }

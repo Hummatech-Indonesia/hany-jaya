@@ -17,7 +17,7 @@ class SellingRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        return in_array(strtolower($value), [StatusEnum::DEBT->value, StatusEnum::CASH->value]);
+        return in_array(strtolower($value), [StatusEnum::DEBT->value, StatusEnum::CASH->value, StatusEnum::SPLIT->value]);
     }
 
     /**

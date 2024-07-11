@@ -102,7 +102,9 @@ class UserController extends Controller
      */
     public function tableCashier(Request $request)
     {
-        $user = $this->user->get();
+        $user = $this->user->with(["roles" => function ($query) {
+            $query->select('name');
+        }]);
         return BaseDatatable::TableV2($user->toArray());
     }
 }

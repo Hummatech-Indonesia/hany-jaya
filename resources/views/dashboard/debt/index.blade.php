@@ -4,7 +4,7 @@
 @endphp
 @extends('dashboard.layouts.dashboard')
 @push("title")
-    Hutang
+    Hutang Piutang
 @endpush
 @section('content')
     <div class="container-fluid max-w-full">
@@ -34,7 +34,7 @@
                     href="#pane-list"
                     role="tab"
                 >
-                    <i class="ti ti-clipboard-list"></i> <span>Daftar Hutang</span>
+                    <i class="ti ti-clipboard-list"></i> <span>Daftar Piutang</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -44,7 +44,7 @@
                     href="#pane-history"
                     role="tab"
                 >
-                    <i class="ti ti-history"></i> <span>Riwayat Hutang</span>
+                    <i class="ti ti-history"></i> <span>Riwayat Piutang</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -54,7 +54,7 @@
                     href="#pane-pay"
                     role="tab"
                 >
-                    <i class="ti ti-credit-card"></i> <span>Pembayaran Hutang</span>
+                    <i class="ti ti-credit-card"></i> <span>Pembayaran Piutang</span>
                 </a>
             </li>
         </ul>
@@ -85,7 +85,14 @@
     </div>
     @include('dashboard.debt.widgets.detail-debt')
 @endsection
+@section('style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+@endsection
 @section('script')
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script>
         $(".btn-detail").on("click", function() {
             $("#value_table").empty(); // Mengosongkan isi tabel sebelum menambahkan detail penjualan baru

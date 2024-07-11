@@ -18,6 +18,17 @@ class DebtRepository extends BaseRepository implements DebtInterface
     }
 
     /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function get(): mixed
+    {
+        return $this->model->query()->get();
+    }
+
+    /**
      * customPaginate
      *
      * @param  mixed $request
@@ -75,6 +86,14 @@ class DebtRepository extends BaseRepository implements DebtInterface
     }
 
     /**
+     * Get realtion data in this model
+     */
+    public function with(array $data): mixed
+    {
+        return $this->model->query()->with($data)->get();
+    }
+
+    /**
      * get data sum
      */
     public function getSumDebt(): mixed
@@ -83,14 +102,13 @@ class DebtRepository extends BaseRepository implements DebtInterface
         ->selectRaw(
             'buyers.name as buyer_name,
             buyers.address as buyer_address,
-            SUM(sellings.amount_price) as total_debt,
+            SUM(debts.nominal) as total_debt,
             COALESCE(SUM(history_pay_debts.pay_debt),0) as total_pay_debt,
-            COALESCE(SUM(sellings.amount_price) - SUM(history_pay_debts.pay_debt),SUM(sellings.amount_price)) as nominal_after_check,
-            IF(COALESCE(SUM(sellings.amount_price) - SUM(history_pay_debts.pay_debt),SUM(sellings.amount_price)) > 0, "BELUM LUNAS", "LUNAS") as debt_status'
+            COALESCE(SUM(debts.nominal) - SUM(history_pay_debts.pay_debt),SUM(debts.nominal)) as nominal_after_check,
+            IF(COALESCE(SUM(debts.nominal) - SUM(history_pay_debts.pay_debt),SUM(debts.nominal)) > 0, "BELUM LUNAS", "LUNAS") as debt_status'
         )
         ->leftJoin('buyers', 'debts.buyer_id', '=', 'buyers.id')
         ->leftJoin('history_pay_debts', 'buyers.id', '=', 'history_pay_debts.buyer_id')
-        ->leftJoin('sellings', 'debts.selling_id', '=', 'sellings.id')
         ->groupBy('buyers.name', 'buyers.address')
         ->get();
     }

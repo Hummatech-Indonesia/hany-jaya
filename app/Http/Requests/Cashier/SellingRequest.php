@@ -18,6 +18,7 @@ class SellingRequest extends FormRequest
         return [
             'name' => 'required',
             'address' => 'required',
+            'telp' => 'nullable|max:15',
             'product_unit_price'=>'required',
             'pay' => 'nullable',
             'code_debt' => 'nullable',
@@ -59,6 +60,7 @@ class SellingRequest extends FormRequest
             'selling_price.required' => 'Harga jual wajib diisi.',
             'selling_price.array' => 'Harga jual harus berupa array.',
             'selling_price.*.required' => 'Harga jual wajib diisi.',
+            'telp.max' => 'Max nomor telp adalah 15.',
         ];
     }
 }

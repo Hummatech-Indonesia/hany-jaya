@@ -9,7 +9,7 @@
                 <div class="row align-items-center">
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Daftar Piutang</h4>
-                        <p>Daftar hutang dari pelanggan.</p>
+                        <p>Daftar piutang dari pelanggan.</p>
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
@@ -88,6 +88,7 @@
     @include('dashboard.debt.users.widgets.pay-debt');
 @endsection
 @section('script')
+    <script src=""></script>
     <script>
         $(".btn-pay-debt").on("click", function() {
             $("#modalPayDebt").modal("show");

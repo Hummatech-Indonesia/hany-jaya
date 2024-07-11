@@ -71,28 +71,31 @@ class SellingController extends Controller
             return redirect()->back()->withErrors($serviceSellingPrice);
         }
 
-        // mengecek uang pembeli tidak boleh dibawah total barang yang dibeli
-        if(strtolower($data["status_payment"]) == "cash"){
-            if(intval($data["pay"]) < intval($data["amount_price"])) return redirect()->back()->withErrors("Amount paying must be greather than total amount item");
-        }
-
         // mengecek jumlah barang yang dibeli harus melebihi 0
         $check_item_qty = collect($data["quantity"])->first(function($qty) {
             return $qty <= 0;
         });
         if($check_item_qty) return redirect()->back()->withErrors("Quantity item must greather than 0");
         
-        $service = $this->sellingService->invoiceNumber($data);
         DB::beginTransaction();
         try{ 
+            $service = $this->sellingService->invoiceNumber($data);
             if (is_array($service)) {
                 $selling = $this->selling->store($service);
     
-                if ($data['status_payment'] == StatusEnum::DEBT->value) {
+                if ($service['status_payment'] == StatusEnum::DEBT->value) {
                     $this->debt->store([
                         'buyer_id' => $service['buyer_id'],
                         'selling_id' => $selling->id,
                         'nominal' => $serviceSellingPrice['selling_price']
+                    ]);
+                }
+
+                if($service["status_payment"] == StatusEnum::SPLIT->value) {
+                    $this->debt->store([
+                        'buyer_id' => $service['buyer_id'],
+                        'selling_id' => $selling->id,
+                        'nominal' => abs((int)$service["return"])
                     ]);
                 }
     
@@ -120,6 +123,7 @@ class SellingController extends Controller
                 return redirect()->back()->withErrors($service);
             }
         }catch(\Throwable $th){
+            dd($th->getMessage());
             DB::rollBack();
             return redirect()->back()->withErrors($th->getMessage());
         }
@@ -196,6 +200,8 @@ class SellingController extends Controller
 
         if($transaction) {
             $transaction = $transaction?->detailSellings[0];
+            $transaction->selling_price_original = $transaction->selling_price;
+            $transaction->selling_price = $transaction->selling_price / $transaction->quantity;
         }
 
         return BaseResponse::Ok("Berhasil megambil data history transaction",$transaction);
@@ -241,8 +247,9 @@ class SellingController extends Controller
      */
     public function tableDebtHistory(Request $request)
     {
-        $request["type"] = StatusEnum::DEBT->value;
-        $transaction = $this->selling->withEloquent($request)->get();
+        $transaction = $this->debt->with(["buyer", "selling" => function($query) {
+            $query->with('detailSellings');
+        }]);
         return BaseDatatable::TableV2($transaction->toArray());
     }
 }
