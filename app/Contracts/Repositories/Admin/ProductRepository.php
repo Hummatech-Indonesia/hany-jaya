@@ -19,6 +19,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
         return $this->model->query()
+            ->with('productUnits')
             ->where('outlet_id', auth()->user()->outlet->id)
             ->when($request->name, function ($query) use ($request) {
                 $query->where('name', 'LIKE', '%' . $request->name . '%')->orWhere('code', $request->name);
