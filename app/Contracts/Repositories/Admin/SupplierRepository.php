@@ -91,7 +91,7 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
      */
     public function delete(mixed $id): mixed
     {
-        return $this->model->show($id)->delete($id);
+        return $this->show($id)->delete();
     }
 
     /**

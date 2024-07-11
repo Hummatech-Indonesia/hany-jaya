@@ -75,7 +75,7 @@
             product = JSON.parse(product.replace(/'/g, '"'))
 
             $('#img-detail').attr('src', "{{ asset('storage') }}/"+product['image']);
-            $('#name-product-detail').val(product['name']);
+            $('#name-product-detail').val(product['name']);  
             $('#code-product-detail').val(product['code']);
             $('#category-detail').val(product['category']['name']);
             console.log(product)
