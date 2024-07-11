@@ -67,10 +67,9 @@ class SellingService
             $data['buyer_id'] = $buyer->id;
         }
         
-        if(($data["return"] ?? 0) < 0) {
+        if(($data["debt"] ?? 0) < 0) {
             $data["status_payment"] = StatusEnum::SPLIT->value;
-            $debt_payment = (int)$data["return"];
-            $buyer->update(['debt' => $buyer->debt + abs($debt_payment)]);
+            $buyer->update(['debt' => $buyer->debt + ($data["debt"] ?? 0)]);
         }
 
         return $data;

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
+use App\Helpers\BaseResponse;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class BuyerController extends Controller
@@ -25,5 +27,15 @@ class BuyerController extends Controller
     {
         $buyers = $this->buyer->customPaginate($request, 5);
         return view('dashboard.debt.users.index', compact('buyers'));
+    }
+
+    // get api for buyer
+    public function findBuyer(Request $request): JsonResponse
+    {
+        $data = $this->buyer->getWhere([
+            "name" => $request->name,
+            "address" => $request->address
+        ]);
+        return BaseResponse::Ok("Berhasil mengambil data pembeli",$data);
     }
 }

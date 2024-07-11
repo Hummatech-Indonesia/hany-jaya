@@ -6,11 +6,13 @@ use App\Contracts\Interfaces\Admin\RoleInterface;
 use App\Contracts\Interfaces\UserInterface;
 use App\Contracts\Repositories\RoleRepository;
 use App\Helpers\BaseDatatable;
+use App\Helpers\BaseResponse;
 use App\Http\Requests\UserRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -106,5 +108,14 @@ class UserController extends Controller
             $query->select('name');
         }]);
         return BaseDatatable::TableV2($user->toArray());
+    }
+
+    // get api for user
+    public function findUser(Request $request): JsonResponse
+    {
+        $data = $this->user->getWhere([
+            "email" => $request->email
+        ]);
+        return BaseResponse::Ok("Berhasil mengambil data user",$data);
     }
 }

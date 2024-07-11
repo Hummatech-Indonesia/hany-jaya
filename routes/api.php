@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PurchasesController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Api\ChartController;
+use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\Cashier\SellingController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\HistoryPayDebtController;
@@ -62,4 +63,10 @@ Route::post('/create-unit', [UnitController::class, 'storeAjax'])->name('api.uni
 Route::name('chart.')->prefix('chart')->group(function() {
     Route::get('/chart-penjualan',[ChartController::class, 'chartPenjualan'])->name('penjualan');
     Route::get('/dashboard/chart-card',[ChartController::class, 'chartCard'])->name('card.dashboard');
+});
+
+// Route api for find data
+Route::name('find.')->prefix('find')->group(function (){
+    Route::get('/user/by-name-address', [UserController::class, 'findUser'])->name('user.email-address');
+    Route::get('/buyer/by-name-address', [BuyerController::class, 'findBuyer'])->name('buyer.name-address');
 });

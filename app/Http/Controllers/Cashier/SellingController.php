@@ -63,6 +63,15 @@ class SellingController extends Controller
     public function store(SellingRequest $request): RedirectResponse
     {
         $data = $request->validated();
+
+        // default value for status_payment
+        if(is_array($data["status_payment"])){
+            if(count($data["status_payment"]) == 1) $data["status_payment"] = $data["status_payment"][0];
+            else $data["status_payment"] = StatusEnum::CASH->value;
+        }else {
+            $data["status_payment"] = StatusEnum::CASH->value;
+        }
+              
         $serviceSellingPrice = $this->sellingService->sellingPrice($data);
 
         if (is_array($serviceSellingPrice)) {
@@ -95,7 +104,7 @@ class SellingController extends Controller
                     $this->debt->store([
                         'buyer_id' => $service['buyer_id'],
                         'selling_id' => $selling->id,
-                        'nominal' => abs((int)$service["return"])
+                        'nominal' => $service["debt"] ?? 0
                     ]);
                 }
     
