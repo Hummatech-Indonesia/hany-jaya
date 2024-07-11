@@ -31,7 +31,6 @@ class ProductService
             'small_unit_id' => $data['small_unit_id'],
             'quantity_in_small_unit' => $data['quantity_in_small_unit'],
             'selling_price' => $data['selling_price'],
-            'supplier_id' => $data['supplier_id']
         ];
     }
 

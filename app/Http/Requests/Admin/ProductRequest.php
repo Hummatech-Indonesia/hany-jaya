@@ -28,8 +28,6 @@ class ProductRequest extends FormRequest
             'selling_price' => 'required|array',
             'selling_price.*' => 'required',
             'image' => 'nullable|mimes:png,jpg,jpeg',
-            'supplier_id' => 'nullable|array',
-            'supplier_id.*' => [Rule::exists('suppliers', 'id')]
         ];
     }
 
@@ -57,8 +55,6 @@ class ProductRequest extends FormRequest
             'selling_price.required' => 'Harga jual wajib diisi',
             'selling_price.*.required' => 'Harga jual wajib diisi',
             'image.mimes' => 'Format gambar harus png, jpg, jpeg',
-            'supplier_id.required' => 'Pemasok wajib dipilih',
-            'supplier_id.*.exists' => 'Pemasok tidak ditemukan'
         ];
     }
 }

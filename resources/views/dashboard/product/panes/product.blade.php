@@ -2,8 +2,6 @@
     <table class="table align-middle table-striped table-hover w-100" id="product-table">
     </table>
 </div>
-<x-dialog.delete title="Hapus Produk" />
-
 @push('custom-script')
 <script>  
     $(document).ready(function() {
@@ -61,6 +59,7 @@
         })
 
         $(document).on("click", '.btn-delete-product', function() {
+            $('#delete-title').html('Hapus Produk');
             $("#delete-modal").modal("show");
 
             let url = $(this).attr("data-url");

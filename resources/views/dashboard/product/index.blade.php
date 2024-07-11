@@ -85,6 +85,8 @@
                 @include('dashboard.product.panes.unit')
             </div>
         </div>
+        
+        <x-dialog.delete title="Hapus" />
     </div>
 @endsection
 @section('style')

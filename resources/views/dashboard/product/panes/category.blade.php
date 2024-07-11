@@ -7,8 +7,6 @@
 
 @include('dashboard.category.widgets.modal-update')
 
-<x-dialog.delete title="Hapus Karton" />
-
 @push('custom-script')
 <script>
 
@@ -136,6 +134,7 @@
         $("#form-update-category").attr("action", url);
     });
     $(document).on("click", ".btn-delete-category", function() {
+        $('#delete-title').html('Hapus Kategori');
         $("#delete-modal").modal("show");
 
         let url = $(this).attr("data-url");

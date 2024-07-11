@@ -37,7 +37,7 @@ class SellingRepository extends BaseRepository implements SellingInterface
     public function get(): mixed
     {
         return $this->model->query()
-            ->where('invoice_number', 'LIKE', '%' . "HNJY" . '%')
+            // ->where('invoice_number', 'LIKE', '%' . "HNJY" . '%')
             ->orderByDesc('invoice_number')
             ->first();
     }
@@ -206,3 +206,4 @@ class SellingRepository extends BaseRepository implements SellingInterface
         ->get();
     }
 }
+

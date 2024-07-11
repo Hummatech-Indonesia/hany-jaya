@@ -7,6 +7,7 @@ use App\Contracts\Interfaces\Admin\DetailPurchaseInterface;
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Interfaces\Admin\PurchaseInterface;
+use App\Contracts\Interfaces\Admin\RoleInterface;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Contracts\Interfaces\Admin\SupplierProductInterface;
 use App\Contracts\Interfaces\Admin\UnitInterface;
@@ -31,6 +32,7 @@ use App\Contracts\Repositories\Cashier\DetailSellingRepository;
 use App\Contracts\Repositories\Cashier\HistoryPayDebtRepository;
 use App\Contracts\Repositories\Cashier\SellingRepository;
 use App\Contracts\Repositories\ProfileRepository;
+use App\Contracts\Repositories\RoleRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Models\HistoryPayDebt;
 use Illuminate\Pagination\Paginator;
@@ -53,7 +55,8 @@ class AppServiceProvider extends ServiceProvider
         BuyerInterface::class => BuyerRepository::class,
         DebtInterface::class => DebtRepository::class,
         HistoryPayDebtInterface::class => HistoryPayDebtRepository::class,
-        ProfileInterface::class=>ProfileRepository::class,
+        ProfileInterface::class => ProfileRepository::class,
+        RoleInterface::class => RoleRepository::class
     ];
 
     /**

@@ -64,10 +64,10 @@ Route::middleware('auth')->group(function () {
             'categories' => CategoryController::class,
             'units' => UnitController::class,
         ]);
-        Route::prefix('cashiers')->name('cashiers.')->group(function () {
+        Route::prefix('users')->name('users.')->group(function () {
             Route::get('/', [
                 UserController::class,
-                'getCashier'
+                'index'
             ])->name('index');
             Route::get('/admin', [UserController::class, 'getAdmin'])->name('admin');
             Route::post('/', [UserController::class, 'store'])->name('store');
