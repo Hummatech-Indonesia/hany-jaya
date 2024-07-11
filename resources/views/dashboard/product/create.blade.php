@@ -235,9 +235,6 @@
                 },
             
             })
-            const selectize_supplier = $('[name=supplier_id\\[\\]]').selectize({
-                maxItems: null
-            })
             const selectize_small_unit = $('[name=small_unit_id]').selectize({
                 create: true,
                 onItemAdd: function (val, item) {
@@ -248,7 +245,6 @@
 
             const select = {
                 category: selectize_category[0].selectize,
-                supplier: selectize_supplier[0].selectize,
                 small_unit: selectize_small_unit[0].selectize
             }
 
@@ -370,7 +366,6 @@
                 let product = $('[name=name]').val()
                 let invoice = $('[name=code]').val()
                 let category = select.category.getValue()
-                let supplier = select.supplier.getValue()
                 let small_unit = select.small_unit.getValue()
 
                 let count_error = 0
@@ -394,13 +389,6 @@
                     count_error++
                 } else {
                     $('[name=category_id]').parent().find('.on_error').addClass('d-none')
-                }
-
-                if(!supplier.length) {
-                    $('[name=supplier_id\\[\\]]').parent().find('.on_error').removeClass('d-none')
-                    count_error++
-                } else {
-                    $('[name=supplier_id\\[\\]]').parent().find('.on_error').addClass('d-none')
                 }
 
                 if(!small_unit) {

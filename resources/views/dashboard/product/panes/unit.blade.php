@@ -126,6 +126,7 @@
             $("#form-update-unit").attr("action", url);
         });
         $(document).on("click", ".btn-delete-unit", function() {
+            $('#delete-title').html('Hapus Unit');
             $("#delete-modal").modal("show");
     
             let url = $(this).attr("data-url");

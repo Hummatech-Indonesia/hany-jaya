@@ -38,12 +38,6 @@ class ProductRepository extends BaseRepository implements ProductInterface
         $product = $this->model->query()
             ->create($data);
 
-        foreach ($data['supplier_id'] as $supplier_id) {
-            $data['supplier_id'] = $supplier_id;
-
-            $product->supplierProducts()->create($data);
-        }
-
         return $product;
     }
 
@@ -130,10 +124,11 @@ class ProductRepository extends BaseRepository implements ProductInterface
     public function count(?array $data): int
     {
         return $this->model->query()
-            ->when($data, function ($query) use ($data){
-                try{
-                    if($data["year"]) $query->whereYear('created_at',$data["year"]);
-                }catch(\Throwable $th){}
+            ->when($data, function ($query) use ($data) {
+                try {
+                    if ($data["year"]) $query->whereYear('created_at', $data["year"]);
+                } catch (\Throwable $th) {
+                }
             })
             ->count();
     }
