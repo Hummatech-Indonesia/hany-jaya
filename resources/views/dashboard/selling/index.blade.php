@@ -246,7 +246,11 @@
     @stack('custom-script')
     <script>
         $(document).ready(function() {
+
             changeMethod()
+
+            let selected_products = []
+
 
             let cust_name_val = ""
             let product_val = ""
@@ -260,6 +264,7 @@
 
                 const qty_el = e.parent().parent().find(`[name=quantity\\[\\]]`)
                 qty_el.val(unformatNum(value))
+                compareQtyWithStock(e.closest('tr[data-index]'))
                 changeTotalPrice();
             }
 
@@ -402,6 +407,13 @@
                             return
                         }
 
+                        let str_res = JSON.stringify(response.data).replaceAll('"', "'");
+                        let data_check_product = {
+                            id: response.data.id,
+                            max: response.data.quantity
+                        }
+                        if(!selected_products.find(prod => prod.id == data_check_product.id)) selected_products.push(data_check_product)
+
                         var product_units = '';
                         var selected_price = 0;
                         $('#tb-product tr th').parent().remove()
@@ -424,7 +436,7 @@
                         const latest_price = await getLatestBuy($('#cust-name').val(), $('#cust-address').val(), product_unit_id)
 
                         var newRow = `
-                            <tr data-index="${current_index}">
+                            <tr data-index="${current_index}" data-id="${response.data.id}" data-product="${str_res}">
                                 <td>
                                     <h6 class="fs-4 fw-semibold mb-0 text-start">
                                         ${response.data.name} | ${response.data.code}
@@ -462,6 +474,7 @@
                             </tr>`;
                         $('#tb-product').append(newRow);
                         select_product.setValue("")
+                        compareQtyWithStock($(`#tb-product [data-index=${current_index}]`))
                         changeTotalPrice();
                     },
                 });
@@ -477,8 +490,31 @@
                 const data_index = $(this).parent().parent().data('index')
                 const qty_el = $(`#tb-product tr[data-index=${data_index}] [name=quantity\\[\\]]`)
                 qty_el.val(unformatNum($(this).val()))
+                compareQtyWithStock($(this).closest('tr[data-index]'))
                 changeTotalPrice()
             })
+
+            function compareQtyWithStock(tr) {
+                const product_id = tr.data('id')
+                const data_index = tr.data('index')
+                const qty = tr.find('[name=quantity\\[\\]]').val()
+                const converter = tr.find('.product-unit :selected').data('quantity-in-small-unit')
+                const this_product = selected_products.find(prod => prod.id == product_id)
+                let now_total_count = 0;
+
+                const except_this_el = $(`#tb-product [data-id=${product_id}]:not([data-index=${data_index}])`)
+                except_this_el.each(function() {
+                    const selected_unit = $(this).find('.product-unit').find(':selected')
+                    now_total_count = $(this).find('[name=quantity\\[\\]]').val() * selected_unit.data('quantity-in-small-unit')
+                })
+
+                let total_remain = this_product.max - now_total_count
+                if(total_remain < (qty * converter)) {
+                    const new_qty = Math.floor(total_remain/converter)
+                    tr.find('[name=quantity\\[\\]]').val(new_qty)
+                    tr.find('.input-quantity').val(formatNum(new_qty))
+                }
+            }
 
             $(document).on('input change', '.input-unit-price', function() {
                 const data_index = $(this).parent().parent().data('index')
@@ -494,7 +530,7 @@
                 var quantity_in_small_unit = selected.data('quantity-in-small-unit');
                 var quantity = selected.data('quantity');
                 var unit = selected.data('unit');
-                var stock = Math.round(quantity / quantity_in_small_unit);
+                var stock = Math.floor(quantity / quantity_in_small_unit);
                 row.find('.stock').html(stock);
                 row.find('.quantity_stock').html(unit);
                 var quantity = row.find('.quantity').val();
@@ -528,7 +564,15 @@
             })
 
             $(document).on('click', '.delete_product', function() {
-                let tr = $(this).parent().parent().remove()
+                let tr = $(this).parent().parent()
+                let product_id = tr.data('id')
+                tr.remove()
+                console.log(selected_products)
+                if($(`#tb-product [data-id=${product_id}]`).length == 0) {
+                    let this_product = selected_products.find(prod => prod.id == product_id)
+                    let index_product = selected_products.indexOf(this_product)
+                    selected_products.splice(index_product, 1)
+                }
                 changeTotalPrice()
             })
 
@@ -617,7 +661,7 @@
                 }
             }
 
-            checkIsHasError
+            checkIsHasError()
 
             function checkIsHasError() {
                 let count_error = 0
@@ -640,6 +684,28 @@
                     if(total_must_paid < money_paid) return 1
                 }
                 return 0
+            }
+
+            function saveToLocal() {
+                localStorage.setItem('cashier.name', select_cust.getValue())
+                localStorage.setItem('cashier.address', $('#cust-address').val())
+                localStorage.setItem('cashier.telp', $('#telp').val())
+                localStorage.setItem('cashier.method', getSelectedMethod())
+                localStorage.setItem('cashier.paid', $('#pay').val())
+                localStorage.setItem('cashier.return', $('#return').val())
+                localStorage.setItem('cashier.debt', $('[name=debt]').val())
+                localStorage.setItem('cashier.products', getSelectedProduct())
+            }
+
+            function getSelectedProduct() {
+                let products = []
+            }
+
+            function getSelectedMethod() {
+                let methods = [];
+                if($('#tunai').is(':checked')) methods.push('tunai')
+                if($('#hutang').is(':checked')) methods.push('hutang')
+                return JSON.stringify(methods)
             }
 
             @if ($errors->any())
