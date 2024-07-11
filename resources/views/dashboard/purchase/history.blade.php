@@ -34,10 +34,14 @@
         <div class="card">
             <div class="card-body table-responsive">
                 <div class="row">
-                    <div class="col-0 col-md-8"></div>
-                    <div class="col-12 col-md-4 d-flex align-items-center">
-                        <div>Tanggal: </div>
-                        <input type="text" id="input-date" class="form-control form-control-sm flex-fill w-100" value="" placeholder="Tanggal Pembelian">
+                    <div class="col ms-auto">
+                        <button type="button" class="btn btn-sm btn-primary" id="btn-show-all-purchase">Tampilkan Semua Data</button>
+                    </div>
+                    <div class="col-12 ms-auto">
+                        <div class="d-flex align-items-center" id="input-date">
+                            <div>Tanggal: </div>
+                            <input type="text" id="input-date" class="form-control form-control-sm flex-fill w-100" value="" placeholder="Tanggal Pembelian">
+                        </div>
                     </div>
                 </div>
                 <table class="table align-middle table-striped table-hover" id="tb-purchase"></table>
@@ -47,7 +51,8 @@
     @include('dashboard.selling.widgets.detail-purchase')
 @endsection
 @section('style')
-    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css"> --}}
+    <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/libs/daterangepicker/daterangepicker.css')}}">
 @endsection
 @section('script')
@@ -55,12 +60,40 @@
     <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script src="{{asset('assets/libs/daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script> --}}
 
     <script>
         const tb_purchasing = $('#tb-purchase').DataTable({
             processing: true,
             serverSide: true,
+            dom: "<'row mt-2 justify-content-between'<'col-md-auto me-auto'B><'col-md-auto ms-auto input-date-container'>><'row mt-2 justify-content-between'<'col-md-auto me-auto'l><'col-md-auto me-start'f>><'row mt-2 justify-content-md-center'<'col-12'rt>><'row mt-2 justify-content-between'<'col-md-auto me-auto'i><'col-md-auto ms-auto'p>>",
+            // dom: "<'row mt-2 justify-content-start'<'col-12'B>><'row mt-2 justify-content-between'<'col-md-auto me-auto'l><'col-md-auto me-start'f>><'row mt-2 justify-content-md-center'<'col-12'rt>><'row mt-2 justify-content-between'<'col-md-auto me-auto'i><'col-md-auto ms-auto'p>>",
+            buttons: [
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ":not(:eq(4))"
+                    }
+                }, {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: ":not(:eq(4))"
+                    }
+                }, {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ":not(:eq(4))"
+                    }
+                }
+            ],
+            initComplete: function() {
+                let a = $('#input-date').detach()
+                $('.input-date-container').append(a)
+                $('.dt-buttons').addClass('btn-group-sm')
+            },
             language: {
                 processing: 'Memuat...'
             },
@@ -126,6 +159,20 @@
             let url = "{{ route('data-table.list-purchase-history') }}"
             url = url+'?date='+$('#input-date').val();
             tb_purchasing.ajax.url(url).load()
+        })
+
+        $(document).on("click", "#btn-show-all-purchase", function() {
+            Swal.fire({
+                title: 'Menampilkan semua data',
+                text: 'Kemungkinan akan membuat server bekerja terlalu berat, apakah anda yakin?',
+                icon: 'question',
+                showCancelButton: true,
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    tb_purchasing.page.len(-1).draw()
+                }
+            })
         })
 
         $(document).on("click", ".btn-detail", function() {
