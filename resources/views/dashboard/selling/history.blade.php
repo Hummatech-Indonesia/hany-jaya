@@ -83,6 +83,12 @@
                         data: "user.name",
                         title: "Nama Pembeli",
                     }, {
+                        data: "amount_price",
+                        title: "Total Harga",
+                        render: (data, type, row) => {
+                            return `Rp. ${formatNum(data)}`
+                        }
+                    }, {
                         data: "status_payment",
                         title: "Status Pembayaran",
                         render: (data, type, row) => {

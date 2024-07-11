@@ -18,6 +18,14 @@
                         <input tabindex="1" name="name" autofocus="true" type="text" class="form-control" id="edit-cashier-name" placeholder="Kasir" />
                     </div>
                     <div class="col-md-12 mb-4">
+                        <label for="roleCashierEdit" class="form-label fw-semibold">Role</label>
+                        <select tabindex="4" id="roleCashierEdit" name="role[]" class="form-select role" aria-label="Default select example">
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-12 mb-4">
                         <label for="edit-cashier-email" class="form-label fw-semibold">Email <small class="text-danger">*</small></label>
                         <input tabindex="2" name="email" type="email" class="form-control" id="edit-cashier-email" placeholder="kasir@gmail.com" value=""/>
                     </div>

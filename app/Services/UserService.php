@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\UserInterface;
 use App\Enums\RoleEnum;
 use App\Helpers\UserHelper;
 use App\Http\Requests\UserRequest;
+use App\Models\User;
 
 class UserService
 {
@@ -19,11 +20,6 @@ class UserService
     {
         $data = $request->validated();
 
-        if (UserHelper::getUserRole() == RoleEnum::OWNER->value) {
-            $role = RoleEnum::ADMIN->value;
-        } else {
-            $role = RoleEnum::CASHIER->value;
-        }
 
         $user = $user->store([
             'name' => $data['name'],
@@ -34,6 +30,6 @@ class UserService
             'password' => isset($data['password']) ? bcrypt($data['password']) : bcrypt('password'),
         ]);
 
-        $user->assignRole($role);
+        $user->assignRole($data['role']);
     }
 }

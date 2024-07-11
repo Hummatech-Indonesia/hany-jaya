@@ -11,7 +11,7 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header d-flex align-items-center">
-                    <h4 class="modal-title" id="myModalLabel">{{ $title }}</h4>
+                    <h4 class="modal-title" id="delete-title">{{ $title }}</h4>
                     <button
                         type="button"
                         class="btn-close"

@@ -8,14 +8,14 @@
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h4 class="fw-semibold mb-8">Kasir</h4>
-                        <p>List kasir di toko anda.</p>
+                        <h4 class="fw-semibold mb-8">Pengguna</h4>
+                        <p>List pengguna aplikasi di toko anda.</p>
                         @role('admin')
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCashier">
-                                Tambah Kasir
+                                Tambah Pengguna
                             </button>
                         @endrole
-                        @include('dashboard.cashier.widgets.modal-create')
+                        @include('dashboard.user.widgets.modal-create')
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
@@ -56,17 +56,37 @@
                 <table class="table align-middle table-striped table-hover" id="tb-list-cashier"></table>
             </div>
         </div>
-        @include('dashboard.cashier.widgets.modal-edit')
+        @include('dashboard.user.widgets.modal-edit')
         <x-dialog.delete title="Hapus Kasir" />
     </div>
 @endsection
 @section('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
 @endsection
 @section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
     <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
     <script>
+
+        const selectizeRole = $('#roleCashier').selectize({
+            plugins: ["clear_button", "remove_button"],
+            maxItems: null,
+        });
+
+        const selectizeRoleEdit = $('#roleCashierEdit').selectize({
+            plugins: ["clear_button", "remove_button"],
+            maxItems: null,
+        });
+
+        const select = {
+            selectRole: selectizeRole[0].selectize,
+            selectRoleEdit: selectizeRoleEdit[0].selectize
+        }
+
+        const pluck = (arr, key) => arr.map(i => i[key]);
+
         let cashier_datatable = $('#tb-list-cashier').DataTable({
             processing: true,
             serverSide: true,
@@ -86,19 +106,30 @@
                 }, {
                     data: "email",
                     title: "Email"
-                }, 
+                },
+                {
+                    title: "Role",
+                    mRender: (data, type, full) => {
+                        var roles = ''                        
+                        full.roles.map((item) => {
+                            roles += `<span class="badge ${item.name == 'admin' ? 'bg-primary' : 'bg-warning'} mx-1 my-1">${item.name}</span>`
+                        })
+                        return roles
+                    },
+                },
                 @role('admin')
                 {
                     mRender: (data, type, full) => {
-                        let edit_url = "{{route('admin.cashiers.update', 'selected_id')}}"
+                        let edit_url = "{{route('admin.users.update', 'selected_id')}}"
                         edit_url = edit_url.replace('selected_id', full['id'])
-                        let del_url = "{{route('admin.cashiers.destroy', 'selected_id')}}"
+                        let del_url = "{{route('admin.users.destroy', 'selected_id')}}"
                         del_url = del_url.replace('selected_id', full['id'])
                         
                         return `
                             <div class="action-btn">
                                 <a href="#" data-url="${edit_url}"
                                     data-name="${full['name']}" data-email="${full['email']}"
+                                    data-role="${pluck(full.roles, 'name')}"
                                     class="btn btn-sm btn-light btn-update btn-update-icon">
                                     <i class="fs-4 ti ti-edit"></i>
                                 </a>
@@ -140,8 +171,8 @@
         // validasi form 
         $(document).on("click", ".btn-tambah", function(e) {
             e.preventDefault();
-            let listId = ['#cashier-name', '#cashier-email'];
-            let listMessage = ['Nama harus diisi', 'Email harus diisi'];
+            let listId = ['#cashier-name', '#cashier-email', '#roleCashier'];
+            let listMessage = ['Nama harus diisi', 'Email harus diisi', 'Role harus diisi'];
             if (validate(listId, listMessage)) {
                 return;
             }
@@ -171,6 +202,8 @@
             $('#cashier-name').next().remove();
             $("#cashier-email").removeClass("is-invalid");
             $("#cashier-email").next().remove();
+            $("#role").removeClass("is-invalid");
+            $("#role").next().remove();
         });
         $("#modalEditCashier").on("hidden.bs.modal", function() {
             $("#edit-cashier-name").removeClass("is-invalid");
@@ -186,15 +219,20 @@
             $("#form-delete").attr("action", url);
         });
         $(document).on("click", ".btn-update", function() {
+            
             $("#modalEditCashier").modal("show");
-
-
+            
             let url = $(this).attr("data-url");
             let name = $(this).attr("data-name");
             let email = $(this).attr("data-email");
+            let roles = $(this).attr("data-role");
+            
             $("#form-update").attr("action", url);
             $('#edit-cashier-name').val(name);
             $('#edit-cashier-email').val(email);
+            
+            console.log(roles)
+            select.selectRoleEdit.setValue(roles.split(','));
         });
     </script>
 @endsection
