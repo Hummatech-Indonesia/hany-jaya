@@ -104,7 +104,7 @@ class SellingController extends Controller
                     $this->debt->store([
                         'buyer_id' => $service['buyer_id'],
                         'selling_id' => $selling->id,
-                        'nominal' => abs((int)$service["return"])
+                        'nominal' => $service["debt"] ?? 0
                     ]);
                 }
     
