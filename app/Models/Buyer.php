@@ -14,7 +14,7 @@ class Buyer extends Model implements HasSellings
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'name', 'address', 'debt',
+        'id', 'name', 'address', 'debt', 'telp'
     ];
 
     /**

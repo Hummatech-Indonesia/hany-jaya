@@ -9,9 +9,10 @@ use App\Contracts\Interfaces\Eloquent\DeleteInterface;
 use App\Contracts\Interfaces\Eloquent\GetWhereInterface;
 use App\Contracts\Interfaces\Eloquent\SearchInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
+use App\Contracts\Interfaces\Eloquent\WithRelationInterface;
 use Illuminate\Http\Request;
 
-interface UserInterface extends GetInterface, StoreInterface, DeleteInterface, UpdateInterface, ShowInterface, GetWhereInterface
+interface UserInterface extends GetInterface, StoreInterface, DeleteInterface, UpdateInterface, ShowInterface, GetWhereInterface, WithRelationInterface
 {
     /**
      * Handle the Get all data event from models.
