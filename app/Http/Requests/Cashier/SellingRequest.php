@@ -63,4 +63,11 @@ class SellingRequest extends FormRequest
             'telp.max' => 'Max nomor telp adalah 15.',
         ];
     }
+
+    public function prepareForValidation()
+    {
+        try{
+            if($this->telp) $this->merge(["telp" => $this->telp[0] != "0" ? '0'.$this->telp : $this->telp]);
+        }catch(\Throwable $th){}
+    }
 }
