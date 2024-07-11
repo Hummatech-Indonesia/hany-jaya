@@ -15,3 +15,4 @@
 <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/forms/select2.init.js') }}"></script>
+<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.js') }}"></script>

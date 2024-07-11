@@ -27,6 +27,7 @@
     <!-- Select2 -->
     <!-- --------------------------------------------------- -->
     <link rel="stylesheet" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.css') }}">
     <style>
         .form-control:focus{
             box-shadow:0 0 0 .25rem rgba(93,135,255,.25)!important

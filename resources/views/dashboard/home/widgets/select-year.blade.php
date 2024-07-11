@@ -5,7 +5,6 @@
     <select id="year" class="form-select">
         @foreach($year as $y)
             <option value="{{ $y }}" {{ $y == FormatedHelper::getYear(now()) ? 'selected' : '' }}>{{ $y }}</option>
-            <option value="2023">2023</option>
         @endforeach
     </select>
 </div>
