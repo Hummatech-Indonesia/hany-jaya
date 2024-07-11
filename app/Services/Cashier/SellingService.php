@@ -56,24 +56,23 @@ class SellingService
 
         if ($buyer == null) {
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                if (auth()->user()->store->code_debt == $data['code_debt']) {
-                    $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => $sellingPrice])->id;
-                } else {
-                    return 'inputkan kode toko dengan benar jika ingin melakukan hutang';
-                }
+                $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => $sellingPrice])->id;
             } else {
                 $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address']])->id;
             }
         } else {
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                if (auth()->user()->store->code_debt == $data['code_debt']) {
-                    $buyer->update(['debt' => $buyer->debt + $sellingPrice]);
-                } else {
-                    return 'inputkan kode toko dengan benar jika ingin melakukan hutang';
-                }
+                $buyer->update(['debt' => $buyer->debt + $sellingPrice]);
             }
             $data['buyer_id'] = $buyer->id;
         }
+        
+        if(($data["return"] ?? 0) < 0) {
+            $data["status_payment"] = StatusEnum::SPLIT->value;
+            $debt_payment = (int)$data["return"];
+            $buyer->update(['debt' => $buyer->debt + abs($debt_payment)]);
+        }
+
         return $data;
     }
 
