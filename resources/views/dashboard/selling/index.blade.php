@@ -76,9 +76,19 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="form-group ">
+                                            <div class="form-group mb-3">
                                                 <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat</div> <span class="text-info fs-3">(shift+a)</span></label>
                                                 <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
+                                            </div>
+                                            <div class="form-group ">
+                                                <label for="telp" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-phone text-primary"></i> No. Telp</div> <span class="text-info fs-3">(shift+t)</span></label>
+                                                <div class="input-group">
+                                                    <div class="input-group-text">+62</div>
+                                                    <input type="text" name="telp" placeholder="No Telepon Pembeli" class="form-control" id="telp" tabindex="2">
+                                                </div>
+                                            </div>
+                                            <div class="mt-2 text-center d-none" id="field-debt">
+                                                <a href="" target="_blank">Lihat Hutang</a>
                                             </div>
                                         </div>
                                     </div>
@@ -122,7 +132,7 @@
                                                     <div class="col-9">
                                                         <div class="input-group mb-0">
                                                             <span class="input-group-text" id="basic-addon1">Rp</span>
-                                                            <input type="text" placeholder="10000" min="0" id="formatted_pay" class="form-control format-number" aria-describedby="basic-addon1">
+                                                            <input type="text" placeholder="Uang Dibayar" min="0" id="formatted_pay" class="form-control format-number" aria-describedby="basic-addon1">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -134,18 +144,30 @@
                                                     <div class="col-9">
                                                         <div class="input-group mb-0">
                                                             <span class="input-group-text" id="basic-addon1">Rp</span>
-                                                            <input type="text" min="0" placeholder="5000" id="formatted_return" class="form-control" aria-describedby="basic-addon1" readonly>
+                                                            <input type="text" min="0" placeholder="Uang Kembalian" id="formatted_return" class="form-control" aria-describedby="basic-addon1" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div id="code_debt">
-                                                <div class="row align-items-center mb-3">
+                                                {{-- <div class="row align-items-center mb-3">
                                                     <div class="col-3">
                                                         <label for="">Kode Toko</label>
                                                     </div>
                                                     <div class="col-9">
                                                         <input type="text" class="form-control mb-0" name="code_debt" id="">
+                                                    </div>
+                                                </div> --}}
+                                                <div class="row align-items-center mb-3">
+                                                    <div class="col-3">
+                                                        <label for="">Hutang</label>
+                                                    </div>
+                                                    <div class="col-9">
+                                                        <div class="input-group">
+                                                            <div class="input-group-text">Rp</div>
+                                                            <input type="text" class="form-control mb-0" placeholder="Hutang" id="formatted_debt" readonly>
+                                                            <input type="hidden" name="debt">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -218,7 +240,10 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{asset('assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js')}}"></script>
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
 
+    @include('components.swal-toast')
+    @stack('custom-script')
     <script>
         $(document).ready(function() {
             changeMethod()
@@ -276,11 +301,28 @@
                 'shift+a': function() { $('#cust-address').focus() },
                 'shift+p': function() { select_product.focus() },
                 'shift+m': function() {
-                    let val = $('#payment_method').bootstrapSwitch("state")
-                    if(val) $('#payment_method').bootstrapSwitch("state", false)
-                    else $('#payment_method').bootstrapSwitch("state", true)
+                    if($('#hutang').is(':checked')) {
+                        $('#hutang').prop('checked', false)
+                        $('[data-check-id=hutang]').removeClass('btn-primary')
+                        $('[data-check-id=hutang]').addClass('btn-light-primary')
+                        $('#tunai').prop('checked', true)
+                        $('[data-check-id=tunai]').addClass('btn-primary')
+                        $('[data-check-id=tunai]').removeClass('btn-light-primary')
+                    } else {
+                        $('#hutang').prop('checked', true)
+                        $('[data-check-id=hutang]').addClass('btn-primary')
+                        $('[data-check-id=hutang]').removeClass('btn-light-primary')
+                        $('#tunai').prop('checked', false)
+                        $('[data-check-id=tunai]').removeClass('btn-primary')
+                        $('[data-check-id=tunai]').addClass('btn-light-primary')
+                    }
+                    changeMethod()
                 },
-                'shift+enter': function() {$('form').submit()}
+                'shift+t': function() {$('#telp').focus()},
+                'shift+enter': function() {
+                    if(checkIsHasError() != 0) return 
+                    $('form').submit()
+                },
             };
 
             function checkShortcut(e) {
@@ -322,11 +364,25 @@
                 $('#cust-address').val(address)
 
                 changeAllProductLastPrice()
+                getUserIdByNameAddress()
             });
 
             $(document).on('change input', '#cust-address', function() {
                 changeAllProductLastPrice()
+                getUserIdByNameAddress()
             })
+
+            async function getUserIdByNameAddress() {
+                const user = await axios.get(`{{route('find.buyer.name-address')}}?name=${select_cust.getValue()}&address=${$('#cust-address').val()}`)
+                if(user.data.data) {
+                    let debt_detail = "{{url('cashier/debt')}}"+`/${user.data.data.id}`
+                    $('#field-debt a').attr('href', debt_detail)
+                    $('#field-debt').removeClass('d-none')
+                } else {
+                    $('#field-debt').attr('href', '#')
+                    $('#field-debt').addClass('d-none')
+                }
+            }
 
             function addNewProduct() {
                 const product_code = select_product.getValue()
@@ -340,6 +396,12 @@
                     },
                     dataType: 'json',
                     success: async function(response) {
+                        if(response.data.quantity < 1) {
+                            Toaster('error', 'stok produk kosong')
+                            select_product.setValue("")
+                            return
+                        }
+
                         var product_units = '';
                         var selected_price = 0;
                         $('#tb-product tr th').parent().remove()
@@ -399,7 +461,7 @@
                                 </td>
                             </tr>`;
                         $('#tb-product').append(newRow);
-
+                        select_product.setValue("")
                         changeTotalPrice();
                     },
                 });
@@ -458,6 +520,12 @@
             });
 
             $(document).on('input change', '#formatted_pay', changeReturnAmount)
+
+            $(document).on('input change', '#formatted_debt', function() {
+                $(this).val(formatNum($(this).val()))
+                if($(this).val() < 0) $(this).val(0)
+                $('[name=debt]').val(unformatNum($(this).val()))
+            })
 
             $(document).on('click', '.delete_product', function() {
                 let tr = $(this).parent().parent().remove()
@@ -547,6 +615,31 @@
                     $(`#tunai`).prop('checked', true)
                     changeMethod()
                 }
+            }
+
+            checkIsHasError
+
+            function checkIsHasError() {
+                let count_error = 0
+
+                if(!$('#cust-name').val()) count_error++
+                if(!$('#cust-addres').val()) count_error++
+                if($('#tb-product [data-index]').length < 1) count_error++
+                count_error += paymentMethodError()
+
+                if(count_error == 0) $('button[type=submit]').removeClass('disabled')
+                else $('button[type=submit]').addClass('disabled')
+
+                return count_error
+            }
+
+            function paymentMethodError() {
+                const total_must_paid = unformatNum($('#total_price').html().replace('Rp ', ''))
+                if(!$('#hutang').is(':checked')) {
+                    const money_paid = $('#pay').val()
+                    if(total_must_paid < money_paid) return 1
+                }
+                return 0
             }
 
             @if ($errors->any())

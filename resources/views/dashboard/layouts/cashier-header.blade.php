@@ -21,7 +21,7 @@
                     <li class="nav-item dropdown">
                         <div class="d-flex align-items-center">
                             <div class="card bg-primary-subtle m-0">
-                                <div class="card-body p-2 text-primary">{{ FormatedHelper::dateFormat(now()) }} - <span>{{ FormatedHelper::timeFormat(now()) }}</span></div>
+                                <div class="card-body p-2 text-primary">{{ FormatedHelper::dateFormat(now()) }} - <span id="timer">{{ FormatedHelper::timeFormat(now()) }}</span></div>
                             </div>
                         </div>
                     </li>
@@ -88,3 +88,18 @@
         </div>
     </nav>
 </header>
+
+@push('custom-script')
+    <script>
+        setInterval(() => {
+            updateTimer()
+        }, 10000);
+
+        function updateTimer() {
+            let date = new Date()
+            let hours = date.getHours().toString().padStart(2, '0');
+            let minutes = date.getMinutes().toString().padStart(2, '0');
+            $('#timer').html(`${hours}:${minutes}`);
+        }
+    </script>
+@endpush
