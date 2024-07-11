@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\UserInterface;
 use App\Helpers\BaseDatatable;
+use App\Helpers\BaseResponse;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -90,5 +92,15 @@ class UserController extends Controller
     {
         $user = $this->user->with(["roles" => function ($query) { $query->select('name'); }]);
         return BaseDatatable::TableV2($user->toArray());   
+    }
+
+    // get api for user
+    public function findUser(Request $request): JsonResponse
+    {
+        $data = $this->user->getWhere([
+            "email" => $request->email,
+            "address" => $request->address
+        ]);
+        return BaseResponse::Ok("Berhasil mengambil data user",$data);
     }
 }

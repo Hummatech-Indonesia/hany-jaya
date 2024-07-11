@@ -82,7 +82,12 @@ class UserRepository extends BaseRepository implements UserInterface
     public function getWhere(array $data): mixed
     {
         return $this->model->query()
-            ->where('email', $data['email'])
+            ->when($data, function ($query) use ($data){
+                foreach($data as $item){
+                    if($item["email"]) $query->where('email', $item['email']);
+                    if($item["address"]) $query->where('address', $item['address']);
+                }
+            })
             ->first();
     }
 

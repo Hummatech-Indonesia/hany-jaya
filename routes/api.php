@@ -63,3 +63,5 @@ Route::name('chart.')->prefix('chart')->group(function() {
     Route::get('/chart-penjualan',[ChartController::class, 'chartPenjualan'])->name('penjualan');
     Route::get('/dashboard/chart-card',[ChartController::class, 'chartCard'])->name('card.dashboard');
 });
+
+Route::get('/find-user-by-name-address', [UserController::class, 'findUser'])->name('find.user.name-address');

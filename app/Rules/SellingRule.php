@@ -17,7 +17,17 @@ class SellingRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        return in_array(strtolower($value), [StatusEnum::DEBT->value, StatusEnum::CASH->value, StatusEnum::SPLIT->value]);
+        try{
+            $counting_data = count($value);
+            $counting_true = 0;
+            foreach($value as $item) {
+                if(in_array(strtolower($item), [StatusEnum::DEBT->value, StatusEnum::CASH->value, StatusEnum::SPLIT->value])) $counting_true += 1;
+            }
+            
+            return $counting_data == $counting_true;
+        }catch(\Throwable $th){
+            return in_array(strtolower($value), [StatusEnum::DEBT->value, StatusEnum::CASH->value, StatusEnum::SPLIT->value]);
+        }
     }
 
     /**
