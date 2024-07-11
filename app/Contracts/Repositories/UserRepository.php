@@ -84,9 +84,8 @@ class UserRepository extends BaseRepository implements UserInterface
     {
         return $this->model->query()
             ->when($data, function ($query) use ($data){
-                foreach($data as $item){
-                    if($item["email"]) $query->where('email', $item['email']);
-                    if($item["address"]) $query->where('address', $item['address']);
+                foreach($data as $index => $value){
+                    $query->where($index, $value);   
                 }
             })
             ->first();

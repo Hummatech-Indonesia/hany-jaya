@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PurchasesController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Api\ChartController;
+use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\Cashier\SellingController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\HistoryPayDebtController;
@@ -64,4 +65,8 @@ Route::name('chart.')->prefix('chart')->group(function() {
     Route::get('/dashboard/chart-card',[ChartController::class, 'chartCard'])->name('card.dashboard');
 });
 
-Route::get('/find-user-by-name-address', [UserController::class, 'findUser'])->name('find.user.name-address');
+// Route api for find data
+Route::name('find.')->prefix('find')->group(function (){
+    Route::get('/user/by-name-address', [UserController::class, 'findUser'])->name('user.email-address');
+    Route::get('/buyer/by-name-address', [BuyerController::class, 'findBuyer'])->name('buyer.name-address');
+});

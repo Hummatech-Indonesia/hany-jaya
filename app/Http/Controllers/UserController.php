@@ -114,8 +114,7 @@ class UserController extends Controller
     public function findUser(Request $request): JsonResponse
     {
         $data = $this->user->getWhere([
-            "email" => $request->email,
-            "address" => $request->address
+            "email" => $request->email
         ]);
         return BaseResponse::Ok("Berhasil mengambil data user",$data);
     }
