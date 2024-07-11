@@ -94,18 +94,24 @@
                     }, {
                         data: "name",
                         title: "Distributor",
-                    },  {
-                        mRender: (data, type, row) => {
-                            let products = ""
-                            row['supplier_products'].forEach((prod) => {
-                                products += `<span class="badge m-1 bg-primary">${prod.product.name}</span>`
-                            })
-                            return products
-                        },
-                        title: "Produk",
-                        searchable: false,
-                        orderable: false
-                    }, {
+                    },  
+                    {
+                        data: "address",
+                        title: "Alamat",
+                    },
+                    // {
+                    //     mRender: (data, type, row) => {
+                    //         let products = ""
+                    //         row['supplier_products'].forEach((prod) => {
+                    //             products += `<span class="badge m-1 bg-primary">${prod.product.name}</span>`
+                    //         })
+                    //         return products
+                    //     },
+                    //     title: "Produk",
+                    //     searchable: false,
+                    //     orderable: false
+                    // },
+                     {
                         mRender: (data, type, full) => {
                             let edit_url = "{{ route('admin.suppliers.update', 'selected_id') }}"
                             edit_url = edit_url.replace('selected_id', full['id'])
