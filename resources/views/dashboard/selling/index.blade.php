@@ -97,15 +97,18 @@
                                             <div class="row align-items-center mb-3">
                                                 <div class="col-3">Metode</div>
                                                 <div class="col-9">
-                                                    <input type="checkbox" id="payment_method" class="mb-0" data-on-text="Tunai" data-off-text="Hutang" data-on-color="primary" data-off-color="success" >
+                                                    <div class="d-flex gap-2">
+                                                        <button type="button" data-check-id="tunai" class="btn-method btn btn-primary">Tunai</button>
+                                                        <button type="button" data-check-id="hutang" class="btn-method btn btn-light-primary">Hutang</button>
+                                                    </div>
                                                 </div>
                                                 <div class="d-none">
                                                     <div class="form-check">
-                                                        <input type="radio" value="{{ StatusEnum::CASH->value }}" name="status_payment" id="tunai" class="form-check-input" checked>
+                                                        <input type="checkbox" value="{{ StatusEnum::CASH->value }}" name="status_payment[]" id="tunai" class="form-check-input" checked>
                                                         <label for="tunai" class="form-check-label">Tunai</label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input type="radio" value="{{ StatusEnum::DEBT->value }}" name="status_payment" id="hutang" class="form-check-input">
+                                                        <input type="checkbox" value="{{ StatusEnum::DEBT->value }}" name="status_payment[]" id="hutang" class="form-check-input">
                                                         <label for="hutang" class="form-check-label">Hutang</label>
                                                     </div>
                                                 </div>
@@ -218,20 +221,6 @@
 
     <script>
         $(document).ready(function() {
-            $('#payment_method').bootstrapSwitch("state", true, true)
-
-            $(document).on('switchChange.bootstrapSwitch', '#payment_method',function(e, data) {
-                if(data) {
-                    $('#tunai').prop('checked', true)
-                    $('#hutang').prop('checked', false)
-                } else {
-                    $('#tunai').prop('checked', false)
-                    $('#hutang').prop('checked', true)
-                }
-
-                changeMethod()
-            })
-
             changeMethod()
 
             let cust_name_val = ""
@@ -529,13 +518,34 @@
                 }
             }
 
-            function changeMethod() {
-                if ($('input[name="status_payment"]:checked').val() === "{{ StatusEnum::CASH->value }}") {
-                    $('#cash').show();
-                    $('#code_debt').hide();
+            $(document).on('click', '.btn-method', function() {
+                let id = $(this).data('check-id')
+                let is_checked = $(`#${id}`).is(':checked')
+                if(!is_checked) {
+                    $(this).removeClass('btn-light-primary')
+                    $(this).addClass('btn-primary')
+                    $(`#${id}`).prop('checked', true)
                 } else {
-                    $('#cash').hide();
-                    $('#code_debt').show();
+                    $(this).addClass('btn-light-primary')
+                    $(this).removeClass('btn-primary')
+                    $(`#${id}`).prop('checked', false)
+                }
+
+                changeMethod()
+            })
+
+            function changeMethod() {
+                if ($('#tunai').is(":checked")) $('#cash').show()
+                else $('#cash').hide()
+
+                if($('#hutang').is(":checked")) $('#code_debt').show()
+                else $('#code_debt').hide()
+
+                if(!$('#hutang').is(':checked') && !$('#tunai').is(':checked')) {
+                    $('[data-check-id=tunai]').removeClass('btn-light-primary')
+                    $('[data-check-id=tunai]').addClass('btn-primary')
+                    $(`#tunai`).prop('checked', true)
+                    changeMethod()
                 }
             }
 
