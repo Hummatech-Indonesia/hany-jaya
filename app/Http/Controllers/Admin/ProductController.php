@@ -91,7 +91,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product): View
     {
-        $product = $product->with(['productUnits' => function($query) {
+        $product = $product->with(['productUnits' => function ($query) {
             $query->with("unit");
         }])->find($product->id);
         $categories = $this->category->get();
@@ -154,7 +154,7 @@ class ProductController extends Controller
      */
     public function dataTable(): JsonResponse
     {
-        $product = $this->product->withElequent(["unit", "category", "supplierProducts", "productUnits.unit"]);
+        $product = $this->product->withElequent(["unit", "category", "supplierProducts", "productUnits.unit", "detailPurchases.purchase.supplier"]);
         return BaseDatatable::Table($product);
     }
 
@@ -166,6 +166,6 @@ class ProductController extends Controller
     public function listProduct(): JsonResponse
     {
         $product = $this->product->withElequent(["unit", "category", "supplierProducts", "productUnits.unit"])->get();
-        return BaseResponse::Ok("Berhasil mengambil data product",$product);
+        return BaseResponse::Ok("Berhasil mengambil data product", $product);
     }
 }
