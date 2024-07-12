@@ -183,7 +183,7 @@
                                                 <div>
                                                     <select id="product-code" class="select-product form-control" tabindex="3">
                                                         @foreach ($products as $product)
-                                                            <option value="{{ $product->code }}">{{ $product->name }} | {{ $product->code }}</option>
+                                                            <option value="{{ $product->code }}">{{ $product->name }} | {{ $product->code }} | {{ number_format($product->quantity, 0, ',', '.') }} {{ $product->unit->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
