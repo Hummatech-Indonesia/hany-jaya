@@ -765,6 +765,14 @@
                     timerProgressBar: true,
                 });
             @endif
+
+            @if (session()->has('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses',
+                    text: 'Pembelian berhasil dilakukan'
+                })
+            @endif
         })
     </script>
 </body>
