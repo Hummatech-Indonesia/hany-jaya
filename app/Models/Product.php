@@ -71,4 +71,14 @@ class Product extends Model implements HasSupplierProducts, HasCategory, HasUnit
     {
         return $this->hasMany(ProductUnit::class);
     }
+
+    /**
+     * product has many purchases
+     *
+     * @return HasMany
+     */
+    public function detailPurchases(): HasMany
+    {
+        return $this->hasMany(DetailPurchase::class);
+    }
 }

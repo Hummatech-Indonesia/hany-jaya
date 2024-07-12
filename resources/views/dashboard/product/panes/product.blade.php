@@ -1,6 +1,6 @@
 @include('dashboard.product.widgets.modal-detail')
 <div class="table-responsive">
-    <table class="table align-middle table-striped table-hover w-100" id="product-table">
+    <table class="table align-middle table-hover w-100" id="product-table">
     </table>
 </div>
 @push('custom-script')
@@ -19,30 +19,63 @@
             columns: [
                 {
                     data: "DT_RowIndex",
-                    title: "No",
+                    title: "No.",
+                    width: "5%",
                     orderable: false,
                     searchable: false
-                }, {
-                    data: "image",
-                    title: "Gambar",
-                    orderable: false,
-                    searchable: false,
-                    render: (data, type, row) => {
-                        data = data ? `storage/${data}` : 'no_image_available.jpeg';
-                        return `<img src="{{ asset('${data}') }}" alt="gambar produk" class="rounded" style="width: 75px;height: 75px;object-fit: cover"/>`
-                    }
-                }, {
+                }, 
+                {
+                    title: "Produk",
                     data: "name",
-                    title: "Nama",
-                }, {
-                    mRender: (data, type, full) => {
-                        return full['quantity']+" "+full["unit"]["name"];
+                    render: (data, type, full) => {
+                        let image = full['image'] ? `{{ asset('storage') }}/${full['image']}` : `{{ asset('no_image_available.jpeg') }}`;
+                        return `<div class="d-flex flex-row gap-4 align-items-center">
+                                <img src="${image}" alt="gambar produk" class="rounded" style="width: 48px;height: 48px;object-fit: cover"/>
+                                <div>
+                                    <a class="productname">${full['name']}</a>
+                                    <p class="mb-1 fs-2 text-muted">${full['category']['name']}</p>
+                                    <span class="fs-2 mb-1 badge font-medium bg-light-secondary text-secondary">${full['code']}</span>
+                                </div>
+                            </div>`
                     },
+                },
+                {
+                    title: "Satuan Terkecil",
+                    width: "5%",
+                    mRender: (data, type, full) => {
+                        return full['unit']['name'];
+                    }
+                },
+                {
                     title: "Stok",
-                }, {
-                    data: "category.name",
-                    title: "Kategori"
-                }, {
+                    data: "quantity",
+                    render: (data, type, full) => {
+                        let stock = "";
+                        full['product_units'].forEach((unit, index) => {
+                            stock += ` <span class="fs-2 mb-1 badge font-medium bg-muted text-white">${Math.floor(full['quantity'] / unit['quantity_in_small_unit'])} ${unit['unit']['name']}</span>`
+                        })
+                        return stock ? `<div class="d-flex flex-row gap-2 flex-wrap">
+                            ${stock}
+                            </div>` : `-`;
+                    },
+                },
+                {
+                    title: "Distributor",
+                    mRender: (data, type, full) => {
+                        console.log(full)
+                        let suppliers = "";
+                        let list_supplier = [];
+                        full['detail_purchases'].forEach((detail_purchase, index) => {
+                            if(list_supplier.includes(detail_purchase['purchase']['supplier']['name'])) return;
+                            list_supplier.push(detail_purchase['purchase']['supplier']['name']);
+                            suppliers += ` <span class="fs-3 mb-1 badge font-medium bg-light-primary text-muted"><i class="ti ti-truck"></i> ${detail_purchase['purchase']['supplier']['name']}</span>`
+                        })
+                        return suppliers ? `<div class="d-flex flex-row gap-2 flex-wrap">
+                            ${suppliers}
+                            </div>` : `-`;
+                    }
+                },
+                {
                     mRender: (data, type, full) => {
                         let url_edit = "{{ route('admin.products.edit', 'selected_id') }}"
                         let url_destroy = "{{ route('admin.products.destroy', 'selected_id') }}"
@@ -57,6 +90,8 @@
                     },
                     title: "Aksi",
                     width: "15%",
+                    orderable: false,
+                    searchable: false
                 }
             ]
         })
