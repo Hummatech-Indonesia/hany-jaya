@@ -6,17 +6,25 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-4">Nama</div>
-                    <div class="col-8">: <span data-for="name"></span></div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Alamat</div>
-                    <div class="col-8">: <span data-for="address"></span></div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Telp</div>
-                    <div class="col-8">: <span data-for="phone"></span></div>
+                <div class="row p-3">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="fw-bolder">Nama</label>
+                            <div class="form-control" data-for="name"></div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="fw-bolder">Alamat</label>
+                            <div class="form-control" data-for="address"></div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="fw-bolder">No. Telp</label>
+                            <div class="form-control" data-for="phone"></div>
+                        </div>
+                    </div>
                 </div>
                 <table class="table table-responsive align-middle">
                     <thead>
@@ -44,7 +52,7 @@
         $(document).on('click', '#btn-open-modal', function() {
             $('#selling-modal [data-for=name]').html($('#cust-name').val())
             $('#selling-modal [data-for=address]').html($('#cust-address').val())
-            $('#selling-modal [data-for=phone]').html($('#telp').val())
+            $('#selling-modal [data-for=phone]').html($('#telp').val() ? $('#telp').val() : '-')
 
             let product_el = ''
             
@@ -61,23 +69,28 @@
             })
 
             product_el += `
+                <tr></tr>
                 <tr>
-                    <th colspan="3">Total</th>
+                    <td colspan="2"></td>
+                    <th>Total</th>
                     <td>: ${$('#total_price').html()}</td>
                 </tr>`
             if($('#tunai').is(':checked')) {
                 product_el += `<tr>
-                    <th colspan="3">Dibayarkan</th>
+                    <td colspan="2"></td>
+                    <th>Dibayarkan</th>
                     <td>: Rp ${$('#formatted_pay').val()}</td>
                 </tr>
                 <tr>
-                    <th colspan="3">Kembalian</th>
+                    <td colspan="2"></td>
+                    <th>Kembalian</th>
                     <td>: Rp ${$('#formatted_return').val()}</td>
                 </tr>`
             }
             if($('#hutang').is(':checked')) {
                 product_el += `<tr>
-                    <th colspan="3">Hutang</th>
+                    <td colspan="2"></td>
+                    <th>Hutang</th>
                     <td>: Rp ${$('#formatted_debt').val()}</td>
                 </tr>`
             }

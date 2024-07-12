@@ -206,7 +206,7 @@
                                                     <thead>
                                                         <tr class="fs-4 fw-semibold">
                                                             <th style="min-width: 180px;">Produk</th>
-                                                            <th style="min-width: 120px;">Stok</th>
+                                                            <th style="min-width: 150px;">Stok</th>
                                                             <th style="min-width: 120px;">Satuan</th>
                                                             <th style="min-width: 150px;">Jumlah</th>
                                                             <th style="min-width: 150px;">Harga</th>
@@ -442,18 +442,18 @@
                         var newRow = `
                             <tr data-index="${current_index}" data-id="${response.data.id}" data-product="${str_res}">
                                 <td>
-                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                    <div class="fw-semibold mb-0 text-start form-control border-0">
                                         ${response.data.name} | ${response.data.code}
-                                    </h6>
+                                    </div>
                                     <input type="hidden" name="product_id[]" value="${response.data.id}"/>
                                     <input type="hidden" name="quantity[]" value="1"/>
                                     <input type="hidden" name="product_unit_price[]" value="${selected_price}"/>
                                     <input type="hidden" name="selling_price[]" value="${selected_price}"/>
                                 </td>
                                 <td>
-                                    <h6 class="fs-4 fw-semibold mb-0 text-start">
+                                    <div class="mb-0 text-start form-control border-0">
                                         <span class="stock">${Math.round(response.data.quantity)}</span> <span class="quantity_stock">${response.data.unit.name}</span>
-                                    </h6>
+                                    </div>
                                 </td>
                                 <td>
                                     <select name="product_unit_id[]" class="form-control product-unit" tabindex="5">
