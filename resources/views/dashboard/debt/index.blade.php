@@ -9,7 +9,8 @@
 @push('custom-style')
     <style>
         .nav-link.active {
-            color: var(--bs-primary)!important
+            background-color: var(--bs-light-info)!important;
+            color: var(--bs-info)!important
         }
     </style>
 @endpush
@@ -33,7 +34,7 @@
         </div>
 
         {{-- tab --}}
-        <ul class="nav nav-underline mt-4 align-items-center p-3 rounded flex-row card" role="tablist">
+        <ul class="nav nav-pills mt-4 align-items-center p-3 rounded flex-row card" role="tablist">
             <li class="nav-item">
                 <a
                     class="nav-link active"

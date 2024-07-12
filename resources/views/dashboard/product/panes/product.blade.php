@@ -75,30 +75,6 @@
                             </div>` : `-`;
                     }
                 },
-                // {
-                //     data: "image",
-                //     title: "Gambar",
-                //     orderable: false,
-                //     searchable: false,
-                //     render: (data, type, row) => {
-                //         data = data ? `storage/${data}` : 'no_image_available.jpeg';
-                //         return `<img src="{{ asset('${data}') }}" alt="gambar produk" class="rounded" style="width: 75px;height: 75px;object-fit: cover"/>`
-                //     }
-                // }, 
-                // {
-                //     data: "name",
-                //     title: "Nama",
-                // }, 
-                // {
-                //     mRender: (data, type, full) => {
-                //         return full['quantity']+" "+full["unit"]["name"];
-                //     },
-                //     title: "Stok",
-                // }, 
-                // {
-                //     data: "category.name",
-                //     title: "Kategori"
-                // }, 
                 {
                     mRender: (data, type, full) => {
                         let url_edit = "{{ route('admin.products.edit', 'selected_id') }}"
@@ -114,6 +90,8 @@
                     },
                     title: "Aksi",
                     width: "15%",
+                    orderable: false,
+                    searchable: false
                 }
             ]
         })
