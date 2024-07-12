@@ -133,7 +133,6 @@ class SellingController extends Controller
                 return redirect()->back()->withErrors($service);
             }
         }catch(\Throwable $th){
-            dd($th->getMessage());
             DB::rollBack();
             return redirect()->back()->withErrors($th->getMessage());
         }

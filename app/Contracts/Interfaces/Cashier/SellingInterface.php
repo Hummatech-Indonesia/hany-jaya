@@ -34,4 +34,6 @@ interface SellingInterface extends StoreInterface, GetInterface, CustomPaginatio
      */
 
      public function chartData(Request $request): mixed;
+
+     public function getInvoice(): mixed;
 }

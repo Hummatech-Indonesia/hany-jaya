@@ -37,9 +37,23 @@ class SellingRepository extends BaseRepository implements SellingInterface
     public function get(): mixed
     {
         return $this->model->query()
-            // ->where('invoice_number', 'LIKE', '%' . "HNJY" . '%')
-            ->orderByDesc('invoice_number')
-            ->first();
+                // ->selectRaw('SUBSTRING(invoice_number, 5) as invoice')
+                ->orderByDesc('invoice_number')
+                ->first();
+    }
+
+    /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getInvoice(): mixed
+    {
+        return $this->model->query()
+                ->selectRaw('SUBSTRING(invoice_number, 5) as invoice')
+                ->orderByDesc('invoice')
+                ->first();
     }
 
     /**
