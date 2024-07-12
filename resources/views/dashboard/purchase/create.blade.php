@@ -115,6 +115,7 @@
 @section('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
 @endsection
+@include('components.swal-toast')
 @section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
@@ -123,6 +124,19 @@
             let product_list = []
             let select_product_list = []
             let select_unit_list = []
+            
+            const selectize_supplier = $('#supplier_id').selectize({
+                plugins: [],
+                create: true,
+                maxItems: 1,
+                placeholder: "Pilih Distributor",
+                onOptionAdd: function(value) {
+                    let selected = this.options[value]
+                    let text_str = selected.text.replace(/\s+/g, ' ').trim();
+                    if(text_str == selected.value) createNewSupplier(value)
+                },
+            })
+            const select_supplier = selectize_supplier[0].selectize
 
             function createNewSupplier(val) {
                 $.ajax({
@@ -147,53 +161,37 @@
                 });
             }
 
-            const selectize_supplier = $('#supplier_id').selectize({
-                plugins: [],
-                create: true,
-                maxItems: 1,
-                placeholder: "Pilih Distributor",
-                onItemAdd: function(value) {
-                    createNewSupplier(value)
+            $.ajax({
+                url: `{{ route('product.list-search') }}`,
+                type: "GET",
+                success: function(response) {
+                    product_list = response.data
                 },
-            })
-            const select_supplier = selectize_supplier[0].selectize
+                error: function(xhr) {
+                    product_list = [];
+                },
+            });
 
-            function isCanAddProduct() {
+
+            function isCantAddProduct() {
                 const supplier = select_supplier.getValue()
                 const invoice = $('[name=invoice_number]').val()
-                if(supplier && invoice) $('#btn-add-product').removeClass('disabled')
-                else $('#btn-add-product').addClass('disabled')
+                if(supplier && invoice) return 0
+                return 1
             }
-
-            isCanAddProduct()
-
-            $(document).on('change', '#supplier_id',function() {
-                $.ajax({
-                    url: `{{ route('admin.supplier.product.index', ['supplier' => '']) }}/${$('#supplier_id').val()}`,
-                    type: "GET",
-                    success: function(response) {
-                        product_list = response.data
-                        isCanAddProduct()
-                    },
-                    error: function(xhr) {
-                        product_list = [];
-                    },
-                });
-            })
-
-            $(document).on('input', '[name=invoice_number]', function() {
-                isCanAddProduct()
-            })
             
             $(document).on("click", "#btn-add-product", function () {
-                if(!$('#supplier_id').val()) return;
+                if(isCantAddProduct()) {
+                    Toaster('error', 'Supplier dan Kode Invoice harus diisi terlebih dahulu')
+                    return;
+                }
                 let last_index = $('#tb-products tr[data-index]').last().data('index')
 
                 let current_index = last_index ? last_index+1 : 1
                 
                 let str_products = '<option value="" selected disabled>-- pilih produk --</option>'
                 product_list.forEach((data) => {
-                    str_products += `<option value="${data.product_id}">${data.product} | ${data.code}</option>`
+                    str_products += `<option value="${data.id}">${data.name} | ${data.code}</option>`
                 })
 
                 let new_tr = `
