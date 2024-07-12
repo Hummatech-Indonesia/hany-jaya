@@ -11,6 +11,7 @@ use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Enums\RoleEnum;
 use App\Enums\StatusEnum;
 use App\Helpers\BaseDatatable;
+use App\Helpers\BasePrint;
 use App\Helpers\BaseResponse;
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
@@ -260,5 +261,10 @@ class SellingController extends Controller
             $query->with('detailSellings');
         }]);
         return BaseDatatable::TableV2($transaction->toArray());
+    }
+
+    public function printed()
+    {
+        return BasePrint::defaultNative();
     }
 }

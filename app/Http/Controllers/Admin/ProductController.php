@@ -91,6 +91,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product): View
     {
+        $product = $product->with(['productUnits' => function($query) {
+            $query->with("unit");
+        }])->find($product->id);
         $categories = $this->category->get();
         $units = $this->unit->get();
         $suppliers = $this->supplier->get();
