@@ -8,6 +8,7 @@ use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Contracts\Interfaces\Admin\UnitInterface;
 use App\Helpers\ResponseHelper;
 use App\Helpers\BaseDatatable;
+use App\Helpers\BaseResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Http\Requests\Cashier\ShowProductRequest;
@@ -152,5 +153,16 @@ class ProductController extends Controller
     {
         $product = $this->product->withElequent(["unit", "category", "supplierProducts", "productUnits.unit"]);
         return BaseDatatable::Table($product);
+    }
+
+    /**
+     * Data table yajra list product
+     *
+     * @return JsonResponse
+     */
+    public function listProduct(): JsonResponse
+    {
+        $product = $this->product->withElequent(["unit", "category", "supplierProducts", "productUnits.unit"])->get();
+        return BaseResponse::Ok("Berhasil mengambil data product",$product);
     }
 }
