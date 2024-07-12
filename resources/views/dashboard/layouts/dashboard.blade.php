@@ -62,7 +62,7 @@
     @stack('custom-style')
 </head>
 
-<body>
+<body style="background: #fafafa">
     <!-- Preloader -->
     <div class="preloader">
         <img src="{{ asset('favicon.ico') }}"

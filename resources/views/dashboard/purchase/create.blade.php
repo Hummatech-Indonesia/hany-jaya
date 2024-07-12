@@ -83,12 +83,12 @@
                                     <button type="button" class="btn btn-success" id="btn-add-product">+ Tambah</button>
                                 </div>
                                 <div>
-                                    <table class="table align-middle">
+                                    <table class="table align-middle text-break">
                                         <thead>
                                             <tr>
-                                                <th width="200">Produk <span class="text-danger">*</span></th>
+                                                <th width="300">Produk <span class="text-danger">*</span></th>
                                                 <th width="150">Satuan <span class="text-danger">*</span></th>
-                                                <th width="200">Harga per satuan <span class="text-danger">*</span></th>
+                                                <th width="150">Harga per satuan <span class="text-danger">*</span></th>
                                                 <th width="150">Jumlah <span class="text-danger">*</span></th>
                                                 <th width="250">Total Harga <span class="text-danger">*</span></th>
                                                 <th width="50">Aksi</th>
@@ -191,7 +191,7 @@
                 
                 let str_products = '<option value="" selected disabled>-- pilih produk --</option>'
                 product_list.forEach((data) => {
-                    str_products += `<option value="${data.id}">${data.name} | ${data.code}</option>`
+                    str_products += `<option value="${data.id}">${data.name} | ${data.code} | ${formatNum(data.quantity, true)} ${data.unit.name}</option>`
                 })
 
                 let new_tr = `

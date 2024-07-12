@@ -6,6 +6,13 @@
 @push("title")
     Hutang Piutang
 @endpush
+@push('custom-style')
+    <style>
+        .nav-link.active {
+            color: var(--bs-primary)!important
+        }
+    </style>
+@endpush
 @section('content')
     <div class="container-fluid max-w-full">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
@@ -26,7 +33,7 @@
         </div>
 
         {{-- tab --}}
-        <ul class="nav nav-pills nav-fill mt-4" role="tablist">
+        <ul class="nav nav-underline mt-4 align-items-center p-3 rounded flex-row card" role="tablist">
             <li class="nav-item">
                 <a
                     class="nav-link active"
@@ -61,21 +68,21 @@
         {{-- panes --}}
         <div class="tab-content border mt-2">
             <div
-                    class="tab-pane active p-3"
+                    class="tab-pane active"
                     id="pane-list"
                     role="tabpanel"
             >
                 @include('dashboard.debt.panes.debt-list')
             </div>
             <div
-                class="tab-pane p-3"
+                class="tab-pane"
                 id="pane-history"
                 role="tabpanel"
             >
                 @include('dashboard.debt.panes.debt-history')
             </div>
             <div
-                class="tab-pane p-3"
+                class="tab-pane"
                 id="pane-pay"
                 role="tabpanel"
             >

@@ -118,7 +118,7 @@
                                                         <label for="tunai" class="form-check-label">Tunai</label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input type="checkbox" value="{{ StatusEnum::DEBT->value }}" name="status_payment[]" id="hutang" class="form-check-input">
+                                                        <input type="checkbox" value="{{ StatusEnum::DEBT->value }}" name="status_payment[]" id="hutang" class="form-check-input" readonly>
                                                         <label for="hutang" class="form-check-label">Hutang</label>
                                                     </div>
                                                 </div>
@@ -172,7 +172,7 @@
                                                 </div>
                                             </div>
                                             <div class="text-end text-primary">(shift+enter)</div>
-                                            <button type="submit" class="w-100 btn btn-lg btn-success"><i class="ti ti-shopping-cart"></i> Bayar</button>
+                                            <button type="button" id="btn-open-modal" data-bs-toggle="modal" data-bs-target="#selling-modal" class="w-100 btn btn-lg btn-success"><i class="ti ti-shopping-cart"></i> Bayar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -225,6 +225,8 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @include('dashboard.selling.widgets.selling-modals')
                         </form>
                     </div>
                 </div>
@@ -251,7 +253,6 @@
 
             let selected_products = []
 
-
             let cust_name_val = ""
             let product_val = ""
 
@@ -277,6 +278,7 @@
 
             $(document).on('click', '#btn-reset', function() {
                 $('#tb-product tr[data-index]').remove()
+                changeTotalPrice()
             })
 
             const selectize_cust = $('#cust-name').selectize({
@@ -326,7 +328,7 @@
                 'shift+t': function() {$('#telp').focus()},
                 'shift+enter': function() {
                     if(checkIsHasError() != 0) return 
-                    $('form').submit()
+                    $('#btn-open-modal').trigger('click')
                 },
             };
 
@@ -370,11 +372,13 @@
 
                 changeAllProductLastPrice()
                 getUserIdByNameAddress()
+                checkIsHasError()
             });
 
             $(document).on('change input', '#cust-address', function() {
                 changeAllProductLastPrice()
                 getUserIdByNameAddress()
+                checkIsHasError()
             })
 
             async function getUserIdByNameAddress() {
@@ -475,7 +479,8 @@
                         $('#tb-product').append(newRow);
                         select_product.setValue("")
                         compareQtyWithStock($(`#tb-product [data-index=${current_index}]`))
-                        changeTotalPrice();
+                        changeTotalPrice()
+                        checkIsHasError()
                     },
                 });
             }
@@ -492,6 +497,7 @@
                 qty_el.val(unformatNum($(this).val()))
                 compareQtyWithStock($(this).closest('tr[data-index]'))
                 changeTotalPrice()
+                checkIsHasError()
             })
 
             function compareQtyWithStock(tr) {
@@ -521,6 +527,7 @@
                 const price_el = $(`#tb-product tr[data-index=${data_index}] [name=product_unit_price\\[\\]]`)
                 price_el.val(unformatNum($(this).val()))
                 changeTotalPrice()
+                checkIsHasError()
             })
 
             $('#tb-product').on('change', '.product-unit', async function() {
@@ -553,6 +560,7 @@
                     last_price_el.remove()
                 }
                 changeTotalPrice();
+                checkIsHasError()
             });
 
             $(document).on('input change', '#formatted_pay', changeReturnAmount)
@@ -613,6 +621,7 @@
                 })
 
                 $('#total_price').html('Rp '+formatNum(all_total))
+                changeDebtValue()
                 changeReturnAmount()
             }
 
@@ -628,6 +637,8 @@
                     $('#return').val(0);
                     $('#formatted_return').val(0);
                 }
+                changeDebtValue()
+                checkIsHasError()
             }
 
             $(document).on('click', '.btn-method', function() {
@@ -644,14 +655,28 @@
                 }
 
                 changeMethod()
+                changeDebtValue()
+                checkIsHasError()
             })
 
             function changeMethod() {
                 if ($('#tunai').is(":checked")) $('#cash').show()
-                else $('#cash').hide()
+                else {
+                    $('#cash').hide()
+                    $('#formatted_pay').val(0)
+                    $('#pay').val(0)
+                    $('#formatted_return').val(0)
+                    $('#return').val(0)
+                }
 
-                if($('#hutang').is(":checked")) $('#code_debt').show()
-                else $('#code_debt').hide()
+                if($('#hutang').is(":checked")) {
+                    $('#code_debt').show()
+                    changeDebtValue()
+                } else {
+                    $('#code_debt').hide()
+                    $('#formatted_debt').val(0)
+                    $('[name=debt]').val()
+                }
 
                 if(!$('#hutang').is(':checked') && !$('#tunai').is(':checked')) {
                     $('[data-check-id=tunai]').removeClass('btn-light-primary')
@@ -659,6 +684,7 @@
                     $(`#tunai`).prop('checked', true)
                     changeMethod()
                 }
+                checkIsHasError()
             }
 
             checkIsHasError()
@@ -667,21 +693,41 @@
                 let count_error = 0
 
                 if(!$('#cust-name').val()) count_error++
-                if(!$('#cust-addres').val()) count_error++
+                if(!$('#cust-address').val()) count_error++
                 if($('#tb-product [data-index]').length < 1) count_error++
                 count_error += paymentMethodError()
-
-                if(count_error == 0) $('button[type=submit]').removeClass('disabled')
-                else $('button[type=submit]').addClass('disabled')
+                
+                if(count_error == 0) {
+                    $('button[type=submit]').removeClass('disabled')
+                    $('#btn-open-modal').removeClass('disabled')
+                }
+                else {
+                    $('button[type=submit]').addClass('disabled')
+                    $('#btn-open-modal').addClass('disabled')
+                }
 
                 return count_error
+            }
+
+            function changeDebtValue() {
+                if(!$('#hutang').is(':checked')) return
+                const total_must_paid = unformatNum($('#total_price').html().replace('Rp ', ''))
+                const paid = $('#pay').val()
+                const debt = total_must_paid - paid
+                if(debt < 0) {
+                    $('[name=debt]').val(0)
+                    $('#formatted_debt').val(0)
+                } else {
+                    $('[name=debt]').val(debt)
+                    $('#formatted_debt').val(formatNum(debt))
+                }
             }
 
             function paymentMethodError() {
                 const total_must_paid = unformatNum($('#total_price').html().replace('Rp ', ''))
                 if(!$('#hutang').is(':checked')) {
                     const money_paid = $('#pay').val()
-                    if(total_must_paid < money_paid) return 1
+                    if(total_must_paid > money_paid) return 1
                 }
                 return 0
             }
@@ -718,6 +764,14 @@
                     html: `<ul>${msg}</ul>`,
                     timerProgressBar: true,
                 });
+            @endif
+
+            @if (session()->has('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses',
+                    text: 'Pembelian berhasil dilakukan'
+                })
             @endif
         })
     </script>

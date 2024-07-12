@@ -35,10 +35,11 @@ class SellingService
     {
         $getYear = substr(now()->format('Y'), -2);
 
-        $selling_invoice = $this->selling->get();
+        $selling_invoice = $this->selling->getInvoice();
+        
         if ($selling_invoice) {
-            $invoice_number = substr($selling_invoice->invoice_number, -4);
-            $invoice_number = intval($invoice_number);
+            // $invoice_number = substr($selling_invoice->invoice_number, -4);
+            $invoice_number = intval($selling_invoice->invoice);
             $integer = $invoice_number + 1;
             $length = 4;
             $invoice_number = str_pad(intval($integer), $length, "0", STR_PAD_LEFT);
