@@ -19,8 +19,15 @@ class LoginService
     public function handleLogin(LoginRequest $request, UserInterface $user): mixed
     {
         $data = $request->validated();
+        // set remember token
+        $remember_token = $data["remember_me"];
+        $password = $data["password"];
+        unset($data["remember_me"]);
+        unset($data["password"]);
+
         $user = $user->getWhere($data);
-        if (auth()->attempt(['email' => $data['email'], 'password' => $data['password']])) {
+        if (auth()->attempt(['email' => $data['email'], 'password' => $password])) {
+            $data["remember_me"] = $remember_token;
             if (isset($data['remember_me']) && !empty($data['remember_me'])) {
                 setcookie("email", $data['email'], time() + 3600);
                 setcookie("password", $data['password'], time() + 3600);
