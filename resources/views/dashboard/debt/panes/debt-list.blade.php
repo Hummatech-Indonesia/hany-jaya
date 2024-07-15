@@ -1,5 +1,8 @@
 <div class="card card-body">
     <div class="table-responsive">
+        <div class="alert alert-warning" role="alert">
+            Sebelum melakukan export / cetak data, pastikan kolom "entries per page" bernilai "semua" agar keseluruhan data tercetak.
+        </div>
         <table class="table align-middle text-break w-100" id="tb-debt-list">
         </table>
     </div>
@@ -11,6 +14,29 @@
             processing: true,
             serverSide: true,
             order: [[1, 'asc']],
+            dom: "<'row mt-2 justify-content-between'<'col-md-auto me-auto'B><'col-md-auto ms-auto input-date-container'>><'row mt-2 justify-content-between'<'col-md-auto me-auto'l><'col-md-auto me-start'f>><'row mt-2 justify-content-md-center'<'col-12'rt>><'row mt-2 justify-content-between'<'col-md-auto me-auto'i><'col-md-auto ms-auto'p>>",
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Semua']],
+            buttons: [
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ":not(:eq(5))"
+                    }
+                }, {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: ":not(:eq(5))"
+                    }
+                }, {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ":not(:eq(5))"
+                    }
+                }
+            ],
+            initComplete: function() {
+                $('.dt-buttons').addClass('btn-group-sm')
+            },
             language: {
                 processing: `Memuat...`
             },
