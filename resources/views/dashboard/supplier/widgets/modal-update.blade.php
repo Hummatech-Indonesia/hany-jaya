@@ -41,7 +41,7 @@
                         <label
                             for="edit-supplier-address"
                             class="form-label fw-semibold"
-                            >Alamat <small class="text-danger">*</small></label
+                            >Alamat</label
                         >
                         <textarea
                         tabindex="2"
