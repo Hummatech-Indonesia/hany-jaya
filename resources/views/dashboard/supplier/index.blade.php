@@ -3,7 +3,7 @@
     Distributor
 @endpush
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid max-w-full">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
@@ -76,70 +76,58 @@
 
     <script>
         const datatable_supplier = $('#tb-suppliers').DataTable({
-                processing: true,
-                serverSide: true,
-                order: [[1, 'asc']],
-                language: {
-                    processing: 'Memuat...'
+            processing: true,
+            serverSide: true,
+            order: [[1, 'asc']],
+            language: {
+                processing: 'Memuat...'
+            },
+            ajax: {
+                url: "{{ route('data-table.list-supplier') }}"
+            },
+            columns: [
+                {
+                    data: "DT_RowIndex",
+                    title: "No",
+                    orderable: false,
+                    searchable: false
+                }, {
+                    data: "name",
+                    title: "Distributor",
+                },  
+                {
+                    data: "address",
+                    title: "Alamat",
                 },
-                ajax: {
-                    url: "{{ route('data-table.list-supplier') }}"
-                },
-                columns: [
-                    {
-                        data: "DT_RowIndex",
-                        title: "No",
-                        orderable: false,
-                        searchable: false
-                    }, {
-                        data: "name",
-                        title: "Distributor",
-                    },  
-                    {
-                        data: "address",
-                        title: "Alamat",
-                    },
-                    // {
-                    //     mRender: (data, type, row) => {
-                    //         let products = ""
-                    //         row['supplier_products'].forEach((prod) => {
-                    //             products += `<span class="badge m-1 bg-primary">${prod.product.name}</span>`
-                    //         })
-                    //         return products
-                    //     },
-                    //     title: "Produk",
-                    //     searchable: false,
-                    //     orderable: false
-                    // },
-                     {
-                        mRender: (data, type, full) => {
-                            let edit_url = "{{ route('admin.suppliers.update', 'selected_id') }}"
-                            edit_url = edit_url.replace('selected_id', full['id'])
-                            let del_url = "{{ route('admin.suppliers.destroy', 'selected_id') }}"
-                            del_url = del_url.replace('selected_id', full['id'])
-                            let supplier = JSON.stringify(full).replaceAll('"', "'")
+                {
+                    mRender: (data, type, full) => {
+                        let edit_url = "{{ route('admin.suppliers.update', 'selected_id') }}"
+                        edit_url = edit_url.replace('selected_id', full['id'])
+                        let del_url = "{{ route('admin.suppliers.destroy', 'selected_id') }}"
+                        del_url = del_url.replace('selected_id', full['id'])
+                        let supplier = JSON.stringify(full).replaceAll('"', "'")
 
-                            return `
-                                <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-sm btn-light btn-update btn-update-icon"
-                                        data-supplier="${supplier}"
-                                        data-url="${edit_url}">
-                                        <i class="ti ti-edit fs-4"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-light btn-delete btn-delete-icon"
-                                        data-url="${del_url}">
-                                        <i class="ti ti-trash fs-4"></i>
-                                    </button>
-                                </div>
-                            `
-                        },
-                        title: "Aksi",
-                        searchable: false,
-                        orderable: false,
-                        width: "15%"
-                    }
-                ]
-            })
+                        return `
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-sm btn-light btn-update btn-update-icon"
+                                    data-supplier="${supplier}"
+                                    data-url="${edit_url}">
+                                    <i class="ti ti-edit fs-4"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-light btn-delete btn-delete-icon"
+                                    data-url="${del_url}">
+                                    <i class="ti ti-trash fs-4"></i>
+                                </button>
+                            </div>
+                        `
+                    },
+                    title: "Aksi",
+                    searchable: false,
+                    orderable: false,
+                    width: "15%"
+                }
+            ]
+        })
     </script>
     <script>
         $("#select-product").select2({
@@ -214,7 +202,7 @@
         $('.btn-tambah').on('click', function(e) {
             e.preventDefault();
 
-            let isError = validate(['#supplier-name', '#supplier-address'], [
+            let isError = validate(['#supplier-name'], [
                 'Nama distributor tidak boleh kosong.',
                 'Alamat distributor tidak boleh kosong.'
             ])
@@ -228,7 +216,7 @@
         $('.btn-edit').on('click', function(e) {
             e.preventDefault();
 
-            let isError = validate(['#edit-supplier-name', '#edit-supplier-address'], [
+            let isError = validate(['#edit-supplier-name'], [
                 'Nama distributor tidak boleh kosong.',
                 'Alamat distributor tidak boleh kosong.'
             ])

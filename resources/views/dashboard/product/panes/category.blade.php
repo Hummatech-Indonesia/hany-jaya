@@ -1,8 +1,12 @@
 @include('dashboard.category.widgets.modal-create')
 @include('dashboard.category.widgets.modal-create')
 
-<div class="table-responsive">
-    <table class="table align-middle table-striped w-100" id="tb-categories"></table>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table align-middle w-100" id="tb-categories"></table>
+        </div>
+    </div>
 </div>
 
 @include('dashboard.category.widgets.modal-update')
@@ -31,7 +35,10 @@
                 title: "Kategori"
             }, {
                 data: "products_count",
-                title: "Total Produk"
+                title: "Total Produk",
+                render: (data, type, full) => {
+                    return `<span class="badge bg-primary text-white">${data}</span>`
+                }
             },
             @role('admin')
             {

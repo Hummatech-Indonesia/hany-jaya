@@ -10,15 +10,6 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Pembelian</h4>
                         <p>Tambah pembelian pada toko anda.</p>
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
@@ -83,12 +74,12 @@
                                     <button type="button" class="btn btn-success" id="btn-add-product">+ Tambah</button>
                                 </div>
                                 <div>
-                                    <table class="table align-middle">
+                                    <table class="table align-middle text-break">
                                         <thead>
                                             <tr>
-                                                <th width="200">Produk <span class="text-danger">*</span></th>
+                                                <th width="300">Produk <span class="text-danger">*</span></th>
                                                 <th width="150">Satuan <span class="text-danger">*</span></th>
-                                                <th width="200">Harga per satuan <span class="text-danger">*</span></th>
+                                                <th width="150">Harga per satuan <span class="text-danger">*</span></th>
                                                 <th width="150">Jumlah <span class="text-danger">*</span></th>
                                                 <th width="250">Total Harga <span class="text-danger">*</span></th>
                                                 <th width="50">Aksi</th>
@@ -102,9 +93,12 @@
                                     </table>
                                 </div>
                             </div>
-                            <button class="btn btn-info rounded-md px-4 mt-3" type="submit">
-                                Simpan
-                            </button>
+                            <div class="d-flex mt-3 gap-3">
+                                <a href="{{route('admin.purchases.index')}}" class="btn btn-light">Kembali</a>
+                                <button class="btn btn-info rounded-md px-4" type="submit">
+                                    Simpan
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -191,7 +185,7 @@
                 
                 let str_products = '<option value="" selected disabled>-- pilih produk --</option>'
                 product_list.forEach((data) => {
-                    str_products += `<option value="${data.id}">${data.name} | ${data.code}</option>`
+                    str_products += `<option value="${data.id}">${data.name} | ${data.code} | ${formatNum(data.quantity, true)} ${data.unit.name}</option>`
                 })
 
                 let new_tr = `
@@ -310,6 +304,21 @@
                 tr.find('[name=buy_price\\[\\]]').val(total)
                 tr.find('.buy-price').val(formatNum(total))
             }
+
+        })
+        $(document).ready(function() {
+            @if ($errors->any())
+                let error_message = ''
+                @foreach ($errors->all() as $error)
+                error_message+= `{{ $error }} <br />`
+                @endforeach
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan Input',
+                    html: `${error_message}`
+                })
+            @endif
         })
     </script>
 @endsection

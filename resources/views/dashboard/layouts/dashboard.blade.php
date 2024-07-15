@@ -51,12 +51,18 @@
             color: #F87171;
             border-color: #FEE2E2;
         }
+        .productname {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+        }
     </style>
     @yield('style')
     @stack('custom-style')
 </head>
 
-<body>
+<body style="background: #fafafa">
     <!-- Preloader -->
     <div class="preloader">
         <img src="{{ asset('favicon.ico') }}"

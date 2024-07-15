@@ -6,6 +6,14 @@
 @push("title")
     Hutang Piutang
 @endpush
+@push('custom-style')
+    <style>
+        .nav-link.active {
+            background-color: var(--bs-light-info)!important;
+            color: var(--bs-info)!important
+        }
+    </style>
+@endpush
 @section('content')
     <div class="container-fluid max-w-full">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
@@ -26,56 +34,61 @@
         </div>
 
         {{-- tab --}}
-        <ul class="nav nav-pills nav-fill mt-4" role="tablist">
-            <li class="nav-item">
-                <a
-                    class="nav-link active"
-                    data-bs-toggle="tab"
-                    href="#pane-list"
-                    role="tab"
-                >
-                    <i class="ti ti-clipboard-list"></i> <span>Daftar Piutang</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a
-                    class="nav-link"
-                    data-bs-toggle="tab"
-                    href="#pane-history"
-                    role="tab"
-                >
-                    <i class="ti ti-history"></i> <span>Riwayat Piutang</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a
-                    class="nav-link"
-                    data-bs-toggle="tab"
-                    href="#pane-pay"
-                    role="tab"
-                >
-                    <i class="ti ti-credit-card"></i> <span>Pembayaran Piutang</span>
-                </a>
-            </li>
-        </ul>
+        <div class="card">
+            <div class="card-body d-flex flex-row justify-content-between">
+                <ul class="nav nav-pills align-items-center rounded flex-row" role="tablist">
+                    <li class="nav-item">
+                        <a
+                            class="nav-link active"
+                            data-bs-toggle="tab"
+                            href="#pane-list"
+                            role="tab"
+                        >
+                            <i class="ti ti-clipboard-list"></i> <span>Daftar Piutang</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            data-bs-toggle="tab"
+                            href="#pane-history"
+                            role="tab"
+                        >
+                            <i class="ti ti-history"></i> <span>Riwayat Piutang</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            data-bs-toggle="tab"
+                            href="#pane-pay"
+                            role="tab"
+                        >
+                            <i class="ti ti-credit-card"></i> <span>Pembayaran Piutang</span>
+                        </a>
+                    </li>
+                </ul>
+                <button data-bs-toggle="modal" data-bs-target="#modal-debt-pay" class="btn btn-primary">Pembayaran Piutang</button>
+            </div>
+        </div>
         {{-- panes --}}
         <div class="tab-content border mt-2">
             <div
-                    class="tab-pane active p-3"
+                    class="tab-pane active"
                     id="pane-list"
                     role="tabpanel"
             >
                 @include('dashboard.debt.panes.debt-list')
             </div>
             <div
-                class="tab-pane p-3"
+                class="tab-pane"
                 id="pane-history"
                 role="tabpanel"
             >
                 @include('dashboard.debt.panes.debt-history')
             </div>
             <div
-                class="tab-pane p-3"
+                class="tab-pane"
                 id="pane-pay"
                 role="tabpanel"
             >
@@ -84,6 +97,7 @@
         </div>
     </div>
     @include('dashboard.debt.widgets.detail-debt')
+    @include('dashboard.debt.widgets.modal-pay-debt')
 @endsection
 @section('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">

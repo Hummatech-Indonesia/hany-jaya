@@ -1,8 +1,12 @@
 @include('dashboard.unit.widgets.modal-create')
 @include('dashboard.unit.widgets.modal-update')
 
-<div class="table-responsive">
-    <table class="table align-middle table-striped table-hover w-100" id="tb-unit-list"></table>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table align-middle table-hover w-100" id="tb-unit-list"></table>
+        </div>
+    </div>
 </div>
 
 @push('custom-script')
