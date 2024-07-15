@@ -33,8 +33,18 @@ class BuyerController extends Controller
     // get api for buyer
     public function findBuyer(Request $request): JsonResponse
     {
+        // checking value buyer name
+        if(strpos($request->name,'-')) {
+            $name = "";
+            try{
+                $name = explode('-', $request->name)[0];
+            }catch(\Throwable $th){
+                $name = $request->name;
+            }
+        }
+
         $data = $this->buyer->getWhere([
-            "name" => $request->name,
+            "name" => $name,
             "address" => $request->address
         ]);
         return BaseResponse::Ok("Berhasil mengambil data pembeli",$data);
