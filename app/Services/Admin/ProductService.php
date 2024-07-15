@@ -50,6 +50,8 @@ class ProductService
             $old_image = $this->upload(UploadDiskEnum::PRODUCT->value, $request->file('image'));
         }
         $data = $request->validated();
+        $supplier_id = null;
+        try{ $supplier_id = $data["supplier_id"]; } catch(\Throwable $th){ }
 
         return [
             'category_id' => $data['category_id'],
@@ -61,7 +63,7 @@ class ProductService
             'small_unit_id' => $data['small_unit_id'],
             'quantity_in_small_unit' => $data['quantity_in_small_unit'],
             'selling_price' => $data['selling_price'],
-            'supplier_id' => $data['supplier_id']
+            'supplier_id' => $supplier_id
         ];
     }
 }
