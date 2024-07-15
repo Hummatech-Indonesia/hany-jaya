@@ -43,6 +43,9 @@ class DebtController extends Controller
     {
         $data = $request->validated();
         $data['buyer_id'] = $buyer->id;
+        if($buyer->debt < $request->pay_debt){
+            return redirect()->back()->with('error','Uang pembayaran hutang melebihi jumlah hutang');
+        }
         $this->historyPayDebt->store($data);
         $buyer->update(['debt' => $buyer->debt - intval($data['pay_debt'])]);
         return redirect()->back()->with('success', 'Sukses Membayar Hutang');
