@@ -111,19 +111,19 @@
                                                 <div class="col-3">Metode</div>
                                                 <div class="col-9">
                                                     <div class="d-flex gap-2">
-                                                        <button type="button" data-check-id="tunai" class="btn-method btn btn-primary">Tunai</button>
-                                                        <button type="button" data-check-id="hutang" class="btn-method btn btn-light-primary">Hutang</button>
+                                                        {{-- <button type="button" data-check-id="tunai" class="btn-method btn btn-primary">Tunai</button>
+                                                        <button type="button" data-check-id="hutang" class="btn-method btn btn-light-primary">Hutang</button> --}}
+                                                        <div class="form-check">
+                                                            <input type="checkbox" value="{{ StatusEnum::CASH->value }}" name="status_payment[]" id="tunai" class="form-check-input" checked>
+                                                            <label for="tunai" class="form-check-label">Tunai</label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input type="checkbox" value="{{ StatusEnum::DEBT->value }}" name="status_payment[]" id="hutang" class="form-check-input" readonly>
+                                                            <label for="hutang" class="form-check-label">Hutang</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="d-none">
-                                                    <div class="form-check">
-                                                        <input type="checkbox" value="{{ StatusEnum::CASH->value }}" name="status_payment[]" id="tunai" class="form-check-input" checked>
-                                                        <label for="tunai" class="form-check-label">Tunai</label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" value="{{ StatusEnum::DEBT->value }}" name="status_payment[]" id="hutang" class="form-check-input" readonly>
-                                                        <label for="hutang" class="form-check-label">Hutang</label>
-                                                    </div>
+                                                <div>
                                                 </div>
                                             </div>
                                             <div id="cash">
@@ -658,19 +658,7 @@
                 checkIsHasError()
             }
 
-            $(document).on('click', '.btn-method', function() {
-                let id = $(this).data('check-id')
-                let is_checked = $(`#${id}`).is(':checked')
-                if(!is_checked) {
-                    $(this).removeClass('btn-light-primary')
-                    $(this).addClass('btn-primary')
-                    $(`#${id}`).prop('checked', true)
-                } else {
-                    $(this).addClass('btn-light-primary')
-                    $(this).removeClass('btn-primary')
-                    $(`#${id}`).prop('checked', false)
-                }
-
+            $(document).on('click', '[name=status_payment\\[\\]]', function() {
                 changeMethod()
                 changeDebtValue()
                 checkIsHasError()
@@ -709,8 +697,20 @@
             function checkIsHasError() {
                 let count_error = 0
 
-                if(!$('#cust-name').val()) count_error++
-                if(!$('#cust-address').val()) count_error++
+                if(!$('#cust-name').val()) {
+                    count_error++
+                    $('#cust-name ~ .selectize-control').addClass('is-invalid')
+                } else {
+                    $('#cust-name ~ .selectize-control').removeClass('is-invalid')
+                }
+
+                if(!$('#cust-address').val()) {
+                    count_error++
+                    $('#cust-address').addClass('is-invalid')
+                } else {
+                    $('#cust-address').removeClass('is-invalid')
+                }
+
                 if($('#tb-product [data-index]').length < 1) count_error++
                 count_error += paymentMethodError()
                 
@@ -744,8 +744,12 @@
                 const total_must_paid = unformatNum($('#total_price').html().replace('Rp ', ''))
                 if(!$('#hutang').is(':checked')) {
                     const money_paid = $('#pay').val()
-                    if(total_must_paid > money_paid) return 1
+                    if(total_must_paid > money_paid) {
+                        $('#formatted_pay').addClass('is-invalid')
+                        return 1
+                    }
                 }
+                $('#formatted_pay').removeClass('is-invalid')
                 return 0
             }
 
