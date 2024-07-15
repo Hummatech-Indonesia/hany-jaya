@@ -42,6 +42,10 @@
         input.disabled, input.disabled:focus {
             background-color: var(--bs-secondary-bg);
         }
+        .btn-disabled.disabled {
+            background-color: var(--bs-gray-300);
+            color: var(--bs-gray-800);
+        }
     </style>
 </head>
 <body  style="background: rgb(241 245 249)">
@@ -717,8 +721,12 @@
                 if(count_error == 0) {
                     $('button[type=submit]').removeClass('disabled')
                     $('#btn-open-modal').removeClass('disabled')
+                    $('#btn-open-modal').removeClass('btn-disabled')
+                    $('#btn-open-modal').addClass('btn-success')
                 }
                 else {
+                    $('#btn-open-modal').addClass('btn-disabled')
+                    $('#btn-open-modal').removeClass('btn-success')
                     $('button[type=submit]').addClass('disabled')
                     $('#btn-open-modal').addClass('disabled')
                 }
