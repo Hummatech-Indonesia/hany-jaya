@@ -10,15 +10,6 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Pembelian</h4>
                         <p>Tambah pembelian pada toko anda.</p>
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
@@ -102,9 +93,12 @@
                                     </table>
                                 </div>
                             </div>
-                            <button class="btn btn-info rounded-md px-4 mt-3" type="submit">
-                                Simpan
-                            </button>
+                            <div class="d-flex mt-3 gap-3">
+                                <a href="{{route('admin.purchases.index')}}" class="btn btn-light">Kembali</a>
+                                <button class="btn btn-info rounded-md px-4" type="submit">
+                                    Simpan
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -310,6 +304,21 @@
                 tr.find('[name=buy_price\\[\\]]').val(total)
                 tr.find('.buy-price').val(formatNum(total))
             }
+
+        })
+        $(document).ready(function() {
+            @if ($errors->any())
+                let error_message = ''
+                @foreach ($errors->all() as $error)
+                error_message+= `{{ $error }} <br />`
+                @endforeach
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan Input',
+                    html: `${error_message}`
+                })
+            @endif
         })
     </script>
 @endsection

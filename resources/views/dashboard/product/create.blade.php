@@ -396,11 +396,9 @@
 
             @if ($errors->any())
                 let error_message = ''
-                    @foreach ($errors->all() as $error)
-                        error_message+= `{{ $error }} <br />`
-                    @endforeach
-
-                console.log(error_message)
+                @foreach ($errors->all() as $error)
+                    error_message+= `{{ $error }} <br />`
+                @endforeach
 
                 Swal.fire({
                     icon: 'error',
