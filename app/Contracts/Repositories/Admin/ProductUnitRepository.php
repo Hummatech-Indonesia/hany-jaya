@@ -23,6 +23,7 @@ class ProductUnitRepository extends BaseRepository implements ProductUnitInterfa
     public function getWhere(array $data): mixed
     {
         return $this->model->query()
+            ->with('product')
             ->where('product_id', $data['product_id'])
             ->get();
     }
