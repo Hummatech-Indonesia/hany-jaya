@@ -91,7 +91,7 @@ Route::middleware('auth')->group(function () {
         Route::get('show-product', [ProductController::class, 'showProduct'])->name('show.product');
         Route::get('get-last-purchases/{productUnit?}/{user?}', [PurchasesController::class, 'getLast'])->name('get.last.purchases');
         Route::post('sellings', [SellingController::class, 'store'])->name('selling.store');
-        Route::patch('pay-debt/{buyer}', [DebtController::class, 'payDebt'])->name('pay.debt');
+        Route::post('pay-debt/{buyer}', [DebtController::class, 'payDebt'])->name('pay.debt');
 
         // Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');
         Route::get('debt', [DebtController::class, 'index'])->name('history.debt');
