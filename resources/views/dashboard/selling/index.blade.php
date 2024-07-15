@@ -367,7 +367,7 @@
             $(document).on('change input', '#cust-name', function() {
                 var selectedValue = select_cust.getValue();
                 var selectedItem = select_cust.options[selectedValue];
-                console.log(selectedItem)
+                console.log({ selectedItem })
                 
                 if(selectedItem) {
                     if(!selectedItem.address) cust_name_val = selectedValue
@@ -378,7 +378,7 @@
                     $('#telp').val(telp)
                 }
                 
-                if(selectedValue || selectedItem || (selectedItem && selectedValue == `${name} - ${address}`)) {
+                if(selectedValue && selectedItem && (selectedItem && selectedValue == `${selectedItem.name} - ${selectedItem.address}`)) {
                     $('#cust-address').prop('readonly', true)
                     $('#cust-address').addClass('disabled')
                     $('#telp').prop('readonly', true)
