@@ -39,7 +39,7 @@
                 <div class="table-responsive">
                     <div class="row">
                         <div class="col-12 ms-auto">
-                            <div class="d-flex align-items-center" id="input-date">
+                            <div class="d-flex align-items-center" id="input-date-group">
                                 <div>Tanggal: </div>
                                 <input type="text" id="input-date" class="form-control form-control-sm flex-fill w-100" value="" placeholder="Tanggal Pembelian">
                             </div>
@@ -93,7 +93,7 @@
                 }
             ],
             initComplete: function() {
-                let a = $('#input-date').detach()
+                let a = $('#input-date-group').detach()
                 $('.input-date-container').append(a)
                 $('.dt-buttons').addClass('btn-group-sm')
                 $('#input-date').daterangepicker({

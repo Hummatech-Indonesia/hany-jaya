@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.dashboard')
 @push("title")
-    Kasir
+    Data Pengguna
 @endpush
 @section('content')
     <div class="container-fluid max-w-full">
@@ -53,6 +53,9 @@
         </div>
         <div class="card">
             <div class="card-body table-responsive">
+                <div class="alert alert-warning" role="alert">
+                    Sebelum melakukan export / cetak data, pastikan kolom "entries per page" bernilai "semua" agar keseluruhan data tercetak.
+                </div>
                 <table class="table align-middle table-striped table-hover" id="tb-list-cashier"></table>
             </div>
         </div>
@@ -61,13 +64,16 @@
     </div>
 @endsection
 @section('style')
-    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+    <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
 @endsection
 @section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
     <script>
 
         const selectizeRole = $('#roleCashier').selectize({
@@ -91,6 +97,29 @@
             processing: true,
             serverSide: true,
             order: [[1, 'asc']],
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Semua']],
+            dom: "<'row mt-2 justify-content-between'<'col-md-auto me-auto'B><'col-md-auto ms-auto input-date-container'>><'row mt-2 justify-content-between'<'col-md-auto me-auto'l><'col-md-auto me-start'f>><'row mt-2 justify-content-md-center'<'col-12'rt>><'row mt-2 justify-content-between'<'col-md-auto me-auto'i><'col-md-auto ms-auto'p>>",
+            buttons: [
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ":not(:eq(4))"
+                    }
+                }, {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: ":not(:eq(4))"
+                    }
+                }, {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ":not(:eq(4))"
+                    }
+                }
+            ],
+            initComplete: function() {
+                $('.dt-buttons').addClass('btn-group-sm')
+            },
             ajax: {
                 url: "{{route('data-table.list-cashier')}}"
             },
