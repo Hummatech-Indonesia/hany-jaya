@@ -39,6 +39,9 @@
         .bootstrap-switch-wrapper {
             margin-bottom: 0;
         }
+        input.disabled, input.disabled:focus {
+            background-color: var(--bs-secondary-bg);
+        }
     </style>
 </head>
 <body  style="background: rgb(241 245 249)">
@@ -72,7 +75,7 @@
                                                 <select name="name" class="" id="cust-name" tabindex="1">
                                                     <option value="">Pilih Pembeli</option>
                                                     @foreach ($buyers as $buyer)
-                                                        <option value="{{ $buyer->name }}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
+                                                        <option value="{{ $buyer->name }} - {{ $buyer->address }}" data-name="{{ $buyer->name }}" data-phone="{{$buyer->telp}}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -360,15 +363,29 @@
             $(document).on('change input', '#cust-name', function() {
                 var selectedValue = select_cust.getValue();
                 var selectedItem = select_cust.options[selectedValue];
-                if(!selectedItem.address) cust_name_val = selectedValue
-                if ($(this).val()) {
-                    $('#btn-add-product').removeAttr('disabled');
-                } else {
-                    $('#btn-add-product').attr('disabled', 'disabled');
+                console.log(selectedItem)
+                
+                if(selectedItem) {
+                    if(!selectedItem.address) cust_name_val = selectedValue
+                    let address = selectedItem.address
+                    let telp = selectedItem.phone
+                    let name = selectedItem.name
+                    $('#cust-address').val(address)
+                    $('#telp').val(telp)
                 }
-
-                let address = selectedItem.address
-                $('#cust-address').val(address)
+                
+                if(selectedValue || selectedItem || (selectedItem && selectedValue == `${name} - ${address}`)) {
+                    $('#cust-address').prop('readonly', true)
+                    $('#cust-address').addClass('disabled')
+                    $('#telp').prop('readonly', true)
+                    $('#telp').addClass('disabled')
+                } else {
+                    $('#cust-address').prop('readonly', false)
+                    $('#cust-address').removeClass('disabled')
+                    $('#telp').prop('readonly', false)
+                    $('#telp').removeClass('disabled')
+                }
+                
 
                 changeAllProductLastPrice()
                 getUserIdByNameAddress()
