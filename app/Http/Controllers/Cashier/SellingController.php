@@ -278,8 +278,8 @@ class SellingController extends Controller
         $transaction = $this->debt->with(["buyer", "selling" => function($query) {
             $query->with(['detailSellings' => function ($query2){
                 $query2->with(["productUnit" => function ($query3){
-                    $query3->with('product','unit');
-                }]);
+                    $query3->with('unit');
+                }, 'product']);
             }]);
         }]);
         return BaseDatatable::TableV2($transaction->toArray());
