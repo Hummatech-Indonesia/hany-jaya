@@ -28,15 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @foreach ($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
-                </div>
-            @endif
-        </div>
+
         <!--  Row 1 -->
         <div class="row mt-5">
             <div class="col-lg-12">
@@ -184,9 +176,12 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn-info rounded-md px-4 mt-3" type="submit">
-                                Simpan
-                            </button>
+                            <div class="d-flex gap-3 mt-3">
+                                <a href="{{ route('admin.products.index') }}" class="btn btn-light">Kembali</a>
+                                <button class="btn btn-info rounded-md px-4" type="submit">
+                                    Simpan
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -247,8 +242,6 @@
                 category: selectize_category[0].selectize,
                 small_unit: selectize_small_unit[0].selectize
             }
-
-
 
             $("#btn-add-unit").click(function () {
                 let isError = isCanAddUnit()
@@ -400,6 +393,21 @@
 
                 return count_error
             }
+
+            @if ($errors->any())
+                let error_message = ''
+                    @foreach ($errors->all() as $error)
+                        error_message+= `{{ $error }} <br />`
+                    @endforeach
+
+                console.log(error_message)
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan Input',
+                    html: `${error_message}`
+                })
+            @endif
         })
     </script>
 @endsection
