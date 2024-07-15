@@ -34,38 +34,43 @@
         </div>
 
         {{-- tab --}}
-        <ul class="nav nav-pills mt-4 align-items-center p-3 rounded flex-row card" role="tablist">
-            <li class="nav-item">
-                <a
-                    class="nav-link active"
-                    data-bs-toggle="tab"
-                    href="#pane-list"
-                    role="tab"
-                >
-                    <i class="ti ti-clipboard-list"></i> <span>Daftar Piutang</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a
-                    class="nav-link"
-                    data-bs-toggle="tab"
-                    href="#pane-history"
-                    role="tab"
-                >
-                    <i class="ti ti-history"></i> <span>Riwayat Piutang</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a
-                    class="nav-link"
-                    data-bs-toggle="tab"
-                    href="#pane-pay"
-                    role="tab"
-                >
-                    <i class="ti ti-credit-card"></i> <span>Pembayaran Piutang</span>
-                </a>
-            </li>
-        </ul>
+        <div class="card">
+            <div class="card-body d-flex flex-row justify-content-between">
+                <ul class="nav nav-pills align-items-center rounded flex-row" role="tablist">
+                    <li class="nav-item">
+                        <a
+                            class="nav-link active"
+                            data-bs-toggle="tab"
+                            href="#pane-list"
+                            role="tab"
+                        >
+                            <i class="ti ti-clipboard-list"></i> <span>Daftar Piutang</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            data-bs-toggle="tab"
+                            href="#pane-history"
+                            role="tab"
+                        >
+                            <i class="ti ti-history"></i> <span>Riwayat Piutang</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            data-bs-toggle="tab"
+                            href="#pane-pay"
+                            role="tab"
+                        >
+                            <i class="ti ti-credit-card"></i> <span>Pembayaran Piutang</span>
+                        </a>
+                    </li>
+                </ul>
+                <button data-bs-toggle="modal" data-bs-target="#modal-debt-pay" class="btn btn-primary">Pembayaran Piutang</button>
+            </div>
+        </div>
         {{-- panes --}}
         <div class="tab-content border mt-2">
             <div
@@ -92,6 +97,7 @@
         </div>
     </div>
     @include('dashboard.debt.widgets.detail-debt')
+    @include('dashboard.debt.widgets.modal-pay-debt')
 @endsection
 @section('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
