@@ -67,11 +67,14 @@ class ProductRepository extends BaseRepository implements ProductInterface
         $product = $this->show($id);
         $product->update($data);
 
-        $product->supplierProducts()->delete();
-
-        foreach ($data['supplier_id'] as $supplier_id) {
-            $data['supplier_id'] = $supplier_id;
-            $product->supplierProducts()->create($data);
+        
+        if($data["supplier_id"]){
+            $product->supplierProducts()->delete();
+            
+            foreach ($data['supplier_id'] as $supplier_id) {
+                $data['supplier_id'] = $supplier_id;
+                $product->supplierProducts()->create($data);
+            }
         }
 
         return $product;

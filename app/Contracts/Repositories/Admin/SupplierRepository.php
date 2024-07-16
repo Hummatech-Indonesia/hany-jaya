@@ -80,7 +80,7 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
      */
     public function update(mixed $id, array $data): mixed
     {
-        return $this->model->show($id)->update($data);
+        return $this->show($id)->update($data);
     }
 
     /**
