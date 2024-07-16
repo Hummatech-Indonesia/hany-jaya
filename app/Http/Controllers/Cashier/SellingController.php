@@ -64,6 +64,7 @@ class SellingController extends Controller
     public function store(SellingRequest $request): RedirectResponse
     {
         $data = $request->validated();
+        $data["debt"] = $request->debt;
 
         // checking value buyer name
         if(strpos($data["name"],'-')) {
