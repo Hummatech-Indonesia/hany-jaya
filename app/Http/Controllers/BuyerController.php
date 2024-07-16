@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Helpers\BaseResponse;
+use App\Models\Buyer;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,10 +33,26 @@ class BuyerController extends Controller
     // get api for buyer
     public function findBuyer(Request $request): JsonResponse
     {
+        // checking value buyer name
+        if(strpos($request->name,'-')) {
+            $name = "";
+            try{
+                $name = explode('-', $request->name)[0];
+            }catch(\Throwable $th){
+                $name = $request->name;
+            }
+        }
+
         $data = $this->buyer->getWhere([
-            "name" => $request->name,
+            "name" => $name,
             "address" => $request->address
         ]);
         return BaseResponse::Ok("Berhasil mengambil data pembeli",$data);
+    }
+
+    // get api for buyer by id
+    public function findBuyerById(Buyer $buyer): JsonResponse
+    {
+        return BaseResponse::Ok("Berhasil mengambil data pembeli",$buyer);
     }
 }

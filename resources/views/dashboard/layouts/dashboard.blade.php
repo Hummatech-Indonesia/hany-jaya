@@ -41,6 +41,14 @@
         .btn-delete-icon{
             color: #7e7e7e;
         }
+        .btn-detail {
+            color: #7e7e7e;
+        }
+        .btn-detail:hover, .btn-detail:focus {
+            background: var(--bs-light-primary);
+            color: var(--bs-primary);
+            border-color: #fef5e5
+        }
         .btn-update-icon:hover {
             background-color: #FEF5E5;
             color: #FFAE1F;

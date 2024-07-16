@@ -65,6 +65,15 @@ class SellingController extends Controller
     {
         $data = $request->validated();
 
+        // checking value buyer name
+        if(strpos($data["name"],'-')) {
+            try{
+                $data["name"] = explode('-', $data["name"])[0];
+            }catch(\Throwable $th){
+                $data["name"] = $data["name"];
+            }
+        }
+
         // default value for status_payment
         if(is_array($data["status_payment"])){
             if(count($data["status_payment"]) == 1) $data["status_payment"] = $data["status_payment"][0];
@@ -196,8 +205,18 @@ class SellingController extends Controller
     {
         if(!$request->buyer_id)
         {
+            // checking value buyer name
+            if(strpos($request->buyer_name,'-')) {
+                $name = "";
+                try{
+                    $name = explode('-', $request->buyer_name)[0];
+                }catch(\Throwable $th){
+                    $name = $request->buyer_name;
+                }
+            }
+
             $buyer = $this->buyer->getWhere([
-                'name' => $request->buyer_name,
+                'name' => $name,
                 'address' => $request->buyer_address
             ]);
 
@@ -257,7 +276,11 @@ class SellingController extends Controller
     public function tableDebtHistory(Request $request)
     {
         $transaction = $this->debt->with(["buyer", "selling" => function($query) {
-            $query->with('detailSellings');
+            $query->with(['detailSellings' => function ($query2){
+                $query2->with(["productUnit" => function ($query3){
+                    $query3->with('unit');
+                }, 'product']);
+            }]);
         }]);
         return BaseDatatable::TableV2($transaction->toArray());
     }

@@ -26,9 +26,11 @@
         <div class="widget-content searchable-container list mt-4">
             <div class="card card-body">
                 <div class="table-responsive">
+                    <div class="alert alert-warning" role="alert">
+                        Sebelum melakukan export / cetak data, pastikan kolom "entries per page" bernilai "semua" agar keseluruhan data tercetak.
+                    </div>
                     <div class="row">
-                        <div class="col-0 col-md-8"></div>
-                        <div class="col-12 col-md-4 d-flex align-items-center">
+                        <div class="d-flex align-items-center" id="input-date-group">
                             <div>Tanggal: </div>
                             <input type="text" id="input-date" class="form-control form-control-sm flex-fill w-100" value="" placeholder="Tanggal Pembelian">
                         </div>
@@ -41,7 +43,7 @@
     @include('dashboard.selling.widgets.detail-invoice')
 @endsection
 @section('style')
-    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/libs/daterangepicker/daterangepicker.css')}}">
 @endsection
 @section('script')
@@ -49,7 +51,10 @@
     <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script src="{{asset('assets/libs/daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
     
     <script>
 
@@ -58,6 +63,38 @@
                 processing: true,
                 serverSide: true,
                 order: [[2, 'desc']],
+                lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Semua']],
+                dom: "<'row mt-2 justify-content-between'<'col-md-auto me-auto'B><'col-md-auto ms-auto input-date-container'>><'row mt-2 justify-content-between'<'col-md-auto me-auto'l><'col-md-auto me-start'f>><'row mt-2 justify-content-md-center'<'col-12'rt>><'row mt-2 justify-content-between'<'col-md-auto me-auto'i><'col-md-auto ms-auto'p>>",
+                buttons: [
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ":not(:eq(6))"
+                        }
+                    }, {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ":not(:eq(6))"
+                        }
+                    }, {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ":not(:eq(6))"
+                        },
+                        customize: function (doc) {
+                            doc.content[1].table.widths = 
+                                Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                        }
+                    }
+                ],
+                initComplete: function() {
+                    let a = $('#input-date-group').detach()
+                    $('.input-date-container').append(a)
+                    $('.dt-buttons').addClass('btn-group-sm')
+                    $('#input-date').daterangepicker({
+                        autoUpdateInput: false
+                    })
+                },
                 language: {
                     processing: 'Memuat...'
                 },
@@ -93,23 +130,20 @@
                         title: "Status Pembayaran",
                         render: (data, type, row) => {
                             if(data == 'debt') return `<span class="badge bg-warning text-white">Hutang</span>`;
-                            else return `<span class="badge bg-success text-white">Tunai</span>`;
+                            else if(data == 'cash') return `<span class="badge bg-success text-white">Tunai</span>`;
+                            else return `<span class="badge bg-primary text-white">Split</span>`;
                         }
                     }, {
                         mRender: (data, type, full) => {
-                            return `<svg xmlns="http://www.w3.org/2000/svg" class="btn-detail"
+                            return `<button type="button" class="btn btn-light btn-detail"
                                 data-detail-selling="${JSON.stringify(full['detail_sellings']).replaceAll('"', "'")}"
                                 data-name="${full['buyer']['name']}"
                                 data-price="${full['amount_price']}" data-pay="${full['pay']}"
                                 data-return="${full['return']}"
                                 data-status_payment="${full['status_payment']}"
-                                data-address="${full['buyer']['address']}" width="16" height="16"
-                                fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                <path
-                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
-                                <path
-                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
-                            </svg>`
+                                data-address="${full['buyer']['address']}">
+                                    <i class="ti ti-eye"></i>
+                            </button>`
                         },
                         title: "Aksi",
                         searchable: false,

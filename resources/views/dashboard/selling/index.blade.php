@@ -39,6 +39,13 @@
         .bootstrap-switch-wrapper {
             margin-bottom: 0;
         }
+        input.disabled, input.disabled:focus {
+            background-color: var(--bs-secondary-bg);
+        }
+        .btn-disabled.disabled {
+            background-color: var(--bs-gray-300);
+            color: var(--bs-gray-800);
+        }
     </style>
 </head>
 <body  style="background: rgb(241 245 249)">
@@ -72,7 +79,7 @@
                                                 <select name="name" class="" id="cust-name" tabindex="1">
                                                     <option value="">Pilih Pembeli</option>
                                                     @foreach ($buyers as $buyer)
-                                                        <option value="{{ $buyer->name }}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
+                                                        <option value="{{ $buyer->name }} - {{ $buyer->address }}" data-name="{{ $buyer->name }}" data-phone="{{$buyer->telp}}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -108,19 +115,19 @@
                                                 <div class="col-3">Metode</div>
                                                 <div class="col-9">
                                                     <div class="d-flex gap-2">
-                                                        <button type="button" data-check-id="tunai" class="btn-method btn btn-primary">Tunai</button>
-                                                        <button type="button" data-check-id="hutang" class="btn-method btn btn-light-primary">Hutang</button>
+                                                        {{-- <button type="button" data-check-id="tunai" class="btn-method btn btn-primary">Tunai</button>
+                                                        <button type="button" data-check-id="hutang" class="btn-method btn btn-light-primary">Hutang</button> --}}
+                                                        <div class="form-check">
+                                                            <input type="checkbox" value="{{ StatusEnum::CASH->value }}" name="status_payment[]" id="tunai" class="form-check-input" checked>
+                                                            <label for="tunai" class="form-check-label">Tunai</label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input type="checkbox" value="{{ StatusEnum::DEBT->value }}" name="status_payment[]" id="hutang" class="form-check-input" readonly>
+                                                            <label for="hutang" class="form-check-label">Hutang</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="d-none">
-                                                    <div class="form-check">
-                                                        <input type="checkbox" value="{{ StatusEnum::CASH->value }}" name="status_payment[]" id="tunai" class="form-check-input" checked>
-                                                        <label for="tunai" class="form-check-label">Tunai</label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" value="{{ StatusEnum::DEBT->value }}" name="status_payment[]" id="hutang" class="form-check-input" readonly>
-                                                        <label for="hutang" class="form-check-label">Hutang</label>
-                                                    </div>
+                                                <div>
                                                 </div>
                                             </div>
                                             <div id="cash">
@@ -360,15 +367,29 @@
             $(document).on('change input', '#cust-name', function() {
                 var selectedValue = select_cust.getValue();
                 var selectedItem = select_cust.options[selectedValue];
-                if(!selectedItem.address) cust_name_val = selectedValue
-                if ($(this).val()) {
-                    $('#btn-add-product').removeAttr('disabled');
-                } else {
-                    $('#btn-add-product').attr('disabled', 'disabled');
+                console.log({ selectedItem })
+                
+                if(selectedItem) {
+                    if(!selectedItem.address) cust_name_val = selectedValue
+                    let address = selectedItem.address
+                    let telp = selectedItem.phone
+                    let name = selectedItem.name
+                    $('#cust-address').val(address)
+                    $('#telp').val(telp)
                 }
-
-                let address = selectedItem.address
-                $('#cust-address').val(address)
+                
+                if(selectedValue && selectedItem && (selectedItem && selectedValue == `${selectedItem.name} - ${selectedItem.address}`)) {
+                    $('#cust-address').prop('readonly', true)
+                    $('#cust-address').addClass('disabled')
+                    $('#telp').prop('readonly', true)
+                    $('#telp').addClass('disabled')
+                } else {
+                    $('#cust-address').prop('readonly', false)
+                    $('#cust-address').removeClass('disabled')
+                    $('#telp').prop('readonly', false)
+                    $('#telp').removeClass('disabled')
+                }
+                
 
                 changeAllProductLastPrice()
                 getUserIdByNameAddress()
@@ -641,19 +662,7 @@
                 checkIsHasError()
             }
 
-            $(document).on('click', '.btn-method', function() {
-                let id = $(this).data('check-id')
-                let is_checked = $(`#${id}`).is(':checked')
-                if(!is_checked) {
-                    $(this).removeClass('btn-light-primary')
-                    $(this).addClass('btn-primary')
-                    $(`#${id}`).prop('checked', true)
-                } else {
-                    $(this).addClass('btn-light-primary')
-                    $(this).removeClass('btn-primary')
-                    $(`#${id}`).prop('checked', false)
-                }
-
+            $(document).on('click', '[name=status_payment\\[\\]]', function() {
                 changeMethod()
                 changeDebtValue()
                 checkIsHasError()
@@ -692,16 +701,32 @@
             function checkIsHasError() {
                 let count_error = 0
 
-                if(!$('#cust-name').val()) count_error++
-                if(!$('#cust-address').val()) count_error++
+                if(!$('#cust-name').val()) {
+                    count_error++
+                    $('#cust-name ~ .selectize-control').addClass('is-invalid')
+                } else {
+                    $('#cust-name ~ .selectize-control').removeClass('is-invalid')
+                }
+
+                if(!$('#cust-address').val()) {
+                    count_error++
+                    $('#cust-address').addClass('is-invalid')
+                } else {
+                    $('#cust-address').removeClass('is-invalid')
+                }
+
                 if($('#tb-product [data-index]').length < 1) count_error++
                 count_error += paymentMethodError()
                 
                 if(count_error == 0) {
                     $('button[type=submit]').removeClass('disabled')
                     $('#btn-open-modal').removeClass('disabled')
+                    $('#btn-open-modal').removeClass('btn-disabled')
+                    $('#btn-open-modal').addClass('btn-success')
                 }
                 else {
+                    $('#btn-open-modal').addClass('btn-disabled')
+                    $('#btn-open-modal').removeClass('btn-success')
                     $('button[type=submit]').addClass('disabled')
                     $('#btn-open-modal').addClass('disabled')
                 }
@@ -727,8 +752,12 @@
                 const total_must_paid = unformatNum($('#total_price').html().replace('Rp ', ''))
                 if(!$('#hutang').is(':checked')) {
                     const money_paid = $('#pay').val()
-                    if(total_must_paid > money_paid) return 1
+                    if(total_must_paid > money_paid) {
+                        $('#formatted_pay').addClass('is-invalid')
+                        return 1
+                    }
                 }
+                $('#formatted_pay').removeClass('is-invalid')
                 return 0
             }
 

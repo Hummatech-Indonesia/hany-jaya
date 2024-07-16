@@ -20,6 +20,7 @@ class ProductUnitResource extends JsonResource
             'product' => $this->product->name,
             'unit_id' => $this->unit_id,
             'unit' => $this->unit->name,
+            'price' => $this->selling_price
         ];
     }
 }

@@ -169,9 +169,13 @@ class ProductController extends Controller
         return BaseResponse::Ok("Berhasil mengambil data product", $product);
     }
 
-    public function lastProduct(): JsonResponse
+    public function lastProduct(Request $request): JsonResponse
     {
         $product = $this->product->firstLastest();
+        if(strtolower($request?->response ?? "-") == "code"){
+            $product = $this->productService->generateLastCode($product?->code);
+        } 
+        
         return BaseResponse::OK("Berhasil mengambil data product", $product);
     }
 }

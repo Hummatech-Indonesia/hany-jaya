@@ -70,5 +70,6 @@ Route::name('chart.')->prefix('chart')->group(function() {
 Route::name('find.')->prefix('find')->group(function (){
     Route::get('/user/by-name-address', [UserController::class, 'findUser'])->name('user.email-address');
     Route::get('/buyer/by-name-address', [BuyerController::class, 'findBuyer'])->name('buyer.name-address');
-    Route::get('/product/last-product', [UserController::class, 'lastProduct'])->name('product.last-product');
+    Route::get('/buyer/{buyer}', [BuyerController::class, 'findBuyerById'])->name('buyer.by-id');
+    Route::get('/product/last-product', [ProductController::class, 'lastProduct'])->name('product.last-product');
 });

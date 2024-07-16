@@ -10,15 +10,6 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Pembelian</h4>
                         <p>Tambah pembelian pada toko anda.</p>
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
@@ -102,9 +93,12 @@
                                     </table>
                                 </div>
                             </div>
-                            <button class="btn btn-info rounded-md px-4 mt-3" type="submit">
-                                Simpan
-                            </button>
+                            <div class="d-flex mt-3 gap-3">
+                                <a href="{{route('admin.purchases.index')}}" class="btn btn-light">Kembali</a>
+                                <button class="btn btn-info rounded-md px-4" type="submit">
+                                    Simpan
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -239,6 +233,9 @@
                     create: false,
                     maxItems: 1,
                     placeholder: "Pilih Produk",
+                    onChange: function(val) {
+                        $(this['$input'][0].closest('[data-index]')).find('.price-per-unit').attr('data-price', 0)
+                    }
                 })
 
                 const select_product = selectize_product[0].selectize
@@ -250,6 +247,11 @@
                     create: false,
                     maxItems: 1,
                     placeholder: "Pilih Satuan",
+                    onChange: function (val) {
+                        let item = this.options[val]
+                        console.log(this['$input'][0].closest('[data-index]'))
+                        $(this['$input'][0].closest('[data-index]')).find('.price-per-unit').attr('data-price', item.price)
+                    }
                 })
 
                 const select_unit = selectize_unit[0].selectize
@@ -273,7 +275,8 @@
                         response.data.forEach(function(item) {
                             options.push({
                                 value: item.id,
-                                text: item.unit
+                                text: item.unit,
+                                price: item.price
                             })
                         });
 
@@ -295,6 +298,7 @@
             $(document).on("input", ".price-per-unit", function() {
                 let unformat_input = $(this).parent().parent().find('[name=buy_price_per_unit\\[\\]]')
                 unformat_input.val(unformatNum($(this).val()))
+                if(unformatNum($(this).val()) > $(this).data('price')) Toaster('warning', 'Harga pembelian lebih mahal dari penjualan')
                 changeTotal($(this))
             })
             $(document).on("input", ".quantity", function() {
@@ -310,6 +314,21 @@
                 tr.find('[name=buy_price\\[\\]]').val(total)
                 tr.find('.buy-price').val(formatNum(total))
             }
+
+        })
+        $(document).ready(function() {
+            @if ($errors->any())
+                let error_message = ''
+                @foreach ($errors->all() as $error)
+                error_message+= `{{ $error }} <br />`
+                @endforeach
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan Input',
+                    html: `${error_message}`
+                })
+            @endif
         })
     </script>
 @endsection

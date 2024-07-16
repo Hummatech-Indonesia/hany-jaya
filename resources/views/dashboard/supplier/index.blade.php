@@ -54,6 +54,9 @@
 
         <div class="card">
             <div class="card-body table-responsive">
+                <div class="alert alert-warning" role="alert">
+                    Sebelum melakukan export / cetak data, pastikan kolom "entries per page" bernilai "semua" agar keseluruhan data tercetak.
+                </div>
                 <table class="table align-middle table-striped table-hover" id="tb-suppliers"></table>
             </div>
         </div>
@@ -64,82 +67,100 @@
     </div>
 @endsection
 @section('style')
-    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/libs/daterangepicker/daterangepicker.css')}}">
 @endsection
 @section('script')
     <script src="{{asset('assets/js/number-format.js')}}"></script>
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
     <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/forms/select2.init.js') }}"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
+    
 
     <script>
         const datatable_supplier = $('#tb-suppliers').DataTable({
-                processing: true,
-                serverSide: true,
-                order: [[1, 'asc']],
-                language: {
-                    processing: 'Memuat...'
-                },
-                ajax: {
-                    url: "{{ route('data-table.list-supplier') }}"
-                },
-                columns: [
-                    {
-                        data: "DT_RowIndex",
-                        title: "No",
-                        orderable: false,
-                        searchable: false
-                    }, {
-                        data: "name",
-                        title: "Distributor",
-                    },  
-                    {
-                        data: "address",
-                        title: "Alamat",
-                    },
-                    // {
-                    //     mRender: (data, type, row) => {
-                    //         let products = ""
-                    //         row['supplier_products'].forEach((prod) => {
-                    //             products += `<span class="badge m-1 bg-primary">${prod.product.name}</span>`
-                    //         })
-                    //         return products
-                    //     },
-                    //     title: "Produk",
-                    //     searchable: false,
-                    //     orderable: false
-                    // },
-                     {
-                        mRender: (data, type, full) => {
-                            let edit_url = "{{ route('admin.suppliers.update', 'selected_id') }}"
-                            edit_url = edit_url.replace('selected_id', full['id'])
-                            let del_url = "{{ route('admin.suppliers.destroy', 'selected_id') }}"
-                            del_url = del_url.replace('selected_id', full['id'])
-                            let supplier = JSON.stringify(full).replaceAll('"', "'")
-
-                            return `
-                                <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-sm btn-light btn-update btn-update-icon"
-                                        data-supplier="${supplier}"
-                                        data-url="${edit_url}">
-                                        <i class="ti ti-edit fs-4"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-light btn-delete btn-delete-icon"
-                                        data-url="${del_url}">
-                                        <i class="ti ti-trash fs-4"></i>
-                                    </button>
-                                </div>
-                            `
-                        },
-                        title: "Aksi",
-                        searchable: false,
-                        orderable: false,
-                        width: "15%"
+            processing: true,
+            serverSide: true,
+            order: [[1, 'asc']],
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Semua']],
+            dom: "<'row mt-2 justify-content-between'<'col-md-auto me-auto'B><'col-md-auto ms-auto input-date-container'>><'row mt-2 justify-content-between'<'col-md-auto me-auto'l><'col-md-auto me-start'f>><'row mt-2 justify-content-md-center'<'col-12'rt>><'row mt-2 justify-content-between'<'col-md-auto me-auto'i><'col-md-auto ms-auto'p>>",
+            buttons: [
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ":not(:eq(3))"
                     }
-                ]
-            })
+                }, {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: ":not(:eq(3))"
+                    }
+                }, {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ":not(:eq(3))"
+                    }, customize: function (doc) {
+                        doc.content[1].table.widths = 
+                            Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                    }
+                }
+            ],
+            initComplete: function() {
+                $('.dt-buttons').addClass('btn-group-sm')
+            },
+            language: {
+                processing: 'Memuat...'
+            },
+            ajax: {
+                url: "{{ route('data-table.list-supplier') }}"
+            },
+            columns: [
+                {
+                    data: "DT_RowIndex",
+                    title: "No",
+                    orderable: false,
+                    searchable: false
+                }, {
+                    data: "name",
+                    title: "Distributor",
+                },  
+                {
+                    data: "address",
+                    title: "Alamat",
+                },
+                {
+                    mRender: (data, type, full) => {
+                        let edit_url = "{{ route('admin.suppliers.update', 'selected_id') }}"
+                        edit_url = edit_url.replace('selected_id', full['id'])
+                        let del_url = "{{ route('admin.suppliers.destroy', 'selected_id') }}"
+                        del_url = del_url.replace('selected_id', full['id'])
+                        let supplier = JSON.stringify(full).replaceAll('"', "'")
+
+                        return `
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-sm btn-light btn-update btn-update-icon"
+                                    data-supplier="${supplier}"
+                                    data-url="${edit_url}">
+                                    <i class="ti ti-edit fs-4"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-light btn-delete btn-delete-icon"
+                                    data-url="${del_url}">
+                                    <i class="ti ti-trash fs-4"></i>
+                                </button>
+                            </div>
+                        `
+                    },
+                    title: "Aksi",
+                    searchable: false,
+                    orderable: false,
+                    width: "15%"
+                }
+            ]
+        })
     </script>
     <script>
         $("#select-product").select2({
@@ -214,7 +235,7 @@
         $('.btn-tambah').on('click', function(e) {
             e.preventDefault();
 
-            let isError = validate(['#supplier-name', '#supplier-address'], [
+            let isError = validate(['#supplier-name'], [
                 'Nama distributor tidak boleh kosong.',
                 'Alamat distributor tidak boleh kosong.'
             ])
@@ -228,7 +249,7 @@
         $('.btn-edit').on('click', function(e) {
             e.preventDefault();
 
-            let isError = validate(['#edit-supplier-name', '#edit-supplier-address'], [
+            let isError = validate(['#edit-supplier-name'], [
                 'Nama distributor tidak boleh kosong.',
                 'Alamat distributor tidak boleh kosong.'
             ])

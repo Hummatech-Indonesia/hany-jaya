@@ -18,7 +18,7 @@
                             placeholder="PT Harapan Baru" />
                     </div>
                     <div class="col-md-12 mb-4">
-                        <label for="supplier-address" class="form-label fw-semibold">Alamat <small class="text-danger">*</small></label>
+                        <label for="supplier-address" class="form-label fw-semibold">Alamat</label>
                         <textarea tabindex="2" class="form-control" name="address" id="supplier-address" cols="20" rows="4"
                             placeholder="Jl Soekarno Hatta No 9"></textarea>
                     </div>

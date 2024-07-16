@@ -2,6 +2,9 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
+            <div class="alert alert-warning" role="alert">
+                Sebelum melakukan export / cetak data, pastikan kolom "entries per page" bernilai "semua" agar keseluruhan data tercetak.
+            </div>
             <table class="table align-middle table-hover w-100" id="product-table">
             </table>
         </div>
@@ -14,7 +17,33 @@
         let product_datatable = $('#product-table').DataTable({
             processing: true,
             serverSide: true,
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Semua']],
+            dom: "<'row mt-2 justify-content-between'<'col-md-auto me-auto'B><'col-md-auto ms-auto input-date-container'>><'row mt-2 justify-content-between'<'col-md-auto me-auto'l><'col-md-auto me-start'f>><'row mt-2 justify-content-md-center'<'col-12'rt>><'row mt-2 justify-content-between'<'col-md-auto me-auto'i><'col-md-auto ms-auto'p>>",
             order: [[2, 'asc']],
+            buttons: [
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ":not(:eq(5))"
+                    }
+                }, {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: ":not(:eq(5))"
+                    }
+                }, {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ":not(:eq(5))"
+                    }, customize: function (doc) {
+                        doc.content[1].table.widths = 
+                            Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                    }
+                }
+            ],
+            initComplete: function() {
+                $('.dt-buttons').addClass('btn-group-sm')
+            },
             language: {
                 processing: `Memuat...`
             },
