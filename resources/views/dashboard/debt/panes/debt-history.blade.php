@@ -5,6 +5,8 @@
     </div>
 </div>
 
+@include('dashboard.debt.widgets.modal-debt-history-detail')
+
 @push('custom-script')
     <script>
         let tb_debt_history = $('#tb-debt-history').DataTable({
@@ -47,7 +49,7 @@
                 },
                 {
                     mRender: (data, type, row) => {
-                        return '<button type="button" class="btn btn-primary"><i class="ti ti-list"></i></button>'
+                        return `<button type="button" class="btn btn-light btn-detail detail-history-debt" data-debt="${JSON.stringify(row).replaceAll('"', "'")}"><i class="ti ti-eye"></i></button>`
                     }, 
                     title: "Aksi",
                     orderable:false,

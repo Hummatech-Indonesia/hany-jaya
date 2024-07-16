@@ -73,7 +73,7 @@
                 },
                 {
                     mRender: (data, type, row) => {
-                        return '<button type="button" class="btn btn-primary"><i class="ti ti-list"></i></button>'
+                        return '<button type="button" class="btn btn-detail btn-light"><i class="ti ti-eye"></i></button>'
                     }, 
                     title: "Aksi",
                     orderable:false,
