@@ -34,6 +34,11 @@ class DebtController extends Controller
         return view('dashboard.debt.index', compact('debts'));
     }
 
+    public function show($buyer_id): View
+    {
+        return view('dashboard.debt.show');
+    }
+
     /**
      * payDebt
      *

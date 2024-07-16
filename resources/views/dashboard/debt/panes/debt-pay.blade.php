@@ -39,14 +39,6 @@
                     render: (data, type, row) => {
                         return moment(data).locale('id').format('LL')
                     },
-                },
-                {
-                    mRender: (data, type, row) => {
-                        return '<button type="button" class="btn btn-primary"><i class="ti ti-list"></i></button>'
-                    }, 
-                    title: "Aksi",
-                    orderable:false,
-                    searchable: false
                 }
             ]
         })

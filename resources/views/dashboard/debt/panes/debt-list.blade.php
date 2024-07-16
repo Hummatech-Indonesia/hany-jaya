@@ -55,6 +55,9 @@
                 }, {
                     data: "buyer_name",
                     title: "Pembeli",
+                    render: (data, type, row) => {
+                        return `${row.buyer_name} - ${row.buyer_address}`
+                    }
                 }, {
                     data: "total_debt",
                     title: "Total Hutang",
@@ -76,7 +79,9 @@
                 },
                 {
                     mRender: (data, type, row) => {
-                        return '<button type="button" class="btn btn-detail btn-light"><i class="ti ti-eye"></i></button>'
+                        let url = "{{ route('cashier.detail.debt', 'selected_buyer') }}"
+                        url = url.replace('selected_buyer', row.buyer_id)
+                        return `<a href="${url}" class="btn btn-primary-light btn-detail"><i class="ti ti-eye"></i></a>`
                     }, 
                     title: "Aksi",
                     orderable:false,
