@@ -31,6 +31,9 @@
                     extend: 'pdf',
                     exportOptions: {
                         columns: ":not(:eq(5))"
+                    }, customize: function (doc) {
+                        doc.content[1].table.widths = 
+                            Array(doc.content[1].table.body[0].length + 1).join('*').split('');
                     }
                 }
             ],
