@@ -45,6 +45,7 @@ class DetailSellingRepository extends BaseRepository implements DetailSellingInt
             'NULL as supplier,
             CONCAT(buyers.name, " - ", buyers.address) as buyer,
             units.name as unit_name,
+            detail_sellings.quantity as quantity,
             detail_sellings.product_unit_price as total_per_unit_price,
             detail_sellings.selling_price as total_price,
             detail_sellings.created_at as date,
