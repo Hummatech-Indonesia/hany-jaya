@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/dist/sweetalert2.min.css')}}">
 @endsection
 @section('content')
+    @include('components.swal-message')
     <div class="container-fluid max-w-full">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
@@ -400,19 +401,6 @@
 
                 return count_error
             }
-
-            @if ($errors->any())
-                let error_message = ''
-                @foreach ($errors->all() as $error)
-                    error_message+= `{{ $error }} <br />`
-                @endforeach
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Kesalahan Input',
-                    html: `${error_message}`
-                })
-            @endif
         })
     </script>
 @endsection

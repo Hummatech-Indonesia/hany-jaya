@@ -11,6 +11,7 @@
     </style>
 @endpush
 @section('content')
+    @include('components.swal-message')
     <div class="container-fluid max-w-full">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">

@@ -98,7 +98,7 @@
     </div>
     @include('dashboard.debt.widgets.detail-debt')
     @include('dashboard.debt.widgets.modal-pay-debt')
-    @include('components.swal-success')
+    @include('components.swal-message')
 @endsection
 @section('style')
 <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.css" rel="stylesheet">
