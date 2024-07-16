@@ -22,10 +22,12 @@ class RoleSeeder extends Seeder
         $reflection = new \ReflectionClass(RoleEnum::class);
 
         foreach ($reflection->getConstants() as $case) {
-            Role::create([
-                'name' => $case,
-                'uuid' => Uuid::uuid()
-            ]);
+            if ($case != 'owner') {
+                Role::create([
+                    'name' => $case,
+                    'uuid' => Uuid::uuid()
+                ]);
+            }
         }
     }
 }
