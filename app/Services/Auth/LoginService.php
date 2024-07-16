@@ -34,7 +34,7 @@ class LoginService
             if($remember_token) $data["remember_me"] = $remember_token;
             if (isset($data['remember_me']) && !empty($data['remember_me'])) {
                 setcookie("email", $data['email'], time() + 3600);
-                setcookie("password", $data['password'], time() + 3600);
+                setcookie("password", $password, time() + 3600);
             } else {
                 setcookie("email", "");
                 setcookie("password", "");
