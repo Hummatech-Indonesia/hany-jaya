@@ -198,6 +198,13 @@
     <script>
         $(document).ready(function() {
 
+            $.ajax({
+                url: "{{route('find.product.last-product')}}?response=code",
+                success: function(res) {
+                    $('[name=code]').val(res.data)
+                }
+            })
+
             function createNewCategory(val) {
                 $.ajax({
                     method: 'POST',
