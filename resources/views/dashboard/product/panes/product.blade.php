@@ -96,7 +96,6 @@
                 {
                     title: "Distributor",
                     mRender: (data, type, full) => {
-                        console.log(full)
                         let suppliers = "";
                         let list_supplier = [];
                         full['detail_purchases'].forEach((detail_purchase, index) => {
@@ -148,7 +147,6 @@
             $('#name-product-detail').val(product['name']);  
             $('#code-product-detail').val(product['code']);
             $('#category-detail').val(product['category']['name']);
-            console.log(product)
             let table_unit = ''
             product['product_units'].forEach((unit, index) => {
                 table_unit += `

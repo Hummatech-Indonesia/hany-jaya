@@ -69,22 +69,22 @@
                 </ul>
 
                 @role('admin')
-                            <div id="add-thing">
-                                <div data-active="product">
-                                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Tambah Produk</a>
-                                </div>
-                                <div data-active="category" class="d-none">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCategory">
-                                        Tambah Kategori
-                                    </button>
-                                </div>
-                                <div data-active="unit" class="d-none">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddUnit">
-                                        Tambah Satuan
-                                    </button>
-                                </div>
-                            </div>
-                        @endrole
+                    <div id="add-thing">
+                        <div data-active="product">
+                            <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Tambah Produk</a>
+                        </div>
+                        <div data-active="category" class="d-none">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddCategory">
+                                Tambah Kategori
+                            </button>
+                        </div>
+                        <div data-active="unit" class="d-none">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddUnit">
+                                Tambah Satuan
+                            </button>
+                        </div>
+                    </div>
+                @endrole
             </div>
         </div>
 
@@ -109,6 +109,8 @@
 @endsection
 @section('script')
     <script src="{{asset('assets/js/number-format.js')}}"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
