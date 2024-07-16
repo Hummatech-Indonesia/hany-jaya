@@ -36,7 +36,7 @@ class DetailPurchaseRepository extends BaseRepository implements DetailPurchaseI
             'suppliers.name as supplier,
             NULL as buyer,
             units.name as unit_name,
-            detail.purchases.quantity as quantity,
+            detail_purchases.quantity as quantity,
             detail_purchases.buy_price_per_unit as total_per_unit_price,
             detail_purchases.buy_price as total_price,
             detail_purchases.created_at as date,
