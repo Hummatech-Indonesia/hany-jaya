@@ -95,7 +95,7 @@ Route::middleware('auth')->group(function () {
 
         // Route::get('history-debt', [DebtController::class, 'index'])->name('history.debt');
         Route::get('debt', [DebtController::class, 'index'])->name('history.debt');
-        Route::get('debt/{buyer_id}', [DebtController::class, 'show'])->name('detail.debt');
+        Route::get('debt/{buyer}', [DebtController::class, 'show'])->name('detail.debt');
         // Route::get('list-user-debt', [BuyerController::class, 'listDebt'])->name('list.debt');
         // Route::get('history-pay-debt', [HistoryPayDebtController::class, 'index'])->name('history.pay.debt');
     });
