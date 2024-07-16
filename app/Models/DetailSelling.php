@@ -17,7 +17,7 @@ class DetailSelling extends Model implements HasProduct, HasProductUnit
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'selling_id', 'product_id', 'product_unit_id', 'quantity', 'selling_price', 'nominal_discount','product_unit_price'
+        'id', 'selling_id', 'product_id', 'product_unit_id', 'quantity', 'selling_price', 'nominal_discount','product_unit_price', 'selling_price_original'
     ];
 
     /**

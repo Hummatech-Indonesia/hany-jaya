@@ -124,10 +124,10 @@ class SellingController extends Controller
                         'quantity' => $serviceSellingPrice['product']->quantity - $serviceSellingPrice['quantity']
                     ]);
                     $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
-                    $test = $this->detailSelling->store([
+                    $this->detailSelling->store([
                         'selling_id' => $selling->id,
                         'product_id' => $data['product_id'][$i],
-                        'product_unit_price' => $productUnit->selling_price,
+                        'product_unit_price' => ($data['selling_price'][$i] / $data['quantity'][$i]),
                         'product_unit_id' => $data['product_unit_id'][$i],
                         'quantity' => $data['quantity'][$i],
                         'selling_price' => $data['selling_price'][$i],
