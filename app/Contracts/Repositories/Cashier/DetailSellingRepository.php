@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\DetailPurchase;
 use App\Models\DetailSelling;
+use Illuminate\Http\Request;
 
 class DetailSellingRepository extends BaseRepository implements DetailSellingInterface
 {
@@ -35,5 +36,25 @@ class DetailSellingRepository extends BaseRepository implements DetailSellingInt
     {
         return $this->model->query()
             ->count();
+    }
+
+    public function detailProductCustom(Request $request): mixed
+    {
+        return $this->model->query()
+        ->selectRaw(
+            'NULL as supplier,
+            CONCAT(buyers.name, " - ", buyers.address) as buyer,
+            units.name as unit_name,
+            detail_sellings.product_unit_price as total_per_unit_price,
+            detail_sellings.selling_price as total_price,
+            detail_sellings.created_at as date,
+            "selling" as type'
+        )
+        ->leftJoin('sellings','detail_sellings.selling_id','=','sellings.id')
+        ->leftJoin('buyers','sellings.buyer_id','=','buyers.id')
+        ->leftJoin('products','detail_sellings.product_id','=','products.id')
+        ->leftJoin('product_units','detail_sellings.product_id','=','product_units.product_id')
+        ->leftJoin('units','product_units.unit_id','=','units.id')
+        ->where('detail_sellings.product_id',$request->product_id);
     }
 }

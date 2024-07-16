@@ -28,4 +28,24 @@ class DetailPurchaseRepository extends BaseRepository implements DetailPurchaseI
         return $this->model->query()
             ->create($data);
     }
+
+    public function detailProductCustom(Request $request): mixed
+    {
+        return $this->model->query()
+        ->selectRaw(
+            'suppliers.name as supplier,
+            NULL as buyer,
+            units.name as unit_name,
+            detail_purchases.buy_price_per_unit as total_per_unit_price,
+            detail_purchases.buy_price as total_price,
+            detail_purchases.created_at as date,
+            "buying" as type'
+        )
+        ->leftJoin('purchases','detail_purchases.purchase_id','=','purchases.id')
+        ->leftJoin('suppliers','purchases.supplier_id','=','suppliers.id')
+        ->leftJoin('products','detail_purchases.product_id','=','products.id')
+        ->leftJoin('product_units','detail_purchases.product_id','=','product_units.product_id')
+        ->leftJoin('units','product_units.unit_id','=','units.id')
+        ->where('detail_purchases.product_id',$request->product_id);
+    }
 }

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Interfaces\Admin\CategoryInterface;
+use App\Contracts\Interfaces\Admin\DetailPurchaseInterface;
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Contracts\Interfaces\Admin\UnitInterface;
+use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Helpers\ResponseHelper;
 use App\Helpers\BaseDatatable;
 use App\Helpers\BaseResponse;
@@ -28,13 +30,18 @@ class ProductController extends Controller
     private CategoryInterface $category;
     private SupplierInterface $supplier;
     private UnitInterface $unit;
+    private DetailPurchaseInterface $detailPurchase;
+    private DetailSellingInterface $detailSellings;
 
-    public function __construct(ProductInterface $product, ProductService $productService, CategoryInterface $category, UnitInterface $unit, SupplierInterface $supplier)
+    public function __construct(ProductInterface $product, ProductService $productService, CategoryInterface $category, UnitInterface $unit, SupplierInterface $supplier,
+    DetailPurchaseInterface $detailPurchase,DetailSellingInterface $detailSellings)
     {
         $this->product = $product;
         $this->supplier = $supplier;
         $this->unit = $unit;
         $this->category = $category;
+        $this->detailPurchase = $detailPurchase;
+        $this->detailSellings = $detailSellings;
         $this->productService = $productService;
     }
 
@@ -177,5 +184,16 @@ class ProductController extends Controller
         } 
         
         return BaseResponse::OK("Berhasil mengambil data product", $product);
+    }
+
+    public function dataDetailTable(Request $request, Product $product): JsonResponse
+    {
+        $request->merge(["product_id" => $product->id]);
+        $data1 = $this->detailPurchase->detailProductCustom($request);
+        $data2 = $this->detailSellings->detailProductCustom($request);
+
+        $data = $data1->union($data2)->orderBy('date','DESC')->get();
+        
+        return BaseDatatable::TableV2($data->toArray());
     }
 }
