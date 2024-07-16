@@ -34,7 +34,7 @@
                 {
                     mRender: (data, type, full) => {
                         let string_data = JSON.stringify(full).replaceAll('"', "'")
-                        let edit_url = "{{route('admin.units.edit', 'selected_id')}}"
+                        let edit_url = "{{route('admin.units.update', 'selected_id')}}"
                         edit_url = edit_url.replace("selected_id", full['id'])
                         let del_url = "{{route('admin.units.destroy', 'selected_id')}}"
                         del_url = del_url.replace("selected_id", full['id'])
@@ -91,23 +91,23 @@
         }
     
         // validasi form 
-        $(document).on('submit', '#form-create-unit', function(e) {
+        $(document).on('click', '#form-create-unit button[type=submit]', function(e) {
             e.preventDefault();
             let listId = ['#name-unit'];
             let listMessage = ['Nama Satuan tidak boleh kosong'];
             if (validate(listId, listMessage)) {
                 return;
             }
-            $(this).unbind('submit').submit();
+            $(this).closest('#form-create-unit').submit();
         })
-        $(document).on('submit', '#form-update-unit', function(e) {
+        $(document).on('click', '#form-update-unit button[type=submit]', function(e) {
             e.preventDefault();
             let listId = ['#edit-name-unit'];
             let listMessage = ['Nama Satuan tidak boleh kosong'];
             if (validate(listId, listMessage)) {
                 return;
             }
-            $(this).unbind('submit').submit();
+            $(this).closest('#form-update-unit').submit();
         })
     
         // clear error message 
