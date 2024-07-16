@@ -26,31 +26,6 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            @if (session()->has('error'))
-                <div class="col-12">
-                    <x-alert-failed />
-                </div>
-            @endif
-            @if ($errors->any())
-                <div class="col-12">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        <div class="alert-message">
-                            <strong>Terjadi Kesalahan</strong>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                        </div>
-                    </div>
-                </div>
-            @endif
-            @if (session()->has('success'))
-                <div class="col-12">
-                    <x-alert-success />
-                </div>
-            @endif
-        </div>
 
         <div class="card">
             <div class="card-body table-responsive">
@@ -62,6 +37,7 @@
         </div>
 
         @include('dashboard.supplier.widgets.modal-update')
+        @include('components.swal-message')
 
         <x-dialog.delete title="Hapus Distributor" />
     </div>
@@ -261,17 +237,5 @@
             return false
         });
         
-    </script>
-    <script>
-        @if (session()->has('success'))
-            toastr.success(
-                "Berhasil",
-                "{{ session('success') }}", {
-                    showMethod: "slideDown",
-                    hideMethod: "slideUp",
-                    timeOut: 2000
-                }
-            );
-        @endif
     </script>
 @endsection
