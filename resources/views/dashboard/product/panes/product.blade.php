@@ -143,7 +143,9 @@
             let product = $(this).data('product');
             product = JSON.parse(product.replace(/'/g, '"'))
 
-            $('#img-detail').attr('src', "{{ asset('storage') }}/"+product['image']);
+            console.log(product['image'])
+            let img_url = product['image'] ? "{{ asset('storage') }}/"+product['image'] : '/no_image_available.jpeg'
+            $('#img-detail').attr('src', img_url);
             $('#name-product-detail').val(product['name']);  
             $('#code-product-detail').val(product['code']);
             $('#category-detail').val(product['category']['name']);
