@@ -113,4 +113,16 @@ class DebtRepository extends BaseRepository implements DebtInterface
         ->groupBy('buyers.name', 'buyers.address','buyers.id')
         ->get();
     }
+
+    /**
+     * get data detail debt
+     */
+    public function getDetailDebt(Request $request): mixed
+    {
+        return $this->model->query()
+        ->selectRaw('  nominal as amount,
+        created_at as date,
+        "debt" as type')
+        ->where('buyer_id', $request->buyer_id);
+    }
 }

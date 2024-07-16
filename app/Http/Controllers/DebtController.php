@@ -66,4 +66,19 @@ class DebtController extends Controller
         $data = $this->debt->getSumDebt();
         return BaseDatatable::TableV2($data->toArray());
     }
+
+    /**
+     * api for datatable data debt
+     * 
+     * @return DataTable
+     */
+    public function tableDetailDebt(Request $request, Buyer $buyer)
+    {
+        $request->merge(["buyer_id" => $buyer->id]);
+        $data1 = $this->debt->getDetailDebt($request);
+        $data2 = $this->historyPayDebt->getDetailDebt($request);
+        $data = $data1->union($data2)->orderBy('date','DESC')->get();
+
+        return BaseDatatable::TableV2($data->toArray());
+    }
 }

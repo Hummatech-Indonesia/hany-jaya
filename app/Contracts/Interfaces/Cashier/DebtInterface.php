@@ -8,6 +8,7 @@ use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\SumInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 use App\Contracts\Interfaces\Eloquent\WithRelationInterface;
+use Illuminate\Http\Request;
 
 interface DebtInterface extends CustomPaginationInterface, StoreInterface, UpdateInterface, SumInterface, GetInterface, WithRelationInterface
 {
@@ -16,4 +17,7 @@ interface DebtInterface extends CustomPaginationInterface, StoreInterface, Updat
      * Get summary data from this data
      */
     public function getSumDebt(): mixed;
+
+    public function getDetailDebt(Request $request): mixed;
+
 }

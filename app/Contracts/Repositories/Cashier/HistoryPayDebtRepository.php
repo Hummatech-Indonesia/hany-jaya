@@ -46,4 +46,16 @@ class HistoryPayDebtRepository extends BaseRepository implements HistoryPayDebtI
     {
         return $this->model->with($data)->get();
     }
+
+    /**
+     * get data detail debt
+     */
+    public function getDetailDebt(Request $request): mixed
+    {
+        return $this->model->query()
+        ->selectRaw('pay_debt as amount,
+        created_at as date,
+        "paying" as type')
+        ->where('buyer_id', $request->buyer_id);
+    }
 }
