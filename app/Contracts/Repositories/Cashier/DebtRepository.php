@@ -100,7 +100,8 @@ class DebtRepository extends BaseRepository implements DebtInterface
     {
         return $this->model->query()
         ->selectRaw(
-            'buyers.name as buyer_name,
+            'buyers.id as buyer_id,
+            buyers.name as buyer_name,
             buyers.address as buyer_address,
             SUM(debts.nominal) as total_debt,
             COALESCE(SUM(history_pay_debts.pay_debt),0) as total_pay_debt,
@@ -109,7 +110,7 @@ class DebtRepository extends BaseRepository implements DebtInterface
         )
         ->leftJoin('buyers', 'debts.buyer_id', '=', 'buyers.id')
         ->leftJoin('history_pay_debts', 'buyers.id', '=', 'history_pay_debts.buyer_id')
-        ->groupBy('buyers.name', 'buyers.address')
+        ->groupBy('buyers.name', 'buyers.address','buyers.id')
         ->get();
     }
 }
