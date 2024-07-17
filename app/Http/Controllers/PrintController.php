@@ -10,7 +10,7 @@ use App\Helpers\FormatedHelper;
 
 class PrintController extends Controller
 {
-    private $full_page = 60;
+    private $full_page = 62;
     private $title_page = 36;
 
     public function print_index(array $products) {
@@ -23,7 +23,8 @@ class PrintController extends Controller
             $this->getText($printer, $products);
 
             $printer->feedForm();
-            $printer->feedReverse();
+            $printer->release();
+            $printer->feedReverse(20);
 
             $printer->close();
             return [
@@ -45,13 +46,15 @@ class PrintController extends Controller
         $printer->text($text);
         $printer->setPrintLeftMargin(15);
         $text = $this->centerText('Wilayut, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258', $this->full_page);
-        $text .= $this->centerText('Telp. 0822-4436-5718', $this->full_page);
-        $text .= $this->centerText($products["invoice_number"], $this->full_page);
+        $text .= $this->centerText('Telp. 0822-4436-5718', $this->full_page)."\n";
+        $text .= $this->addRightPadding(" Nama    : ".$products["buyer_name"], $this->full_page)."\n";
+        $text .= $this->addRightPadding(" Invoice : ".$products["invoice_number"], $this->full_page/2);
+        $text .= $this->addLeftPadding("Tanggal : ".$products["date"], $this->full_page/2)."\n";
 
         // S:Draw Header Table
         $text .= $this->drawBottomLine($this->full_page);
         $text .= $this->addRightPadding(' Produk', 30);
-        $text .= $this->addRightPadding('Qty', 6);
+        $text .= $this->addRightPadding('Qty', 7);
         $text .= $this->addRightPadding('Harga', 14);
         $text .= "Total\n";
         $text .= $this->drawBottomLine($this->full_page);
@@ -61,7 +64,7 @@ class PrintController extends Controller
             $text .= ' ';
             $product_name = $this->addRightPadding($product['name'], 28, true);
             $text .= $product_name[0]." ";
-            $text .= $this->addRightPadding(FormatedHelper::rupiahCurrency($product['qty']), 6);
+            $text .= $this->addRightPadding(FormatedHelper::formatNumber($product['qty']), 7);
             $text .= $this->addRightPadding(FormatedHelper::rupiahCurrency($product['price']), 14);
             $text .= FormatedHelper::rupiahCurrency($product['price'] * $product['qty'])."\n";
             
@@ -74,13 +77,13 @@ class PrintController extends Controller
         $text .= $this->drawBottomLine($this->full_page);
 
         $text .= $this->addLeftPadding("Total :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["total_price"]), 20)."\n";
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["total_price"]), 23)."\n";
         $text .= $this->addLeftPadding("Bayar :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["pay_price"]), 20)."\n";
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["pay_price"]), 23)."\n";
         $text .= $this->addLeftPadding("Kembalian :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["return_price"]), 20)."\n";
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["return_price"]), 23)."\n";
         $text .= $this->addLeftPadding("Hutang :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["total_debt_price"]), 20)."\n";
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["total_debt_price"]), 23)."\n";
 
         $text .= $this->drawBottomLine($this->full_page);
 
