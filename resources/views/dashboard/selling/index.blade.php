@@ -790,7 +790,7 @@
                 @endforeach
                 Swal.fire({
                     icon: "error",
-                    html: `<ul>${msg}</ul>`,
+                    html: `<ul>${msg.replaceAll('`', "'")}</ul>`,
                     timerProgressBar: true,
                 });
             @endif

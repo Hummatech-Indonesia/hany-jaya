@@ -10,7 +10,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Kesalahan Input',
-                    html: `${error_message}`
+                    html: `${error_message.replaceAll('`', "'")}`
                 })
             @endif
         })
