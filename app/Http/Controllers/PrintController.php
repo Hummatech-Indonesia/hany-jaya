@@ -50,7 +50,7 @@ class PrintController extends Controller
 
         // S:Draw Header Table
         $text .= $this->drawBottomLine($this->full_page);
-        $text .= $this->addRightPadding(' Produk', 29);
+        $text .= $this->addRightPadding(' Produk', 30);
         $text .= $this->addRightPadding('Qty', 6);
         $text .= $this->addRightPadding('Harga', 14);
         $text .= "Total\n";
@@ -61,7 +61,7 @@ class PrintController extends Controller
             $text .= ' ';
             $product_name = $this->addRightPadding($product['name'], 28, true);
             $text .= $product_name[0]." ";
-            $text .= $this->addRightPadding($product['qty'], 6);
+            $text .= $this->addRightPadding(FormatedHelper::rupiahCurrency($product['qty']), 6);
             $text .= $this->addRightPadding(FormatedHelper::rupiahCurrency($product['price']), 14);
             $text .= FormatedHelper::rupiahCurrency($product['price'] * $product['qty'])."\n";
             
