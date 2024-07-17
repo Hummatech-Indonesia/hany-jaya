@@ -41,14 +41,15 @@ class SellingService
         
         if ($selling_invoice) {
             if(strpos($selling_invoice->invoice, $number_default) == 0){
-                $invoice_number = substr($selling_invoice->invoice_number, -6);
+                $invoice_number = substr($selling_invoice->invoice, -4);
+    
                 $length = strlen($invoice_number);
 
                 $invoice_number = intval($invoice_number);
                 $integer = $invoice_number + 1;
                 $invoice_number = str_pad(intval($integer), $length, "0", STR_PAD_LEFT);
                 
-                $external_id = "HNJY" . $invoice_number;
+                $external_id = "HNJY" . $number_default . $invoice_number;
             }else {
                 $external_id = "HNJY" . $number_default . "0001";
             }
