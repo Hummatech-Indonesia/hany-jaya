@@ -20,6 +20,19 @@ class FormatedHelper
     }
 
     /**
+     * convert to indonesian number format
+     *
+     * @param float $number
+     *
+     * @return string
+     */
+
+    public static function formatNumber(float $number): string
+    {
+        return number_format($number, 0, ',', '.');
+    }
+
+    /**
      * dateTimeFormat
      *
      * @param  mixed $dateTime
