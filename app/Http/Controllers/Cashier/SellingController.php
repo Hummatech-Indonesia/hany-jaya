@@ -83,7 +83,7 @@ class SellingController extends Controller
         }else {
             $data["status_payment"] = StatusEnum::CASH->value;
         }
-              
+
         $serviceSellingPrice = $this->sellingService->sellingPrice($data);
 
         if (is_array($serviceSellingPrice)) {
@@ -133,10 +133,9 @@ class SellingController extends Controller
                     "date" => Carbon::parse($selling->created_at)->format("d M Y"),
                     "details" => [],
                 ];
-
                 for ($i = 0; $i < count($data['product_id']); $i++) {
-                    $serviceSellingPrice['product']->update([
-                        'quantity' => $serviceSellingPrice['product']->quantity - $serviceSellingPrice['quantity']
+                    $serviceSellingPrice['product'][$i]->update([
+                        'quantity' => $serviceSellingPrice['product'][$i]->quantity - (int)$data['quantity'][$i]
                     ]);
                     $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
                     $this->detailSelling->store([

@@ -95,6 +95,7 @@ class SellingService
     {
         $sellingPrice = 0;
 
+        $products = [];
         for ($i = 0; $i < count($data['selling_price']); $i++) {
             $sellingPrice += $data['selling_price'][$i];
             $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
@@ -104,12 +105,14 @@ class SellingService
             if ($product->quantity < $quantity) {
                 return 'Stok tidak mencukupi';
             }
+
+            $products[] = $product;
         }
         return [
             'selling_price' => $sellingPrice,
             'product_unit' => $productUnit,
             'quantity' => $quantity,
-            'product' => $product
+            'product' => $products
         ];
     }
 
