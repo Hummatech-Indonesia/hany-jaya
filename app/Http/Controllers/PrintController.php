@@ -13,21 +13,12 @@ class PrintController extends Controller
     private $full_page = 60;
     private $title_page = 36;
 
-    public function index() {
+    public function print_index(array $products) {
         try {
-            $conn =  new WindowsPrintConnector('Epson LQ-310');
+            $conn =  new WindowsPrintConnector(env('PRINT_NAME') ?? 'localhost');
             $printer = new Printer($conn);
 
             $printer->initialize();
-            $products = [
-                ["name" => 'Contoh Barang', "qty" => 1, "price" => 25],
-                ["name" => 'Contoh Barang Satu', "qty" => 10, "price" => 2000],
-                ["name" => 'Contoh Barang KeTujuh ', "qty" => 100, "price" => 25000],
-                ["name" => 'Contoh', "qty" => 100, "price" => 25000],
-                ["name" => 'This is a long string that needs to be split into smaller chunks.', "qty" => 100, "price" => 25000],
-                ["name" => 'Contoh Barang KeTujuh ', "qty" => 100, "price" => 25000],
-                ["name" => 'Contoh', "qty" => 100, "price" => 25000],
-            ];
 
             $this->getText($printer, $products);
 
@@ -35,8 +26,15 @@ class PrintController extends Controller
             $printer->feedReverse();
 
             $printer->close();
+            return [
+                "success" => true,
+                "message" => "Berhasil print"
+            ];
         } catch(Exception $e) {
-            echo($e);
+            return [
+                "success" => false,
+                "message" => $e->getMessage()
+            ];
         }
     }
 
@@ -46,8 +44,9 @@ class PrintController extends Controller
         $text  = $this->centerText('Hany Jaya', $this->title_page);
         $printer->text($text);
         $printer->setPrintLeftMargin(15);
-        $text = $this->centerText('Jl. Jalan ke Pekanbaru', $this->full_page);
-        $text .= $this->centerText('Telp. 0888-8888-8888', $this->full_page);
+        $text = $this->centerText('Wilayut, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258', $this->full_page);
+        $text .= $this->centerText('Telp. 0822-4436-5718', $this->full_page);
+        $text .= $this->centerText($products["invoice_number"], $this->full_page);
 
         // S:Draw Header Table
         $text .= $this->drawBottomLine($this->full_page);
@@ -58,7 +57,7 @@ class PrintController extends Controller
         $text .= $this->drawBottomLine($this->full_page);
         // E:Draw Header Table
 
-        foreach($products as $product) {
+        foreach($products["details"] as $product) {
             $text .= ' ';
             $product_name = $this->addRightPadding($product['name'], 28, true);
             $text .= $product_name[0]." ";
@@ -75,13 +74,13 @@ class PrintController extends Controller
         $text .= $this->drawBottomLine($this->full_page);
 
         $text .= $this->addLeftPadding("Total :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency(111_000_000), 20)."\n";
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["total_price"]), 20)."\n";
         $text .= $this->addLeftPadding("Bayar :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency(11_000_000), 20)."\n";
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["pay_price"]), 20)."\n";
         $text .= $this->addLeftPadding("Kembalian :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency(0), 20)."\n";
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["return_price"]), 20)."\n";
         $text .= $this->addLeftPadding("Hutang :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency(100_000_000), 20)."\n";
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["total_debt_price"]), 20)."\n";
 
         $text .= $this->drawBottomLine($this->full_page);
 

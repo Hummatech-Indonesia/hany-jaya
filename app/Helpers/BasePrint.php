@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Http\Controllers\PrintController;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\Printer;
 class BasePrint {
 
     public static function defaultNative()
@@ -31,5 +34,11 @@ class BasePrint {
         fclose($handle);
         copy($file, "//localhost/xprinter");  
         unlink($file);
+    }
+
+    public static function mikePrint(array $data)
+    {
+        $print = new PrintController();
+        return $print->print_index($data);
     }
 }

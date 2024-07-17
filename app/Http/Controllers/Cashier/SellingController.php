@@ -103,7 +103,9 @@ class SellingController extends Controller
             if (is_array($service)) {
                 $selling = $this->selling->store($service);
     
+                $debt_price = 0;
                 if ($service['status_payment'] == StatusEnum::DEBT->value) {
+                    $debt_price = $serviceSellingPrice["selling_price"];
                     $this->debt->store([
                         'buyer_id' => $service['buyer_id'],
                         'selling_id' => $selling->id,
@@ -112,6 +114,7 @@ class SellingController extends Controller
                 }
 
                 if($service["status_payment"] == StatusEnum::SPLIT->value) {
+                    $debt_price = $service["debt"];
                     $this->debt->store([
                         'buyer_id' => $service['buyer_id'],
                         'selling_id' => $selling->id,
@@ -119,6 +122,15 @@ class SellingController extends Controller
                     ]);
                 }
     
+                $details = [
+                    "invoice_number" => $service["invoice_number"],
+                    "total_price" => $selling->amount_price,
+                    "pay_price" => $selling->pay,
+                    "return_price" => $selling->return,
+                    "total_debt_price" => $debt_price,
+                    "details" => [],
+                ];
+
                 for ($i = 0; $i < count($data['product_id']); $i++) {
                     $serviceSellingPrice['product']->update([
                         'quantity' => $serviceSellingPrice['product']->quantity - $serviceSellingPrice['quantity']
@@ -134,10 +146,21 @@ class SellingController extends Controller
                         'nominal_discount' => intval($productUnit->selling_price * $data["quantity"][$i]) - intval($data['selling_price'][$i]),
                         'selling_price_original' => $productUnit->selling_price
                     ]);
+
+                    $details["details"][] = [
+                        "name" => $productUnit->product->name. " (". $productUnit->unit->name . ")",
+                        "qty" => $data['quantity'][$i],
+                        "price" => ($data['selling_price'][$i] / $data['quantity'][$i])
+                    ];
                 }
 
                 DB::commit();
-                return to_route('cashier.index')->with('success', trans('alert.add_success'));
+                $printed = BasePrint::mikePrint($details);
+                if($printed["success"]){
+                    return to_route('cashier.index')->with('success', trans('alert.add_success'));
+                } else {
+                    return to_route('cashier.index')->with('success', 'Berhasil menjual, tetapi mohon maaf tidak bisa melakukan print saat ini!');
+                }
             } else {
                 DB::rollBack();
                 return redirect()->back()->withErrors($service);
@@ -288,6 +311,7 @@ class SellingController extends Controller
 
     public function printed()
     {
-        return BasePrint::defaultNative();
+        BasePrint::mikePrint([]);
+        return "YEY PRINT";
     }
 }

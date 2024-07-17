@@ -34,18 +34,26 @@ class SellingService
     public function invoiceNumber(array $data): array|string
     {
         $getYear = substr(now()->format('Y'), -2);
+        $getDate = now()->format('md');
+        $number_default = $getYear.$getDate;
 
         $selling_invoice = $this->selling->getInvoice();
         
         if ($selling_invoice) {
-            // $invoice_number = substr($selling_invoice->invoice_number, -4);
-            $invoice_number = intval($selling_invoice->invoice);
-            $integer = $invoice_number + 1;
-            $length = 4;
-            $invoice_number = str_pad(intval($integer), $length, "0", STR_PAD_LEFT);
-            $external_id = "HNJY" . $getYear . $invoice_number;
+            if(strpos($selling_invoice->invoice, $number_default)){
+                $invoice_number = substr($selling_invoice->invoice_number, -6);
+                $length = strlen($invoice_number);
+
+                $invoice_number = intval($invoice_number);
+                $integer = $invoice_number + 1;
+                $invoice_number = str_pad(intval($integer), $length, "0", STR_PAD_LEFT);
+                
+                $external_id = "HNJY" . $invoice_number;
+            }else {
+                $external_id = "HNJY" . $number_default . "0001";
+            }
         } else {
-            $external_id = "HNJY" . $getYear . "0001";
+            $external_id = "HNJY" . $number_default . "0001";
         }
 
         $data['invoice_number'] = $external_id;

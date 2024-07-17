@@ -37,6 +37,7 @@ class ProductUnitRepository extends BaseRepository implements ProductUnitInterfa
     public function show(mixed $id): mixed
     {
         return $this->model->query()
+            ->with("product",'unit')
             ->findOrFail($id);
     }
    
