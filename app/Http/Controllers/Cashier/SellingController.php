@@ -130,7 +130,7 @@ class SellingController extends Controller
                     "return_price" => $selling->return,
                     "total_debt_price" => $debt_price,
                     "buyer_name" => $data["name"],
-                    "date" => Carbon::parse($selling->created_at)->format("DD MMMM Y"),
+                    "date" => Carbon::parse($selling->created_at)->format("d M Y"),
                     "details" => [],
                 ];
 
