@@ -128,6 +128,7 @@ class SellingController extends Controller
                     "pay_price" => $selling->pay,
                     "return_price" => $selling->return,
                     "total_debt_price" => $debt_price,
+                    "buyer_name" => $data["name"],
                     "details" => [],
                 ];
 

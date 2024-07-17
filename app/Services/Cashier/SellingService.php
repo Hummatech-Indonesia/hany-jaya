@@ -40,7 +40,7 @@ class SellingService
         $selling_invoice = $this->selling->getInvoice();
         
         if ($selling_invoice) {
-            if(strpos($selling_invoice->invoice, $number_default)){
+            if(strpos($selling_invoice->invoice, $number_default) == 0){
                 $invoice_number = substr($selling_invoice->invoice_number, -6);
                 $length = strlen($invoice_number);
 
