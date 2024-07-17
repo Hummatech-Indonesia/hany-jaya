@@ -17,6 +17,7 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cashier\SellingRequest;
 use App\Services\Cashier\SellingService;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -129,6 +130,7 @@ class SellingController extends Controller
                     "return_price" => $selling->return,
                     "total_debt_price" => $debt_price,
                     "buyer_name" => $data["name"],
+                    "date" => Carbon::parse($selling->created_at)->format("DD MMMM Y"),
                     "details" => [],
                 ];
 
