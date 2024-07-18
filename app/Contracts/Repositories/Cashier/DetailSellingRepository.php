@@ -42,10 +42,11 @@ class DetailSellingRepository extends BaseRepository implements DetailSellingInt
     {
         return $this->model->query()
         ->selectRaw(
-            'NULL as supplier,
+            'sellings.id as data_id,
+            NULL as supplier,
             CONCAT(buyers.name, " - ", buyers.address) as buyer,
-            units.name as unit_name,
             detail_sellings.quantity as quantity,
+            units.name as unit_name,
             detail_sellings.product_unit_price as total_per_unit_price,
             detail_sellings.selling_price as total_price,
             detail_sellings.created_at as date,
@@ -54,7 +55,7 @@ class DetailSellingRepository extends BaseRepository implements DetailSellingInt
         ->leftJoin('sellings','detail_sellings.selling_id','=','sellings.id')
         ->leftJoin('buyers','sellings.buyer_id','=','buyers.id')
         ->leftJoin('products','detail_sellings.product_id','=','products.id')
-        ->leftJoin('product_units','detail_sellings.product_id','=','product_units.product_id')
+        ->leftJoin('product_units','detail_sellings.product_unit_id','=','product_units.id')
         ->leftJoin('units','product_units.unit_id','=','units.id')
         ->where('detail_sellings.product_id',$request->product_id);
     }

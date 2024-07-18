@@ -33,7 +33,8 @@ class DetailPurchaseRepository extends BaseRepository implements DetailPurchaseI
     {
         return $this->model->query()
         ->selectRaw(
-            'suppliers.name as supplier,
+            'purchases.id as data_id,
+            suppliers.name as supplier,
             NULL as buyer,
             units.name as unit_name,
             detail_purchases.quantity as quantity,
@@ -45,7 +46,7 @@ class DetailPurchaseRepository extends BaseRepository implements DetailPurchaseI
         ->leftJoin('purchases','detail_purchases.purchase_id','=','purchases.id')
         ->leftJoin('suppliers','purchases.supplier_id','=','suppliers.id')
         ->leftJoin('products','detail_purchases.product_id','=','products.id')
-        ->leftJoin('product_units','detail_purchases.product_id','=','product_units.product_id')
+        ->leftJoin('product_units','detail_purchases.product_unit_id','=','product_units.id')
         ->leftJoin('units','product_units.unit_id','=','units.id')
         ->where('detail_purchases.product_id',$request->product_id);
     }
