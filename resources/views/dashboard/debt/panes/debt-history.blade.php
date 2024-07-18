@@ -29,7 +29,7 @@
                     data: "buyer.name",
                     title: "Pembeli",
                 }, {
-                    data: "ammount_price",
+                    data: "nominal",
                     title: "Nominal Hutang",
                     render: (data, type) => {
                         return 'Rp '+formatNum(data)
@@ -41,7 +41,7 @@
                         return moment(data).locale('id').format('LL')
                     },
                 }, {
-                    data: "nominal_after_check",
+                    data: "buyer.debt",
                     title: "Sisa Hutang",
                     render: (data, type) => {
                         return 'Rp '+formatNum(data)
