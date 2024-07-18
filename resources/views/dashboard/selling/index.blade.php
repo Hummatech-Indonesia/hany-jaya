@@ -288,6 +288,10 @@
                 changeTotalPrice()
             })
 
+            $(document).on('click', 'button[type=submit]', function() {
+                $('#selling-modal').modal('hide')
+            })
+
             const selectize_cust = $('#cust-name').selectize({
                 plugins: ['restore_on_backspace'],
                 create: true,
@@ -367,7 +371,6 @@
             $(document).on('change input', '#cust-name', function() {
                 var selectedValue = select_cust.getValue();
                 var selectedItem = select_cust.options[selectedValue];
-                console.log({ selectedItem })
                 
                 if(selectedItem) {
                     if(!selectedItem.address) cust_name_val = selectedValue
@@ -596,7 +599,6 @@
                 let tr = $(this).parent().parent()
                 let product_id = tr.data('id')
                 tr.remove()
-                console.log(selected_products)
                 if($(`#tb-product [data-id=${product_id}]`).length == 0) {
                     let this_product = selected_products.find(prod => prod.id == product_id)
                     let index_product = selected_products.indexOf(this_product)

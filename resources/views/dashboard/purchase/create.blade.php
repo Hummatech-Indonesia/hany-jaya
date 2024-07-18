@@ -133,6 +133,10 @@
             })
             const select_supplier = selectize_supplier[0].selectize
 
+            $(document).on('click', 'button[type=submit]', function() {
+                $('button[type=submit]').addClass('disabled')
+            })
+
             function createNewSupplier(val) {
                 $.ajax({
                     url: `{{ route('admin.supplier.store.ajax') }}`,
