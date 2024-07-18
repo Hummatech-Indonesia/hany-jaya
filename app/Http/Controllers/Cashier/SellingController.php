@@ -16,6 +16,7 @@ use App\Helpers\BaseResponse;
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cashier\SellingRequest;
+use App\Models\Selling;
 use App\Services\Cashier\SellingService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -311,9 +312,47 @@ class SellingController extends Controller
         return BaseDatatable::TableV2($transaction->toArray());
     }
 
-    public function printed()
+    public function printHistoryTransaction(Request $request, Selling $selling)
     {
-        BasePrint::mikePrint([]);
-        return "YEY PRINT";
+        $request->merge(["selling_id" => $selling->id]);
+
+        try{
+            $data = $this->selling->withEloquent($request)->first();
+
+            $debt = 0;
+            if($data->status_payment == StatusEnum::SPLIT->value){
+                $debt = $data->amount_price;
+            } else if ($data->status_payment == StatusEnum::SPLIT->value){
+                $debt = $data->amount_price - $data->pay;
+            }
+            
+            $details = [
+                "invoice_number" => $data->invoice_number,
+                "total_price" => $data->amount_price,
+                "pay_price" => $data->pay,
+                "return_price" => $data->return,
+                "total_debt_price" => $debt,
+                "buyer_name" => $data->buyer->name,
+                "date" => Carbon::parse($data->created_at)->format("d M Y"),
+                "details" => [],
+            ];
+    
+            foreach($data->detailSellings as $item){
+                $details["details"][] = [
+                    "name" => $item->product->name. " (". $item->productUnit->unit->name . ")",
+                    "qty" => $item->quantity,
+                    "price" => ($item->selling_price / $item->quantity)
+                ];
+            }
+    
+            $printed = BasePrint::mikePrint($details);
+            if($printed["success"]){
+                return BaseResponse::Ok("Berhasil melakukan print history transaksi",null);
+            } else {
+                return BaseResponse::Ok('Berhasil melakukan print history transaksi, tetapi mohon maaf tidak bisa melakukan print saat ini!',null);
+            }
+        } catch(\Throwable $th){
+            return BaseResponse::Error($th->getMessage());
+        }
     }
 }

@@ -75,3 +75,5 @@ Route::name('find.')->prefix('find')->group(function (){
     Route::get('/buyer/{buyer}', [BuyerController::class, 'findBuyerById'])->name('buyer.by-id');
     Route::get('/product/last-product', [ProductController::class, 'lastProduct'])->name('product.last-product');
 });
+
+Route::get('print/transaction-history/{selling}',[SellingController::class, 'printHistoryTransaction'])->name('print.transaction-history');

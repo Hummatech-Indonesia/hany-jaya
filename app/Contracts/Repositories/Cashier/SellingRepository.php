@@ -164,6 +164,9 @@ class SellingRepository extends BaseRepository implements SellingInterface
         })
         ->when($request->type, function ($query) use ($request){
             $query->where('status_payment',$request->type);
+        })
+        ->when($request->selling_id, function ($query) use ($request){
+            $query->where('id',$request->selling_id);
         });
     }
     

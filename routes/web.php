@@ -99,5 +99,4 @@ Route::middleware('auth')->group(function () {
         // Route::get('list-user-debt', [BuyerController::class, 'listDebt'])->name('list.debt');
         // Route::get('history-pay-debt', [HistoryPayDebtController::class, 'index'])->name('history.pay.debt');
     });
-    Route::get('testing-print',[SellingController::class, 'printed'])->name('printing');
 });
