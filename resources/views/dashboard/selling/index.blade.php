@@ -535,7 +535,7 @@
                 const except_this_el = $(`#tb-product [data-id=${product_id}]:not([data-index=${data_index}])`)
                 except_this_el.each(function() {
                     const selected_unit = $(this).find('.product-unit').find(':selected')
-                    now_total_count = $(this).find('[name=quantity\\[\\]]').val() * selected_unit.data('quantity-in-small-unit')
+                    now_total_count += $(this).find('[name=quantity\\[\\]]').val() * selected_unit.data('quantity-in-small-unit')
                 })
 
                 let total_remain = this_product.max - now_total_count
