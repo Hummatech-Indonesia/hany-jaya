@@ -232,7 +232,7 @@ class SellingController extends Controller
         if(!$request->buyer_id)
         {
             // checking value buyer name
-            $name = "";
+            $name = $request->buyer_name;
             if(strpos($request->buyer_name,'-')) {
                 try{
                     $name = explode('-', $request->buyer_name)[0];
