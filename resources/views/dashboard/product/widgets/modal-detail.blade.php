@@ -79,7 +79,6 @@
                     return
                 }
 
-
                 product_detail_tb = $('#tb-product-detail').DataTable({
                     processing: true,
                     serverSide: true,
@@ -113,7 +112,7 @@
                                 if(row['type'] == 'buying') return `<span class="badge bg-primary fs-2">Pembelian</span>`
                                 else return `<span class="badge bg-success fs-2">Penjualan</span>`
                             },
-                            title: 'Pembeli / Distributor'
+                            title: 'Jenis'
                         }, {
                             data: "quantity",
                             title: "Jumlah",
