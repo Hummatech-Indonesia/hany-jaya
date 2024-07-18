@@ -34,8 +34,8 @@ class BuyerController extends Controller
     public function findBuyer(Request $request): JsonResponse
     {
         // checking value buyer name
+        $name = "";
         if(strpos($request->name,'-')) {
-            $name = "";
             try{
                 $name = explode('-', $request->name)[0];
             }catch(\Throwable $th){
