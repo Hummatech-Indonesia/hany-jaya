@@ -86,7 +86,7 @@
                     render: (data, type, full) => {
                         let stock = "";
                         full['product_units'].forEach((unit, index) => {
-                            stock += ` <span class="fs-2 mb-1 badge font-medium bg-muted text-white">${Math.floor(full['quantity'] / unit['quantity_in_small_unit'])} ${unit['unit']['name']} - Rp.${formatNum(unit['selling_price'], true)}</span>`
+                            stock += ` <span class="fs-2 mb-1 badge font-medium bg-muted text-white">${formatNum(Math.floor(full['quantity'] / unit['quantity_in_small_unit']), true)} ${unit['unit']['name']} - Rp.${formatNum(unit['selling_price'], true)}</span>`
                         })
                         return stock ? `<div class="d-flex flex-row gap-2 flex-wrap">
                             ${stock}
