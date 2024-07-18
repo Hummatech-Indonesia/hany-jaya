@@ -168,9 +168,8 @@
                 $("#value_table").empty();
                 $("#modalDetailHistory").modal("show");
                 let detailSellings = JSON.parse($(this).data("detail-selling").replaceAll("'",'"'));
-                let name = $(this).data('name');
+                let name = `${$(this).data('name')} - ${$(this).data('address')}`;
                 let returns = $(this).data('return');
-                let address = $(this).data('address');
                 let status_payment = $(this).data('status_payment');
                 let price = $(this).data('price');
                 let pay = $(this).data('pay');
@@ -185,7 +184,6 @@
     
                 $('#name').html(name);
                 $('#price').html(formatNum(price));
-                $('#address').html(address);
                 if (status_payment == 'debt') {
                     $('#status').html('<span class="mb-1 badge font-medium bg-danger text-white">Hutang</span>');
                 } else {
@@ -198,12 +196,11 @@
                         `
                     <tr class="search-items">
                         <td>${index + 1}</td>
-                        <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product.name}</h6></td>
-                        <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.product_unit.unit.name}</h6></td>
-                        <td><h6 class="user-name mb-0" data-name="Emma Adams">${item.quantity}</h6></td>
-                        <td><h6 class="user-name mb-0" data-name="Emma Adams">RP. ${formatNum(item.nominal_discount)}</h6></td>
-                        <td><h6 class="user-name mb-0" data-name="Emma Adams">Rp. ${formatNum(item.selling_price)}</h6></td>
-                        <td><h6 class="user-name mb-0" data-name="Emma Adams"></h6></td>
+                        <td><h6 class="mb-0">${item.product.name}</h6></td>
+                        <td><h6 class="mb-0">${item.product_unit.unit.name}</h6></td>
+                        <td><h6 class="mb-0">${item.quantity}</h6></td>
+                        <td><h6 class="mb-0">RP. ${formatNum(item.nominal_discount)}</h6></td>
+                        <td><h6 class="mb-0">Rp. ${formatNum(item.selling_price)}</h6></td>
                     </tr>
                     `
                     );
