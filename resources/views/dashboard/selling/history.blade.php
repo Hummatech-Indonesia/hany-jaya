@@ -135,15 +135,26 @@
                         }
                     }, {
                         mRender: (data, type, full) => {
-                            return `<button type="button" class="btn btn-light btn-detail"
-                                data-detail-selling="${JSON.stringify(full['detail_sellings']).replaceAll('"', "'")}"
-                                data-name="${full['buyer']['name']}"
-                                data-price="${full['amount_price']}" data-pay="${full['pay']}"
-                                data-return="${full['return']}"
-                                data-status_payment="${full['status_payment']}"
-                                data-address="${full['buyer']['address']}">
-                                    <i class="ti ti-eye"></i>
-                            </button>`
+                            return `
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-light btn-detail"
+                                    data-detail-selling="${JSON.stringify(full['detail_sellings']).replaceAll('"', "'")}"
+                                    data-name="${full['buyer']['name']}"
+                                    data-price="${full['amount_price']}" data-pay="${full['pay']}"
+                                    data-return="${full['return']}"
+                                    data-status_payment="${full['status_payment']}"
+                                    data-address="${full['buyer']['address']}">
+                                        <i class="ti ti-eye"></i>
+                                </button>
+                                <button 
+                                    type="button"
+                                    class="btn btn-light btn-print btn-update-icon"
+                                    data-id="${full['id']}"
+                                >
+                                    <i class="ti ti-printer"></i>
+                                </button>
+                            </div>
+                            `
                         },
                         title: "Aksi",
                         searchable: false,
@@ -206,6 +217,35 @@
                     );
                 });
             });
+
+            $(document).on("click", ".btn-print", function() {
+                let print_url = "{{route('print.transaction-history', 'selected_id')}}"
+                print_url = print_url.replace('selected_id', $(this).data('id'))
+
+                Swal.fire({
+                    icon: 'question',
+                    title: 'Data akan di cetak',
+                    text: 'Apakah anda yakin?',
+                    showCancelButton: true,
+                    showConfirmButton: true,
+                }).then(res => {
+                    if(res.isConfirmed) {
+                        $.ajax({
+                            url: print_url,
+                            success: (res) => {
+                                printSwal('success', 'Sukses', res.message)
+                            }
+                        })
+                    }
+                })
+
+            })
+
+            function printSwal(icon, title, text) {
+                Swal.fire({
+                    icon, title, text
+                })
+            }
         })
     </script>
 @endsection
