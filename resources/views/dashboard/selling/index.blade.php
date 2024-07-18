@@ -75,7 +75,7 @@
                                     <div class="card mb-3">
                                         <div class="card-body p-3">
                                             <div class="form-group mb-3">
-                                                <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama</div><span class="text-info fs-3">(shift+n)</span></label>
+                                                <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama <span class="text-danger">*</span></div><span class="text-info fs-3">(shift+n)</span></label>
                                                 <select name="name" class="" id="cust-name" tabindex="1">
                                                     <option value="">Pilih Pembeli</option>
                                                     @foreach ($buyers as $buyer)
@@ -84,7 +84,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat</div> <span class="text-info fs-3">(shift+a)</span></label>
+                                                <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat <span class="text-danger">*</span></div> <span class="text-info fs-3">(shift+a)</span></label>
                                                 <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
                                             </div>
                                             <div class="form-group ">
@@ -112,7 +112,7 @@
                                         </div>
                                         <div class="card-body p-3">
                                             <div class="row align-items-center mb-3">
-                                                <div class="col-3">Metode</div>
+                                                <div class="col-3">Metode <span class="text-danger">*</span></div>
                                                 <div class="col-9">
                                                     <div class="d-flex gap-2">
                                                         {{-- <button type="button" data-check-id="tunai" class="btn-method btn btn-primary">Tunai</button>
@@ -133,7 +133,7 @@
                                             <div id="cash">
                                                 <div class="row align-items-center mb-3">
                                                     <div class="col-3">
-                                                        <label for="formatted_pay" class="mb-2">Bayar</label>
+                                                        <label for="formatted_pay" class="mb-2">Bayar <span class="text-danger">*</span></label>
                                                         <input type="hidden" id="pay" name="pay" class="mb-0">
                                                     </div>
                                                     <div class="col-9">
@@ -203,7 +203,7 @@
                                     <div class="card border">
                                         <div class="card-header px-3 d-flex justify-content-between align-items-center">
                                             <div class="fw-bolder">
-                                                <i class="ti ti-shopping-cart"></i> Keranjang
+                                                <i class="ti ti-shopping-cart"></i> Keranjang <span class="text-danger">*</span>
                                             </div>
                                             <button type="button" id="btn-reset" class="btn btn-sm btn-danger">Reset</button>
                                         </div>
@@ -473,7 +473,7 @@
                                 </td>
                                 <td>
                                     <div class="mb-0 text-start form-control border-0">
-                                        <span class="stock">${Math.round(response.data.quantity)}</span> <span class="quantity_stock">${response.data.unit.name}</span>
+                                        <span class="stock">${formatNum(Math.round(response.data.quantity), true)}</span> <span class="quantity_stock">${response.data.unit.name}</span>
                                     </div>
                                 </td>
                                 <td>
