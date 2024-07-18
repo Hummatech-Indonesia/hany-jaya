@@ -149,6 +149,8 @@
                                 text: response.data.name
                             }
                         )
+                        select_supplier.setValue('')
+                        select_supplier.setValue(response.data.id)
                     },
                     error: function(xhr) {
                         console.log(xhr.responseJSON.message)

@@ -8,33 +8,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="card bg-primary-subtle">
-                        <div class="card-body">
-                            <h5>Pembeli</h5>
-                            <table class="table search-table align-middle text-nowrap table-primary">
-                                <tbody>
-                                    <tr>
-                                        <th>Nama</th>
-                                        <td>: </td>
-                                        <td width="70%" id="name"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Alamat</th>
-                                        <td>: </td>
-                                        <td width="70%" id="address"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Status Pembayaran</th>
-                                        <td>: </td>
-                                        <td width="70%" id="status"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-bolder">Pembeli</label>
+                                <div class="form-control" id="name"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-bolder">Status Pembayaran</label>
+                                <div id="status" class="form-control border-0 my-auto ps-0"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card bg-success-subtle">
-                        <div class="card-body mb-0">
-                            <table class="table search-table align-middle text-nowrap table-success">
+                    <div class="card overflow-hidden">
+                        <div class="card-body p-1 mb-0">
+                            <table class="table search-table align-middle text-nowrap">
                                 <thead class="header-item">
                                     <th>#</th>
                                     <th>Nama Produk</th>
