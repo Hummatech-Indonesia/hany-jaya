@@ -46,12 +46,8 @@
                             </div>
                     </div>
                     <div class="col-md-8 col-lg-9 table-responsive">
-                        <div class="card">
-                            <div class="card-body">
                                 <div class="fw-semibold">Riwayat Transaksi Produk</div>
                                 <table class="table align-middle w-100 text-break" id="tb-product-detail"></table>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -116,8 +112,9 @@
                         }, {
                             data: "quantity",
                             title: "Jumlah",
-                            render: (data, type) => {
-                                return formatNum(data, true)
+                            render: (data, type, row) => {
+                                console.log(row)
+                                return formatNum(data, true)+' '+row['unit_name']
                             }
                         }, {
                             data: "total_price_per_unit",
