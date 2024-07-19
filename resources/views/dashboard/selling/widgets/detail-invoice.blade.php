@@ -22,36 +22,32 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card overflow-hidden">
-                        <div class="card-body p-1 mb-0">
-                            <table class="table search-table align-middle text-nowrap">
-                                <thead class="header-item">
-                                    <th>#</th>
-                                    <th>Nama Produk</th>
-                                    <th>Satuan</th>
-                                    <th>Jumlah Produk</th>
-                                    <th>Potongan Harga</th>
-                                    <th>Harga</th>
-                                </thead>
-                                <tbody id="value_table">
-                                </tbody>
-                                <tbody id="box_price">
-                                    <tr>
-                                        <td colspan="5" class="text-end fw-bold">Total Harga</td>
-                                        <td>Rp. <span id="price">0</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5" class="text-end fw-bold">Uang Dibayar</td>
-                                        <td>Rp. <span id="pay">0</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5" class="text-end fw-bold">Uang Kembalian</td>
-                                        <td>Rp. <span id="return">0</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <table class="table search-table align-middle text-nowrap">
+                        <thead class="header-item">
+                            <th>#</th>
+                            <th>Nama Produk</th>
+                            <th>Satuan</th>
+                            <th>Jumlah Produk</th>
+                            <th>Potongan Harga</th>
+                            <th>Harga</th>
+                        </thead>
+                        <tbody id="value_table">
+                        </tbody>
+                        <tbody id="box_price">
+                            <tr>
+                                <td colspan="5" class="text-end fw-bold">Total Harga</td>
+                                <td>Rp. <span id="price">0</span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-end fw-bold">Uang Dibayar</td>
+                                <td>Rp. <span id="pay">0</span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-end fw-bold">Uang Kembalian</td>
+                                <td>Rp. <span id="return">0</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>

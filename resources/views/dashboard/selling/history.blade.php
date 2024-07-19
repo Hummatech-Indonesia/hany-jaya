@@ -178,13 +178,15 @@
             $(document).on("click", ".btn-detail", function() {
                 $("#value_table").empty();
                 $("#modalDetailHistory").modal("show");
-                let detailSellings = JSON.parse($(this).data("detail-selling").replaceAll("'",'"'));
+                let detailSellings = []
+                if(typeof $(this).data("detail-selling") == 'string') {
+                    detailSellings = JSON.parse($(this).data("detail-selling").replaceAll("'",'"'));
+                }
                 let name = `${$(this).data('name')} - ${$(this).data('address')}`;
                 let returns = $(this).data('return');
                 let status_payment = $(this).data('status_payment');
                 let price = $(this).data('price');
                 let pay = $(this).data('pay');
-                console.log(detailSellings);
                 if (status_payment == 'debt') {
                     $('.sembuyikan').hide();
                 } else {
@@ -202,7 +204,6 @@
                 }
     
                 detailSellings.forEach(function(item, index) {
-                    console.log(item);
                     $("#value_table").append(
                         `
                     <tr class="search-items">
