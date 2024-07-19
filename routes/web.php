@@ -82,8 +82,9 @@ Route::middleware('auth')->group(function () {
         Route::prefix('selling')->name('selling.')->group(function () {
             Route::get('history', [SellingController::class, 'history'])->name('history');
         });
-        Route::prefix('product')->name('product.')->group(function () {
-            Route::post('update/stock/{product}', [ProductController::class, 'adjustmentStock'])->name('adjusment-stock');
+        Route::prefix('adjustment')->name('adjustment.')->group(function () {
+            Route::get('/', [ProductController::class, 'adjustmentIndex'])->name('index');
+            Route::post('{product}', [ProductController::class, 'adjustmentStock'])->name('update-stock');
         });
     });
     Route::prefix('cashier')->name('cashier.')->group(function () {

@@ -137,6 +137,17 @@ class ProductController extends Controller
     }
 
     /**
+     * index page of adjustment stock
+     * 
+     * @return View
+     */
+    public function adjustmentIndex(): View
+    {
+        $products = $this->product->get();
+        return view('dashboard.adjustment.index', compact('products'));
+    }
+
+    /**
      * update stock
      *
      * @return Returntype
