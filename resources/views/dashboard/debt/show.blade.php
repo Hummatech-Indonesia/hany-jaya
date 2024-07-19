@@ -33,6 +33,13 @@
             </div>
         </div>
 
+        <div class="card overflow-hidden">
+            <div class="card-body bg-primary py-3 text-light d-flex justify-content-between align-items-center">
+                <div>Sisa Hutang:</div>
+                <div class="fw-bolder fs-5">{{ FormatedHelper::rupiahCurrency($buyer->debt) }}</div>
+            </div>
+        </div>
+
         <div class="card">
             <div class="table-responsive card-body">
                 <table class="table align-middle" id="tb-full-debt-history">
