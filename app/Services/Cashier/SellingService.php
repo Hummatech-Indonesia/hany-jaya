@@ -66,14 +66,17 @@ class SellingService
 
         if ($buyer == null) {
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => $sellingPrice])->id;
+                $buyer = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => $sellingPrice]);
             } else {
-                $data['buyer_id'] = $this->buyer->store(['name' => $data['name'], 'address' => $data['address']])->id;
+                $buyer = $this->buyer->store(['name' => $data['name'], 'address' => $data['address']]);
             }
+
+            $data["buyer_id"] = $buyer->id;
         } else {
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
                 $buyer->update(['debt' => $buyer->debt + $sellingPrice]);
             }
+            
             $data['buyer_id'] = $buyer->id;
         }
         
