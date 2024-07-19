@@ -34,22 +34,11 @@
                     </a>
                 </li>
 
-                @role(['admin', 'owner'])
+                @role(['admin'])
                     <li class="nav-small-cap">
                         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                         <span class="hide-menu">Master</span>
                     </li>
-                    @role('owner')
-                        <li class="sidebar-item">
-                            <a class="sidebar-link {{ request()->routeIs('admin.users.admin') ? 'active' : '' }}"
-                                href="{{ route('admin.users.admin') }}" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-user"></i> <!-- Ganti ikon di sini -->
-                                </span>
-                                <span class="hide-menu">Data Admin</span>
-                            </a>
-                        </li>
-                    @endrole
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.users.index') }}" aria-expanded="false">
                             <span>
@@ -111,7 +100,7 @@
                         <span class="hide-menu">Riwayat</span>
                     </li>
                 @endrole
-                @role(['owner', 'admin', 'cashier'])
+                @role(['admin', 'cashier'])
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.selling.history') }}" aria-expanded="false">
                             <span>

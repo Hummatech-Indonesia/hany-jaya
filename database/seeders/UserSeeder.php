@@ -21,40 +21,6 @@ class UserSeeder extends Seeder
         $outlet = Outlet::query()->first();
         $store = Store::query()->first();
         foreach ($roles as $role) {
-            // if ($role == RoleEnum::OWNER->value) {
-            //     $user = User::create([
-            //         'id' => Uuid::uuid(),
-            //         'store_id' => $store->id,
-            //         'outlet_id' => null,
-            //         'name' => $role->name,
-            //         'email' => str_replace(' ', '', $role->name) . "@gmail.com",
-            //         'password' => bcrypt('password'),
-            //         'email_verified_at' => now(),
-            //     ]);
-            //     $user->assignRole([RoleEnum::OWNER->value]);
-            // } elseif ($role == RoleEnum::ADMIN->value) {
-            //     $user = User::create([
-            //         'id' => Uuid::uuid(),
-            //         'store_id' => $store->id,
-            //         'outlet_id' => $outlet->id,
-            //         'name' => $role->name,
-            //         'email' => str_replace(' ', '', $role->name) . "@gmail.com",
-            //         'password' => bcrypt('password'),
-            //         'email_verified_at' => now(),
-            //     ]);
-            //     $user->assignRole([RoleEnum::ADMIN->value, RoleEnum::CASHIER->value]);
-            // } else {
-            //     $user = User::create([
-            //         'id' => Uuid::uuid(),
-            //         'store_id' => $store->id,
-            //         'outlet_id' => $outlet->id,
-            //         'name' => $role->name,
-            //         'email' => str_replace(' ', '', $role->name) . "@gmail.com",
-            //         'password' => bcrypt('password'),
-            //         'email_verified_at' => now(),
-            //     ]);
-            //     $user->assignRole(RoleEnum::CASHIER->value);
-            // }
             switch ($role->name) {
                 case RoleEnum::ADMIN->value:
                     $user = User::create([
@@ -79,18 +45,6 @@ class UserSeeder extends Seeder
                         'email_verified_at' => now(),
                     ]);
                     $user->assignRole(RoleEnum::CASHIER->value);
-                    break;
-                case RoleEnum::OWNER->value:
-                    $user = User::create([
-                        'id' => Uuid::uuid(),
-                        'store_id' => $store->id,
-                        'outlet_id' => null,
-                        'name' => $role->name,
-                        'email' => str_replace(' ', '', $role->name) . "@gmail.com",
-                        'password' => bcrypt('password'),
-                        'email_verified_at' => now(),
-                    ]);
-                    $user->assignRole(RoleEnum::OWNER->value);
                     break;
             }
         }
