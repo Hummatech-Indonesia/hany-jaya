@@ -58,7 +58,7 @@ class ProductService
             'unit_id' => $data['unit_id'],
             'code' => $data['code'],
             'name' => $data['name'],
-            'quantity' => isset($data['quantity']) ? $data['quantity'] : 0,
+            'quantity' => isset($data['quantity']) ? $data['quantity'] : $product->quantity,
             'image' => $old_image,
             'small_unit_id' => $data['small_unit_id'],
             'quantity_in_small_unit' => $data['quantity_in_small_unit'],
