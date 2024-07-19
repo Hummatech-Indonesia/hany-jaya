@@ -137,6 +137,17 @@ class ProductController extends Controller
     }
 
     /**
+     * update stock
+     *
+     * @return Returntype
+     */
+    public function adjustmentStock(Request $request, Product $product): RedirectResponse
+    {
+        $this->product->update($product->id, ["quantity" => ($request->quantity ?? 0)]);
+        return to_route('admin.products.index')->with('success', trans('alert.update_success'));
+    }
+
+    /**
      * delete
      *
      * @param  mixed $product
