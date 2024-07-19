@@ -96,6 +96,7 @@ class SellingService
         $sellingPrice = 0;
 
         $products = [];
+        $quantitys = [];
         for ($i = 0; $i < count($data['selling_price']); $i++) {
             $sellingPrice += $data['selling_price'][$i];
             $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
@@ -107,11 +108,12 @@ class SellingService
             }
 
             $products[] = $product;
+            $quantitys[] = $quantity;
         }
         return [
             'selling_price' => $sellingPrice,
             'product_unit' => $productUnit,
-            'quantity' => $quantity,
+            'quantity' => $quantitys,
             'product' => $products
         ];
     }
@@ -156,5 +158,14 @@ class SellingService
         }
         
         return $array;
+    }
+
+    /**
+     * Function for minus quantity
+     * 
+     */
+    public function sumQuantity()
+    {
+
     }
 }

@@ -86,6 +86,7 @@ class SellingController extends Controller
         }
 
         $serviceSellingPrice = $this->sellingService->sellingPrice($data);
+        // dd($serviceSellingPrice);
 
         if (is_array($serviceSellingPrice)) {
             $data['amount_price'] = $serviceSellingPrice['selling_price'];
@@ -135,9 +136,6 @@ class SellingController extends Controller
                     "details" => [],
                 ];
                 for ($i = 0; $i < count($data['product_id']); $i++) {
-                    $serviceSellingPrice['product'][$i]->update([
-                        'quantity' => $serviceSellingPrice['product'][$i]->quantity - (int)$data['quantity'][$i]
-                    ]);
                     $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
                     $this->detailSelling->store([
                         'selling_id' => $selling->id,
@@ -155,6 +153,12 @@ class SellingController extends Controller
                         "qty" => $data['quantity'][$i],
                         "price" => ($data['selling_price'][$i] / $data['quantity'][$i])
                     ];
+
+                    $selectedProduct = $this->product->show($data['product_id'][$i]);
+                    $selectedProduct->update([
+                        'quantity' => $selectedProduct->quantity - (int)$serviceSellingPrice['quantity'][$i]
+                    ]);
+                    $selectedProduct->save();
                 }
 
                 DB::commit();
