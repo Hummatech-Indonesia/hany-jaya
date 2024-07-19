@@ -10,4 +10,6 @@ use Illuminate\Http\Request;
 interface HistoryPayDebtInterface extends StoreInterface, CustomPaginationInterface, WithRelationInterface
 {
     public function getDetailDebt(Request $request): mixed;
+    
+    public function getSumDebt(): mixed;
 }

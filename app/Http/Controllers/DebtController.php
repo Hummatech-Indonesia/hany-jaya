@@ -8,6 +8,7 @@ use App\Contracts\Interfaces\Cashier\HistoryPayDebtInterface;
 use App\Helpers\BaseDatatable;
 use App\Http\Requests\PayDebtRequest;
 use App\Models\Buyer;
+use App\Services\Cashier\DebtService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,10 +18,14 @@ class DebtController extends Controller
     private DebtInterface $debt;
     private BuyerInterface $buyer;
     private HistoryPayDebtInterface $historyPayDebt;
-    public function __construct(DebtInterface $debt, HistoryPayDebtInterface $historyPayDebt, BuyerInterface $buyer)
+    private DebtService $debtService;
+
+    public function __construct(DebtInterface $debt, HistoryPayDebtInterface $historyPayDebt, BuyerInterface $buyer, DebtService $debtService)
     {
         $this->debt = $debt;
         $this->historyPayDebt = $historyPayDebt;
+        $this->buyer = $buyer;
+        $this->debtService = $debtService;
     }
 
     /**
@@ -63,8 +68,11 @@ class DebtController extends Controller
      */
     public function tableDebt(Request $request)
     {
-        $data = $this->debt->getSumDebt();
-        return BaseDatatable::TableV2($data->toArray());
+        $data1 = $this->debt->getSumDebt();
+        $data2 = $this->historyPayDebt->getSumDebt();
+
+        $data = $this->debtService->checkDebtUser($data1, $data2);
+        return BaseDatatable::TableV2($data);
     }
 
     /**
