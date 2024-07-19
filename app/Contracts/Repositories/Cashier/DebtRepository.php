@@ -100,17 +100,19 @@ class DebtRepository extends BaseRepository implements DebtInterface
     {
         return $this->model->query()
         ->selectRaw(
-            'buyers.id as buyer_id,
-            buyers.name as buyer_name,
-            buyers.address as buyer_address,
-            SUM(debts.nominal) as total_debt,
-            COALESCE(SUM(history_pay_debts.pay_debt),0) as total_pay_debt,
-            COALESCE(SUM(debts.nominal) - SUM(history_pay_debts.pay_debt),SUM(debts.nominal)) as nominal_after_check,
-            IF(COALESCE(SUM(debts.nominal) - SUM(history_pay_debts.pay_debt),SUM(debts.nominal)) > 0, "BELUM LUNAS", "LUNAS") as debt_status'
-        )
+                'buyers.id as buyer_id,
+                buyers.name as buyer_name,
+                buyers.address as buyer_address,
+                SUM(debts.nominal) as total_debt'
+            )
+            // SUM(debts.nominal) as total_debt,
+            // COALESCE(SUM(history_pay_debts.pay_debt),0) as total_pay_debt,
+            // COALESCE(SUM(debts.nominal) - SUM(history_pay_debts.pay_debt),SUM(debts.nominal)) as nominal_after_check,
+            // IF(COALESCE(SUM(debts.nominal) - SUM(history_pay_debts.pay_debt),SUM(debts.nominal)) > 0, "BELUM LUNAS", "LUNAS") as debt_status'
         ->leftJoin('buyers', 'debts.buyer_id', '=', 'buyers.id')
-        ->leftJoin('history_pay_debts', 'buyers.id', '=', 'history_pay_debts.buyer_id')
+        // ->leftJoin('history_pay_debts', 'debts.buyer_id', '=', 'history_pay_debts.buyer_id')
         ->groupBy('buyers.name', 'buyers.address','buyers.id')
+        ->orderBy('buyers.id','ASC')
         ->get();
     }
 

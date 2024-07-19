@@ -58,4 +58,23 @@ class HistoryPayDebtRepository extends BaseRepository implements HistoryPayDebtI
         "paying" as type')
         ->where('buyer_id', $request->buyer_id);
     }
+
+    public function getSumDebt(): mixed
+    {
+        return $this->model->query()
+        ->selectRaw(
+                'buyers.id as buyer_id,
+                buyers.name as buyer_name,
+                buyers.address as buyer_address,
+                SUM(history_pay_debts.pay_debt) as total_pay_debt'
+            )
+            // SUM(debts.nominal) as total_debt,
+            // COALESCE(SUM(history_pay_debts.pay_debt),0) as total_pay_debt,
+            // COALESCE(SUM(debts.nominal) - SUM(history_pay_debts.pay_debt),SUM(debts.nominal)) as nominal_after_check,
+            // IF(COALESCE(SUM(debts.nominal) - SUM(history_pay_debts.pay_debt),SUM(debts.nominal)) > 0, "BELUM LUNAS", "LUNAS") as debt_status'
+        ->leftJoin('buyers', 'history_pay_debts.buyer_id', '=', 'buyers.id')
+        ->groupBy('buyers.name', 'buyers.address','buyers.id')
+        ->orderBy('buyers.id','ASC')
+        ->get();
+    }
 }
