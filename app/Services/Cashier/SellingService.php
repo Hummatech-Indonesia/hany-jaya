@@ -65,10 +65,13 @@ class SellingService
         }
 
         if ($buyer == null) {
+            $telp = null; 
+            try{ $telp = $data["telp"]; }catch(\Throwable $th){ }
+
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                $buyer = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'debt' => $sellingPrice]);
+                $buyer = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'telp' => $telp, 'debt' => $sellingPrice]);
             } else {
-                $buyer = $this->buyer->store(['name' => $data['name'], 'address' => $data['address']]);
+                $buyer = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'telp' => $telp]);
             }
 
             $data["buyer_id"] = $buyer->id;
@@ -76,7 +79,7 @@ class SellingService
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
                 $buyer->update(['debt' => $buyer->debt + $sellingPrice]);
             }
-            
+
             $data['buyer_id'] = $buyer->id;
         }
         
