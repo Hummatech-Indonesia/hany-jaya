@@ -77,7 +77,7 @@
                                 <div class="d-grid py-4 px-7 pt-8">
                                     <form action="{{ route('logout') }}" method="post">
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-primary">Keluar</button>
+                                        <button class="btn btn-outline-primary">Keluar</button>
                                     </form>
                                 </div>
                             </div>
