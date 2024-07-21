@@ -22,7 +22,7 @@ class LoginService
         // dd($data);
         // set remember token
         $remember_token = null;
-        if($request->remember_me){
+        if ($request->remember_me) {
             $remember_token = $data["remember_me"];
             unset($data["remember_me"]);
         }
@@ -31,7 +31,7 @@ class LoginService
 
         $user = $user->getWhere($data);
         if (auth()->attempt(['email' => $data['email'], 'password' => $password])) {
-            if($remember_token) $data["remember_me"] = $remember_token;
+            if ($remember_token) $data["remember_me"] = $remember_token;
             if (isset($data['remember_me']) && !empty($data['remember_me'])) {
                 setcookie("email", $data['email'], time() + 3600);
                 setcookie("password", $password, time() + 3600);
@@ -39,7 +39,7 @@ class LoginService
                 setcookie("email", "");
                 setcookie("password", "");
             }
-            if (in_array(RoleEnum::ADMIN->value, auth()->user()->roles->pluck('name')->toArray()) ||  $user->hasRole(RoleEnum::OWNER->value)) {
+            if (in_array(RoleEnum::ADMIN->value, auth()->user()->roles->pluck('name')->toArray())) {
                 return redirect()->route('home')->with('success', 'Berhasil Login.');
             } else {
                 return redirect()->route('cashier.index')->with('success', 'Berhasil Login');

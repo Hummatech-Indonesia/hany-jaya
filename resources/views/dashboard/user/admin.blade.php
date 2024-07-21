@@ -63,12 +63,12 @@
                                     </td>
                                     <td>
                                         <div class="action-btn">
-                                            <a href="#" data-url="{{ route('admin.cashiers.update', $admin->id) }}"
+                                            <a href="#" data-url="{{ route('admin.users.update', $admin->id) }}"
                                                 data-name="{{ $admin->name }}" data-email="{{ $admin->email }}"
                                                 class="text-dark btn-edit ms-2">
                                                 <i class="fs-4 ti ti-edit text-warning"></i>
                                             </a>
-                                            <a href="#" data-url="{{ route('admin.cashiers.destroy', $admin->id) }}"
+                                            <a href="#" data-url="{{ route('admin.users.destroy', $admin->id) }}"
                                                 class="text-dark btn-delete ms-2">
                                                 <i class="ti ti-trash text-danger"></i>
                                             </a>

@@ -78,7 +78,11 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user): RedirectResponse
     {
         $data = $request->validated();
-        $data['password'] = bcrypt($data['password']);
+        if (empty($data['password'])) {
+            unset($data['password']);
+        } else {
+            $data['password'] = bcrypt($data['password']);
+        }
         $this->user->update($user->id, $data);
         $user->syncRoles($data['role']);
 
@@ -116,6 +120,6 @@ class UserController extends Controller
         $data = $this->user->getWhere([
             "email" => $request->email
         ]);
-        return BaseResponse::Ok("Berhasil mengambil data user",$data);
+        return BaseResponse::Ok("Berhasil mengambil data user", $data);
     }
 }
