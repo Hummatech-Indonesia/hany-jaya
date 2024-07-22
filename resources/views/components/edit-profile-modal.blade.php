@@ -16,27 +16,24 @@
                             width="150" height="150">
 
                         <div class="d-flex justify-content-center">
-                            <input type="file" name="photo" id="" class="form-control w-50">
+                            <input type="file" name="photo" class="form-control w-50">
                         </div>
                     </div>
                     <div class="grid col-12">
                         <div class="row mb-2">
-
-                            <div class="form-group col-6">
-                                <label for="" class="form-label">Nama</label>
-                                <input type="text" name="name" id="" class="form-control"
-                                    value="{{ auth()->user()->name }}">
+                            <div class="form-group col-6 mb-3">
+                                <label class="fw-semibold">Nama</label>
+                                <input type="text" name="name" class="form-control" placeholder="Nama" value="{{ auth()->user()->name }}">
                             </div>
-                            <div class="form-group col-6">
-                                <label for="" class="form-label">Email</label>
-                                <input type="email" name="email" id="" class="form-control"
-                                    value="{{ auth()->user()->email }}">
+                            <div class="form-group col-6 mb-3">
+                                <label class="fw-semibold">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="Email" value="{{ auth()->user()->email }}">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 </div>
             </form>

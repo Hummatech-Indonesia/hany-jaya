@@ -8,23 +8,23 @@
                     <h5 class="modal-title">Ganti Password Pengguna</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body m-3">
-                    <div class="form-group">
-                        <label for="" class="form-label">Password Lama</label>
-                        <input type="password" name="current_password" id="" class="form-control">
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <label class="fw-semibold">Password Lama</label>
+                        <input type="password" name="current_password" placeholder="Password Lama" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="fw-semibold">Password Baru</label>
+                        <input type="password" name="password" placeholder="Password Baru" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="" class="form-label">Password Baru</label>
-                        <input type="password" name="password" id="" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="form-label">Konfirmasi Password Baru</label>
-                        <input type="password" name="password_confirmation" id="" class="form-control">
+                        <label class="fw-semibold">Konfirmasi Password Baru</label>
+                        <input type="password" name="password_confirmation" placeholder="Password Baru" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary">Simpan</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>

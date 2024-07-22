@@ -3,14 +3,47 @@
     Profil
 @endpush
 @section('content')
+    @include('components.swal-message')
     <div class="container-fluid max-w-full">
-        @if (session('success'))
-            <x-alert-success></x-alert-success>
-        @elseif(session('error'))
-            <x-alert-failed></x-alert-failed>
-        @endif
-        <div class="card">
-            <div class="card-body">
+        <div class="card w-100 d-flex flex-column flex-md-row overflow-hidden">
+            <div class="flex-1 w-100">
+                <img 
+                    src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : asset('assets/images/profile/user-1.jpg') }}"
+                    alt="profile-image" class="w-100" style="object-fit: cover;"
+                >
+            </div>
+            <div class="flex-1 w-100 justify-self-stretch d-flex flex-column justify-content-between p-3">
+                <div>
+                    <div class="mb-3">
+                        <div class="text-muted fw-bolder">Nama</div>
+                        <div class="fw-bolder fs-5">{{ auth()->user()->name }}</div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="text-muted fw-bolder">Email</div>
+                        <div class="fw-bolder fs-5">{{ auth()->user()->email }}</div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="text-muted fw-bolder">Role</div>
+                        <div class="fw-bolder fs-5">
+                            @foreach(auth()->user()->roles as $role)
+                                <div class="badge bg-primary-subtle text-dark">{{ $role->name }}</div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-row justify-content-stretch gap-2">
+                    <button type="button" class="btn btn-warning w-100" data-bs-toggle="modal"
+                            data-bs-target="#changePasswordModal">
+                            Ganti Password
+                        </button>
+                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                            data-bs-target="#editProfileModal">
+                            Edit
+                        </button>
+                </div>
+            </div>
+            
+            {{-- <div class="card-body">
 
 
                 <div class="text-center mb-3">
@@ -53,7 +86,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     @endsection
     @section('script')
