@@ -67,7 +67,7 @@
                 // change form url
                 let form_url
                 if(selected_product) {
-                    form_url = "{{route('admin.adjustment.update-stock', 'selected_id')}}"
+                    form_url = "{{route('admin.adjustments.update-stock', 'selected_id')}}"
                     form_url = form_url.replace('selected_id', selected_data_product.product.id)
                 } else {
                     form_url = "#"

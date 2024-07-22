@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdjustmentController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PurchasesController;
@@ -43,6 +44,7 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
     Route::get("/list-transaction-history", [SellingController::class, 'tableTransactionHistory'])->name('list-transaction-history');
     Route::get("/list-debt-history", [SellingController::class, 'tableDebtHistory'])->name('list-debt-history');
     Route::get("/list-pay-debt-history", [HistoryPayDebtController::class, 'tablePayDebtHistory'])->name('list-pay-debt-history');
+    Route::get("/list-adjustment-history", [AdjustmentController::class, 'tableAdjustmentHistory'])->name('list-adjustment-history');
 
     Route::get('/list-debt', [DebtController::class, 'tableDebt'])->name('list-debt');
     Route::get('/list-debt/by-buyer/{buyer}', [DebtController::class, 'tableDetailDebt'])->name('list-detail-debt');

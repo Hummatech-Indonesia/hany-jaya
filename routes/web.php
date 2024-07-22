@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdjustmentController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductUnitController;
@@ -63,6 +64,7 @@ Route::middleware('auth')->group(function () {
             'suppliers' => SupplierController::class,
             'categories' => CategoryController::class,
             'units' => UnitController::class,
+            'adjustments' => AdjustmentController::class,
         ]);
         Route::prefix('users')->name('users.')->group(function () {
             Route::get('/', [
@@ -82,9 +84,8 @@ Route::middleware('auth')->group(function () {
         Route::prefix('selling')->name('selling.')->group(function () {
             Route::get('history', [SellingController::class, 'history'])->name('history');
         });
-        Route::prefix('adjustment')->name('adjustment.')->group(function () {
-            Route::get('/', [ProductController::class, 'adjustmentIndex'])->name('index');
-            Route::post('{product}', [ProductController::class, 'adjustmentStock'])->name('update-stock');
+        Route::prefix('adjustments')->name('adjustments.')->group(function () {
+            Route::post('{product}', [AdjustmentController::class, 'adjustmentStock'])->name('update-stock');
         });
     });
     Route::prefix('cashier')->name('cashier.')->group(function () {
