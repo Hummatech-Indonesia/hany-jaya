@@ -54,6 +54,9 @@
                     $('#input-date').daterangepicker({
                         autoUpdateInput: false
                     })
+                    $('#input-date').on('apply.daterangepicker hide.daterangepicker', function(ev, picker) {
+                        updateDateRange(ev, picker)
+                    })
                 },
                 language: {
                     processing: 'Memuat...'
@@ -127,12 +130,17 @@
                 autoUpdateInput: false
             })
 
-            $('#input-date').on('apply.daterangepicker hide.daterangepicker', function(ev, picker) {
+            function updateDateRange(ev, picker) {
                 let val = picker.startDate.format('DD-MM-YYYY')+' s/d '+picker.endDate.format('DD-MM-YYYY')
                 $('#input-date').val(val)
                 let url = "{{ route('data-table.list-transaction-history') }}"
                 url = url+'?date='+$('#input-date').val()
+                console.log('a')
                 datatable_transaction.ajax.url(url).load()
+            }
+
+            $('#input-date').on('apply.daterangepicker hide.daterangepicker', function(ev, picker) {
+                updateDateRange(ev, picker)
             })
 
             $(document).on("click", ".btn-detail", function() {
