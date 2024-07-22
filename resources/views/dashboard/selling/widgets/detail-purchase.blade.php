@@ -24,6 +24,11 @@
                                         <td width="70%" id="invoice_number"></td>
                                     </tr>
                                     <tr>
+                                        <th>Distributor</th>
+                                        <td>: </td>
+                                        <td width="70%" id="supplier_name"></td>
+                                    </tr>
+                                    <tr>
                                         <th>Tanggal Pembelian</th>
                                         <td>: </td>
                                         <td width="70%" id="buy_date"></td>

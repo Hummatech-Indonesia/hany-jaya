@@ -79,17 +79,17 @@
                 {
                     extend: 'excel',
                     exportOptions: {
-                        columns: ":not(:eq(4))"
+                        columns: ":not(:eq(5))"
                     }
                 }, {
                     extend: 'csv',
                     exportOptions: {
-                        columns: ":not(:eq(4))"
+                        columns: ":not(:eq(5))"
                     }
                 }, {
                     extend: 'pdf',
                     exportOptions: {
-                        columns: ":not(:eq(4))"
+                        columns: ":not(:eq(5))"
                     },
                     customize: function (doc) {
                         doc.content[1].table.widths = 
@@ -111,13 +111,16 @@
             ajax: {
                 url: "{{route('data-table.list-purchase-history')}}"
             },
-            order: [[2, 'desc']],
+            order: [[3, 'desc']],
             columns: [
                 {
                     data: 'DT_RowIndex',
                     title: 'No',
                     searchable: false,
                     orderable: false
+                }, {
+                    data: 'supplier.name',
+                    title: "Distributor"
                 }, {
                     data: 'invoice_number',
                     title: "No. Invoice"
@@ -146,7 +149,9 @@
                             data-price="${row['buy_price']}"
                             data-status_payment="${row['status_payment']}"
                             data-date="${row['created_at']}"
-                            data-address="${row['supplier']['address']}">
+                            data-address="${row['supplier']['address']}"
+                            data-supplier-name="${row['supplier']['name']}"
+                        >
                             <i class="ti ti-eye"></i>
                         </button>
                         `
@@ -183,12 +188,14 @@
             let price = $(this).data('price');
             let pay = $(this).data('pay');
             let date = $(this).data('date')
+            let supplier_name = $(this).data('supplier-name')
             console.log(detailPurchase);
 
             $('#name').html(name);
             $('#invoice_number').html(invoice_number);
             $('#buy_date').html(moment(date).locale('id').format("LL"));
             $('#price').html(formatNum(price));
+            $('#supplier_name').html(supplier_name)
 
             $('#value_table').empty();
             let total_price = 0
