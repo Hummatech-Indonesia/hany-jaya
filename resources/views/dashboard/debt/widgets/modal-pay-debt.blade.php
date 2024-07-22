@@ -78,6 +78,7 @@
                 $('#pay').val(formatNum($('#pay').val()))
                 const selected_buyer_item = getSelectedBuyerItem()
 
+                if(unformatNum($('#pay').val()) < 0) $('#pay').val(0)
                 if(!selected_buyer_item) $('#pay').val(0)
                 else if(unformatNum($('#pay').val()) > selected_buyer_item.debt) $('#pay').val(formatNum(selected_buyer_item.debt))
 
