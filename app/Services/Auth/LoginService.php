@@ -30,6 +30,8 @@ class LoginService
         unset($data["password"]);
 
         $user = $user->getWhere($data);
+        if(!$user) return redirect()->back()->withErrors('Akun ini tidak ditemukan, silahkan hubungi admin')->withInput();
+
         if (auth()->attempt(['email' => $data['email'], 'password' => $password])) {
             if ($remember_token) $data["remember_me"] = $remember_token;
             if (isset($data['remember_me']) && !empty($data['remember_me'])) {

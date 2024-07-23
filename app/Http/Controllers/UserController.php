@@ -97,8 +97,20 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        $this->user->delete($user->id);
+        $test = $this->user->softDelete($user->id);
         return redirect()->back()->with('success', trans('alert.delete_success'));
+    }
+
+    /**
+     * active data
+     *
+     * @param  mixed $user
+     * @return RedirectResponse
+     */
+    public function active(User $user): RedirectResponse
+    {
+        $this->user->activeData($user->id);
+        return redirect()->back()->with('success', );
     }
 
     /**

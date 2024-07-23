@@ -38,7 +38,9 @@ class User extends Authenticatable implements CanResetPassword, HasStore, HasOut
         'outlet_id',
         'email',
         'password',
-        'photo'
+        'photo',
+        'is_delete',
+        'deleted_at'
     ];
 
     /**

@@ -23,6 +23,7 @@ class UserRepository extends BaseRepository implements UserInterface
     {
         return $this->model->query()
             ->with('roles')
+            ->where('is_delete',0)
             ->get();
     }
 
@@ -75,6 +76,34 @@ class UserRepository extends BaseRepository implements UserInterface
     }
 
     /**
+     * delete
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function softDelete(mixed $id): mixed
+    {
+        return $this->show($id)->update([
+            "is_delete" => 1,
+            "deleted_at" => now()
+        ]);
+    }
+    
+    /**
+     * delete
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function activeData(mixed $id): mixed
+    {
+        return $this->show($id)->update([
+            "is_delete" => 0,
+            "deleted_at" => null
+        ]);
+    }
+
+    /**
      * getWhere
      *
      * @param  mixed $data
@@ -88,6 +117,7 @@ class UserRepository extends BaseRepository implements UserInterface
                     $query->where($index, $value);   
                 }
             })
+            ->where('is_delete',0)
             ->first();
     }
 
@@ -103,6 +133,7 @@ class UserRepository extends BaseRepository implements UserInterface
             ->when($request->name, function ($query) use ($request) {
                 $query->where('name', 'LIKE', '%' . $request->name . '%');
             })
+            ->where('is_delete',0)
             ->fastPaginate(10);
     }
     /**
@@ -119,6 +150,7 @@ class UserRepository extends BaseRepository implements UserInterface
             ->when($request->name, function ($query) use ($request) {
                 $query->where('name', 'LIKE', '%' . $request->name . '%');
             })
+            ->where('is_delete',0)
             ->where('email', '!=', 'admin@gmail.com')
             ->fastPaginate(10);
     }
@@ -128,6 +160,6 @@ class UserRepository extends BaseRepository implements UserInterface
      */
     public function with(array $data): mixed
     {
-        return $this->model->with($data)->get();
+        return $this->model->with($data)->where('is_delete',0)->get();
     }
 }
