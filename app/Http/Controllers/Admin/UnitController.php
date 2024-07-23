@@ -83,11 +83,18 @@ class UnitController extends Controller
      */
     public function destroy(Unit $unit)
     {
-        $delete = $this->unit->delete($unit->id);
-        if ($delete == false) {
-            return redirect()->back()->withErrors(trans('alert.delete_restrict'));
+        $check = $unit->withCount(['product','productUnit'])->first();
+        
+        if($check->product_count == 0 && $check->product_unit_count == 0){
+            $delete = $this->unit->delete($unit->id);
+            if ($delete == false) {
+                return redirect()->back()->withErrors(trans('alert.delete_restrict'));
+            }
+            return redirect()->back()->with('success', trans('alert.delete_success'));
+        } else{
+            return redirect()->back()->withErrors(trans('alert.delete_restrict'));   
         }
-        return redirect()->back()->with('success', trans('alert.delete_success'));
+
     }
 
     /**

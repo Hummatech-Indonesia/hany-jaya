@@ -48,8 +48,8 @@
                     let del_url = "{{route('admin.categories.destroy', 'selected_id')}}"
                     del_url = del_url.replace('selected_id', row['id'])
                     let category = JSON.stringify(row).replaceAll('"', "'")
-
-                    return `
+                    
+                    let result = `
                     <div class="d-flex align-items-center gap-2">
                         <div class="d-flex align-items-center gap-2">
                             <button type="button" class="btn btn-sm btn-light-primary btn-update-category btn-update-icon" data-category="${category}"
@@ -57,13 +57,20 @@
                                 <i class="fs-4 ti ti-edit"></i>
                             </button>
                         </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <button type="button" class="btn btn-sm btn-light-danger btn-delete-category btn-delete-icon" data-url="${del_url}">
-                                <i class="fs-4 ti ti-trash"></i>
-                            </button>
-                        </div>
-                    </div>
                     `
+
+                    if(row.products_count > 0){
+                        result += `</div>`
+                    }else {
+                        result += `<div class="d-flex align-items-center gap-2">
+                                    <button type="button" class="btn btn-sm btn-light-danger btn-delete-category btn-delete-icon" data-url="${del_url}">
+                                        <i class="fs-4 ti ti-trash"></i>
+                                    </button>
+                                </div>
+                            </div>`
+                    }
+
+                    return result;
                 },
                 title: 'Aksi',
                 searchable: false,
