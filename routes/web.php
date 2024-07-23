@@ -48,7 +48,7 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::patch('profile-change-password', [ProfileController::class, 'changePassword'])->name('profile.change.password');
-    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
         Route::get('update-profile', [ProfileController::class, 'index'])->name('profile');
         Route::patch('update-profile', [ProfileController::class, 'update'])->name('update.profile');
         Route::get('supplier-products/{supplier?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
@@ -79,14 +79,14 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [PurchasesController::class, 'store'])->name('store');
             Route::get('history', [PurchasesController::class, 'history'])->name('index');
         });
-        Route::prefix('selling')->name('selling.')->group(function () {
-            Route::get('history', [SellingController::class, 'history'])->name('history');
-        });
         Route::prefix('product')->name('product.')->group(function () {
             Route::post('update/stock/{product}', [ProductController::class, 'adjustmentStock'])->name('adjusment-stock');
         });
     });
-    Route::prefix('cashier')->name('cashier.')->group(function () {
+    Route::prefix('admin/selling')->name('admin.selling.')->middleware('role:admin|cashier')->group(function () {
+        Route::get('history', [SellingController::class, 'history'])->name('history');
+    });
+    Route::prefix('cashier')->name('cashier.')->middleware('role:admin|cashier')->group(function () {
         Route::get('/', [SellingController::class, 'create'])->name('index');
         Route::get('update-profile', [ProfileController::class, 'cashier'])->name('profile');
         Route::get('admin-selling-histories', [SellingController::class, 'adminSellingHistory'])->name('admin.selling.history');
