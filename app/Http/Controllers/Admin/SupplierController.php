@@ -83,8 +83,20 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier): RedirectResponse
     {
-        $this->supplier->delete($supplier->id);
+        $this->supplier->softDelete($supplier->id);
         return redirect()->back()->with('success', trans('alert.delete_success'));
+    }
+
+    /**
+     * active data
+     *
+     * @param  mixed $supplier
+     * @return RedirectResponse
+     */
+    public function active(Supplier $supplier): RedirectResponse
+    {
+        $this->supplier->activeData($supplier->id);
+        return redirect()->back()->with('success', 'Berhasil mengembalikan data');
     }
 
     /**
