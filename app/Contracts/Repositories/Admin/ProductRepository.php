@@ -21,6 +21,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
         return $this->model->query()
             ->with('productUnits')
             ->where('outlet_id', auth()->user()->outlet->id)
+            ->where('is_delete',0)
             ->when($request->name, function ($query) use ($request) {
                 $query->where('name', 'LIKE', '%' . $request->name . '%')->orWhere('code', $request->name);
             })
@@ -92,13 +93,41 @@ class ProductRepository extends BaseRepository implements ProductInterface
     }
 
     /**
+     * soft delete
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function softDelete(mixed $id): mixed
+    {
+        return $this->show($id)->update([
+            "is_delete" => 1,
+            "deleted_at" => now()
+        ]);
+    }
+    
+    /**
+     * active
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function activeData(mixed $id): mixed
+    {
+        return $this->show($id)->update([
+            "is_delete" => 0,
+            "deleted_at" => null
+        ]);
+    }
+
+    /**
      * get
      *
      * @return mixed
      */
     public function get(): mixed
     {
-        return $this->model->query()->get();
+        return $this->model->query()->where('is_delete',0)->get();
     }
 
     /**
@@ -115,7 +144,10 @@ class ProductRepository extends BaseRepository implements ProductInterface
                 $query->orderBy('quantity_in_small_unit', 'asc');
             }])
             ->with('productUnits.unit')
-            ->where('code', $data['code'])->orWhere('name', $data['code'])
+            ->where('is_delete',0)
+            ->when($data['code'], function ($query) use ($data){ 
+                $query->where('code', $data['code'])->orWhere('name', $data['code']);
+            })
             ->first();
     }
 
@@ -134,6 +166,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
                 } catch (\Throwable $th) {
                 }
             })
+            ->where('is_delete',0)
             ->count();
     }
 
@@ -145,7 +178,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
      */
     public function with(array $data): mixed
     {
-        return $this->model->with($data)->get();
+        return $this->model->with($data)->where('is_delete',0)->get();
     }
 
     /**
@@ -156,7 +189,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
      */
     public function withElequent(array $data): mixed
     {
-        return $this->model->with($data);
+        return $this->model->with($data)->where('is_delete',0);
     }
 
     /**
@@ -164,6 +197,6 @@ class ProductRepository extends BaseRepository implements ProductInterface
      */
     public function firstLastest(): mixed
     {
-        return $this->model->latest()->first();
+        return $this->model->latest()->where('is_delete',0)->first();
     }
 }

@@ -155,8 +155,20 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): RedirectResponse
     {
-        $this->product->delete($product->id);
+        $this->product->softDelete($product->id);
         return redirect()->back()->with('success', trans('alert.delete_success'));
+    }
+
+    /**
+     * active data
+     *
+     * @param  mixed $product
+     * @return RedirectResponse
+     */
+    public function active(Product $product): RedirectResponse
+    {
+        $this->product->activeData($product->id);
+        return redirect()->back()->with('success', 'Berhasil mengembalikan data');
     }
 
     /**
