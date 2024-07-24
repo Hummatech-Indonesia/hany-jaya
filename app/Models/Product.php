@@ -23,7 +23,7 @@ class Product extends Model implements HasSupplierProducts, HasCategory, HasUnit
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'outlet_id', 'category_id', 'code', 'name', 'quantity', 'unit_id', 'image'
+        'id', 'outlet_id', 'category_id', 'code', 'name', 'quantity', 'unit_id', 'image', 'is_delete', 'deleted_at'
     ];
 
     /**

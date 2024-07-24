@@ -15,7 +15,7 @@ class Supplier extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'outlet_id', 'name', 'address'
+        'id', 'outlet_id', 'name', 'address', 'is_delete', 'deleted_at'
     ];
 
     /**

@@ -25,6 +25,7 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
         return $this->model->query()
             ->with('supplierProducts.product')
             ->where('outlet_id', auth()->user()->outlet->id)
+            ->where('is_delete',0)
             ->get();
     }
 
@@ -45,6 +46,7 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
                 $query->whereRelation('supplierProducts.product', 'name', 'LIKE', '%' . $request->product . '%');
             })
             ->where('outlet_id', auth()->user()->outlet->id)
+            ->where('is_delete',0)
             ->fastPaginate(10);
     }
     /**
@@ -95,6 +97,34 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
     }
 
     /**
+     * soft delete
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function softDelete(mixed $id): mixed
+    {
+        return $this->show($id)->update([
+            "is_delete" => 1,
+            "deleted_at" => now()
+        ]);
+    }
+    
+    /**
+     * active
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function activeData(mixed $id): mixed
+    {
+        return $this->show($id)->update([
+            "is_delete" => 0,
+            "deleted_at" => null
+        ]);
+    }
+
+    /**
      * with relation
      *
      * @param  array data
@@ -102,7 +132,7 @@ class SupplierRepository extends BaseRepository implements SupplierInterface
      */
     public function with(array $data): mixed
     {
-        return $this->model->with($data)->get();
+        return $this->model->with($data)->where('is_delete',0)->get();
     }
 
     /**

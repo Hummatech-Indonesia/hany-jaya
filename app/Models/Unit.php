@@ -16,4 +16,14 @@ class Unit extends Model
     protected $fillable = [
         'id', 'name'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'id', 'unit_id');
+    }
+
+    public function productUnit()
+    {
+        return $this->belongsTo(ProductUnit::class, 'id', 'unit_id');
+    }
 }

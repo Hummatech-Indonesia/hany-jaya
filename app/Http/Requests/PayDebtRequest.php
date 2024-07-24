@@ -14,14 +14,20 @@ class PayDebtRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pay_debt' => 'required|min:1'
+            'pay_debt' => 'required|numeric|min:1'
         ];
     }
 
     public function messages()
     {
         return [
-            'pay_debt.required' => 'Nominal Hutang wajib dibayar'
+            'pay_debt.required' => 'Nominal Hutang wajib dibayar',
+            'pay_debt.min' => 'Nominal tidak boleh kurang dari sama dengan 0'
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        if($this->pay_debt) $this->merge(['pay_debt' => (int)$this->pay_debt]);
     }
 }
