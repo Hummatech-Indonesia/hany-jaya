@@ -737,7 +737,10 @@
             }
 
             function changeDebtValue() {
-                if(!$('#hutang').is(':checked')) return
+                if(!$('#hutang').is(':checked')) {
+                    $('[name=debt]').val(0)
+                    return
+                }
                 const total_must_paid = unformatNum($('#total_price').html().replace('Rp ', ''))
                 const paid = $('#pay').val()
                 const debt = total_must_paid - paid
