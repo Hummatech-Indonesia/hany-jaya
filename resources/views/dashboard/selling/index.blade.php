@@ -564,7 +564,7 @@
                 var quantity = selected.data('quantity');
                 var unit = selected.data('unit');
                 var stock = Math.floor(quantity / quantity_in_small_unit);
-                row.find('.stock').html(stock);
+                row.find('.stock').html(formatNum(stock, true));
                 row.find('.quantity_stock').html(unit);
                 var quantity = row.find('.quantity').val();
                 row.find('.input-unit-price').val(formatNum(selectedPrice));
