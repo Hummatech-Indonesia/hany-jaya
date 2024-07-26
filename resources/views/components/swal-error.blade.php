@@ -3,9 +3,13 @@
     <script>
         $(document).ready(function() {
             Swal.fire({
-                icon: "success",
-                title: "Berhasil",
-                text: "{{ session('error') }}"
+                toast: true,
+                icon: "error",
+                title: "{{ session('error') }}",
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
             })
         })
     </script>

@@ -244,6 +244,8 @@
         <a href="{{ route('home') }}" class="btn btn-primary p-3 rounded-circle d-flex align-items-center justify-content-center customizer-btn">
             <i class="ti ti-home fs-7" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Beranda"></i>
         </a>
+    
+    @include('components.swal-message')
 
     @include('layouts.script')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -737,7 +739,10 @@
             }
 
             function changeDebtValue() {
-                if(!$('#hutang').is(':checked')) return
+                if(!$('#hutang').is(':checked')) {
+                    $('[name=debt]').val(0)
+                    return
+                }
                 const total_must_paid = unformatNum($('#total_price').html().replace('Rp ', ''))
                 const paid = $('#pay').val()
                 const debt = total_must_paid - paid
@@ -784,26 +789,6 @@
                 if($('#hutang').is(':checked')) methods.push('hutang')
                 return JSON.stringify(methods)
             }
-
-            @if ($errors->any())
-                let msg = ''
-                @foreach ($errors->all() as $error)
-                    msg += `<li>{{$error}}</li>`
-                @endforeach
-                Swal.fire({
-                    icon: "error",
-                    html: `<ul>${msg.replaceAll('`', "'")}</ul>`,
-                    timerProgressBar: true,
-                });
-            @endif
-
-            @if (session()->has('success'))
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sukses',
-                    text: 'Pembelian berhasil dilakukan'
-                })
-            @endif
         })
     </script>
 </body>

@@ -80,8 +80,11 @@
                             return moment(data).locale('id').format('LL')
                         },
                     }, {
-                        data: "user.name",
+                        data: "buyer.name",
                         title: "Nama Pembeli",
+                        render: (data, type, row) => {
+                            return `${row.buyer.name} - ${row.buyer.address}`
+                        }
                     }, {
                         data: "amount_price",
                         title: "Total Harga",
