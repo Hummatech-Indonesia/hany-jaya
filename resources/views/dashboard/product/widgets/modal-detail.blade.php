@@ -113,11 +113,10 @@
                             data: "quantity",
                             title: "Jumlah",
                             render: (data, type, row) => {
-                                console.log(row)
                                 return formatNum(data, true)+' '+row['unit_name']
                             }
                         }, {
-                            data: "total_price_per_unit",
+                            data: "total_per_unit_price",
                             title: "Harga",
                             render: (data, type) => {
                                 return 'Rp '+formatNum(data, true)
