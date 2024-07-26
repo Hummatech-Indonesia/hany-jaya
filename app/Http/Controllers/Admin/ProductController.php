@@ -220,8 +220,36 @@ class ProductController extends Controller
         $data1 = $this->detailPurchase->detailProductCustom($request);
         $data2 = $this->detailSellings->detailProductCustom($request);
 
-        $data = $data1->union($data2)->orderBy('date','DESC')->get();
+        if($request->type == "selling"){
+            $data = $data2->orderBy('date','DESC')->get();
+        } else if ($request->type == "purchase"){
+            $data = $data1->orderBy('date','DESC')->get();
+        }else {
+            $data = $data1->union($data2)->orderBy('date','DESC')->get();
+        }
         
         return BaseDatatable::TableV2($data->toArray());
+    }
+
+    public function checkCodeProduct(Request $request): JsonResponse
+    {
+        if(!$request->code) return response()->json([
+            "status" => "errpr",
+            "message" => "Code tidak valid",
+            "data" => false
+        ]);
+
+        $check = $this->product->getWhereV2(["code" => $request->code]);
+
+        if($check) return response()->json([
+            "status" => "errpr",
+            "message" => "Code sudah digunakan",
+            "data" => false
+        ]);
+        else return response()->json([
+            "status" => "errpr",
+            "message" => "Code dapat digunakan",
+            "data" => true
+        ]);
     }
 }

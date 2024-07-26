@@ -152,6 +152,23 @@ class ProductRepository extends BaseRepository implements ProductInterface
     }
 
     /**
+     * getWhere only data
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getWhereV2(array $data): mixed
+    {
+        return $this->model->query()
+            ->when(count($data) > 0, function ($query) use ($data){ 
+                foreach($data as $item => $value) {
+                    $query->where($item, $data[$item]);
+                }
+            })
+            ->first();
+    }
+
+    /**
      * count
      *
      * @param  mixed $data

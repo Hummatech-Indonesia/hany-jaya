@@ -26,4 +26,6 @@ SoftDeleteInterface, ActiveDataInterface
      */
 
      public function withElequent(array $data): mixed;
+     
+     public function getWhereV2(array $data): mixed;
 }
