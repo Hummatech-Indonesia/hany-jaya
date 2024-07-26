@@ -55,4 +55,26 @@ class BuyerController extends Controller
     {
         return BaseResponse::Ok("Berhasil mengambil data pembeli",$buyer);
     }
+
+    public function checkCodeBuyer(Request $request): JsonResponse
+    {
+        if(!$request->code) return response()->json([
+            "status" => "error",
+            "message" => "Code tidak valid",
+            "data" => false
+        ]);
+
+        $check = $this->buyer->getWhere(["code" => $request->code]);
+
+        if($check) return response()->json([
+            "status" => "error",
+            "message" => "Code sudah digunakan",
+            "data" => false
+        ]);
+        else return response()->json([
+            "status" => "success",
+            "message" => "Code dapat digunakan",
+            "data" => true
+        ]);
+    }
 }

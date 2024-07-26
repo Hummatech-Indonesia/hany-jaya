@@ -234,7 +234,7 @@ class ProductController extends Controller
     public function checkCodeProduct(Request $request): JsonResponse
     {
         if(!$request->code) return response()->json([
-            "status" => "errpr",
+            "status" => "error",
             "message" => "Code tidak valid",
             "data" => false
         ]);
@@ -242,12 +242,12 @@ class ProductController extends Controller
         $check = $this->product->getWhereV2(["code" => $request->code]);
 
         if($check) return response()->json([
-            "status" => "errpr",
+            "status" => "error",
             "message" => "Code sudah digunakan",
             "data" => false
         ]);
         else return response()->json([
-            "status" => "errpr",
+            "status" => "success",
             "message" => "Code dapat digunakan",
             "data" => true
         ]);

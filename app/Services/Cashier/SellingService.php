@@ -66,12 +66,16 @@ class SellingService
 
         if ($buyer == null) {
             $telp = null; 
-            try{ $telp = $data["telp"]; }catch(\Throwable $th){ }
+            $code = null; 
+            try{ 
+                $telp = $data["telp"];
+                $code = $data["code"];
+            }catch(\Throwable $th){ }
 
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                $buyer = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'telp' => $telp, 'debt' => $sellingPrice]);
+                $buyer = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'telp' => $telp, 'code' => $code, 'debt' => $sellingPrice]);
             } else {
-                $buyer = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'telp' => $telp]);
+                $buyer = $this->buyer->store(['name' => $data['name'], 'address' => $data['address'], 'telp' => $telp, 'code' => $code]);
             }
 
             $data["buyer_id"] = $buyer->id;
@@ -82,10 +86,14 @@ class SellingService
 
             $data['buyer_id'] = $buyer->id;
         }
+        $pay = 0;
         
-        if((int)($data["debt"] ?? 0) > 0) {
-            $data["status_payment"] = StatusEnum::SPLIT->value;
-            $buyer->update(['debt' => $buyer->debt + ($data["debt"] ?? 0)]);
+        if($data['status_payment'] == StatusEnum::SPLIT->value) {
+            if((int)($data["debt"] ?? 0) > 0){
+                $buyer->update(['debt' => $buyer->debt + ($data["debt"] ?? 0)]);
+            }else {
+                $data["status_payment"] = StatusEnum::CASH->value;
+            }
         }
 
         return $data;

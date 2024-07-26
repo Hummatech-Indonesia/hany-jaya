@@ -71,8 +71,11 @@ Route::name('chart.')->prefix('chart')->group(function() {
 // Route api for find data
 Route::name('find.')->prefix('find')->group(function (){
     Route::get('/user/by-name-address', [UserController::class, 'findUser'])->name('user.email-address');
-    Route::get('/buyer/by-name-address', [BuyerController::class, 'findBuyer'])->name('buyer.name-address');
-    Route::get('/buyer/{buyer}', [BuyerController::class, 'findBuyerById'])->name('buyer.by-id');
+    Route::name('buyer.')->prefix('buyer')->group(function (){
+        Route::get('/by-name-address', [BuyerController::class, 'findBuyer'])->name('name-address');
+        Route::post('/check-code', [BuyerController::class, 'checkCodeBuyer'])->name('check-code');
+        Route::get('/{buyer}', [BuyerController::class, 'findBuyerById'])->name('by-id');
+    });
     Route::name('product.')->prefix('product')->group(function (){
         Route::get('/last-product', [ProductController::class, 'lastProduct'])->name('last-product');
         Route::post('/check-code', [ProductController::class, 'checkCodeProduct'])->name('check-code');

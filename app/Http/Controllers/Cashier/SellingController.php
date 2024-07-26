@@ -80,6 +80,7 @@ class SellingController extends Controller
         // default value for status_payment
         if(is_array($data["status_payment"])){
             if(count($data["status_payment"]) == 1) $data["status_payment"] = $data["status_payment"][0];
+            else if (count($data["status_payment"]) > 1) $data["status_payment"] = StatusEnum::SPLIT->value;
             else $data["status_payment"] = StatusEnum::CASH->value;
         }else {
             $data["status_payment"] = StatusEnum::CASH->value;

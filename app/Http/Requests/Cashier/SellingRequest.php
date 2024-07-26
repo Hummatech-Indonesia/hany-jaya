@@ -19,6 +19,7 @@ class SellingRequest extends FormRequest
             'name' => 'required',
             'address' => 'required',
             'telp' => 'nullable|max:15',
+            'code' => 'nullable',
             'product_unit_price'=>'required',
             'pay' => 'nullable',
             'code_debt' => 'nullable',
