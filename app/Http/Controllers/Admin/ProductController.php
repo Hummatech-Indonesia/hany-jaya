@@ -241,11 +241,21 @@ class ProductController extends Controller
 
         $check = $this->product->getWhereV2(["code" => $request->code]);
 
-        if($check) return response()->json([
-            "status" => "error",
-            "message" => "Code sudah digunakan",
-            "data" => false
-        ]);
+        if($check){
+            if($check->id == $request->product_id){
+                return response()->json([
+                    "status" => "success",
+                    "message" => "Code dapat digunakan",
+                    "data" => true
+                ]);
+            } else {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Code sudah digunakan",
+                    "data" => false
+                ]);
+            }
+        } 
         else return response()->json([
             "status" => "success",
             "message" => "Code dapat digunakan",
