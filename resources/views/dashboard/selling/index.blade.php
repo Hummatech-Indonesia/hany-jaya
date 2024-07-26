@@ -87,6 +87,10 @@
                                                 <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat <span class="text-danger">*</span></div> <span class="text-info fs-3">(shift+a)</span></label>
                                                 <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
                                             </div>
+                                            <div class="form-group mb-3">
+                                                <label for="code" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-scan text-primary"></i> Kode Pembeli <span class="text-danger">*</span></div> <span class="text-info fs-3">(shift+a)</span></label>
+                                                <input type="text" required name="code" placeholder="Kode Pembeli" class="form-control" id="code" tabindex="2">
+                                            </div>
                                             <div class="form-group ">
                                                 <label for="telp" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-phone text-primary"></i> No. Telp</div> <span class="text-info fs-3">(shift+t)</span></label>
                                                 <div class="input-group">
@@ -246,6 +250,7 @@
         </a>
     
     @include('components.swal-message')
+    @include('dashboard.selling.widgets.cashier-supply-hist-modal')
 
     @include('layouts.script')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -352,6 +357,8 @@
                 if (e.shiftKey) key.push('shift');
                 key.push(e.key.toLowerCase());
 
+                console.log(key)
+
                 return key.join('+');
             }
 
@@ -379,8 +386,10 @@
                     let address = selectedItem.address
                     let telp = selectedItem.phone
                     let name = selectedItem.name
+                    let code = selectedItem.code
                     $('#cust-address').val(address)
                     $('#telp').val(telp)
+                    $('#code').val(code)
                 }
                 
                 if(selectedValue && selectedItem && (selectedItem && selectedValue == `${selectedItem.name} - ${selectedItem.address}`)) {
@@ -388,11 +397,15 @@
                     $('#cust-address').addClass('disabled')
                     $('#telp').prop('readonly', true)
                     $('#telp').addClass('disabled')
+                    $('#code').prop('readonly', true)
+                    $('#code').addClass('disabled')
                 } else {
                     $('#cust-address').prop('readonly', false)
                     $('#cust-address').removeClass('disabled')
                     $('#telp').prop('readonly', false)
                     $('#telp').removeClass('disabled')
+                    $('#code').prop('readonly', false)
+                    $('#code').removeClass('disabled')
                 }
                 
 
@@ -406,6 +419,35 @@
                 getUserIdByNameAddress()
                 checkIsHasError()
             })
+
+            var code_timeout
+
+            $(document).on('input', '#code', function() {
+                checkIsHasError()
+            })
+
+            async function getCodeRes() {
+                const selected_option = select_cust.options[select_cust.getValue()]
+                const buyer_id = selected_option && selected_option.id ? selected_option.id : null
+                return await $.ajax({
+                    url: "{{ route('find.buyer.check-code') }}",
+                    method: "POST",
+                    data: {
+                        code: $('#code').val(),
+                        buyer_id
+                    }
+                })
+            }
+
+            function errorCode() {
+                clearTimeout(code_timeout)
+                code_timeout = setTimeout(async () => {
+                    const a = await getCodeRes()
+
+                    if(!a.data) return 1
+                }, 400);
+                return 0
+            }
 
             async function getUserIdByNameAddress() {
                 const user = await axios.get(`{{route('find.buyer.name-address')}}?name=${select_cust.getValue()}&address=${$('#cust-address').val()}`)
@@ -499,7 +541,10 @@
                                     <input type="text" value="${formatNum(selected_price, true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
                                 </td>
                                 <td>
-                                    <button type="button" data-id="${current_index}" class="btn btn-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
+                                    <div class="d-flex justify-content-center align-items-center gap-1">
+                                        <button type="button" data-id="${current_index}" class="btn btn-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
+                                        <button type="button" data-product-id="${response.data.id}" data-bs-toggle="modal" data-bs-target="#modal-supply-history" class="btn btn-info btn-show-history" ><i class="ti ti-list"></i></button>
+                                    </div>
                                 </td>
                             </tr>`;
                         $('#tb-product').append(newRow);
@@ -564,7 +609,7 @@
                 var quantity = selected.data('quantity');
                 var unit = selected.data('unit');
                 var stock = Math.floor(quantity / quantity_in_small_unit);
-                row.find('.stock').html(stock);
+                row.find('.stock').html(formatNum(stock, true));
                 row.find('.quantity_stock').html(unit);
                 var quantity = row.find('.quantity').val();
                 row.find('.input-unit-price').val(formatNum(selectedPrice));
@@ -702,7 +747,7 @@
 
             checkIsHasError()
 
-            function checkIsHasError() {
+            async function checkIsHasError() {
                 let count_error = 0
 
                 if(!$('#cust-name').val()) {
@@ -717,6 +762,16 @@
                     $('#cust-address').addClass('is-invalid')
                 } else {
                     $('#cust-address').removeClass('is-invalid')
+                }
+
+                const code_already_used = await errorCode()
+                count_error += code_already_used
+
+                if(!$('#code').val() || code_already_used) {
+                    count_error++
+                    $('#code').addClass('is-invalid')
+                } else {
+                    $('#code').removeClass('is-invalid')
                 }
 
                 if($('#tb-product [data-index]').length < 1) count_error++

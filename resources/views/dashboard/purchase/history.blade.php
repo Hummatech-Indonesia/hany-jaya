@@ -205,9 +205,9 @@
                 <tr class="search-items">
                     <td><h6 class="user-name mb-0">${index+1}</h6></td>
                     <td><h6 class="user-name mb-0">${item.product.name}</h6></td>
-                    <td><h6 class="user-name mb-0">${item.quantity} ${item.product_unit.unit.name}</h6></td>
-                    <td><h6 class="user-name mb-0">Rp ${formatNum(item.buy_price_per_unit)}</h6></td>
-                    <td><h6 class="user-name mb-0">Rp ${formatNum(item.buy_price)}</h6></td>
+                    <td><h6 class="user-name mb-0">${formatNum(item.quantity, true)} ${item.product_unit.unit.name}</h6></td>
+                    <td><h6 class="user-name mb-0">Rp ${formatNum(item.buy_price_per_unit, true)}</h6></td>
+                    <td><h6 class="user-name mb-0">Rp ${formatNum(item.buy_price, true)}</h6></td>
                 </tr>
                 `
                 );
