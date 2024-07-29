@@ -47,7 +47,7 @@ class UnitController extends Controller
     public function store(UnitRequest $request)
     {
         $this->unit->store($request->validated());
-        return redirect()->back()->with('success', trans('alert.add_success'));
+        return redirect()->route('admin.products.index',['tab' => 'unit'])->with('success', trans('alert.add_success'));
     }
 
     /**
@@ -71,7 +71,7 @@ class UnitController extends Controller
     public function update(UnitRequest $request, Unit $unit)
     {
         $this->unit->update($unit->id, $request->validated());
-        return redirect()->back()->with('success', trans('alert.update_success'));
+        return redirect()->route('admin.products.index',['tab' => 'unit'])->with('success', trans('alert.update_success'));
     }
 
 

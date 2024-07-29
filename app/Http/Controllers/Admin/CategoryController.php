@@ -37,7 +37,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $this->category->store($request->validated());
-        return redirect()->back()->with('success', trans('alert.add_success'));
+        return redirect()->route('admin.products.index',['tab' => 'category'])->with('success', trans('alert.add_success'));
     }
 
     /**
@@ -64,7 +64,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $this->category->update($category->id, $request->validated());
-        return redirect()->back()->with('success', trans('alert.update_success'));
+        return redirect()->route('admin.products.index',['tab' => 'category'])->with('success', trans('alert.update_success'));
     }
 
 
