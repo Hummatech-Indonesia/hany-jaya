@@ -142,15 +142,15 @@ class PurchasesController extends Controller
         if($data) {
             $purchase = $this->productUnit->getWhere([
                 "product_id" => $request->product_id,
-                "product_unit_id" => $data->product_unit_id
+                "id" => $data->product_unit_id
             ])->first();
 
             $convert = $this->productUnit->getWhere([
                 "product_id" => $request->product_id,
-                "product_unit_id" => $request->product_unit_id
+                "id" => $request->product_unit_id
             ])->first();
 
-            $harga = $data->buy_price_per_unit * $convert->quantity_in_small_unit / ($purchase->quantity_in_small_unit ?? 1); 
+            $harga = ($data->buy_price_per_unit * $convert->quantity_in_small_unit / ($purchase->quantity_in_small_unit ?? 1)); 
         }
 
         return BaseResponse::Ok("Berhasil mengambil data", $harga);
