@@ -75,24 +75,24 @@
                                     <div class="card mb-3">
                                         <div class="card-body p-3">
                                             <div class="form-group mb-3">
-                                                <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama <span class="text-danger">*</span></div><span class="text-info fs-3">(shift+n)</span></label>
+                                                <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama <span class="text-danger">*</span></div><span class="text-info fs-3">(alt+1)</span></label>
                                                 <select name="name" class="" id="cust-name" tabindex="1">
                                                     <option value="">Pilih Pembeli</option>
                                                     @foreach ($buyers as $buyer)
-                                                        <option value="{{ $buyer->name }} - {{ $buyer->address }}" data-name="{{ $buyer->name }}" data-phone="{{$buyer->telp}}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
+                                                        <option value="{{ $buyer->name }} - {{ $buyer->address }}" data-name="{{ $buyer->name }}" data-code="{{ $buyer->code }}" data-phone="{{$buyer->telp}}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat <span class="text-danger">*</span></div> <span class="text-info fs-3">(shift+a)</span></label>
+                                                <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+2)</span></label>
                                                 <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label for="code" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-scan text-primary"></i> Kode Pembeli <span class="text-danger">*</span></div> <span class="text-info fs-3">(shift+a)</span></label>
+                                                <label for="code" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-scan text-primary"></i> Kode Pembeli <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+3)</span></label>
                                                 <input type="text" required name="code" placeholder="Kode Pembeli" class="form-control" id="code" tabindex="2">
                                             </div>
                                             <div class="form-group ">
-                                                <label for="telp" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-phone text-primary"></i> No. Telp</div> <span class="text-info fs-3">(shift+t)</span></label>
+                                                <label for="telp" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-phone text-primary"></i> No. Telp</div> <span class="text-info fs-3">(alt+4)</span></label>
                                                 <div class="input-group">
                                                     <div class="input-group-text">+62</div>
                                                     <input type="text" name="telp" placeholder="No Telepon Pembeli" class="form-control" id="telp" tabindex="2">
@@ -110,7 +110,7 @@
                                                     <i class="ti ti-credit-card"></i> Pembayaran
                                                 </div>
                                                 <div>
-                                                    (shift+m)
+                                                    (alt+6)
                                                 </div>
                                             </div>
                                         </div>
@@ -200,7 +200,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                (shift+p)
+                                                (shift+5)
                                             </div>
                                         </div>
                                     </div>
@@ -322,10 +322,12 @@
             select_product.setValue("")
 
             let shortcuts = {
-                'shift+n': function() { select_cust.focus() },
-                'shift+a': function() { $('#cust-address').focus() },
-                'shift+p': function() { select_product.focus() },
-                'shift+m': function() {
+                'alt+1': function() { select_cust.focus() },
+                'alt+2': function() { $('#cust-address').focus() },
+                'alt+3': function() {$('#code').focus()},
+                'alt+4': function() {$('#telp').focus()},
+                'alt+5': function() { select_product.focus() },
+                'alt+6': function() {
                     if($('#hutang').is(':checked')) {
                         $('#hutang').prop('checked', false)
                         $('[data-check-id=hutang]').removeClass('btn-primary')
@@ -343,8 +345,7 @@
                     }
                     changeMethod()
                 },
-                'shift+t': function() {$('#telp').focus()},
-                'shift+enter': function() {
+                'alt+enter': function() {
                     if(checkIsHasError() != 0) return 
                     $('#btn-open-modal').trigger('click')
                 },
