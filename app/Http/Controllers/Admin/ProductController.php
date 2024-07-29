@@ -137,14 +137,14 @@ class ProductController extends Controller
     }
 
     /**
-     * update stock
-     *
-     * @return Returntype
+     * index page of adjustment stock
+     * 
+     * @return View
      */
-    public function adjustmentStock(Request $request, Product $product): RedirectResponse
+    public function adjustmentIndex(): View
     {
-        $this->product->update($product->id, ["quantity" => ($request->quantity ?? 0)]);
-        return to_route('admin.products.index')->with('success', trans('alert.update_success'));
+        $products = $this->product->get();
+        return view('dashboard.adjustment.index', compact('products'));
     }
 
     /**
