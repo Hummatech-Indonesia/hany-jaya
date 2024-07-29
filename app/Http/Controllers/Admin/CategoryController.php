@@ -78,9 +78,9 @@ class CategoryController extends Controller
     {
         $delete = $this->category->delete($category->id);
         if ($delete == false) {
-            return redirect()->back()->withErrors(trans('alert.delete_restrict'));
+            return redirect()->route('admin.products.index',['tab' => 'category'])->withErrors(trans('alert.delete_restrict'));
         }
-        return redirect()->back()->with('success', trans('alert.delete_success'));
+        return redirect()->route('admin.products.index',['tab' => 'category'])->with('success', trans('alert.delete_success'));
     }
     public function getCategoryAjax(Request $request)
     {
