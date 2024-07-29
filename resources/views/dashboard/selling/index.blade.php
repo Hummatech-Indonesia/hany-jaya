@@ -358,8 +358,6 @@
                 if (e.shiftKey) key.push('shift');
                 key.push(e.key.toLowerCase());
 
-                console.log(key)
-
                 return key.join('+');
             }
 
@@ -440,14 +438,26 @@
                 })
             }
 
-            function errorCode() {
+            async function errorCode() {
                 clearTimeout(code_timeout)
-                code_timeout = setTimeout(async () => {
-                    const a = await getCodeRes()
+                return new Promise((resolve) => {
+                    code_timeout = setTimeout(async () => {
+                        try {
+                            const a = await getCodeRes();
 
-                    if(!a.data) return 1
-                }, 400);
-                return 0
+                            if (!a.data) {
+                                resolve(1);
+                                return;
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            resolve(1);
+                            return;
+                        }
+                        
+                        resolve(0);
+                    }, 400);
+                });
             }
 
             async function getUserIdByNameAddress() {

@@ -206,6 +206,25 @@
                 }
             })
 
+            const selectize_category = $('[name=category_id]').selectize({
+                create: true,
+                onOptionAdd: function (val, data) {
+                    createNewCategory(val)
+                },
+            
+            })
+            const selectize_small_unit = $('[name=small_unit_id]').selectize({
+                create: true,
+                onOptionAdd: function (val, item) {
+                    createNewUnit(val)
+                }
+            })
+
+            const select = {
+                category: selectize_category[0].selectize,
+                small_unit: selectize_small_unit[0].selectize
+            }
+
             function createNewCategory(val) {
                 $.ajax({
                     method: 'POST',
@@ -229,31 +248,34 @@
                 })
             }
 
-            const selectize_category = $('[name=category_id]').selectize({
-                // plugins: ['restore_on_backspace'],
-                create: true,
-                onOptionAdd: function (val, data) {
-                    console.log(val, data)
-                    createNewCategory(val)
-                },
-            
-            })
-            const selectize_small_unit = $('[name=small_unit_id]').selectize({
-                create: true,
-                onItemAdd: function (val, item) {
-                    console.log(val, item)
-
-                }
-            })
-
-            const select = {
-                category: selectize_category[0].selectize,
-                small_unit: selectize_small_unit[0].selectize
+            function createNewUnit(val) {
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('api.unit.store.ajax') }}",
+                    data: {
+                        name: val,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: (res) => {
+                        select.small_unit.updateOption(
+                        val,
+                        {
+                            value: res.data.id,
+                            text: res.data.name
+                        })
+                        Toaster('success', res.meta.message)
+                    },
+                    error: (xhr) => {
+                        Toaster('error', xhr.responseJSON.message)
+                    }
+                })
             }
 
-            $("#btn-add-unit").click(function () {
-                let isError = isCanAddUnit()
-                if(isError) return 
+            $("#btn-add-unit").click(async function () {
+                let isError = await isCanAddUnit()
+                if(isError) {
+                    return 
+                }
 
                 $.ajax({
                     url: `/admin/units-ajax/`,
@@ -347,11 +369,11 @@
                 else $('#table-units').append(tr_showed)
             }
 
-            $(document).on('input', '[name=name]', function(){
+            $(document).on('change', '[name=name]', function(){
                 isCanAddUnit()
             })
-            $(document).on('input', '[name=code]', function(){
-                isCanAddUnit()
+            $(document).on('change', '[name=code]', function(){
+                isCanAddUnit(true)
             })
             $(document).on('change', '[name=category_id]', function(){
                 isCanAddUnit()
@@ -363,7 +385,20 @@
                 isCanAddUnit()
             })
 
-            function isCanAddUnit() {
+            isCanAddUnit()
+
+            async function checkCode() {
+                let code = $('[name=code]').val()
+                return await $.ajax({
+                    url: "{{ route('find.product.check-code') }}",
+                    method: "POST",
+                    data: {
+                        code
+                    }
+                })
+            }
+
+            async function isCanAddUnit(is_code = false) {
                 let product = $('[name=name]').val()
                 let invoice = $('[name=code]').val()
                 let category = select.category.getValue()
@@ -371,33 +406,56 @@
 
                 let count_error = 0
 
-                if(!product) {
-                    $('[name=name]').parent().find('.on_error').removeClass('d-none')
+                if(!small_unit) {
+                    $('[name=small_unit_id]').parent().find('.on_error').removeClass('d-none')
+                    if(product && invoice && category) select.small_unit.focus()
                     count_error++
                 } else {
-                    $('[name=name]').parent().find('.on_error').addClass('d-none')
-                }
-
-                if(!invoice) {
-                    $('[name=code]').parent().find('.on_error').removeClass('d-none')
-                    count_error++
-                } else {
-                    $('[name=code]').parent().find('.on_error').addClass('d-none')
+                    $('[name=small_unit_id]').parent().find('.on_error').addClass('d-none')
                 }
 
                 if(!category) {
                     $('[name=category_id]').parent().find('.on_error').removeClass('d-none')
+                    if(product && invoice) select.category.focus()
                     count_error++
                 } else {
                     $('[name=category_id]').parent().find('.on_error').addClass('d-none')
                 }
 
-                if(!small_unit) {
-                    $('[name=small_unit_id]').parent().find('.on_error').removeClass('d-none')
+                let code_error = 0
+
+                if(!invoice) {
+                    $('[name=code]').parent().find('.on_error').removeClass('d-none')
+                    $('[name=code]').parent().find('.on_error').html('Kode produk tidak boleh kosong')
+                    $('[name=code]').focus()
+                    count_error++
+                    code_error++
+                } else {
+                    $('[name=code]').parent().find('.on_error').addClass('d-none')
+                }
+                
+                if(is_code) {
+                    let code_already_used = await checkCode()
+                    if(!code_already_used.data) {
+                        $('[name=code]').parent().find('.on_error').removeClass('d-none')
+                        $('[name=code]').parent().find('.on_error').html('Kode produk telah digunakan')
+                        $('[name=code]').focus()
+                        count_error++
+                    } else if(code_error == 0) {
+                        $('[name=code]').parent().find('.on_error').addClass('d-none')
+                    }
+                }
+                
+                if(!product) {
+                    $('[name=name]').parent().find('.on_error').removeClass('d-none')
+                    $('[name=name]').focus()
                     count_error++
                 } else {
-                    $('[name=small_unit_id]').parent().find('.on_error').addClass('d-none')
+                    $('[name=name]').parent().find('.on_error').addClass('d-none')
                 }
+
+                if(count_error) $('[type=submit]').prop('disabled', true)
+                else $('[type=submit]').prop('disabled', false)
 
                 return count_error
             }
