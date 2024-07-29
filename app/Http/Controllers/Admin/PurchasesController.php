@@ -8,6 +8,7 @@ use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Interfaces\Admin\PurchaseInterface;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Helpers\BaseDatatable;
+use App\Helpers\BaseResponse;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PurchaseRequest;
@@ -112,5 +113,27 @@ class PurchasesController extends Controller
     {
         $transaction = $this->purchase->withEloquent($request);
         return BaseDatatable::Table($transaction);
+    }
+
+
+    /**
+     * Get data table for data transaction purchase
+     * 
+     * Param for get transaction history purchase
+     * findone
+     * 
+     * @return datatable
+     */
+    public function dataProductLastPurchase(Request $request)
+    {
+        if(!$request->product_id || !$request->product_unit_id){
+            return BaseResponse::Error("Field 'product_id' dan 'product_unit_id' harus diisi !");
+        }
+
+        $data = $this->detailPurchase->getWhere([
+            "product_id" => $request->product_id,
+            "product_unit_id" => $request->product_unit_id
+        ]);
+        return BaseResponse::Ok("Berhasil mengambil data", $data);
     }
 }

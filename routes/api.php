@@ -77,6 +77,7 @@ Route::name('find.')->prefix('find')->group(function (){
         Route::get('/{buyer}', [BuyerController::class, 'findBuyerById'])->name('by-id');
     });
     Route::name('product.')->prefix('product')->group(function (){
+        Route::get('/last-purchase', [ProductController::class, 'dataProductLastPurchase'])->name('last-purchase');
         Route::get('/last-product', [ProductController::class, 'lastProduct'])->name('last-product');
         Route::post('/check-code', [ProductController::class, 'checkCodeProduct'])->name('check-code');
     });
