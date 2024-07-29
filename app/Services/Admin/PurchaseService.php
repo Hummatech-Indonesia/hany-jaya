@@ -42,4 +42,9 @@ class PurchaseService
 
         return $data;
     }
+
+    public function sumPriceWithConvert() : float
+    {
+        return 0;
+    }
 }

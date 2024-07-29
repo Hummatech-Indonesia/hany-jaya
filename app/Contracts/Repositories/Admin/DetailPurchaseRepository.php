@@ -67,4 +67,24 @@ class DetailPurchaseRepository extends BaseRepository implements DetailPurchaseI
             })
             ->first();
     }
+
+     /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getWhereLast(array $data): mixed
+    {
+        return $this->model->query()
+            ->when(count($data) > 0, function ($query) use ($data){
+                foreach($data as $index => $value){
+                    $query->where($index, $value);   
+                }
+            })
+            ->latest()
+            ->first();
+    }
+
+
 }

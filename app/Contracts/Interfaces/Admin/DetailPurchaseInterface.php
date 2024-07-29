@@ -10,4 +10,6 @@ use Illuminate\Http\Request;
 interface DetailPurchaseInterface extends StoreInterface, GetWhereInterface
 {
     public function detailProductCustom(Request $request): mixed;
+
+    public function getWhereLast(array $data): mixed;
 }

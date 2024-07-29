@@ -24,7 +24,11 @@ class ProductUnitRepository extends BaseRepository implements ProductUnitInterfa
     {
         return $this->model->query()
             ->with('product')
-            ->where('product_id', $data['product_id'])
+            ->when(count($data) > 0, function ($query) use ($data){
+                foreach($data as $index => $value){
+                    $query->where($index, $value);   
+                }
+            })
             ->get();
     }
 

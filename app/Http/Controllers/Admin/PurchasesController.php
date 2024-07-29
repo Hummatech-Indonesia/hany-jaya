@@ -30,12 +30,16 @@ class PurchasesController extends Controller
     private SupplierInterface $suppliers;
     private PurchaseService $service;
     private DetailPurchaseInterface $detailPurchase;
-    public function __construct(PurchaseInterface $purchase, SupplierInterface $suppliers,  DetailPurchaseInterface $detailPurchase, PurchaseService $service)
+    private ProductUnitInterface $productUnit;
+
+    public function __construct(PurchaseInterface $purchase, SupplierInterface $suppliers,  DetailPurchaseInterface $detailPurchase, PurchaseService $service, 
+    ProductUnitInterface $productUnit)
     {
         $this->purchase = $purchase;
         $this->service = $service;
         $this->detailPurchase = $detailPurchase;
         $this->suppliers = $suppliers;
+        $this->productUnit = $productUnit;
     }
 
     /**
@@ -130,10 +134,25 @@ class PurchasesController extends Controller
             return BaseResponse::Error("Field 'product_id' dan 'product_unit_id' harus diisi !");
         }
 
-        $data = $this->detailPurchase->getWhere([
-            "product_id" => $request->product_id,
-            "product_unit_id" => $request->product_unit_id
+        $data = $this->detailPurchase->getWhereLast([
+            "product_id" => $request->product_id
         ]);
-        return BaseResponse::Ok("Berhasil mengambil data", $data);
+
+        $harga = 0;
+        if($data) {
+            $purchase = $this->productUnit->getWhere([
+                "product_id" => $request->product_id,
+                "product_unit_id" => $data->product_unit_id
+            ])->first();
+
+            $convert = $this->productUnit->getWhere([
+                "product_id" => $request->product_id,
+                "product_unit_id" => $request->product_unit_id
+            ])->first();
+
+            $harga = $data->buy_price_per_unit * $convert->quantity_in_small_unit / ($purchase->quantity_in_small_unit ?? 1); 
+        }
+
+        return BaseResponse::Ok("Berhasil mengambil data", $harga);
     }
 }
