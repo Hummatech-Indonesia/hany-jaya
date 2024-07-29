@@ -35,7 +35,7 @@
                 <ul class="nav nav-pills" role="tablist">
                     <li class="nav-item">
                         <a
-                            class="nav-link active"
+                            class="nav-link  {{ !request()->tab ? 'active' : '' }}"
                             data-bs-toggle="tab"
                             href="#pane-product"
                             role="tab"
@@ -46,7 +46,7 @@
                     </li>
                     <li class="nav-item">
                         <a
-                            class="nav-link"
+                            class="nav-link {{ request()->tab == 'category' ? 'active' : '' }}"
                             data-bs-toggle="tab"
                             href="#pane-category"
                             role="tab"
@@ -57,7 +57,7 @@
                     </li>
                     <li class="nav-item">
                         <a
-                            class="nav-link"
+                            class="nav-link {{ request()->tab == 'unit' ? 'active' : '' }}"
                             data-bs-toggle="tab"
                             href="#pane-unit"
                             role="tab"
@@ -90,13 +90,13 @@
 
         {{-- panes --}}
         <div class="tab-content border mt-2">
-            <div class="tab-pane active" id="pane-product" role="tabpanel">
+            <div class="tab-pane  {{ !request()->tab ? 'active' : '' }}" id="pane-product" role="tabpanel">
                 @include('dashboard.product.panes.product')
             </div>
-            <div class="tab-pane" id="pane-category" role="tabpanel" >
+            <div class="tab-pane {{ request()->tab == 'category' ? 'active' : '' }}" id="pane-category" role="tabpanel" >
                 @include('dashboard.product.panes.category')
             </div>
-            <div class="tab-pane" id="pane-unit" role="tabpanel" >
+            <div class="tab-pane  {{ request()->tab == 'unit' ? 'active' : '' }}" id="pane-unit" role="tabpanel" >
                 @include('dashboard.product.panes.unit')
             </div>
         </div>
@@ -115,10 +115,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
     <script>
-        $(document).on('shown.bs.tab', 'a[data-bs-toggle="tab"]', function (e) {
-            const active_tab = $(this).data('name')
-            $(`#add-thing > [data-active=${active_tab}]`).removeClass('d-none')
-            $(`#add-thing > :not([data-active=${active_tab}])`).addClass('d-none')
-        });
+        $(document).ready(function() {
+            $(document).on('shown.bs.tab', 'a[data-bs-toggle="tab"]', function (e) {
+                const active_tab = $(this).data('name')
+                updateBtnTab(active_tab)
+            });
+
+            const active_tab_on_init = $("[role=tablist] .nav-item .nav-link.active").data('name')
+            updateBtnTab(active_tab_on_init)
+
+            function updateBtnTab(active_tab) {
+                $(`#add-thing > [data-active=${active_tab}]`).removeClass('d-none')
+                $(`#add-thing > :not([data-active=${active_tab}])`).addClass('d-none')
+            }
+        })
     </script>
 @endsection
