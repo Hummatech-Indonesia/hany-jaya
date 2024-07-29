@@ -30,9 +30,12 @@
                     }, {
                         data: "product.name",
                         title: "Produk",
+                        render: (data, type, row) => {
+                            return data + ' | ' + row.product.code
+                        },
                     }, {
-                        data: "product.code",
-                        title: "Kode Produk",
+                        data: "note",
+                        title: "Keterangan",
                     }, {
                         data: "old_stock",
                         title: "Stok Sebelumnya",
@@ -50,6 +53,12 @@
                         title: "Tanggal",
                         render: (data, type, row) => {
                             return moment(data).locale('id').format('LL')
+                        },
+                    }, {
+                        data: "user.name",
+                        title: "User",
+                        render: (data, type, row) => {
+                            return data ?? '-'
                         },
                     }
                 ]

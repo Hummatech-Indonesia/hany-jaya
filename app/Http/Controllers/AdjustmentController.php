@@ -92,12 +92,15 @@ class AdjustmentController extends Controller
     {
         $data = $request->validated();
         $data["old_stock"] = $product->quantity;
+        $data["user_id"] = auth()->user()->id;
         
         DB::beginTransaction();
         try{
-            $test = $this->product->update($product->id, ["quantity" => ($data['new_stock'] ?? $product->quantity)]);
+            $test = $this->product->update($product->id, [
+                "quantity" => ($data['new_stock'] ?? $product->quantity),
+                "small_unit_id" => $product->unit_id
+            ]);
             $test1 = $this->adjustment->store($data);
-            dd($test, $test1);
 
             DB::commit();
             return to_route('admin.adjustments.index')->with('success', trans('alert.update_success'));
@@ -113,7 +116,7 @@ class AdjustmentController extends Controller
      */
     public function tableAdjustmentHistory()
     {
-        $data = $this->adjustment->with(['product']); 
+        $data = $this->adjustment->with(['product','user']); 
 
         return BaseDatatable::TableV2($data->toArray());
     }
