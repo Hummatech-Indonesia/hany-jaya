@@ -50,4 +50,21 @@ class DetailPurchaseRepository extends BaseRepository implements DetailPurchaseI
         ->leftJoin('units','product_units.unit_id','=','units.id')
         ->where('detail_purchases.product_id',$request->product_id);
     }
+
+     /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getWhere(array $data): mixed
+    {
+        return $this->model->query()
+            ->when(count($data) > 0, function ($query) use ($data){
+                foreach($data as $index => $value){
+                    $query->where($index, $value);   
+                }
+            })
+            ->first();
+    }
 }
