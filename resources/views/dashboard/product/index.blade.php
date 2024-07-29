@@ -35,7 +35,7 @@
                 <ul class="nav nav-pills" role="tablist">
                     <li class="nav-item">
                         <a
-                            class="nav-link  {{ !request()->tab ? 'active' : '' }}"
+                            class="nav-link  {{ !request()->tab || request()->tab == 'product' ? 'active' : '' }}"
                             data-bs-toggle="tab"
                             href="#pane-product"
                             role="tab"
@@ -90,7 +90,7 @@
 
         {{-- panes --}}
         <div class="tab-content border mt-2">
-            <div class="tab-pane  {{ !request()->tab ? 'active' : '' }}" id="pane-product" role="tabpanel">
+            <div class="tab-pane  {{ !request()->tab || request()->tab == 'product' ? 'active' : '' }}" id="pane-product" role="tabpanel">
                 @include('dashboard.product.panes.product')
             </div>
             <div class="tab-pane {{ request()->tab == 'category' ? 'active' : '' }}" id="pane-category" role="tabpanel" >

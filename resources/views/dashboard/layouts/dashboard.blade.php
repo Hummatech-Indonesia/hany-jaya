@@ -65,6 +65,9 @@
             color: #333;
             cursor: pointer;
         }
+        table.dataTable th.dt-type-numeric, table.dataTable th.dt-type-date, table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date {
+            text-align: left!important;
+        }
     </style>
     @yield('style')
     @stack('custom-style')
