@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdjustmentController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductUnitController;
@@ -63,6 +64,7 @@ Route::middleware('auth')->group(function () {
             'suppliers' => SupplierController::class,
             'categories' => CategoryController::class,
             'units' => UnitController::class,
+            'adjustments' => AdjustmentController::class,
         ]);
         Route::prefix('users')->name('users.')->group(function () {
             Route::get('/', [
@@ -79,8 +81,11 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [PurchasesController::class, 'store'])->name('store');
             Route::get('history', [PurchasesController::class, 'history'])->name('index');
         });
-        Route::prefix('product')->name('product.')->group(function () {
-            Route::post('update/stock/{product}', [ProductController::class, 'adjustmentStock'])->name('adjusment-stock');
+        Route::prefix('selling')->name('selling.')->group(function () {
+            Route::get('history', [SellingController::class, 'history'])->name('history');
+        });
+        Route::prefix('adjustments')->name('adjustments.')->group(function () {
+            Route::post('{product}', [AdjustmentController::class, 'adjustmentStock'])->name('update-stock');
         });
     });
     Route::prefix('admin/selling')->name('admin.selling.')->middleware('role:admin|cashier')->group(function () {

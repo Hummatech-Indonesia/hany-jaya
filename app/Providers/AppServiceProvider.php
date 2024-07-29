@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Contracts\Interfaces\Admin\AdjustmentHistoryInterface;
 use App\Contracts\Interfaces\Admin\CategoryInterface;
 use App\Contracts\Interfaces\Admin\DetailPurchaseInterface;
 use App\Contracts\Interfaces\Admin\ProductInterface;
@@ -18,6 +19,7 @@ use App\Contracts\Interfaces\Cashier\HistoryPayDebtInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Contracts\Interfaces\ProfileInterface;
 use App\Contracts\Interfaces\UserInterface;
+use App\Contracts\Repositories\Admin\AdjustmentHistoryRepository;
 use App\Contracts\Repositories\Admin\CategoryRepository;
 use App\Contracts\Repositories\Admin\DetailPurchaseRepository;
 use App\Contracts\Repositories\Admin\ProductRepository;
@@ -56,7 +58,8 @@ class AppServiceProvider extends ServiceProvider
         DebtInterface::class => DebtRepository::class,
         HistoryPayDebtInterface::class => HistoryPayDebtRepository::class,
         ProfileInterface::class => ProfileRepository::class,
-        RoleInterface::class => RoleRepository::class
+        RoleInterface::class => RoleRepository::class,
+        AdjustmentHistoryInterface::class => AdjustmentHistoryRepository::class
     ];
 
     /**

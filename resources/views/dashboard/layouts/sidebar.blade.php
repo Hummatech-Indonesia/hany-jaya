@@ -70,6 +70,16 @@
                             <span class="hide-menu">Produk</span>
                         </a>
                     </li>
+                    @role('admin')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link {{ request()->routeIs('admin.adjustments.index') ? 'active' : '' }}" href="{{ route('admin.adjustments.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-package"></i> <!-- Ganti ikon di sini -->
+                            </span>
+                            <span class="hide-menu">Penyesuaian Stok</span>
+                        </a>
+                    </li>
+                    @endrole
                     <!-- ============================= -->
                     <!-- Apps -->
                     <!-- ============================= -->
