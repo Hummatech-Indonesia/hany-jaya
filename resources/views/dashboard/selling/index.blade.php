@@ -407,7 +407,6 @@
                     $('#code').removeClass('disabled')
                 }
                 
-
                 changeAllProductLastPrice()
                 getUserIdByNameAddress()
                 checkIsHasError()
@@ -450,7 +449,6 @@
                                 return;
                             }
                         } catch (error) {
-                            console.error(error);
                             resolve(1);
                             return;
                         }
@@ -505,7 +503,8 @@
                         var product_unit_id = 0
 
                         $.each(response.data.product_units, function(index, productUnit) {
-                            var selected = response.data.unit.name === productUnit.unit.name ? 'selected' : '';
+                            var selected = response.data.unit.id === productUnit.unit_id ? 'selected' : '';
+                            if(response.data.unit.id === productUnit.unit_id) product_unit_id = productUnit.id
 
                             if(selected == 'selected') product_unit_id = productUnit.id
                             product_units += `
@@ -517,7 +516,7 @@
                         });
 
                         const latest_price = await getLatestBuy($('#cust-name').val(), $('#cust-address').val(), product_unit_id)
-
+                        const latest_purchase_price = await getLatestPurchase(response.data.id, product_unit_id)
                         var newRow = `
                             <tr data-index="${current_index}" data-id="${response.data.id}" data-product="${str_res}">
                                 <td>
@@ -545,7 +544,7 @@
                                     <button type="button" class="btn btn-sm btn-success p-2 btn-plus" tabindex="5">+</button>
                                 </td>
                                 <td>
-                                    <input type="text" value="${formatNum(selected_price, true)}" name="formatted_product_unit_price[]" class="form-control format-number input-unit-price" tabindex="5" />
+                                    <input type="text" value="${formatNum(selected_price, true)}" name="formatted_product_unit_price[]" class="form-control format-number input-unit-price" tabindex="5" data-unit-purchase="${latest_purchase_price}" />
                                     ${latest_price ? `<div class="text-primary last_price">Rp. ${formatNum(latest_price)}</div>` : '' }
                                 </td>
                                 <td>
@@ -604,10 +603,15 @@
                 }
             }
 
-            $(document).on('input change', '.input-unit-price', function() {
+            $(document).on('input', '.input-unit-price', function() {
                 const data_index = $(this).parent().parent().data('index')
                 const price_el = $(`#tb-product tr[data-index=${data_index}] [name=product_unit_price\\[\\]]`)
-                price_el.val(unformatNum($(this).val()))
+                const max_price = parseFloat($(this).attr('data-unit-purchase'))
+                const current_val = unformatNum($(this).val())
+
+                if(max_price > current_val) Toaster('warning', 'Harga jual kurang dari harga beli terakhir')
+
+                price_el.val(current_val)
                 changeTotalPrice()
                 checkIsHasError()
             })
@@ -632,6 +636,10 @@
                 let product_unit_id = row.find('.product-unit').val()
 
                 const latest_price = await getLatestBuy(cust_name, cust_address, product_unit_id)
+                const latest_purchase_price = await getLatestPurchase(row.data('id') , product_unit_id)
+                
+                row.find('.input-unit-price').attr('data-unit-purchase', latest_purchase_price)
+
                 if(latest_price) {
                     if(last_price_el.length < 1) {
                         row.find('.input-unit-price').parent().append(`<div class="text-primary last_price">Rp ${formatNum(latest_price)}</div>`)
@@ -668,6 +676,11 @@
             async function getLatestBuy(buyer_name, buyer_address, product_unit_id) {
                 const obj_price = await axios.get(`{{ route('transaction.find-by-user-product') }}?buyer_name=${buyer_name}&buyer_address=${buyer_address}&product_unit_id=${product_unit_id}`)
                 return (obj_price.data && obj_price.data.data) ? obj_price.data.data.selling_price : 0
+            }
+
+            async function getLatestPurchase(product_id, product_unit_id) {
+                const obj_purchase = await axios.get(`{{ route('find.product.last-purchase') }}?product_id=${product_id}&product_unit_id=${product_unit_id}`)
+                return obj_purchase.data.data
             }
 
             function changeAllProductLastPrice() {
@@ -758,6 +771,19 @@
 
             checkIsHasError()
 
+            function checkProductPriceMoreThanPurchase() {
+                const tr_el = $('#tb-product [data-index]')
+
+                tr_el.each((index, el) => {
+                    const input_unit_price_el = $(el).find('.input-unit-price')
+                    const max_price = parseFloat(input_unit_price_el.attr('data-unit-purchase'))
+                    const current_value = unformatNum(input_unit_price_el.val())
+
+                    if(max_price > current_value) input_unit_price_el.addClass('is-invalid')
+                    else input_unit_price_el.removeClass('is-invalid')
+                })
+            }
+
             async function checkIsHasError() {
                 let count_error = 0
 
@@ -787,6 +813,8 @@
 
                 if($('#tb-product [data-index]').length < 1) count_error++
                 count_error += paymentMethodError()
+
+                checkProductPriceMoreThanPurchase()
                 
                 if(count_error == 0) {
                     $('button[type=submit]').removeClass('disabled')
