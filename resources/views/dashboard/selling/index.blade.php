@@ -322,7 +322,10 @@
             select_product.setValue("")
 
             let shortcuts = {
-                'alt+ctrl+1': function() { select_cust.focus() },
+                'alt+ctrl+1': function() { 
+                    if(select_cust.isFocused) select_cust.blur()
+                    else select_cust.focus()
+                },
                 'alt+ctrl+2': function() { $('#cust-address').focus() },
                 'alt+ctrl+3': function() {$('#code').focus()},
                 'alt+ctrl+4': function() {$('#telp').focus()},
