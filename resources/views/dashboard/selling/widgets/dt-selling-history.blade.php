@@ -179,7 +179,7 @@
                         `
                     <tr class="search-items">
                         <td>${index + 1}</td>
-                        <td><h6 class="mb-0">${item.product.name}</h6></td>
+                        <td><h6 class="mb-0 text-truncate" style="max-width: 170px">${item.product.name}</h6></td>
                         <td><h6 class="mb-0">${item.product_unit.unit.name}</h6></td>
                         <td><h6 class="mb-0">${item.quantity}</h6></td>
                         <td><h6 class="mb-0">RP. ${formatNum(item.nominal_discount)}</h6></td>
