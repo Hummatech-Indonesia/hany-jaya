@@ -76,7 +76,7 @@
                             <span>
                                 <i class="ti ti-package"></i> <!-- Ganti ikon di sini -->
                             </span>
-                            <span class="hide-menu">Penyesuaian Stok</span>
+                            <span class="hide-menu">Stock Opname</span>
                         </a>
                     </li>
                     @endrole
