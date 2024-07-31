@@ -15,20 +15,17 @@
                             class="rounded" style="width: 100%;aspect-ratio: 1/1;object-fit: cover" />
 
                             <div class="row mt-3">
-                                <div class="col-12 mb-2">
-                                    <label for="categories" class="form-label fw-semibold">Nama Produk</label>
-                                    <input name="name" type="text" class="form-control" id="name-product-detail"
-                                        placeholder="Pt Harapan Jaya" value="Kopi Bubuk" readonly />
+                                <div class="col-12 mb-3">
+                                    <div>Nama Produk</div>
+                                    <div class="fw-semibold" id="name-product-detail"></div>
                                 </div>
-                                <div class="col-12 mb-2">
-                                    <label for="categories" class="form-label fw-semibold">Kode Produk</label>
-                                    <input name="name" type="text" class="form-control" id="code-product-detail"
-                                        placeholder="Pt Harapan Jaya" value="Rp 10.000" readonly />
+                                <div class="col-12 mb-3">
+                                    <div>Kode Produk</div>
+                                    <div class="fw-semibold" id="code-product-detail"></div>
                                 </div>
-                                <div class="col-12 mb-2">
-                                    <label for="categories" class="form-label fw-semibold">Kategori</label>
-                                    <input name="name" type="text" class="form-control" id="category-detail"
-                                        placeholder="Pt Harapan Jaya" value="Minuman" readonly />
+                                <div class="col-12 mb-3">
+                                    <div>Kategori</div>
+                                    <div class="fw-semibold" id="category-detail"></div>
                                 </div>
                                 <div class="col-md-12 mt-3 d-none">
                                     <div class="table-responsive border">
@@ -66,13 +63,14 @@
         $(document).ready(function() {
             let product_detail_tb = null
             $(document).on('click', '#product-table .btn-detail', function() {
-                let product = JSON.parse($(this).data('product').replaceAll("'", '"'))
+                let product = JSON.parse($(this).attr('data-product').replaceAll("'", '"'))
                 let dt_url_detail = "{{ route('data-table.list-detail-product', 'selected_id') }}"
                 dt_url_detail = dt_url_detail.replace('selected_id', product.id)
+
+                let product_units = product.product_units
                 
                 if(product_detail_tb) {
-                    product_detail_tb.ajax.url(dt_url_detail).load()
-                    return
+                    product_detail_tb.destroy()
                 }
 
                 product_detail_tb = $('#tb-product-detail').DataTable({
@@ -95,13 +93,13 @@
                                 return moment(data).format("DD MMMM YYYY")
                             }
                         }, {
+                            data: "name",
                             title: "Pembeli / Distributor",
-                            mRender: (data, type, row) => {
-                                if(row['type'] == 'buying') return row['supplier']
-                                else return row['buyer']
-                            },
-                            searchable: false,
-                            orderable: false
+                            searchable: true,
+                            orderable: true
+                        }, {
+                            data: "address",
+                            title: "Alamat"
                         }, {
                             data: "type",
                             render: (data, type, row) => {
@@ -118,13 +116,10 @@
                         }, {
                             data: "total_per_unit_price",
                             title: "Harga",
-                            render: (data, type) => {
-                                return 'Rp '+formatNum(data, true)
-                            }
-                        }, {
-                            data: "total_price",
-                            title: "Total",
-                            render: (data, type) => {
+                            render: (data, type, row) => {
+                                const used_unit = product_units.find((d) => (d.unit.name == row['unit_name']))
+                                let selling_price = used_unit && used_unit.selling_price ? used_unit.selling_price : 0
+                                if(selling_price < data) return '<span class="text-danger">Rp '+formatNum(data, true)+"</span>"
                                 return 'Rp '+formatNum(data, true)
                             }
                         }

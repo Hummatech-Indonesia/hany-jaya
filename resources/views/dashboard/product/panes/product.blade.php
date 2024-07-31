@@ -145,9 +145,9 @@
 
             let img_url = product['image'] ? "{{ asset('storage') }}/"+product['image'] : '/no_image_available.jpeg'
             $('#img-detail').attr('src', img_url);
-            $('#name-product-detail').val(product['name']);  
-            $('#code-product-detail').val(product['code']);
-            $('#category-detail').val(product['category']['name']);
+            $('#name-product-detail').html(product['name']);  
+            $('#code-product-detail').html(product['code']);
+            $('#category-detail').html(product['category']['name']);
             let table_unit = ''
             product['product_units'].forEach((unit, index) => {
                 table_unit += `
