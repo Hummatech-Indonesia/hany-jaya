@@ -662,7 +662,7 @@
             })
 
             $(document).on('click', '.delete_product', function() {
-                let tr = $(this).parent().parent()
+                let tr = $(this).closest('tr')
                 let product_id = tr.data('id')
                 tr.remove()
                 if($(`#tb-product [data-id=${product_id}]`).length == 0) {
