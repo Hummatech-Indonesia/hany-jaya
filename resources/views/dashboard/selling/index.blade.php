@@ -147,7 +147,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row align-items-center mb-3">
+                                                <div class="row align-items-center mb-3" id="return_pay">
                                                     <div class="col-3">
                                                         <label for="return" class="mb-2">Kembali</label>
                                                         <input type="hidden" id="return" name="return" class="mb-0">
@@ -726,7 +726,7 @@
                 var returnAmount = pay - totalPrice;
                 if (!isNaN(returnAmount) && returnAmount >= 0) {
                     $('#return').val(returnAmount);
-                    $('#formatted_return').val(formatNum(returnAmount));
+                    $('#formatted_return').val(formatNum(returnAmount, true));
                 } else {
                     $('#return').val(0);
                     $('#formatted_return').val(0);
@@ -759,6 +759,9 @@
                     $('#formatted_debt').val(0)
                     $('[name=debt]').val()
                 }
+
+                if($('#hutang').is(':checked') && $('#tunai').is(':checked')) $('#return_pay').hide()
+                else $('#return_pay').show()
 
                 if(!$('#hutang').is(':checked') && !$('#tunai').is(':checked')) {
                     $('[data-check-id=tunai]').removeClass('btn-light-primary')

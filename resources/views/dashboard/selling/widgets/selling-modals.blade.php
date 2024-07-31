@@ -80,7 +80,10 @@
                     <td colspan="2"></td>
                     <th>Dibayarkan</th>
                     <td>: Rp ${$('#formatted_pay').val()}</td>
-                </tr>
+                </tr>`
+            }
+            if(!($('#tunai').is(':checked') && $('#hutang').is(':checked'))) {
+                product_el += `
                 <tr>
                     <td colspan="2"></td>
                     <th>Kembalian</th>
