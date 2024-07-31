@@ -49,10 +49,13 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button data-url="#" id="btn-detail-delete" class="btn btn-light-danger btn-delete-icon btn-delete-product">Hapus</button>
+                <a href="#" id="btn-detail-edit" class="btn btn-light-warning btn-update-icon">Ubah</a>
                 <button type="button" class="btn btn-light font-medium waves-effect text-start"
                     data-bs-dismiss="modal">
                     Tutup
                 </button>
+
             </div>
         </div>
     </div>
@@ -66,6 +69,16 @@
                 let product = JSON.parse($(this).attr('data-product').replaceAll("'", '"'))
                 let dt_url_detail = "{{ route('data-table.list-detail-product', 'selected_id') }}"
                 dt_url_detail = dt_url_detail.replace('selected_id', product.id)
+
+                let del_url = "{{ route('admin.products.destroy', 'selected_url') }}"
+                let edit_url = "{{ route('admin.products.edit', 'selected_url') }}"
+                del_url = del_url.replace('selected_url', product.id)
+                edit_url = edit_url.replace('selected_url', product.id)
+                $('#btn-detail-delete').attr('data-url', del_url)
+                $('#btn-detail-edit').attr('href', edit_url)
+                $(document).on('click', function() {
+                    $('#modalDetailProduct').modal('hide')
+                })
 
                 let product_units = product.product_units
                 
@@ -96,7 +109,7 @@
                             data: "name",
                             title: "Pembeli / Distributor",
                             searchable: true,
-                            orderable: true
+                            orderable: false
                         }, {
                             data: "address",
                             title: "Alamat"
