@@ -35,7 +35,7 @@ class DetailPurchaseRepository extends BaseRepository implements DetailPurchaseI
         ->selectRaw(
             'purchases.id as data_id,
             suppliers.name as supplier,
-            suppliers.address as supplier_address,
+            suppliers.address as address,
             NULL as buyer,
             units.name as unit_name,
             detail_purchases.quantity as quantity,
