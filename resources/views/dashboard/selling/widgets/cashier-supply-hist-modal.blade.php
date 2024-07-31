@@ -46,7 +46,7 @@
                                 return moment(data).format("DD MMMM YYYY")
                             }
                         }, {
-                            data: "supplier",
+                            data: "name",
                             title: "Distributor",
                         }, {
                             data: "quantity",

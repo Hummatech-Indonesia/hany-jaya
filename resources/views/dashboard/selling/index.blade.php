@@ -75,7 +75,7 @@
                                     <div class="card mb-3">
                                         <div class="card-body p-3">
                                             <div class="form-group mb-3">
-                                                <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama <span class="text-danger">*</span></div><span class="text-info fs-3">(alt+1)</span></label>
+                                                <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama <span class="text-danger">*</span></div><span class="text-info fs-3">(alt+ctrl+1)</span></label>
                                                 <select name="name" class="" id="cust-name" tabindex="1">
                                                     <option value="">Pilih Pembeli</option>
                                                     @foreach ($buyers as $buyer)
@@ -84,15 +84,15 @@
                                                 </select>
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+2)</span></label>
+                                                <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+ctrl+2)</span></label>
                                                 <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label for="code" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-scan text-primary"></i> Kode Pembeli <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+3)</span></label>
+                                                <label for="code" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-scan text-primary"></i> Kode Pembeli <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+ctrl+3)</span></label>
                                                 <input type="text" required name="code" placeholder="Kode Pembeli" class="form-control" id="code" tabindex="2">
                                             </div>
                                             <div class="form-group ">
-                                                <label for="telp" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-phone text-primary"></i> No. Telp</div> <span class="text-info fs-3">(alt+4)</span></label>
+                                                <label for="telp" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-phone text-primary"></i> No. Telp</div> <span class="text-info fs-3">(alt+ctrl+4)</span></label>
                                                 <div class="input-group">
                                                     <div class="input-group-text">+62</div>
                                                     <input type="text" name="telp" placeholder="No Telepon Pembeli" class="form-control" id="telp" tabindex="2">
@@ -110,7 +110,7 @@
                                                     <i class="ti ti-credit-card"></i> Pembayaran
                                                 </div>
                                                 <div>
-                                                    (alt+6)
+                                                    (alt+ctrl+6)
                                                 </div>
                                             </div>
                                         </div>
@@ -182,7 +182,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="text-end text-primary">(shift+enter)</div>
+                                            <div class="text-end text-primary">(alt+ctrl+enter)</div>
                                             <button type="button" id="btn-open-modal" data-bs-toggle="modal" data-bs-target="#selling-modal" class="w-100 btn btn-lg btn-success"><i class="ti ti-shopping-cart"></i> Bayar</button>
                                         </div>
                                     </div>
@@ -200,7 +200,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                (shift+5)
+                                                (alt+ctrl+5)
                                             </div>
                                         </div>
                                     </div>
@@ -322,39 +322,41 @@
             select_product.setValue("")
 
             let shortcuts = {
-                'alt+1': function() { select_cust.focus() },
-                'alt+2': function() { $('#cust-address').focus() },
-                'alt+3': function() {$('#code').focus()},
-                'alt+4': function() {$('#telp').focus()},
-                'alt+5': function() { select_product.focus() },
-                'alt+6': function() {
-                    if($('#hutang').is(':checked')) {
-                        $('#hutang').prop('checked', false)
-                        $('[data-check-id=hutang]').removeClass('btn-primary')
-                        $('[data-check-id=hutang]').addClass('btn-light-primary')
-                        $('#tunai').prop('checked', true)
-                        $('[data-check-id=tunai]').addClass('btn-primary')
-                        $('[data-check-id=tunai]').removeClass('btn-light-primary')
-                    } else {
-                        $('#hutang').prop('checked', true)
-                        $('[data-check-id=hutang]').addClass('btn-primary')
-                        $('[data-check-id=hutang]').removeClass('btn-light-primary')
-                        $('#tunai').prop('checked', false)
-                        $('[data-check-id=tunai]').removeClass('btn-primary')
-                        $('[data-check-id=tunai]').addClass('btn-light-primary')
-                    }
-                    changeMethod()
-                },
-                'alt+enter': function() {
+                'alt+ctrl+1': function() { select_cust.focus() },
+                'alt+ctrl+2': function() { $('#cust-address').focus() },
+                'alt+ctrl+3': function() {$('#code').focus()},
+                'alt+ctrl+4': function() {$('#telp').focus()},
+                'alt+ctrl+5': function() { select_product.focus() },
+                'alt+ctrl+6': function() {shortcutChangeMethodHandler()},
+                'alt+ctrl+enter': function() {
                     if(checkIsHasError() != 0) return 
                     $('#btn-open-modal').trigger('click')
                 },
             };
 
+            function shortcutChangeMethodHandler() {
+                if($('#hutang').is(':checked')) {
+                    $('#hutang').prop('checked', false)
+                    $('[data-check-id=hutang]').removeClass('btn-primary')
+                    $('[data-check-id=hutang]').addClass('btn-light-primary')
+                    $('#tunai').prop('checked', true)
+                    $('[data-check-id=tunai]').addClass('btn-primary')
+                    $('[data-check-id=tunai]').removeClass('btn-light-primary')
+                } else {
+                    $('#hutang').prop('checked', true)
+                    $('[data-check-id=hutang]').addClass('btn-primary')
+                    $('[data-check-id=hutang]').removeClass('btn-light-primary')
+                    $('#tunai').prop('checked', false)
+                    $('[data-check-id=tunai]').removeClass('btn-primary')
+                    $('[data-check-id=tunai]').addClass('btn-light-primary')
+                }
+                changeMethod()
+            }
+
             function checkShortcut(e) {
                 var key = [];
                 if (e.altKey) key.push('alt');
-                if (e.ctrlKey) key.push('ctrl');
+                if (e.ctrlKey || e.metaKey) key.push('ctrl');
                 if (e.shiftKey) key.push('shift');
                 key.push(e.key.toLowerCase());
 
@@ -538,13 +540,21 @@
                                         ${product_units}
                                     </select>
                                 </td>
-                                <td class="d-flex flex-row gap-2">
-                                    <button type="button" class="btn btn-sm btn-danger p-2 btn-minus"  tabindex="5">-</button>
-                                    <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" tabindex="5"/>
-                                    <button type="button" class="btn btn-sm btn-success p-2 btn-plus" tabindex="5">+</button>
+                                <td>
+                                    <div class="d-flex flex-row gap-2">
+                                        <button type="button" class="btn btn-sm btn-danger p-2 btn-minus"  tabindex="5">-</button>
+                                        <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" tabindex="5"/>
+                                        <button type="button" class="btn btn-sm btn-success p-2 btn-plus" tabindex="5">+</button>
+                                    </div>
                                 </td>
                                 <td>
-                                    <input type="text" value="${formatNum(selected_price, true)}" name="formatted_product_unit_price[]" class="form-control format-number input-unit-price" tabindex="5" data-unit-purchase="${latest_purchase_price}" />
+                                    <input type="text" value="${formatNum(selected_price, true)}" 
+                                        name="formatted_product_unit_price[]"
+                                        class="form-control format-number input-unit-price"
+                                        tabindex="5" data-unit-purchase="${latest_purchase_price}"
+                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Harga kurang dari harga beli" data-bs-trigger="manual"
+                                    />
                                     ${latest_price ? `<div class="text-primary last_price">Rp. ${formatNum(latest_price)}</div>` : '' }
                                 </td>
                                 <td>
@@ -608,8 +618,6 @@
                 const price_el = $(`#tb-product tr[data-index=${data_index}] [name=product_unit_price\\[\\]]`)
                 const max_price = parseFloat($(this).attr('data-unit-purchase'))
                 const current_val = unformatNum($(this).val())
-
-                if(max_price > current_val) Toaster('warning', 'Harga jual kurang dari harga beli terakhir')
 
                 price_el.val(current_val)
                 changeTotalPrice()
@@ -782,8 +790,13 @@
                     const max_price = parseFloat(input_unit_price_el.attr('data-unit-purchase'))
                     const current_value = unformatNum(input_unit_price_el.val())
 
-                    if(max_price > current_value) input_unit_price_el.addClass('is-invalid')
-                    else input_unit_price_el.removeClass('is-invalid')
+                    if(max_price > current_value) {
+                        input_unit_price_el.addClass('is-invalid')
+                        input_unit_price_el.tooltip('show')
+                    } else {
+                        input_unit_price_el.removeClass('is-invalid')
+                        input_unit_price_el.tooltip('hide')
+                    }
                 })
             }
 
