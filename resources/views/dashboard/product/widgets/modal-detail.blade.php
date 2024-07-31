@@ -27,6 +27,10 @@
                                     <div>Kategori</div>
                                     <div class="fw-semibold" id="category-detail"></div>
                                 </div>
+                                <div class="col-12 mb-3">
+                                    <div>Harga</div>
+                                    <div class="fw-semibold" id="price-detail"></div>
+                                </div>
                                 <div class="col-md-12 mt-3 d-none">
                                     <div class="table-responsive border">
                                         <table class="table">
@@ -43,8 +47,8 @@
                             </div>
                     </div>
                     <div class="col-md-8 col-lg-9 table-responsive">
-                                <div class="fw-semibold">Riwayat Transaksi Produk</div>
-                                <table class="table align-middle w-100 text-break" id="tb-product-detail"></table>
+                        <div class="fw-semibold">Riwayat Transaksi Produk</div>
+                        <table class="table align-middle" style="min-width: 800px" id="tb-product-detail"></table>
                     </div>
                 </div>
             </div>

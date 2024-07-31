@@ -148,6 +148,14 @@
             $('#name-product-detail').html(product['name']);  
             $('#code-product-detail').html(product['code']);
             $('#category-detail').html(product['category']['name']);
+
+            let price_list = ''
+            product.product_units.map((unit) => {
+                price_list += `<span class="fs-2 mb-1 badge font-medium bg-muted text-white me-1">${formatNum(unit.selling_price)}/${unit.unit.name}</span>`
+            })
+
+            $('#price-detail').html(price_list)
+
             let table_unit = ''
             product['product_units'].forEach((unit, index) => {
                 table_unit += `
