@@ -74,16 +74,16 @@
                                     <div class="text-bold">Produk</div>
                                     <button type="button" class="btn btn-success" id="btn-add-product">+ Tambah</button>
                                 </div>
-                                <div>
-                                    <table class="table align-middle text-break">
+                                <div class="table-responsive">
+                                    <table class="table text-break" style="min-width: 1000px">
                                         <thead>
                                             <tr>
-                                                <th width="300">Produk <span class="text-danger">*</span></th>
-                                                <th width="150">Satuan <span class="text-danger">*</span></th>
-                                                <th width="150">Harga per satuan <span class="text-danger">*</span></th>
-                                                <th width="150">Jumlah <span class="text-danger">*</span></th>
-                                                <th width="250">Total Harga <span class="text-danger">*</span></th>
-                                                <th width="50">Aksi</th>
+                                                <th style="width:300px">Produk <span class="text-danger">*</span></th>
+                                                <th style="width:150px">Satuan <span class="text-danger">*</span></th>
+                                                <th style="width:250px">Harga per satuan <span class="text-danger">*</span></th>
+                                                <th style="width:150px">Jumlah <span class="text-danger">*</span></th>
+                                                <th style="width:250px">Total Harga <span class="text-danger">*</span></th>
+                                                <th style="width:100px">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody  id="tb-products">

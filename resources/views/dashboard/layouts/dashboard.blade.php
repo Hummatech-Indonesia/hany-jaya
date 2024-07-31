@@ -68,6 +68,10 @@
         table.dataTable th.dt-type-numeric, table.dataTable th.dt-type-date, table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date {
             text-align: left!important;
         }
+        .table-responsive>table .dropdown{position:static;}
+        .table-responsive>table .dropdown>.dropdown-menu{left:auto !important;top:auto !important;}
+        .table-responsive>table .selectize-dropdown{position:static;}
+        /* .table-responsive>table .selectize-dropdown>.selectize-dropdown-content{left:auto !important;top:auto !important;} */
     </style>
     @yield('style')
     @stack('custom-style')
