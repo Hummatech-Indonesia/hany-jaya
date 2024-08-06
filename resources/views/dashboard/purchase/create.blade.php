@@ -74,16 +74,16 @@
                                     <div class="text-bold">Produk</div>
                                     <button type="button" class="btn btn-success" id="btn-add-product">+ Tambah</button>
                                 </div>
-                                <div>
-                                    <table class="table align-middle text-break">
+                                <div class="table-responsive">
+                                    <table class="table text-break" style="min-width: 1000px">
                                         <thead>
                                             <tr>
-                                                <th width="300">Produk <span class="text-danger">*</span></th>
-                                                <th width="150">Satuan <span class="text-danger">*</span></th>
-                                                <th width="150">Harga per satuan <span class="text-danger">*</span></th>
-                                                <th width="150">Jumlah <span class="text-danger">*</span></th>
-                                                <th width="250">Total Harga <span class="text-danger">*</span></th>
-                                                <th width="50">Aksi</th>
+                                                <th style="width:200px">Produk <span class="text-danger">*</span></th>
+                                                <th style="width:150px">Satuan <span class="text-danger">*</span></th>
+                                                <th style="width:250px">Harga per satuan <span class="text-danger">*</span></th>
+                                                <th style="width:150px">Jumlah <span class="text-danger">*</span></th>
+                                                <th style="width:250px">Total Harga <span class="text-danger">*</span></th>
+                                                <th style="width:100px">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody  id="tb-products">
@@ -198,7 +198,7 @@
                 let new_tr = `
                     <tr data-index="${current_index}">
                         <td>
-                            <select name="product_id[]" class="select_product form-select" required>${str_products}</select>
+                            <select name="product_id[]" style="width:200px" class="select_product form-select" required>${str_products}</select>
                             <input type="hidden" name="buy_price_per_unit[]" required />
                             <input type="hidden" name="quantity[]" required />
                             <input type="hidden" name="buy_price[]" required />
@@ -209,7 +209,13 @@
                             </select>
                         </td>
                         <td>
-                            <input type="text" class="form-control format-number price-per-unit" placeholder="Harga beli persatuan" required/>
+                            <input 
+                                type="text" class="form-control format-number price-per-unit"
+                                placeholder="Harga beli persatuan" required/>
+                            <div class="price-per-unit-alert" style="display: none;">
+                                <span class="text-danger fs-3">lebih dari harga jual </span>
+                                <a href="#" class="fs-3">produk</a>
+                            </div>
                         </td>
                         <td>
                             <input type="text" class="form-control format-number quantity" placeholder="Jumlah dibeli" required/>
@@ -230,6 +236,8 @@
                 select_product_list.push({})
                 select_unit_list.push({})
 
+                $(`tr[data-index=${current_index}] .price-per-unit`).tooltip()
+
                 setSelectizeProduct(current_index-1)
                 setSelectizeUnit(current_index-1)
             });
@@ -241,7 +249,10 @@
                     maxItems: 1,
                     placeholder: "Pilih Produk",
                     onChange: function(val) {
+                        let edit_url = "{{ route('admin.products.edit', 'selected_id') }}"
+                        edit_url = edit_url.replace('selected_id', val)
                         $(this['$input'][0].closest('[data-index]')).find('.price-per-unit').attr('data-price', 0)
+                        $(this['$input'][0].closest('[data-index]')).find('.price-per-unit-alert a').attr('href', edit_url)
                     }
                 })
 
@@ -256,8 +267,7 @@
                     placeholder: "Pilih Satuan",
                     onChange: function (val) {
                         let item = this.options[val]
-                        console.log(this['$input'][0].closest('[data-index]'))
-                        $(this['$input'][0].closest('[data-index]')).find('.price-per-unit').attr('data-price', item.price)
+                        if(item) $(this['$input'][0].closest('[data-index]')).find('.price-per-unit').attr('data-price', item.price)
                     }
                 })
 
@@ -274,6 +284,9 @@
                 let productId = $(this).val();
                 let options = []
                 let unit_input = $(this).parent().parent().find('#product_unit')
+
+                select_unit_list[index-1].setValue('')
+                select_unit_list[index-1].clearOptions()
                 
                 $.ajax({
                     url: `{{ route('admin.product.unit.index', ['product' => '']) }}/${productId}`,
@@ -287,8 +300,6 @@
                             })
                         });
 
-                        select_unit_list[index-1].clear()
-                        select_unit_list[index-1].clearOptions()
                         select_unit_list[index-1].addOption(options)
                     },
                     error: function(xhr) {
@@ -305,7 +316,13 @@
             $(document).on("input", ".price-per-unit", function() {
                 let unformat_input = $(this).parent().parent().find('[name=buy_price_per_unit\\[\\]]')
                 unformat_input.val(unformatNum($(this).val()))
-                if(unformatNum($(this).val()) > $(this).data('price')) Toaster('warning', 'Harga pembelian lebih mahal dari penjualan')
+                if(unformatNum($(this).val()) > parseFloat($(this).attr('data-price'))) {
+                    $(this).closest('tr').find('.price-per-unit-alert').show()
+                    $(this).addClass('is-invalid')
+                } else {
+                    $(this).closest('tr').find('.price-per-unit-alert').hide()
+                    $(this).removeClass('is-invalid')
+                }
                 changeTotal($(this))
             })
             $(document).on("input", ".quantity", function() {
