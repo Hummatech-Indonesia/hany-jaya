@@ -43,6 +43,7 @@ class DetailSellingRepository extends BaseRepository implements DetailSellingInt
         return $this->model->query()
         ->selectRaw(
             'sellings.id as data_id,
+            buyers.id as name_id,
             CONCAT(buyers.name, " - ", buyers.code) as name,
             buyers.address as address,
             units.name as unit_name,

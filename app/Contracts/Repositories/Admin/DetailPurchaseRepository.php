@@ -34,6 +34,7 @@ class DetailPurchaseRepository extends BaseRepository implements DetailPurchaseI
         return $this->model->query()
         ->selectRaw(
             'purchases.id as data_id,
+            suppliers.id as name_id,
             suppliers.name as name,
             suppliers.address as address,
             units.name as unit_name,
