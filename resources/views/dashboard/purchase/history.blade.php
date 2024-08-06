@@ -55,17 +55,17 @@
 @endsection
 @section('style')
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css"> --}}
-    <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.css" rel="stylesheet">
+    <link href="{{asset('assets/libs/datatablesnet/datatables.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/libs/daterangepicker/daterangepicker.css')}}">
 @endsection
 @section('script')
-    <script src="https://momentjs.com/downloads/moment.min.js"></script>
-    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script src="{{asset('assets/libs/momentjs/moment.min.js')}}"></script>
+    <script src="{{asset('assets/libs/momentjs/moment-with-locales.min.js')}}"></script>
     <script src="{{asset('assets/libs/daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
+    <script src="{{asset('assets/libs/datatablesnet/pdfmake.min.js')}}"></script>
+    <script src="{{asset('assets/libs/datatablesnet/vfs_fonts.js')}}"></script>
+    <script src="{{asset('assets/libs/datatablesnet/datatables.min.js')}}"></script>
     {{-- <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script> --}}
 
     <script>

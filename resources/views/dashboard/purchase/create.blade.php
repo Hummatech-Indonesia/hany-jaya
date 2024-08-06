@@ -108,11 +108,11 @@
     </div>
 @endsection
 @section('style')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/libs/selectize/selectize.bootstrap5.min.css')}}"/>
 @endsection
 @include('components.swal-toast')
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
+    <script src="{{asset('assets/libs/selectize/selectize.min.js')}}"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
     <script>
         $(document).ready(function() {

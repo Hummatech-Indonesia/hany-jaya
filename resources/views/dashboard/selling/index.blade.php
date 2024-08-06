@@ -25,7 +25,7 @@
 
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="{{ asset('assets/libs/selectize/selectize.bootstrap5.min.css') }}"/>
     <link rel="stylesheet" href="{{asset('assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/libs/sweetalert2/dist/sweetalert2.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/icons.css')}}">
@@ -253,8 +253,8 @@
     @include('dashboard.selling.widgets.cashier-supply-hist-modal')
 
     @include('layouts.script')
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
+    <script src="{{ asset('assets/libs/selectize/selectize.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/axios/axios.min.js') }}"></script>
     <script src="{{asset('assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js')}}"></script>
     <script src="{{asset('assets/js/number-format.js')}}"></script>
 

@@ -88,7 +88,6 @@
     @include('dashboard.debt.users.widgets.pay-debt');
 @endsection
 @section('script')
-    <script src=""></script>
     <script>
         $(".btn-pay-debt").on("click", function() {
             $("#modalPayDebt").modal("show");

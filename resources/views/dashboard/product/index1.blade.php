@@ -51,11 +51,11 @@
     </div>
 @endsection
 @section('style')
-    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.css">
+    <link rel="stylesheet" href="{{asset('assets/libs/datatablesnet/datatables.min.css')}}">
 @endsection
 @section('script')
     <script src="{{asset('assets/js/number-format.js')}}"></script>
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script>
+    <script src="{{asset('assets/libs/datatablesnet/datatables.min.js')}}"></script>
     <script>
         
         $(document).ready(function() {

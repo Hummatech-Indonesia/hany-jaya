@@ -226,5 +226,5 @@
     <!-- ---------------------------------------------- -->
     <script src="{{ asset('assets/libs/jquery.repeater/jquery.repeater.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/repeater-init.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
 @endsection
