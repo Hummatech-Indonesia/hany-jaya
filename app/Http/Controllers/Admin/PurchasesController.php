@@ -22,6 +22,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View as ViewView;
 
 class PurchasesController extends Controller
@@ -60,21 +61,34 @@ class PurchasesController extends Controller
      */
     public function store(PurchaseRequest $request): RedirectResponse
     {
-        $data =  $this->service->store($request);
+        DB::beginTransaction();
+        try{
+            $data =  $this->service->store($request);
+    
+            $purchase = $this->purchase->store($data);
+            for ($i = 0; $i < count($data['product_id']); $i++) {
+                $this->detailPurchase->store([
+                    'purchase_id' => $purchase->id,
+                    'product_id' => $data['product_id'][$i],
+                    'product_unit_id' => $data['product_unit_id'][$i],
+                    'quantity'  => $data['quantity'][$i],
+                    'buy_price_per_unit' => $data['buy_price_per_unit'][$i],
+                    'buy_price' => $data['buy_price'][$i]
+                ]);
+            }
+            
+            if(count($data['product_id']) == 0){
+                DB::rollBack();
+                return redirect()->back()->with('error','Produk tidak boleh kosong')->withInput();
+            }
 
-        $purchase = $this->purchase->store($data);
-        for ($i = 0; $i < count($data['product_id']); $i++) {
-            $this->detailPurchase->store([
-                'purchase_id' => $purchase->id,
-                'product_id' => $data['product_id'][$i],
-                'product_unit_id' => $data['product_unit_id'][$i],
-                'quantity'  => $data['quantity'][$i],
-                'buy_price_per_unit' => $data['buy_price_per_unit'][$i],
-                'buy_price' => $data['buy_price'][$i]
-            ]);
+            DB::commit();
+            return to_route('admin.purchases.index')->with('success', trans('alert.add_success'));
+        }catch(\Throwable $th){
+            DB::rollBack();
+            return redirect()->back()->with('error',$th->getMessage())->withInput();
         }
 
-        return to_route('admin.purchases.index')->with('success', trans('alert.add_success'));
     }
 
     /**
