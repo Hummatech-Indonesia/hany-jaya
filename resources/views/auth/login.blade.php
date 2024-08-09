@@ -31,7 +31,7 @@
                             Ingat Saya
                         </label>
                     </div>
-                    <a class="text-primary fw-medium" href="{{ route('password.request') }}">Lupa Kata Sandi ?</a>
+                    
                 </div>
                 <button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">
                     Masuk
