@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ChartController;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\Cashier\SellingController;
 use App\Http\Controllers\CostController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\HistoryPayDebtController;
 use App\Http\Controllers\UserController;
@@ -32,6 +33,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Route Api List
+Route::get('/list-year', [DashboardController::class, 'listTahun'])->name('dashboard.list-tahun');
 Route::get("/list-buyer",[SellingController::class, 'listBuyer'])->name('buyer.list-search');
 Route::get("/list-category",[CategoryController::class, 'listCategory'])->name('category.list-search');
 Route::get("/list-supplier",[SupplierController::class, 'listSupplier'])->name('supplier.list-search');

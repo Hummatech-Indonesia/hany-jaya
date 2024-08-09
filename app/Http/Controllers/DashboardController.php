@@ -7,6 +7,7 @@ use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Contracts\Interfaces\UserInterface;
+use App\Helpers\BaseResponse;
 use App\Helpers\FormatMonth;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -41,5 +42,10 @@ class DashboardController extends Controller
         $product_count = $this->product->count(null);
         $year = FormatMonth::tahun();
         return view('dashboard.home.index', compact('selling_count', 'selling_sum', 'product_count', 'debt', 'buyers','year'));
+    }
+
+    public function listTahun()
+    {
+        return BaseResponse::Ok("Berhasil mengambil data tahun", FormatMonth::tahun());
     }
 }
