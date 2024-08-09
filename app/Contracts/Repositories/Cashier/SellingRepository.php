@@ -98,13 +98,18 @@ class SellingRepository extends BaseRepository implements SellingInterface
      */
     public function sum(?array $data): int
     {
+        $column = "amount_price";
+        try{ $column = $data["column"]; } catch(\Throwable $th){  }
+        
         return $this->model->query()
             ->when($data, function ($query) use ($data){
                 try{
                     if($data["year"]) $query->whereYear('created_at',$data["year"]);
+
+                    if($data["month"]) $query->whereMonth('created_at', $data['month']);
                 }catch(\Throwable $th){}
             })
-            ->sum('amount_price');
+            ->sum($column);
     }
 
     /**

@@ -2,14 +2,23 @@
 
 namespace App\Services\Admin;
 
+use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Enums\UploadDiskEnum;
 use App\Http\Requests\Admin\CostRequest;
 use App\Models\Cost;
 use App\Traits\UploadTrait;
+use Illuminate\Http\Request;
 
 class CostService
 {
     use UploadTrait;
+
+    private SellingInterface $selling;
+
+    public function __construct(SellingInterface $selling)
+    {
+        $this->selling = $selling;
+    }
 
     public function store(CostRequest $request): array
     {
@@ -57,5 +66,18 @@ class CostService
             'image' => $old_image,
             'date' => $data['date'] ?? $cost->date
         ];
+    }
+
+    public function labaRugi(Request $request)
+    {
+        $type = $request->type;
+        $tahun = $request->year ?? date('Y');
+        $month = $request->month ?? date('m');
+
+        $pembelian = $this->selling->sum([
+            "column" => 'pay',
+            "year" => $tahun,
+            "month" => $type == "monthly" ? $month : null
+        ]);
     }
 }
