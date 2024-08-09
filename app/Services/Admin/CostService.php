@@ -99,15 +99,13 @@ class CostService
 
         $pengeluaran = $costs->sum("price");
 
-        $data = array_merge(
-            $costs->toArray(), 
-            [
-                ["price" => $pembelian, "category" => "Pengeluaran Barang Jadi"],
-                ["price" => $penjualan, "category" => "Penghasilan Barang Jadi"],
-                ["price" => $penjualan - $pembelian, "category" => "Laba Rugi Kotor"],
-                ["price" => $penjualan - $pembelian - $pengeluaran, "category" => "Laba Rugi Bersih"]
-            ]
-        );
+        $data = (object)[
+            "cost_price" => ["price" => $pembelian, "category" => "Pengeluaran Barang Jadi"],
+            "income_price" => ["price" => $penjualan, "category" => "Penghasilan Barang Jadi"],
+            "gross_price" => ["price" => $penjualan - $pembelian, "category" => "Laba Rugi Kotor"],
+            "net_price" => ["price" => $penjualan - $pembelian - $pengeluaran, "category" => "Laba Rugi Bersih"],
+            "others_price" => $costs->toArray()
+        ];
 
         return $data;
     }
