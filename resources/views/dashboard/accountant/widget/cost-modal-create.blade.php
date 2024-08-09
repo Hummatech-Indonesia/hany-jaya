@@ -1,6 +1,6 @@
 <div class="modal fade" id="addCostModal">
     <div class="modal-dialog">
-        <form class="modal-content" action="{{route()}}" method="POST">
+        <form class="modal-content" action="{{route('admin.costs.store')}}" method="POST">
             @csrf
             <div class="modal-header">
                 <h5>Tambah Pengeluaran</h5>
@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="form-group mb-3">
                     <label for="category_id">Kategori Pengeluaran <span class="text-danger">*</span></label>
-                    <select name="category_id" id="category_id" required></select>
+                    <select name="loss_category_id" id="category_id" required></select>
                 </div>
                 <div class="form-group mb-3">
                     <label for="price">Biaya <span class="text-danger">*</span></label>
