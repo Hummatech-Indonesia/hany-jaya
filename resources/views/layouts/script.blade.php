@@ -4,7 +4,6 @@
 <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 <!--  core files -->
 <script src="{{ asset('assets/js/app.min.js') }}"></script>
-<script src="{{ asset('assets/js/app.init.js') }}"></script>
 <script src="{{ asset('assets/js/app-style-switcher.js') }}"></script>
 <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
