@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\Cashier\SellingController;
+use App\Http\Controllers\CostController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\ProfileController;
@@ -65,6 +66,7 @@ Route::middleware('auth')->group(function () {
             'categories' => CategoryController::class,
             'units' => UnitController::class,
             'adjustments' => AdjustmentController::class,
+            'costs' => CostController::class
         ]);
         Route::prefix('users')->name('users.')->group(function () {
             Route::get('/', [
