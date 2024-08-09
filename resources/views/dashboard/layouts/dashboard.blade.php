@@ -103,6 +103,7 @@
     <!--  Customizer -->
 
     @include('layouts.script')
+    <script src="{{ asset('assets/js/app.init.js') }}"></script>
     @yield('script')
     @stack('custom-script')
 </body>

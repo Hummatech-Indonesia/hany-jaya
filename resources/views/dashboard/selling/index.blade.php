@@ -55,8 +55,9 @@
             alt="loader" class="lds-ripple img-fluid" />
     </div>
     <!--  Body Wrapper -->
-    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme">
-        {{-- @include('dashboard.layouts.sidebar-cashier') --}}
+    <div class="page-wrapper show-sidebar mini-sidebar" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="mini-sidebar"
+    data-sidebar-position="fixed" data-header-position="static">
+        @include('dashboard.layouts.sidebar')
             <!--  Main wrapper -->
             <div class="body-wrapper">
                 <div class="bg-white">
