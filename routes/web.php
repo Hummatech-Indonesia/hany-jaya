@@ -91,6 +91,14 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin/selling')->name('admin.selling.')->middleware('role:admin|cashier')->group(function () {
         Route::get('history', [SellingController::class, 'history'])->name('history');
     });
+    Route::prefix('accountant')->name('accountant.')->middleware("role:admin|owner")->group(function() {
+        Route::get('/', function() {
+            return view('dashboard.accountant.index');
+        })->name('index');
+        Route::get('/cost', function() {
+            return view('dashboard.accountant.cost');
+        })->name('cost');
+    });
     Route::prefix('cashier')->name('cashier.')->middleware('role:admin|cashier')->group(function () {
         Route::get('/', [SellingController::class, 'create'])->name('index');
         Route::get('update-profile', [ProfileController::class, 'cashier'])->name('profile');
