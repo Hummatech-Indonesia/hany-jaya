@@ -271,15 +271,16 @@
             let product_val = ""
 
             function updateQty(e, adder) {
-                var input = e.parent().find('input');
+                var tr = e.closest('tr')
+                var input = tr.find('.input-quantity')
                 var value = unformatNum(input.val());
                 value += adder
                 if (value < 1) value = 1;
                 input.val(formatNum(value));
 
-                const qty_el = e.parent().parent().find(`[name=quantity\\[\\]]`)
+                const qty_el = tr.find(`[name=quantity\\[\\]]`)
                 qty_el.val(unformatNum(value))
-                compareQtyWithStock(e.closest('tr[data-index]'))
+                compareQtyWithStock(tr)
                 changeTotalPrice();
             }
 
@@ -307,7 +308,6 @@
             })
 
             const select_cust = selectize_cust[0].selectize
-            select_cust.focus()
 
             const selectize_product = $('#product-code').selectize({
                 placeholder: "Pilih produk",
@@ -320,6 +320,8 @@
             const select_product = selectize_product[0].selectize
 
             select_product.setValue("")
+
+            select_product.focus()
 
             let shortcuts = {
                 'alt+ctrl+1': function() { 
@@ -586,10 +588,12 @@
             })
 
             $(document).on('input change', '.input-quantity', function() {
-                const data_index = $(this).parent().parent().data('index')
-                const qty_el = $(`#tb-product tr[data-index=${data_index}] [name=quantity\\[\\]]`)
+                const tr = $(this).closest('tr[data-index]')
+                const data_index = tr.data('index')
+                const qty_el = tr.find(`[name=quantity\\[\\]]`)
+                console.log(qty_el)
                 qty_el.val(unformatNum($(this).val()))
-                compareQtyWithStock($(this).closest('tr[data-index]'))
+                compareQtyWithStock(tr)
                 changeTotalPrice()
                 checkIsHasError()
             })
@@ -720,10 +724,12 @@
                     const qty = $(this).find('[name=quantity\\[\\]]').val()
                     const price = $(this).find('[name=product_unit_price\\[\\]]').val()
                     const total = qty * price
+                    console.log({qty, price})
                     all_total += total
                     $(this).find('[name=selling_price\\[\\]]').val(total)
                     $(this).find('.input-selling-price').val(formatNum(total))
                 })
+                console.log(all_total)
 
                 $('#total_price').html('Rp '+formatNum(all_total))
                 changeDebtValue()
