@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Api\ChartController;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\Cashier\SellingController;
+use App\Http\Controllers\CostController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\HistoryPayDebtController;
 use App\Http\Controllers\UserController;
@@ -35,6 +36,7 @@ Route::get("/list-buyer",[SellingController::class, 'listBuyer'])->name('buyer.l
 Route::get("/list-category",[CategoryController::class, 'listCategory'])->name('category.list-search');
 Route::get("/list-supplier",[SupplierController::class, 'listSupplier'])->name('supplier.list-search');
 Route::get('/list-product', [ProductController::class, 'listProduct'])->name('product.list-search');
+Route::get('/list-cost-category', [CostController::class, 'listCategory'])->name('cost.category.list-search');
 Route::get("/data-history-transaction/by-buyer",[SellingController::class, 'dataUserTransactionHistoryLatest'])->name('transaction.find-by-user-product');
 
 // Route api for data table
@@ -54,6 +56,7 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
     Route::get('/list-supplier', [SupplierController::class, 'tableSupplier'])->name('list-supplier');
     Route::get('/list-category', [CategoryController::class, 'tableCategory'])->name('list-category');
     Route::get('/list-unit', [UnitController::class, 'tableUnit'])->name('list-unit');
+    Route::get('/list-cost', [CostController::class, 'tableCost'])->name('list-cost');
     
     // data dashboard
     Route::get('/list-high-transaction', [SellingController::class, 'tableUserHighTransaction'])->name('list-high-transaction');
@@ -63,6 +66,7 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
 Route::post('/create-supplier',[SupplierController::class, 'storeAjax'])->name('api.supplier.store.ajax');
 Route::post('/create-category', [CategoryController::class, 'storeAjax'])->name('api.category.store.ajax');
 Route::post('/create-unit', [UnitController::class, 'storeAjax'])->name('api.unit.store.ajax');
+Route::post('/create-cost-category', [CostController::class, 'createCategory'])->name('api.cost.category.store.ajax');
 
 // Route for api chart
 Route::name('chart.')->prefix('chart')->group(function() {

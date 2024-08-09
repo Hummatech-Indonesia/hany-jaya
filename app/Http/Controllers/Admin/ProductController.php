@@ -189,8 +189,8 @@ class ProductController extends Controller
      */
     public function dataTable(): JsonResponse
     {
-        $product = $this->product->withElequent(["unit", "category", "supplierProducts", "productUnits.unit", "detailPurchases.purchase.supplier"]);
-        return BaseDatatable::Table($product);
+        $product = $this->product->withElequent(["unit", "category", "supplierProducts", "productUnits.unit", "detailPurchases.purchase.supplier"])->get();
+        return BaseDatatable::TableV2($product->toArray());
     }
 
     /**
