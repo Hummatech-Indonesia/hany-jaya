@@ -129,4 +129,23 @@ class CostRepository extends BaseRepository implements CostInterface
     {
         return $this->model->latest()->first();
     }
+
+    public function sumCustom(array $data): mixed
+    {
+        return $this->model->query()
+        ->selectRaw('
+            SUM(price) as price,
+            loss_categories.name as category
+        ')
+        ->leftJoin('loss_categories','costs.loss_category_id','=','loss_categories.id')
+        ->when($data, function ($query) use ($data){
+            try{
+                if($data["year"]) $query->whereYear('costs.created_at',$data["year"]);
+
+                if($data["month"]) $query->whereMonth('costs.created_at', $data['month']);
+            }catch(\Throwable $th){}
+        })
+        ->groupBy('loss_categories.name')
+        ->get();
+    }
 }

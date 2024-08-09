@@ -23,4 +23,6 @@ interface CostInterface extends GetInterface, ShowInterface, StoreInterface, Del
      * @return mixed
      */
     public function getCategoryAjax(Request $request):mixed;
+
+    public function sumCustom(array $data): mixed;
 }

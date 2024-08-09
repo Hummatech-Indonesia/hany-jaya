@@ -118,4 +118,10 @@ class CostController extends Controller
         $data = $this->lossCategory->getCategoryAjax($request);
         return BaseResponse::Ok("Berhasil mengambil data category", $data);
     }
+
+    public function sumLabaRugi(Request $request)
+    {
+        $data = $this->costService->labaRugi($request);
+        return BaseResponse::Ok("Berhasil mengambil data",$data);
+    }
 }

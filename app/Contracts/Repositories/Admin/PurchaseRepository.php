@@ -81,4 +81,23 @@ class PurchaseRepository extends BaseRepository implements PurchaseInterface
             }
         });
     }
+
+     /**
+     * sum
+     *
+     * @param  mixed $data
+     * @return int
+     */
+    public function sum(?array $data): int
+    {   
+        return $this->model->query()
+            ->when($data, function ($query) use ($data){
+                try{
+                    if($data["year"]) $query->whereYear('created_at',$data["year"]);
+
+                    if($data["month"]) $query->whereMonth('created_at', $data['month']);
+                }catch(\Throwable $th){}
+            })
+            ->sum('buy_price');
+    }
 }

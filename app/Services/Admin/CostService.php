@@ -2,6 +2,8 @@
 
 namespace App\Services\Admin;
 
+use App\Contracts\Interfaces\Admin\CostInterface;
+use App\Contracts\Interfaces\Admin\PurchaseInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Enums\UploadDiskEnum;
 use App\Http\Requests\Admin\CostRequest;
@@ -14,10 +16,15 @@ class CostService
     use UploadTrait;
 
     private SellingInterface $selling;
+    private PurchaseInterface $purchase;
+    private CostInterface $cost;
 
-    public function __construct(SellingInterface $selling)
+    public function __construct(SellingInterface $selling, PurchaseInterface $purchase,
+    CostInterface $cost)
     {
         $this->selling = $selling;
+        $this->purchase = $purchase;
+        $this->cost = $cost;
     }
 
     public function store(CostRequest $request): array
@@ -74,10 +81,34 @@ class CostService
         $tahun = $request->year ?? date('Y');
         $month = $request->month ?? date('m');
 
-        $pembelian = $this->selling->sum([
+        $penjualan = $this->selling->sum([
             "column" => 'pay',
             "year" => $tahun,
             "month" => $type == "monthly" ? $month : null
         ]);
+
+        $pembelian = $this->purchase->sum([
+            "year" => $tahun,
+            "month" => $type == "monthly" ? $month : null
+        ]);
+
+        $costs = $this->cost->sumCustom([
+            "year" => $tahun,
+            "month" => $type == "monthly" ? $month : null
+        ]);
+
+        $pengeluaran = $costs->sum("price");
+
+        $data = array_merge(
+            $costs->toArray(), 
+            [
+                ["price" => $pembelian, "category" => "Pengeluaran Barang Jadi"],
+                ["price" => $penjualan, "category" => "Penghasilan Barang Jadi"],
+                ["price" => $penjualan - $pembelian, "category" => "Laba Rugi Kotor"],
+                ["price" => $penjualan - $pembelian - $pengeluaran, "category" => "Laba Rugi Bersih"]
+            ]
+        );
+
+        return $data;
     }
 }

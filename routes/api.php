@@ -89,4 +89,5 @@ Route::name('find.')->prefix('find')->group(function (){
     });
 });
 
+Route::get('summary/laba-rugi', [CostController::class, 'sumLabaRugi'])->name('laba-rugi');
 Route::get('print/transaction-history/{selling}',[SellingController::class, 'printHistoryTransaction'])->name('print.transaction-history');
