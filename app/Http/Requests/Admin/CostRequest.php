@@ -45,6 +45,6 @@ class CostRequest extends FormRequest
 
     public function prepareForValidation()
     {
-        
+        if(!$this->date) $this->merge(["date" => null]);
     }
 }
