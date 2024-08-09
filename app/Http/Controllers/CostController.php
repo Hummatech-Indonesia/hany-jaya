@@ -87,12 +87,13 @@ class CostController extends Controller
      */
     public function destroy(Cost $cost)
     {
-        //
+        $this->cost->delete($cost->id);
+        return redirect()->back()->with('success', 'Berhasil menghapus data pengeluaran');
     }
 
     public function tableCost()
     {
-        $data = $this->cost->with(['user','loss_category','edited_user']);
+        $data = $this->cost->with(['user','lossCategory','edited_user']);
         return BaseDatatable::TableV2($data->toArray());
     }
 
