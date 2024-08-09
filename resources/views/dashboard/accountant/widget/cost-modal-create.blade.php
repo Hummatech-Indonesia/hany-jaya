@@ -1,6 +1,6 @@
 <div class="modal fade" id="addCostModal">
     <div class="modal-dialog">
-        <form class="modal-content" action="{{route('admin.costs.store')}}" method="POST">
+        <form class="modal-content" action="{{route('admin.costs.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="modal-header">
                 <h5>Tambah Pengeluaran</h5>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="image">Foto Nota</label>
-                    <input type="file" class="form-control" accept=".jpg,.png,.jpeg">
+                    <input type="file" name="image" id="iamge" class="form-control" accept=".jpg,.png,.jpeg">
                 </div>
             </div>
             <div class="modal-footer">

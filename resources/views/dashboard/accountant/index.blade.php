@@ -72,9 +72,9 @@
                 <h5>Laporan</h5>
                 <button type="button" class="btn btn-primary" id="btn-print">Cetak Laporan</button>
             </div>
-            <div class="card-body" id="printable-element" style="font-family: sans-serif">
-                <h5 style="text-align: center; font-weight: bold;">Laporan Laba Rugi Hany Jaya</h5>
-                <table class="table" style="width: 100%; border-collapse: collapse">
+            <div class="card-body" id="printable-element" style="">
+                <h5 style="text-align: center; font-weight: bold;font-family: sans-serif">Laporan Laba Rugi Hany Jaya</h5>
+                <table class="table" style="width: 100%; border-collapse: collapse;font-family: sans-serif">
                     <tbody id="printable-list">
                     </tbody>
                 </table>
