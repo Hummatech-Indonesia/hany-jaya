@@ -93,7 +93,7 @@ class CostController extends Controller
 
     public function tableCost()
     {
-        $data = $this->cost->with(['user','lossCategory','edited_user']);
+        $data = $this->cost->with(['user','lossCategory','user_edit']);
         return BaseDatatable::TableV2($data->toArray());
     }
 
