@@ -20,7 +20,7 @@ class Cost extends Model
 
     public function lossCategory()
     {
-        return $this->hasOne(LossCategory::class, 'id');
+        return $this->belongsTo(LossCategory::class, 'loss_category_id');
     }
 
     public function user_edit()
@@ -28,4 +28,3 @@ class Cost extends Model
         return $this->belongsTo(User::class, 'edited_user_id');
     }
 }
-    
