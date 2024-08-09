@@ -53,12 +53,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button data-url="#" id="btn-detail-delete" class="btn btn-light-danger btn-delete-icon btn-delete-product">Hapus</button>
-                <a href="#" id="btn-detail-edit" class="btn btn-light-warning btn-update-icon">Ubah</a>
                 <button type="button" class="btn btn-light font-medium waves-effect text-start"
                     data-bs-dismiss="modal">
                     Tutup
                 </button>
+                <button data-url="#" id="btn-detail-delete" class="btn btn-danger btn-delete-product">Hapus</button>
+                <a href="#" id="btn-detail-edit" class="btn btn-primary">Ubah</a>
 
             </div>
         </div>
@@ -69,6 +69,9 @@
     <script>
         $(document).ready(function() {
             let product_detail_tb = null
+            $(document).on('click' ,'#tb-product-detail th', function(e) {
+                e.stopPropagation()
+            })
             $(document).on('click', '#product-table .btn-detail', function() {
                 let product = JSON.parse($(this).attr('data-product').replaceAll("'", '"'))
                 let dt_url_detail = "{{ route('data-table.list-detail-product', 'selected_id') }}"
@@ -111,9 +114,7 @@
                             }
                         }, {
                             data: "name",
-                            title: "Pembeli / Distributor",
-                            searchable: true,
-                            orderable: false
+                            title: "Pembeli / Distributor"
                         }, {
                             data: "address",
                             title: "Alamat"

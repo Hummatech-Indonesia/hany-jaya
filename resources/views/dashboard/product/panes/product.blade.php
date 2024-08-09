@@ -66,7 +66,7 @@
                         return `<div class="d-flex flex-row gap-4 align-items-center">
                                 <img src="${image}" alt="gambar produk" class="rounded" style="width: 48px;height: 48px;object-fit: cover"/>
                                 <div>
-                                    <a class="productname">${full['name']}</a>
+                                    <a data-product="${JSON.stringify(full).replaceAll('"', "'")}" class="productname btn-detail">${full['name']}</a>
                                     <p class="mb-1 fs-2 text-muted">${full['category']['name']}</p>
                                     <span class="fs-2 mb-1 badge font-medium bg-light-secondary text-secondary">${full['code']}</span>
                                 </div>
