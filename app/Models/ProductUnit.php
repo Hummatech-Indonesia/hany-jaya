@@ -17,7 +17,7 @@ class ProductUnit extends Model implements HasProduct, HasUnit
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'product_id', 'unit_id', 'quantity_in_small_unit', 'selling_price'
+        'id', 'product_id', 'unit_id', 'quantity_in_small_unit', 'selling_price', 'is_delete', 'deleted_at'
     ];
 
     /**

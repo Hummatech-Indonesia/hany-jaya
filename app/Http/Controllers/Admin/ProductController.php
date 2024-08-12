@@ -21,6 +21,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class ProductController extends Controller
@@ -121,19 +122,46 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product): RedirectResponse
     {
         $data = $this->productService->update($request, $product);
-        $product = $this->product->update($product->id, $data);
-        $product->productUnits()->delete();
-        for ($i = 0; $i < count($data['unit_id']); $i++) {
-            ProductUnit::query()->create(
-                [
-                    'product_id' => $product->id,
-                    'unit_id' => $data['unit_id'][$i],
-                    'quantity_in_small_unit' => $data['quantity_in_small_unit'][$i],
-                    'selling_price' => $data['selling_price'][$i],
-                ]
-            );
+        DB::beginTransaction();
+        try{
+            $product = $this->product->update($product->id, $data);
+            $productUnits = $product->productUnits;
+            
+            $productUnitUnused = collect($productUnits)->filter(function ($item) use ($data) {
+                if(!in_array($item->unit_id, $data['unit_id'])){
+                    return $item;
+                }
+            });
+
+            for ($i = 0; $i < count($data['unit_id']); $i++) {
+                $check_product_unit = $productUnits->where('unit_id',$data['unit_id'][$i])->first();
+                if(!$check_product_unit){
+                    ProductUnit::query()->create(
+                        [
+                            'product_id' => $product->id,
+                            'unit_id' => $data['unit_id'][$i],
+                            'quantity_in_small_unit' => $data['quantity_in_small_unit'][$i],
+                            'selling_price' => $data['selling_price'][$i],
+                            ]
+                        );
+                } else {
+                    $check_product_unit->update([
+                        'quantity_in_small_unit' => $data['quantity_in_small_unit'][$i],
+                        'selling_price' => $data['selling_price'][$i],
+                    ]);
+                }
+            }
+
+            $productUnitUnused->each(function($item) {
+                if($item) $item->update(["is_delete" => 1, "deleted_at" => now()]);
+            });
+
+            DB::commit();
+            return to_route('admin.products.index')->with('success', trans('alert.update_success'));
+        }catch(\Throwable $th){
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
         }
-        return to_route('admin.products.index')->with('success', trans('alert.update_success'));
     }
 
     /**
