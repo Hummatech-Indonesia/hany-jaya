@@ -100,10 +100,10 @@
                                                 {{ $unit->name }}</option>
                                         @endforeach
                                     </select>
-                                    @error('category_id')
+                                    @error('small_unit_id')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                    <div class="text-danger on_error d-none">Distributor tidak boleh kosong</div>
+                                    <div class="text-danger on_error d-none">Satuan terkecil tidak boleh kosong</div>
                                 </div>
                             </div>
                             <div class="row">

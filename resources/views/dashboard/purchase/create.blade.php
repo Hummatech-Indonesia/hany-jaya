@@ -155,9 +155,11 @@
                         )
                         select_supplier.setValue('')
                         select_supplier.setValue(response.data.id)
+                        Toaster('success', response.meta.message)
                     },
                     error: function(xhr) {
                         console.log(xhr.responseJSON.message)
+                        Toaster('error', xhr.responseJSON.message)
                     },
                 });
             }
@@ -214,7 +216,7 @@
                                 placeholder="Harga beli persatuan" required/>
                             <div class="price-per-unit-alert" style="display: none;">
                                 <span class="text-danger fs-3">lebih dari harga jual </span>
-                                <a href="#" class="fs-3">produk</a>
+                                <a href="#" target="_blank" class="fs-3">produk</a>
                             </div>
                         </td>
                         <td>

@@ -33,9 +33,15 @@ class ProductController extends Controller
     private DetailPurchaseInterface $detailPurchase;
     private DetailSellingInterface $detailSellings;
 
-    public function __construct(ProductInterface $product, ProductService $productService, CategoryInterface $category, UnitInterface $unit, SupplierInterface $supplier,
-    DetailPurchaseInterface $detailPurchase,DetailSellingInterface $detailSellings)
-    {
+    public function __construct(
+        ProductInterface $product,
+        ProductService $productService,
+        CategoryInterface $category,
+        UnitInterface $unit,
+        SupplierInterface $supplier,
+        DetailPurchaseInterface $detailPurchase,
+        DetailSellingInterface $detailSellings
+    ) {
         $this->product = $product;
         $this->supplier = $supplier;
         $this->unit = $unit;
@@ -79,8 +85,9 @@ class ProductController extends Controller
      * @param  mixed $request
      * @return RedirectResponse
      */
-    public function store(ProductRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
+        dd($request->all());
         $data = $this->productService->store($request);
         $product = $this->product->store($data);
         for ($i = 0; $i < count($data['unit_id']); $i++) {
@@ -207,10 +214,10 @@ class ProductController extends Controller
     public function lastProduct(Request $request): JsonResponse
     {
         $product = $this->product->firstLastest();
-        if(strtolower($request?->response ?? "-") == "code"){
+        if (strtolower($request?->response ?? "-") == "code") {
             $product = $this->productService->generateLastCode($product?->code);
-        } 
-        
+        }
+
         return BaseResponse::OK("Berhasil mengambil data product", $product);
     }
 
@@ -220,20 +227,20 @@ class ProductController extends Controller
         $data1 = $this->detailPurchase->detailProductCustom($request);
         $data2 = $this->detailSellings->detailProductCustom($request);
 
-        if($request->type == "selling"){
-            $data = $data2->orderBy('date','DESC')->get();
-        } else if ($request->type == "purchase"){
-            $data = $data1->orderBy('date','DESC')->get();
-        }else {
-            $data = $data1->union($data2)->orderBy('date','DESC')->get();
+        if ($request->type == "selling") {
+            $data = $data2->orderBy('date', 'DESC')->get();
+        } else if ($request->type == "purchase") {
+            $data = $data1->orderBy('date', 'DESC')->get();
+        } else {
+            $data = $data1->union($data2)->orderBy('date', 'DESC')->get();
         }
-        
+
         return BaseDatatable::TableV2($data->toArray());
     }
 
     public function checkCodeProduct(Request $request): JsonResponse
     {
-        if(!$request->code) return response()->json([
+        if (!$request->code) return response()->json([
             "status" => "error",
             "message" => "Code tidak valid",
             "data" => false
@@ -241,8 +248,8 @@ class ProductController extends Controller
 
         $check = $this->product->getWhereV2(["code" => $request->code]);
 
-        if($check){
-            if($check->id == $request->product_id){
+        if ($check) {
+            if ($check->id == $request->product_id) {
                 return response()->json([
                     "status" => "success",
                     "message" => "Code dapat digunakan",
@@ -255,8 +262,7 @@ class ProductController extends Controller
                     "data" => false
                 ]);
             }
-        } 
-        else return response()->json([
+        } else return response()->json([
             "status" => "success",
             "message" => "Code dapat digunakan",
             "data" => true
