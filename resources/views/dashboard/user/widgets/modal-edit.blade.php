@@ -15,11 +15,11 @@
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
                         <label for="edit-cashier-name" class="form-label fw-semibold">Nama <small class="text-danger">*</small></label>
-                        <input tabindex="1" name="name" autofocus="true" type="text" class="form-control" id="edit-cashier-name" placeholder="Kasir" />
+                        <input name="name" autofocus="true" type="text" class="form-control" id="edit-cashier-name" placeholder="Kasir" />
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="roleCashierEdit" class="form-label fw-semibold">Role <small class="text-danger">*</small></label>
-                        <select tabindex="4" id="roleCashierEdit" name="role[]" class="form-select role" aria-label="Default select example">
+                        <select id="roleCashierEdit" name="role[]" class="form-select role" aria-label="Default select example">
                             @foreach ($roles as $role)
                                 <option value="{{ $role->name }}">{{ $role->name }}</option>
                             @endforeach
@@ -27,11 +27,11 @@
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="edit-cashier-email" class="form-label fw-semibold">Email <small class="text-danger">*</small></label>
-                        <input tabindex="2" name="email" type="email" class="form-control" id="edit-cashier-email" placeholder="kasir@gmail.com" value=""/>
+                        <input name="email" type="email" class="form-control" id="edit-cashier-email" placeholder="kasir@gmail.com" value=""/>
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="edit-cashier-password" class="form-label fw-semibold">Password <small>(opsional)</small></label>
-                        <input tabindex="3" name="password" type="password" id="edit-cashier-password" class="form-control" />
+                        <input name="password" type="password" id="edit-cashier-password" class="form-control" />
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -164,6 +164,8 @@
                     const isMultiple = $(id).attr('multiple') == 'multiple'
                     if((isMultiple && $(id).val().length <= 0) || !$(id).val()) {
                         $(id).parent().find('.form-select .selectize-input').addClass('form-control is-invalid')
+
+                        $(id).parent().find('.text-danger').remove()
                         $(id).parent().append(`<small class="text-danger">${listMessage[listId.indexOf(id)]}</small>`)
                         countError++
                     } else {
