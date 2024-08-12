@@ -160,16 +160,29 @@
         function validate(listId, listMessage) {
             let countError = 0;
             listId.map(id => {
-                let siblings = $(id).parent().children().length;
-                if (($(id).val() == '' || $(id).val() == null) && siblings == 2) {
-                    $(id).addClass('is-invalid')
-                    $(id).parent().append(
-                        '<small class="text-danger">' + listMessage[listId.indexOf(id)] + '</small>'
-                    )
-                    countError++;
+                if($(id).hasClass('selectized')) {
+                    const isMultiple = $(id).attr('multiple') == 'multiple'
+                    if((isMultiple && $(id).val().length <= 0) || !$(id).val()) {
+                        $(id).parent().find('.form-select .selectize-input').addClass('form-control is-invalid')
+                        $(id).parent().append(`<small class="text-danger">${listMessage[listId.indexOf(id)]}</small>`)
+                        countError++
+                    } else {
+                        $(id).parent().find('.form-select .selectize-input').removeClass('form-control is-invalid')
+                        $(id).parent().find('.text-danger').remove()
+                    }
                 }
-                if (($(id).val() == '' || $(id).val() == null) && siblings > 2) {
-                    countError = 1;
+                else {
+                    let siblings = $(id).parent().children().length;
+                    if (($(id).val() == '' || $(id).val() == null) && siblings == 2) {
+                        $(id).addClass('is-invalid')
+                        $(id).parent().append(
+                            '<small class="text-danger">' + listMessage[listId.indexOf(id)] + '</small>'
+                        )
+                        countError++;
+                    }
+                    if (($(id).val() == '' || $(id).val() == null) && siblings > 2) {
+                        countError = 1;
+                    }
                 }
             })
 
@@ -188,8 +201,8 @@
         });
         $(document).on("click", ".btn-edit", function(e) {
             e.preventDefault();
-            let listId = ['#edit-cashier-name', '#edit-cashier-email'];
-            let listMessage = ['Nama harus diisi', 'Email harus diisi'];
+            let listId = ['#edit-cashier-name', '#edit-cashier-email', '#roleCashierEdit'];
+            let listMessage = ['Nama harus diisi', 'Email harus diisi', 'Role harus diisi'];
             if (validate(listId, listMessage)) {
                 return;
             }

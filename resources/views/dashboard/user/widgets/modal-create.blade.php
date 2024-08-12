@@ -18,7 +18,7 @@
                             value="{{ old('name') }}" />
                     </div>
                     <div class="col-md-12 mb-4">
-                        <label for="roleCashier" class="form-label fw-semibold">Role</label>
+                        <label for="roleCashier" class="form-label fw-semibold">Role <small class="text-danger">*</small></label>
                         <select tabindex="4" id="roleCashier" name="role[]" class="form-select role" aria-label="Default select example">
                             @foreach ($roles as $role)
                                 <option value="{{ $role->name }}">{{ $role->name }}</option>
