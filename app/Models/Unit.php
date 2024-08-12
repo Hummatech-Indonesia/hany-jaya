@@ -19,7 +19,7 @@ class Unit extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'unit_id', 'id');
+        return $this->belongsTo(Product::class);   
     }
 
     public function productUnit()
