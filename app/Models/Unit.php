@@ -19,7 +19,7 @@ class Unit extends Model
 
     public function product()
     {
-        return $this->hasOne(Product::class, 'id', 'unit_id');   
+        return $this->hasOne(Product::class, 'unit_id', 'id');
     }
 
     public function productUnit()
