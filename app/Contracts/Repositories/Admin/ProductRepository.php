@@ -156,10 +156,16 @@ class ProductRepository extends BaseRepository implements ProductInterface
      */
     public function getWhere(array $data): mixed
     {
+        $delete = false;
+        try { $delete = $data["is_delete"]; }catch(\Throwable $th) { }
+        
         return $this->model->query()
             ->with('unit')
-            ->with(['productUnits' => function ($query) {
-                $query->orderBy('quantity_in_small_unit', 'asc');
+            ->with(['productUnits' => function ($query) use ($delete) {
+                $query->when($delete !== false, function($query2) use ($delete) {
+                    $query2->where("is_delete",$delete);
+                })
+                ->orderBy('quantity_in_small_unit', 'asc');
             }])
             ->with('productUnits.unit')
             ->where('is_delete',0)
@@ -224,7 +230,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
      */
     public function withElequent(array $data): mixed
     {
-        return $this->model->with($data)->where('is_delete',0);
+        return $this->model->with($data)->whereRelation('productUnits','is_delete',0)->where('is_delete',0);
     }
 
     /**

@@ -111,7 +111,7 @@ class ProductController extends Controller
     public function edit(Product $product): View
     {
         $product = $product->with(['productUnits' => function ($query) {
-            $query->with("unit");
+            $query->with("unit")->where("is_delete",0);
         }])->find($product->id);
         $categories = $this->category->get();
         $units = $this->unit->get();
@@ -212,7 +212,10 @@ class ProductController extends Controller
      */
     public function showProduct(ShowProductRequest $request): JsonResponse
     {
-        $product = $this->product->getWhere($request->validated());
+        $data = $request->validated();
+        $data["is_delete"] = 0;
+        
+        $product = $this->product->getWhere($data);
         return ResponseHelper::success($product);
     }
 
@@ -223,7 +226,14 @@ class ProductController extends Controller
      */
     public function dataTable(): JsonResponse
     {
-        $product = $this->product->withElequent(["unit", "category", "supplierProducts", "productUnits.unit", "detailPurchases.purchase.supplier"])->get();
+        $product = $this->product->withElequent(["unit", "category", 
+        "supplierProducts" => function ($query) {
+            $query->where('is_delete',0);
+        },
+        "productUnits" => function($query) {
+            $query->with("unit")->where('is_delete',0);
+        },
+        "detailPurchases.purchase.supplier"])->get();
         return BaseDatatable::TableV2($product->toArray());
     }
 
@@ -234,7 +244,13 @@ class ProductController extends Controller
      */
     public function listProduct(): JsonResponse
     {
-        $product = $this->product->withElequent(["unit", "category", "supplierProducts", "productUnits.unit"])->get();
+        $product = $this->product->withElequent(["unit", "category", 
+        "supplierProducts" => function ($query) {
+            $query->where('is_delete',0);
+        },
+        "productUnits" => function($query) {
+            $query->with("unit")->where('is_delete',0);
+        }])->get();
         return BaseResponse::Ok("Berhasil mengambil data product", $product);
     }
 

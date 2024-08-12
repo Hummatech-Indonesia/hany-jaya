@@ -20,7 +20,7 @@ class ProductUnitController extends Controller
 
     public function index(Product $product): JsonResponse
     {
-        $units = $this->productUnit->getWhere(['product_id' => $product->id]);
+        $units = $this->productUnit->getWhere(['product_id' => $product->id, "is_delete" => 0]);
         return ResponseHelper::success(ProductUnitResource::collection($units));
     }
 }
