@@ -85,9 +85,8 @@ class ProductController extends Controller
      * @param  mixed $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(ProductRequest $request): RedirectResponse
     {
-        dd($request->all());
         $data = $this->productService->store($request);
         $product = $this->product->store($data);
         for ($i = 0; $i < count($data['unit_id']); $i++) {

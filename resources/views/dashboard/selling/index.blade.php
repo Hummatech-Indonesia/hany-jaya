@@ -323,7 +323,7 @@
             select_product.setValue("")
 
             select_product.focus()
-
+            
             let shortcuts = {
                 'alt+ctrl+1': function() { 
                     if(select_cust.isFocused) select_cust.blur()
@@ -334,8 +334,9 @@
                 'alt+ctrl+4': function() {$('#telp').focus()},
                 'alt+ctrl+5': function() { select_product.focus() },
                 'alt+ctrl+6': function() {shortcutChangeMethodHandler()},
-                'alt+ctrl+enter': function() {
-                    if(checkIsHasError() != 0) return 
+                'alt+ctrl+enter': async function() {
+                    const count_error = await checkIsHasError()
+                    if(count_error != 0) return 
                     $('#btn-open-modal').trigger('click')
                 },
             };
@@ -592,7 +593,6 @@
                 const tr = $(this).closest('tr[data-index]')
                 const data_index = tr.data('index')
                 const qty_el = tr.find(`[name=quantity\\[\\]]`)
-                console.log(qty_el)
                 qty_el.val(unformatNum($(this).val()))
                 compareQtyWithStock(tr)
                 changeTotalPrice()
@@ -725,12 +725,10 @@
                     const qty = $(this).find('[name=quantity\\[\\]]').val()
                     const price = $(this).find('[name=product_unit_price\\[\\]]').val()
                     const total = qty * price
-                    console.log({qty, price})
                     all_total += total
                     $(this).find('[name=selling_price\\[\\]]').val(total)
                     $(this).find('.input-selling-price').val(formatNum(total))
                 })
-                console.log(all_total)
 
                 $('#total_price').html('Rp '+formatNum(all_total))
                 changeDebtValue()

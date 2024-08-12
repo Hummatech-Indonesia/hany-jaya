@@ -73,6 +73,9 @@
                         select_category.updateOption(
                             val, res.data
                         )
+
+                        select_category.setValue('')
+                        select_category.setValue(res.data.id)
                         Toaster('success', res.message)
                     }
                 })
