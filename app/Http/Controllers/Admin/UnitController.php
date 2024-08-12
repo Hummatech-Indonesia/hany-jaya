@@ -84,7 +84,6 @@ class UnitController extends Controller
     public function destroy(Unit $unit)
     {
         $check = $unit->withCount(['product','productUnit'])->first();
-        dd($check);
         
         if($check->product_count == 0 && $check->product_unit_count == 0){
             $delete = $this->unit->delete($unit->id);
