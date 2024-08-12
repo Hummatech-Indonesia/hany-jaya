@@ -100,10 +100,10 @@
                                                 {{ $unit->name }}</option>
                                         @endforeach
                                     </select>
-                                    @error('category_id')
+                                    @error('small_unit_id')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                    <div class="text-danger on_error d-none">Distributor tidak boleh kosong</div>
+                                    <div class="text-danger on_error d-none">Satuan terkecil tidak boleh kosong</div>
                                 </div>
                             </div>
                             <div class="row">
@@ -240,6 +240,8 @@
                             value: res.data.id,
                             text: res.data.name
                         })
+                        select.category.setValue('')
+                        select.category.setValue(res.data.id)
                         Toaster('success', res.meta.message)
                     },
                     error: (xhr) => {
@@ -263,6 +265,8 @@
                             value: res.data.id,
                             text: res.data.name
                         })
+                        select.small_unit.setValue('')
+                        select.small_unit.setValue(res.data.id)
                         Toaster('success', res.meta.message)
                     },
                     error: (xhr) => {
@@ -325,11 +329,15 @@
             })
 
             $(document).on('input', '.input-price', function() {
-                $(this).parent().parent().parent().find('.selling-price').val(unformatNum($(this).val()))
+                let data_value = unformatNum($(this).val())
+                if(data_value <= 0) $(this).val(1)
+                $(this).closest('tr').find('.selling-price').val(unformatNum($(this).val()))
             })
 
             $(document).on('input', '.input-qty', function() {
-                $(this).parent().parent().find('.qty-small').val(unformatNum($(this).val()))
+                let data_value = unformatNum($(this).val())
+                if(data_value <= 0) $(this).val(1)
+                $(this).closest('tr').find('.qty-small').val(unformatNum($(this).val()))
             })
 
             function create_new_tb(data) {
@@ -368,22 +376,6 @@
                 if(last_index == 0) $('#table-units').html(tr_showed)
                 else $('#table-units').append(tr_showed)
             }
-
-            $(document).on('change', '[name=name]', function(){
-                isCanAddUnit()
-            })
-            $(document).on('change', '[name=code]', function(){
-                isCanAddUnit(true)
-            })
-            $(document).on('change', '[name=category_id]', function(){
-                isCanAddUnit()
-            })
-            $(document).on('change', '[name=supplier_id\\[\\]]', function(){
-                isCanAddUnit()
-            })
-            $(document).on('change', '[name=small_unit_id]', function(){
-                isCanAddUnit()
-            })
 
             isCanAddUnit()
 
