@@ -165,11 +165,12 @@ class ProductRepository extends BaseRepository implements ProductInterface
                 $query->when($delete !== false, function($query2) use ($delete) {
                     $query2->where("is_delete",$delete);
                 })
+                ->with('unit')
                 ->orderBy('quantity_in_small_unit', 'asc');
             }])
-            ->with('productUnits.unit')
+            // ->with('productUnits.unit')
             ->where('is_delete',0)
-            ->when($data['code'], function ($query) use ($data){ 
+            ->when($data['code'], function ($query) use ($data){
                 $query->where('code', $data['code'])->orWhere('name', $data['code']);
             })
             ->first();
