@@ -330,13 +330,13 @@
 
             $(document).on('input', '.input-price', function() {
                 let data_value = unformatNum($(this).val())
-                if(typeof data_value === 'number' && data_value <= 0) $(this).val(1)
+                if(data_value < 0) $(this).val(0)
                 $(this).closest('tr').find('.selling-price').val(unformatNum($(this).val()))
             })
 
             $(document).on('input', '.input-qty', function() {
                 let data_value = unformatNum($(this).val())
-                if(typeof data_value === 'number' && data_value <= 0) $(this).val(1)
+                if(data_value < 0) $(this).val(0)
                 $(this).closest('tr').find('.qty-small').val(unformatNum($(this).val()))
             })
 
