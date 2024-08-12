@@ -14,12 +14,12 @@
                 <div class="modal-body row">
                     <div class="col-md-12 mb-4">
                         <label for="cashier-name" class="form-label fw-semibold">Nama <small class="text-danger">*</small></label>
-                        <input tabindex="1" name="name" id="cashier-name" type="text" class="form-control" autofocus="true" placeholder="Kasir"
+                        <input name="name" id="cashier-name" type="text" class="form-control" autofocus="true" placeholder="Kasir"
                             value="{{ old('name') }}" />
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="roleCashier" class="form-label fw-semibold">Role <small class="text-danger">*</small></label>
-                        <select tabindex="4" id="roleCashier" name="role[]" class="form-select role" aria-label="Default select example">
+                        <select id="roleCashier" name="role[]" class="form-select role" aria-label="Default select example">
                             @foreach ($roles as $role)
                                 <option value="{{ $role->name }}">{{ $role->name }}</option>
                             @endforeach
@@ -27,12 +27,12 @@
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="cashier-email" class="form-label fw-semibold">Email <small class="text-danger">*</small></label>
-                        <input tabindex="2" name="email" id="cashier-email" type="email" class="form-control" placeholder="kasir@gmail.com"
+                        <input name="email" id="cashier-email" type="email" class="form-control" placeholder="kasir@gmail.com"
                             value="{{ old('email') }}" />
                     </div>
                     <div class="col-md-12 mb-4">
                         <label for="exampleInputPassword1" class="form-label fw-semibold">Password <small>(opsional)</small></label>
-                        <input tabindex="3" name="password" type="password" class="form-control" value="{{ old('password') }}" />
+                        <input name="password" type="password" class="form-control" value="{{ old('password') }}" />
                     </div>
                 </div>
                 <div class="modal-footer">
