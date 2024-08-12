@@ -12,6 +12,7 @@
 @endsection
 @section('content')
     @include('components.swal-message')
+    @include('components.swal-toast')
     <div class="container-fluid max-w-full">
         <div class="card bg-light-info shadow-none position-relative overflow-hidden">
             <div class="card-body px-4 py-3">
@@ -189,6 +190,28 @@
     <script>
         
         $(document).ready(function() {
+            const selectize_category = $('[name=category_id]').selectize({
+                // plugins: ['restore_on_backspace'],
+                create: true,
+                onOptionAdd: function (val, data) {
+                    createNewCategory(val)
+                },
+            
+            })
+            const selectize_small_unit = $('[name=small_unit_id]').selectize({
+                create: true,
+                onOptionAdd: function (val, item) {
+                    createNewUnit(val)
+                }
+            })
+
+            const select = {
+                category: selectize_category[0].selectize,
+                small_unit: selectize_small_unit[0].selectize
+            }
+
+            var product = @json($product->productUnits);
+
             function createNewCategory(val) {
                 $.ajax({
                     method: 'POST',
@@ -204,6 +227,8 @@
                             value: res.data.id,
                             text: res.data.name
                         })
+                        select.category.setValue('')
+                        select.category.setValue(res.data.id)
                         Toaster('success', res.meta.message)
                     },
                     error: (xhr) => {
@@ -212,29 +237,30 @@
                 })
             }
 
-            const selectize_category = $('[name=category_id]').selectize({
-                // plugins: ['restore_on_backspace'],
-                create: true,
-                onOptionAdd: function (val, data) {
-                    console.log(val, data)
-                    createNewCategory(val)
-                },
-            
-            })
-            const selectize_small_unit = $('[name=small_unit_id]').selectize({
-                create: true,
-                onItemAdd: function (val, item) {
-                    console.log(val, item)
-
-                }
-            })
-
-            const select = {
-                category: selectize_category[0].selectize,
-                small_unit: selectize_small_unit[0].selectize
+            function createNewUnit(val) {
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('api.unit.store.ajax') }}",
+                    data: {
+                        name: val,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: (res) => {
+                        select.small_unit.updateOption(
+                        val,
+                        {
+                            value: res.data.id,
+                            text: res.data.name
+                        })
+                        select.small_unit.setValue('')
+                        select.small_unit.setValue(res.data.id)
+                        Toaster('success', res.meta.message)
+                    },
+                    error: (xhr) => {
+                        Toaster('error', xhr.responseJSON.message)
+                    }
+                })
             }
-
-            var product = @json($product->productUnits);
 
             initTable()
 
@@ -252,8 +278,74 @@
                     },
                 });
             }
+
+            async function isCanAddUnit(is_code = false) {
+                let product = $('[name=name]').val()
+                let invoice = $('[name=code]').val()
+                let category = select.category.getValue()
+                let small_unit = select.small_unit.getValue()
+
+                let count_error = 0
+
+                if(!small_unit) {
+                    $('[name=small_unit_id]').parent().find('.on_error').removeClass('d-none')
+                    if(product && invoice && category) select.small_unit.focus()
+                    count_error++
+                } else {
+                    $('[name=small_unit_id]').parent().find('.on_error').addClass('d-none')
+                }
+
+                if(!category) {
+                    $('[name=category_id]').parent().find('.on_error').removeClass('d-none')
+                    if(product && invoice) select.category.focus()
+                    count_error++
+                } else {
+                    $('[name=category_id]').parent().find('.on_error').addClass('d-none')
+                }
+
+                let code_error = 0
+
+                if(!invoice) {
+                    $('[name=code]').parent().find('.on_error').removeClass('d-none')
+                    $('[name=code]').parent().find('.on_error').html('Kode produk tidak boleh kosong')
+                    $('[name=code]').focus()
+                    count_error++
+                    code_error++
+                } else {
+                    $('[name=code]').parent().find('.on_error').addClass('d-none')
+                }
+                
+                if(is_code) {
+                    let code_already_used = await checkCode()
+                    if(!code_already_used.data) {
+                        $('[name=code]').parent().find('.on_error').removeClass('d-none')
+                        $('[name=code]').parent().find('.on_error').html('Kode produk telah digunakan')
+                        $('[name=code]').focus()
+                        count_error++
+                    } else if(code_error == 0) {
+                        $('[name=code]').parent().find('.on_error').addClass('d-none')
+                    }
+                }
+                
+                if(!product) {
+                    $('[name=name]').parent().find('.on_error').removeClass('d-none')
+                    $('[name=name]').focus()
+                    count_error++
+                } else {
+                    $('[name=name]').parent().find('.on_error').addClass('d-none')
+                }
+
+                if(count_error) $('[type=submit]').prop('disabled', true)
+                else $('[type=submit]').prop('disabled', false)
+
+                return count_error
+            }
             
-            $(document).on('click',"#btn-add-unit",function () {
+            $(document).on('click',"#btn-add-unit",async function () {
+                let isError = await isCanAddUnit()
+                if(isError) {
+                    return 
+                }
                 $.ajax({
                     url: `/admin/units-ajax/`,
                     type: "GET",

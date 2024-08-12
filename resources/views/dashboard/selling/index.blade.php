@@ -245,11 +245,6 @@
             </div>
         </div>
     
-        <!--  Customizer -->
-        <a href="{{ route('home') }}" class="btn btn-primary p-3 rounded-circle d-flex align-items-center justify-content-center customizer-btn">
-            <i class="ti ti-home fs-7" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Beranda"></i>
-        </a>
-    
     @include('components.swal-message')
     @include('dashboard.selling.widgets.cashier-supply-hist-modal')
 
