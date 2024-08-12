@@ -72,12 +72,28 @@ class ProductRepository extends BaseRepository implements ProductInterface
         try{ $supplier_id = $data["supplier_id"]; }catch(\Throwable $th){ }
         
         if($supplier_id){
-            $product->supplierProducts()->delete();
+            // $product->supplierProducts()->delete();
+            $supplierProducts = $product->supplierProducts;
             
-            foreach ($data['supplier_id'] as $supplier_id) {
+            $supplierProductUnused = collect($supplierProducts)->filter(function ($item) use ($data) {
+                if(!in_array($item->supplier_id, $data['supplier_id'])){
+                    return $item;
+                }
+            });
+            
+            for ($i = 0; $i < count($data['supplier_id']); $i++) {
                 $data['supplier_id'] = $supplier_id;
-                $product->supplierProducts()->create($data);
+                $check_product_unit = $supplierProducts->where('supplier_id',$data['supplier_id'][$i])->first();
+                if(!$check_product_unit){
+                    $product->supplierProducts()->create($data);
+                }else {
+                    $check_product_unit->update(["supplier_id",$data['supplier_id'][$i]]);
+                }
             }
+
+            $supplierProductUnused->each(function($item) {
+                if($item) $item->update(["is_delete" => 1, "deleted_at" => now()]);
+            });
         }
 
         return $product;
