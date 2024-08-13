@@ -34,15 +34,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Route Api List
 Route::get('/list-year', [DashboardController::class, 'listTahun'])->name('dashboard.list-tahun');
-Route::get("/list-buyer",[SellingController::class, 'listBuyer'])->name('buyer.list-search');
-Route::get("/list-category",[CategoryController::class, 'listCategory'])->name('category.list-search');
-Route::get("/list-supplier",[SupplierController::class, 'listSupplier'])->name('supplier.list-search');
+Route::get("/list-buyer", [SellingController::class, 'listBuyer'])->name('buyer.list-search');
+Route::get("/list-category", [CategoryController::class, 'listCategory'])->name('category.list-search');
+Route::get("/list-supplier", [SupplierController::class, 'listSupplier'])->name('supplier.list-search');
 Route::get('/list-product', [ProductController::class, 'listProduct'])->name('product.list-search');
 Route::get('/list-cost-category', [CostController::class, 'listCategory'])->name('cost.category.list-search');
-Route::get("/data-history-transaction/by-buyer",[SellingController::class, 'dataUserTransactionHistoryLatest'])->name('transaction.find-by-user-product');
+Route::get("/data-history-transaction/by-buyer", [SellingController::class, 'dataUserTransactionHistoryLatest'])->name('transaction.find-by-user-product');
 
 // Route api for data table
-Route::name('data-table.')->prefix('data-table')->group(function() {
+Route::name('data-table.')->prefix('data-table')->group(function () {
     // data master
     Route::get("/list-purchase-history", [PurchasesController::class, 'tablePurchaseHistory'])->name('list-purchase-history');
     Route::get("/list-transaction-history", [SellingController::class, 'tableTransactionHistory'])->name('list-transaction-history');
@@ -59,32 +59,32 @@ Route::name('data-table.')->prefix('data-table')->group(function() {
     Route::get('/list-category', [CategoryController::class, 'tableCategory'])->name('list-category');
     Route::get('/list-unit', [UnitController::class, 'tableUnit'])->name('list-unit');
     Route::get('/list-cost', [CostController::class, 'tableCost'])->name('list-cost');
-    
+
     // data dashboard
     Route::get('/list-high-transaction', [SellingController::class, 'tableUserHighTransaction'])->name('list-high-transaction');
 });
 
 // Ruoute Api Transaction
-Route::post('/create-supplier',[SupplierController::class, 'storeAjax'])->name('api.supplier.store.ajax');
+Route::post('/create-supplier', [SupplierController::class, 'storeAjax'])->name('api.supplier.store.ajax');
 Route::post('/create-category', [CategoryController::class, 'storeAjax'])->name('api.category.store.ajax');
 Route::post('/create-unit', [UnitController::class, 'storeAjax'])->name('api.unit.store.ajax');
 Route::post('/create-cost-category', [CostController::class, 'createCategory'])->name('api.cost.category.store.ajax');
 
 // Route for api chart
-Route::name('chart.')->prefix('chart')->group(function() {
-    Route::get('/chart-penjualan',[ChartController::class, 'chartPenjualan'])->name('penjualan');
-    Route::get('/dashboard/chart-card',[ChartController::class, 'chartCard'])->name('card.dashboard');
+Route::name('chart.')->prefix('chart')->group(function () {
+    Route::get('/chart-penjualan', [ChartController::class, 'chartPenjualan'])->name('penjualan');
+    Route::get('/dashboard/chart-card', [ChartController::class, 'chartCard'])->name('card.dashboard');
 });
 
 // Route api for find data
-Route::name('find.')->prefix('find')->group(function (){
+Route::name('find.')->prefix('find')->group(function () {
     Route::get('/user/by-name-address', [UserController::class, 'findUser'])->name('user.email-address');
-    Route::name('buyer.')->prefix('buyer')->group(function (){
+    Route::name('buyer.')->prefix('buyer')->group(function () {
         Route::get('/by-name-address', [BuyerController::class, 'findBuyer'])->name('name-address');
         Route::post('/check-code', [BuyerController::class, 'checkCodeBuyer'])->name('check-code');
         Route::get('/{buyer}', [BuyerController::class, 'findBuyerById'])->name('by-id');
     });
-    Route::name('product.')->prefix('product')->group(function (){
+    Route::name('product.')->prefix('product')->group(function () {
         Route::get('/last-purchase', [PurchasesController::class, 'dataProductLastPurchase'])->name('last-purchase');
         Route::get('/last-product', [ProductController::class, 'lastProduct'])->name('last-product');
         Route::post('/check-code', [ProductController::class, 'checkCodeProduct'])->name('check-code');
@@ -92,4 +92,4 @@ Route::name('find.')->prefix('find')->group(function (){
 });
 
 Route::get('summary/laba-rugi', [CostController::class, 'sumLabaRugi'])->name('laba-rugi');
-Route::get('print/transaction-history/{selling}',[SellingController::class, 'printHistoryTransaction'])->name('print.transaction-history');
+Route::get('print/transaction-history/{selling}', [SellingController::class, 'printHistoryTransaction'])->name('print.transaction-history');
