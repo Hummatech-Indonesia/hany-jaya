@@ -76,7 +76,7 @@
                             <span>
                                 <i class="ti ti-package"></i> <!-- Ganti ikon di sini -->
                             </span>
-                            <span class="hide-menu">Stock Opname</span>
+                            <span class="hide-menu">Penyesuaian Stok</span>
                         </a>
                     </li>
                     @endrole
@@ -93,7 +93,7 @@
                                 <span>
                                     <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
                                 </span>
-                                <span class="hide-menu">Suplai Produk</span>
+                                <span class="hide-menu">Pembelian Produk</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
