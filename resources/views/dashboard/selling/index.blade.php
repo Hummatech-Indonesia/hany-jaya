@@ -76,7 +76,7 @@
                                     <div class="card mb-3">
                                         <div class="card-body p-3">
                                             <div class="form-group mb-3">
-                                                <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama <span class="text-danger">*</span></div><span class="text-info fs-3">(alt+ctrl+1)</span></label>
+                                                <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama <span class="text-danger">*</span></div><span class="text-info fs-3">(alt+1)</span></label>
                                                 <select name="name" class="" id="cust-name" tabindex="1">
                                                     <option value="">Pilih Pembeli</option>
                                                     @foreach ($buyers as $buyer)
@@ -85,15 +85,15 @@
                                                 </select>
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+ctrl+2)</span></label>
+                                                <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+2)</span></label>
                                                 <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label for="code" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-scan text-primary"></i> Kode Pembeli <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+ctrl+3)</span></label>
+                                                <label for="code" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-scan text-primary"></i> Kode Pembeli <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+3)</span></label>
                                                 <input type="text" required name="code" placeholder="Kode Pembeli" class="form-control" id="code" tabindex="2">
                                             </div>
                                             <div class="form-group ">
-                                                <label for="telp" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-phone text-primary"></i> No. Telp</div> <span class="text-info fs-3">(alt+ctrl+4)</span></label>
+                                                <label for="telp" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-phone text-primary"></i> No. Telp</div> <span class="text-info fs-3">(alt+4)</span></label>
                                                 <div class="input-group">
                                                     <div class="input-group-text">+62</div>
                                                     <input type="text" name="telp" placeholder="No Telepon Pembeli" class="form-control" id="telp" tabindex="2">
@@ -111,7 +111,7 @@
                                                     <i class="ti ti-credit-card"></i> Pembayaran
                                                 </div>
                                                 <div>
-                                                    (alt+ctrl+6)
+                                                    (alt+6)
                                                 </div>
                                             </div>
                                         </div>
@@ -183,7 +183,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="text-end text-primary">(alt+ctrl+enter)</div>
+                                            <div class="text-end text-primary">(alt+enter)</div>
                                             <button type="button" id="btn-open-modal" data-bs-toggle="modal" data-bs-target="#selling-modal" class="w-100 btn btn-lg btn-success"><i class="ti ti-shopping-cart"></i> Bayar</button>
                                         </div>
                                     </div>
@@ -201,7 +201,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                (alt+ctrl+5)
+                                                (alt+5)
                                             </div>
                                         </div>
                                     </div>
@@ -219,7 +219,6 @@
                                                         <tr class="fs-4 fw-semibold">
                                                             <th style="min-width: 180px;">Produk</th>
                                                             <th style="min-width: 150px;">Stok</th>
-                                                            <th style="min-width: 120px;">Satuan</th>
                                                             <th style="min-width: 150px;">Jumlah</th>
                                                             <th style="min-width: 150px;">Harga</th>
                                                             <th style="min-width: 150px;">Total</th>
@@ -320,16 +319,16 @@
             select_product.focus()
             
             let shortcuts = {
-                'alt+ctrl+1': function() { 
+                'alt+1': function() { 
                     if(select_cust.isFocused) select_cust.blur()
                     else select_cust.focus()
                 },
-                'alt+ctrl+2': function() { $('#cust-address').focus() },
-                'alt+ctrl+3': function() {$('#code').focus()},
-                'alt+ctrl+4': function() {$('#telp').focus()},
-                'alt+ctrl+5': function() { select_product.focus() },
-                'alt+ctrl+6': function() {shortcutChangeMethodHandler()},
-                'alt+ctrl+enter': async function() {
+                'alt+2': function() { $('#cust-address').focus() },
+                'alt+3': function() {$('#code').focus()},
+                'alt+4': function() {$('#telp').focus()},
+                'alt+5': function() { select_product.focus() },
+                'alt+6': function() {shortcutChangeMethodHandler()},
+                'alt+enter': async function() {
                     const count_error = await checkIsHasError()
                     if(count_error != 0) return 
                     $('#btn-open-modal').trigger('click')
@@ -519,7 +518,9 @@
                             if(response.data.unit.name === productUnit.unit.name) selected_price = productUnit.selling_price
                         });
 
-                        const latest_price = await getLatestBuy($('#cust-name').val(), $('#cust-address').val(), product_unit_id)
+                        const latest_buy = await getLatestBuy($('#cust-name').val(), $('#cust-address').val(), product_unit_id, false)
+                        const latest_price = latest_buy.selling_price
+                        const latest_qty = latest_buy.quantity
                         const latest_purchase_price = await getLatestPurchase(response.data.id, product_unit_id)
                         var newRow = `
                             <tr data-index="${current_index}" data-id="${response.data.id}" data-product="${str_res}">
@@ -536,18 +537,20 @@
                                     <div class="mb-0 text-start form-control border-0">
                                         <span class="stock">${formatNum(Math.round(response.data.quantity), true)}</span> <span class="quantity_stock">${response.data.unit.name}</span>
                                     </div>
-                                </td>
-                                <td>
-                                    <select name="product_unit_id[]" class="form-control product-unit" tabindex="5">
+                                    <select name="product_unit_id[]" class="d-none form-control product-unit" tabindex="5">
                                         ${product_units}
                                     </select>
                                 </td>
                                 <td>
                                     <div class="d-flex flex-row gap-2">
                                         <button type="button" class="btn btn-sm btn-danger p-2 btn-minus"  tabindex="5">-</button>
-                                        <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" tabindex="5"/>
+                                        <div>
+                                            <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" tabindex="5"/>
+                                            
+                                        </div>
                                         <button type="button" class="btn btn-sm btn-success p-2 btn-plus" tabindex="5">+</button>
                                     </div>
+                                    ${latest_qty ? `<div class="ps-4 text-primary last_qty">${formatNum(latest_qty)}</div>` : ''}
                                 </td>
                                 <td>
                                     <input type="text" value="${formatNum(selected_price, true)}" 
@@ -642,11 +645,14 @@
                 row.find('[name=product_unit_price\\[\\]]').val(selectedPrice);
 
                 let last_price_el = row.find('.last_price')
+                let last_qty_el = row.find('.last_qty')
                 let cust_name = $('#cust-name').val()
                 let cust_address = $('#cust-address').val()
                 let product_unit_id = row.find('.product-unit').val()
 
-                const latest_price = await getLatestBuy(cust_name, cust_address, product_unit_id)
+                const latest_buy = await getLatestBuy(cust_name, cust_address, product_unit_id, false)
+                const latest_price = latest_buy.selling_price
+                const latest_qty = latest_buy.quantity
                 const latest_purchase_price = await getLatestPurchase(row.data('id') , product_unit_id)
                 
                 row.find('.input-unit-price').attr('data-unit-purchase', latest_purchase_price)
@@ -659,6 +665,15 @@
                     }
                 } else if(!latest_price && last_price_el.length > 0) {
                     last_price_el.remove()
+                }
+                if(latest_qty) {
+                    if(last_qty_el.length < 1) {
+                        row.find('.input-quantity').closest('td').append(`<div class="ps-4 text-primary last_qty">${formatNum(latest_qty)}</div>`)
+                    } else {
+                        last_qty_el.html(formatNum(latest_qty))
+                    }
+                } else if(!latest_qty && last_qty_el.length > 0) {
+                    last_qty_el.remove()
                 }
                 changeTotalPrice();
                 checkIsHasError()
@@ -684,9 +699,9 @@
                 changeTotalPrice()
             })
 
-            async function getLatestBuy(buyer_name, buyer_address, product_unit_id) {
+            async function getLatestBuy(buyer_name, buyer_address, product_unit_id, price_only = true) {
                 const obj_price = await axios.get(`{{ route('transaction.find-by-user-product') }}?buyer_name=${buyer_name}&buyer_address=${buyer_address}&product_unit_id=${product_unit_id}`)
-                return (obj_price.data && obj_price.data.data) ? obj_price.data.data.selling_price : 0
+                return (obj_price.data && obj_price.data.data) ? ( price_only ? obj_price.data.data.selling_price : obj_price.data.data) : 0
             }
 
             async function getLatestPurchase(product_id, product_unit_id) {
@@ -699,8 +714,11 @@
                 const cust_address = $('#cust-address').val()
                 $('#tb-product tr[data-index]').each(async function(index) {
                     const product_unit_id = $(this).find('.product-unit').val();
-                    const latest_price = await getLatestBuy(cust_name, cust_address, product_unit_id)
+                    const latest_buy = await getLatestBuy(cust_name, cust_address, product_unit_id, false)
+                    const latest_price = latest_buy.selling_price
+                    const latest_qty = latest_buy.quantity
                     const last_price_el = $(this).find('.last_price')
+                    const last_qty_el = $(this).find('.last_qty')
                     if(latest_price) {
                         if(last_price_el.length < 1) {
                             $(this).find('.input-unit-price').parent().append(`<div class="text-primary last_price">Rp ${formatNum(latest_price)}</div>`)
@@ -709,6 +727,15 @@
                         }
                     } else if(!latest_price && last_price_el.length > 0) {
                         last_price_el.remove()
+                    }
+                    if(latest_qty) {
+                        if(last_qty_el.length < 1) {
+                            $(this).find('.input-quantity').closest('td').append(`<div class="text-primary ps-4 last_qty">${formatNum(latest_qty)}</div>`)
+                        } else {
+                            last_qty_el.html(formatNum(latest_qty))
+                        }
+                    } else if(!latest_qty && last_qty_el.length > 0) {
+                        last_qty_el.remove()
                     }
                 })
             }
