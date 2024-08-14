@@ -62,6 +62,7 @@
             <div class="body-wrapper">
                 <div class="bg-white">
                     @include('dashboard.layouts.cashier-header')
+                    @include('dashboard.selling.widgets.cashier-shortcut-modal')
                 </div>
                 <div class="container-fluid max-w-full">
                     <div>
@@ -76,7 +77,7 @@
                                     <div class="card mb-3">
                                         <div class="card-body p-3">
                                             <div class="form-group mb-3">
-                                                <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama <span class="text-danger">*</span></div><span class="text-info fs-3">(alt+1)</span></label>
+                                                <label for="cust-name" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-user-circle text-primary"></i> Nama <span class="text-danger">*</span></div><span class="text-info fs-3">(f1)</span></label>
                                                 <select name="name" class="" id="cust-name" tabindex="1">
                                                     <option value="">Pilih Pembeli</option>
                                                     @foreach ($buyers as $buyer)
@@ -85,15 +86,15 @@
                                                 </select>
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+2)</span></label>
+                                                <label for="cust-address" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-map-pin text-primary"></i> Alamat <span class="text-danger">*</span></div> <span class="text-info fs-3">(f2)</span></label>
                                                 <input type="text" name="address" placeholder="Alamat Pembeli" class="form-control" id="cust-address" tabindex="2">
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label for="code" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-scan text-primary"></i> Kode Pembeli <span class="text-danger">*</span></div> <span class="text-info fs-3">(alt+3)</span></label>
+                                                <label for="code" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-scan text-primary"></i> Kode Pembeli <span class="text-danger">*</span></div> <span class="text-info fs-3">(f3)</span></label>
                                                 <input type="text" required name="code" placeholder="Kode Pembeli" class="form-control" id="code" tabindex="2">
                                             </div>
                                             <div class="form-group ">
-                                                <label for="telp" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-phone text-primary"></i> No. Telp</div> <span class="text-info fs-3">(alt+4)</span></label>
+                                                <label for="telp" class="d-flex justify-content-between"><div class="fw-bolder"><i class="ti ti-phone text-primary"></i> No. Telp</div> <span class="text-info fs-3">(f4)</span></label>
                                                 <div class="input-group">
                                                     <div class="input-group-text">+62</div>
                                                     <input type="text" name="telp" placeholder="No Telepon Pembeli" class="form-control" id="telp" tabindex="2">
@@ -111,7 +112,7 @@
                                                     <i class="ti ti-credit-card"></i> Pembayaran
                                                 </div>
                                                 <div>
-                                                    (alt+6)
+                                                    (f6)
                                                 </div>
                                             </div>
                                         </div>
@@ -201,7 +202,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                (alt+5)
+                                                (f5)
                                             </div>
                                         </div>
                                     </div>
@@ -258,6 +259,15 @@
     <script>
         $(document).ready(function() {
 
+            function disableFunctionKeys(e) {
+                var functionKeys = new Array(112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 123);
+                if (functionKeys.indexOf(e.keyCode) > -1 || functionKeys.indexOf(e.which) > -1) {
+                    e.preventDefault();
+                }
+            };
+
+            $(document).on('keydown', disableFunctionKeys);
+
             changeMethod()
 
             let selected_products = []
@@ -299,7 +309,7 @@
                 plugins: ['restore_on_backspace'],
                 create: true,
                 maxItems: 1,
-                placeholder: "Pilih atau tambahkan pembeli",
+                placeholder: "Pilih atau tambahkan pembeli"
             })
 
             const select_cust = selectize_cust[0].selectize
@@ -310,6 +320,7 @@
                 maxItems: 1,
                 onChange: () => {
                     addNewProduct()
+                    productFocus()
                 }
             })
             const select_product = selectize_product[0].selectize
@@ -317,22 +328,75 @@
             select_product.setValue("")
 
             select_product.focus()
+
+            function productFocus() {
+                select_product.focus()
+            }
             
             let shortcuts = {
-                'alt+1': function() { 
+                'f1': function() { 
                     if(select_cust.isFocused) select_cust.blur()
                     else select_cust.focus()
                 },
-                'alt+2': function() { $('#cust-address').focus() },
-                'alt+3': function() {$('#code').focus()},
-                'alt+4': function() {$('#telp').focus()},
-                'alt+5': function() { select_product.focus() },
-                'alt+6': function() {shortcutChangeMethodHandler()},
+                'f2': function() { $('#cust-address').focus() },
+                'f3': function() {$('#code').focus()},
+                'f4': function() {$('#telp').focus()},
+                'f5': function() { select_product.focus() },
+                'f6': function() {shortcutChangeMethodHandler()},
                 'alt+enter': async function() {
                     const count_error = await checkIsHasError()
                     if(count_error != 0) return 
-                    $('#btn-open-modal').trigger('click')
+
+                    if(!$('#selling-modal').is(':visible')) $('#btn-open-modal').trigger('click')
+                    else $('button[type=submit]').trigger('click')
                 },
+                'alt+backspace': function() {
+                    let is_focus_input = $('#tb-product input:not([type=hidden]):focus')
+                    if(is_focus_input.length !== 1) return
+                    is_focus_input.each(function() {
+                        const all_tr = $('#tb-product tr[data-index]')
+                        const tr = $(this).closest('tr')
+                        const del_button = tr.find('.delete_product')
+
+                        $(function() {
+                            const index = all_tr.index(tr)
+                            if(all_tr.length === 1) select_product.focus()
+                            else if(index == 0) $(all_tr[index+1]).find('[name=formatted_quantity\\[\\]]').focus()
+                            else $(all_tr[index-1]).find('[name=formatted_quantity\\[\\]]').focus()
+                        })
+
+                        del_button.trigger('click')
+                    })
+                },
+                'arrowup': function() {
+                    let is_focus_input = $('#tb-product input:not([type=hidden]):focus')
+                    if(is_focus_input.length !== 1) return
+
+                    is_focus_input.each(function() {
+                        const all_tr = $('#tb-product tr[data-index]')
+                        const tr = $(this).closest('tr')
+                        const index = all_tr.index(tr)
+                        if (index == 0) {
+                            return
+                        }
+                        $(all_tr[index-1]).find('[name=formatted_quantity\\[\\]]').focus()
+                    })
+                },
+                'arrowdown': function() {
+                    let is_focus_input = $('#tb-product input:not([type=hidden]):focus')
+                    if(!is_focus_input.length) return
+                    if(is_focus_input.length == 1) {
+                        is_focus_input.each(function() {
+                            const all_tr = $('#tb-product tr[data-index]')
+                            const tr = $(this).closest('tr')
+                            const index = all_tr.index(tr)
+                            if (index == all_tr.length-1) {
+                                return
+                            }
+                            $(all_tr[index+1]).find('[name=formatted_quantity\\[\\]]').focus()
+                        })
+                    }
+                }
             };
 
             function shortcutChangeMethodHandler() {
@@ -371,6 +435,12 @@
                     shortcuts[shortcut](); // Trigger shortcut action
                 }
             });
+            $(document).on('keydown', function(event) {
+                if (event.altKey && event.key === 'Backspace') {
+                    event.preventDefault(); // Prevent the default browser action
+                }
+            });
+
 
             $(document).on('keydown', 'input', function(e) {
                 if (e.originalEvent.key === 'Enter') {
@@ -543,12 +613,12 @@
                                 </td>
                                 <td>
                                     <div class="d-flex flex-row gap-2">
-                                        <button type="button" class="btn btn-sm btn-danger p-2 btn-minus"  tabindex="5">-</button>
+                                        <button type="button" class="btn btn-sm btn-danger p-2 btn-minus">-</button>
                                         <div>
                                             <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" tabindex="5"/>
                                             
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-success p-2 btn-plus" tabindex="5">+</button>
+                                        <button type="button" class="btn btn-sm btn-success p-2 btn-plus">+</button>
                                     </div>
                                     ${latest_qty ? `<div class="ps-4 text-primary last_qty">${formatNum(latest_qty)}</div>` : ''}
                                 </td>
