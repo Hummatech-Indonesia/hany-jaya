@@ -19,9 +19,9 @@ class AdjustmentController extends Controller
     private AdjustmentHistoryInterface $adjustment;
 
     public function __construct(
-        ProductInterface $product, AdjustmentHistoryInterface $adjustment
-    )
-    {
+        ProductInterface $product,
+        AdjustmentHistoryInterface $adjustment
+    ) {
         $this->product = $product;
         $this->adjustment = $adjustment;
     }
@@ -40,7 +40,7 @@ class AdjustmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.adjustment.adjustment');
     }
 
     /**
@@ -83,19 +83,20 @@ class AdjustmentController extends Controller
         //
     }
 
-     /**
+    /**
      * update stock
      *
      * @return Returntype
      */
-    public function adjustmentStock(AdjustmentHistoryRequest $request, Product $product): RedirectResponse
+    public function adjustmentStock(Request $request): RedirectResponse
     {
+        dd($request->all());
         $data = $request->validated();
         $data["old_stock"] = $product->quantity;
         $data["user_id"] = auth()->user()->id;
-        
+
         DB::beginTransaction();
-        try{
+        try {
             $test = $this->product->update($product->id, [
                 "quantity" => ($data['new_stock'] ?? $product->quantity),
                 "small_unit_id" => $product->unit_id
@@ -104,10 +105,10 @@ class AdjustmentController extends Controller
 
             DB::commit();
             return to_route('admin.adjustments.index')->with('success', trans('alert.update_success'));
-        }catch(\Throwable $th){
+        } catch (\Throwable $th) {
             dd($th->getMessage());
             DB::rollBack();
-            return to_route('admin.adjustments.index')->with('error', 'Gagal merubah stock dengan kesalahan => '.$th->getMessage());
+            return to_route('admin.adjustments.index')->with('error', 'Gagal merubah stock dengan kesalahan => ' . $th->getMessage());
         }
     }
 
@@ -116,7 +117,7 @@ class AdjustmentController extends Controller
      */
     public function tableAdjustmentHistory()
     {
-        $data = $this->adjustment->with(['product','user']); 
+        $data = $this->adjustment->with(['product', 'user']);
 
         return BaseDatatable::TableV2($data->toArray());
     }

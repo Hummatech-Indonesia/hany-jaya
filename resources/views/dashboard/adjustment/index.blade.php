@@ -11,10 +11,9 @@
                         <h4 class="fw-semibold mb-8">Penyesuaian Stok</h4>
                         <p>Riwayat perubahan stok produk.</p>
                         @role('admin')
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#modal-adjust-stock">
+                            <a type="button" class="btn btn-primary" href="{{route('admin.adjustments.create')}}">
                                 Sesuaikan Stok
-                            </button>
+                            </a>
                         @endrole
                         @include('dashboard.adjustment.widgets.modal-adjust-stock')
                     </div>

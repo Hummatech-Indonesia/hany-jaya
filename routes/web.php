@@ -86,18 +86,19 @@ Route::middleware('auth')->group(function () {
         Route::prefix('selling')->name('selling.')->group(function () {
             Route::get('history', [SellingController::class, 'history'])->name('history');
         });
+
         Route::prefix('adjustments')->name('adjustments.')->group(function () {
-            Route::post('{product}', [AdjustmentController::class, 'adjustmentStock'])->name('update-stock');
+            Route::post('/', [AdjustmentController::class, 'adjustmentStock'])->name('update-stock');
         });
     });
     Route::prefix('admin/selling')->name('admin.selling.')->middleware('role:admin|cashier')->group(function () {
         Route::get('history', [SellingController::class, 'history'])->name('history');
     });
-    Route::prefix('accountant')->name('accountant.')->middleware("role:admin|owner")->group(function() {
-        Route::get('/', function() {
+    Route::prefix('accountant')->name('accountant.')->middleware("role:admin|owner")->group(function () {
+        Route::get('/', function () {
             return view('dashboard.accountant.index');
         })->name('index');
-        Route::get('/cost', function() {
+        Route::get('/cost', function () {
             return view('dashboard.accountant.cost');
         })->name('cost');
     });
