@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
+use App\Helpers\BaseDatatable;
 use App\Helpers\BaseResponse;
 use App\Models\Buyer;
 use Illuminate\Contracts\View\View;
@@ -86,5 +87,11 @@ class BuyerController extends Controller
             "message" => "Code dapat digunakan",
             "data" => true
         ]);
+    }
+
+    public function tableBuyer(Request $request) 
+    {
+        $data = $this->buyer->getBuyerV2($request);
+        return BaseDatatable::Table($data);
     }
 }

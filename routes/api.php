@@ -59,6 +59,7 @@ Route::name('data-table.')->prefix('data-table')->group(function () {
     Route::get('/list-category', [CategoryController::class, 'tableCategory'])->name('list-category');
     Route::get('/list-unit', [UnitController::class, 'tableUnit'])->name('list-unit');
     Route::get('/list-cost', [CostController::class, 'tableCost'])->name('list-cost');
+    Route::get('/list-buyer', [BuyerController::class, 'tableBuyer'])->name('list-buyer');
 
     // data dashboard
     Route::get('/list-high-transaction', [SellingController::class, 'tableUserHighTransaction'])->name('list-high-transaction');

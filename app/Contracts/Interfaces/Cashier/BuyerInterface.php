@@ -19,4 +19,5 @@ interface BuyerInterface extends StoreInterface, GetWhereInterface, ShowInterfac
      */
 
     public function getBuyer(Request $request): mixed;
+    public function getBuyerV2(Request $request): mixed;
 }

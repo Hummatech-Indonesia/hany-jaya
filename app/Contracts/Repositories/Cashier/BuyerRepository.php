@@ -110,4 +110,18 @@ class BuyerRepository extends BaseRepository implements BuyerInterface
                 $query->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('address', 'LIKE', '%' . $request->search . '%');
             })->get();
     }
+
+    /**
+     * getBuyer with query search
+     *
+     * @return mixed
+     */
+    public function getBuyerV2(Request $request): mixed
+    {
+        return $this->model->query()
+            ->with('sellings.detailSellings','payDebts')
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('address', 'LIKE', '%' . $request->search . '%');
+            });
+    }
 }
