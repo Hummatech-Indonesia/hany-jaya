@@ -75,6 +75,10 @@
                 ]
             })
 
+            $(document).on('change', '#category_id', function(e) {
+                tb_adjust_history.draw()
+            })
+
             $(document).on('change', '.btn-edit-quantity', function () {
                 let data = $(this).data('data')
                 products.map(p => {
