@@ -23,9 +23,6 @@
                 },
                 ajax: {
                     url: "{{ route('data-table.list-product') }}",
-                    data: {
-                        'category_id': $('#category_id').val()
-                    }
                 },
                 columns: [
                     {
@@ -76,7 +73,10 @@
             })
 
             $(document).on('change', '#category_id', function(e) {
-                tb_adjust_history.draw()
+                tb_adjust_history.ajax.url("{{route('data-table.list-product')}}?category_id=" + $('#category_id').val())
+                tb_adjust_history.ajax.reload()
+
+                console.log($('#category_id').val())
             })
 
             $(document).on('change', '.btn-edit-quantity', function () {
