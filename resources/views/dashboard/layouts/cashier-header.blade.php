@@ -17,7 +17,16 @@
         </div>
         <div class="justify-content-end d-block" id="navbarNav">
             <div class="d-flex align-items-center justify-content-between">
-                <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
+                <ul class="navbar-nav flex-row gap-2 ms-auto align-items-center justify-content-center">
+                    <li class="nav-item dropdown">
+                        <div class="d-flex align-items-center">
+                            <div class="card bg-primary-subtle m-0">
+                                <button data-bs-toggle="modal" data-bs-target="#shortcut-list-modal" class="btn btn-primary d-flex justify-content-center align-items-center" title="daftar shortcut">
+                                    <i class="ti ti-info-circle fs-6"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
                     <li class="nav-item dropdown">
                         <div class="d-flex align-items-center">
                             <div class="card bg-primary-subtle m-0">
