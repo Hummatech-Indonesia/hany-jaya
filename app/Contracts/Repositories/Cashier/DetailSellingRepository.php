@@ -58,6 +58,9 @@ class DetailSellingRepository extends BaseRepository implements DetailSellingInt
         ->leftJoin('products','detail_sellings.product_id','=','products.id')
         ->leftJoin('product_units','detail_sellings.product_unit_id','=','product_units.id')
         ->leftJoin('units','product_units.unit_id','=','units.id')
-        ->where('detail_sellings.product_id',$request->product_id);
+        ->where('detail_sellings.product_id',$request->product_id)
+        ->when($request->buyer_code, function ($query) use ($request) {
+            $query->where('buyers.code', $request->buyer_code);
+        });
     }
 }
