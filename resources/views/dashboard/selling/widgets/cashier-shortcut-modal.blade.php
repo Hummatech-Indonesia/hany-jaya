@@ -54,6 +54,14 @@
                             <td><kbd>alt</kbd> + <kbd>enter</kbd></td>
                             <td>Tampilkan popup daftar pembelian, kemudian jika di klik lagi akan melakukan submit</td>
                         </tr>
+                        <tr>
+                            <td><kbd>alt</kbd> + <kbd>h</kbd></td>
+                            <td>Tampilkan popup riwayat pembelian dan penjualan produk</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>alt</kbd> + <kbd>u</kbd></td>
+                            <td>Tampilkan popup form untuk merubah harga produk</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

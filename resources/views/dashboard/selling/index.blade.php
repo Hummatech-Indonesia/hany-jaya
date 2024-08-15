@@ -63,6 +63,7 @@
                 <div class="bg-white">
                     @include('dashboard.layouts.cashier-header')
                     @include('dashboard.selling.widgets.cashier-shortcut-modal')
+                    @include('dashboard.selling.widgets.cashier-update-price')
                 </div>
                 <div class="container-fluid max-w-full">
                     <div>
@@ -257,7 +258,13 @@
     @include('components.swal-toast')
     @stack('custom-script')
     <script>
+        var fn_focus_last = () => {}
         $(document).ready(function() {
+            $(document).on('hide.bs.modal', '.modal', function() {
+                setTimeout(() => {
+                    fn_focus_last()
+                }, 100)
+            })
 
             function disableFunctionKeys(e) {
                 var functionKeys = new Array(112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 123);
@@ -305,11 +312,16 @@
                 $('#selling-modal').modal('hide')
             })
 
+            $(document).on('focus', 'input', function() {
+                fn_focus_last = () => {$(this).focus()}
+            })
+
             const selectize_cust = $('#cust-name').selectize({
                 plugins: ['restore_on_backspace'],
                 create: true,
                 maxItems: 1,
-                placeholder: "Pilih atau tambahkan pembeli"
+                placeholder: "Pilih atau tambahkan pembeli",
+                onFocus: () => {setSelectizeFocus('cust')}
             })
 
             const select_cust = selectize_cust[0].selectize
@@ -321,6 +333,9 @@
                 onChange: () => {
                     addNewProduct()
                     productFocus()
+                },
+                onFocus: () => {
+                    setSelectizeFocus('product')
                 }
             })
             const select_product = selectize_product[0].selectize
@@ -331,6 +346,11 @@
 
             function productFocus() {
                 select_product.focus()
+            }
+
+            function setSelectizeFocus(type) {
+                if(type === 'product') fn_focus_last = () => {select_product.focus()}
+                if(type === 'cust') fn_focus_last = () => {select_cust.focus()}
             }
             
             let shortcuts = {
@@ -396,7 +416,29 @@
                             $(all_tr[index+1]).find('[name=formatted_quantity\\[\\]]').focus()
                         })
                     }
-                }
+                },
+                'alt+h': function() {
+                    let is_focus_input = $('#tb-product input:not([type=hidden]):focus')
+                    if(is_focus_input.length !== 1) return
+                    is_focus_input.each(function() {
+                        const all_tr = $('#tb-product tr[data-index]')
+                        const tr = $(this).closest('tr')
+                        const show_button = tr.find('.btn-show-history')
+
+                        show_button.trigger('click')
+                    })
+                },
+                'alt+u': function() {
+                    let is_focus_input = $('#tb-product input:not([type=hidden]):focus')
+                    if(is_focus_input.length !== 1) return
+                    is_focus_input.each(function() {
+                        const all_tr = $('#tb-product tr[data-index]')
+                        const tr = $(this).closest('tr')
+                        const show_button = tr.find('.btn-show-modal-update')
+
+                        show_button.trigger('click')
+                    })
+                },
             };
 
             function shortcutChangeMethodHandler() {
@@ -435,14 +477,9 @@
                     shortcuts[shortcut](); // Trigger shortcut action
                 }
             });
-            $(document).on('keydown', function(event) {
-                if (event.altKey && event.key === 'Backspace') {
-                    event.preventDefault(); // Prevent the default browser action
-                }
-            });
-
 
             $(document).on('keydown', 'input', function(e) {
+                if($(this).closest('#modal-update-product').length !== 0) return;
                 if (e.originalEvent.key === 'Enter') {
                     e.preventDefault();
                     return false;
@@ -567,18 +604,18 @@
                             max: response.data.quantity
                         }
                         if(!selected_products.find(prod => prod.id == data_check_product.id)) selected_products.push(data_check_product)
-
+                        
                         var product_units = '';
                         var selected_price = 0;
                         $('#tb-product tr th').parent().remove()
                         var latest_index = $('#tb-product tr[data-index]').last().data('index')
                         var current_index = latest_index ? latest_index+1 : 1
                         var product_unit_id = 0
-
+                        
                         $.each(response.data.product_units, function(index, productUnit) {
                             var selected = response.data.unit.id === productUnit.unit_id ? 'selected' : '';
                             if(response.data.unit.id === productUnit.unit_id) product_unit_id = productUnit.id
-
+                            
                             if(selected == 'selected') product_unit_id = productUnit.id
                             product_units += `
                                 <option value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
@@ -589,8 +626,8 @@
                         });
 
                         const latest_buy = await getLatestBuy($('#cust-name').val(), $('#cust-address').val(), product_unit_id, false)
-                        const latest_price = latest_buy.selling_price
-                        const latest_qty = latest_buy.quantity
+                        const latest_price = latest_buy?.selling_price
+                        const latest_qty = latest_buy?.quantity
                         const latest_purchase_price = await getLatestPurchase(response.data.id, product_unit_id)
                         var newRow = `
                             <tr data-index="${current_index}" data-id="${response.data.id}" data-product="${str_res}">
@@ -637,8 +674,9 @@
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-center align-items-center gap-1">
-                                        <button type="button" data-id="${current_index}" class="btn btn-danger delete_product" tabindex="5"><i class="ti ti-trash"></i></button>
+                                        <button type="button" data-id="${current_index}" class="btn btn-danger delete_product"><i class="ti ti-trash"></i></button>
                                         <button type="button" data-product-id="${response.data.id}" data-bs-toggle="modal" data-bs-target="#modal-supply-history" class="btn btn-info btn-show-history" ><i class="ti ti-list"></i></button>
+                                        <button type="button" data-product-id="${response.data.id}" data-product="${str_res}" class="btn btn-primary btn-show-modal-update"><i class="ti ti-edit"></i></button>
                                     </div>
                                 </td>
                             </tr>`;
@@ -721,8 +759,8 @@
                 let product_unit_id = row.find('.product-unit').val()
 
                 const latest_buy = await getLatestBuy(cust_name, cust_address, product_unit_id, false)
-                const latest_price = latest_buy.selling_price
-                const latest_qty = latest_buy.quantity
+                const latest_price = latest_buy?.selling_price
+                const latest_qty = latest_buy?.quantity
                 const latest_purchase_price = await getLatestPurchase(row.data('id') , product_unit_id)
                 
                 row.find('.input-unit-price').attr('data-unit-purchase', latest_purchase_price)
@@ -770,8 +808,12 @@
             })
 
             async function getLatestBuy(buyer_name, buyer_address, product_unit_id, price_only = true) {
-                const obj_price = await axios.get(`{{ route('transaction.find-by-user-product') }}?buyer_name=${buyer_name}&buyer_address=${buyer_address}&product_unit_id=${product_unit_id}`)
-                return (obj_price.data && obj_price.data.data) ? ( price_only ? obj_price.data.data.selling_price : obj_price.data.data) : 0
+                axios.get(`{{ route('transaction.find-by-user-product') }}?buyer_name=${buyer_name}&buyer_address=${buyer_address}&product_unit_id=${product_unit_id}`)
+                    .then((res) => {
+                        return (res.data && res.data.data) ? ( price_only ? res.data.data.selling_price : res.data.data) : {}
+                    }).catch((err) => {
+                        return {}
+                    })
             }
 
             async function getLatestPurchase(product_id, product_unit_id) {
@@ -785,8 +827,8 @@
                 $('#tb-product tr[data-index]').each(async function(index) {
                     const product_unit_id = $(this).find('.product-unit').val();
                     const latest_buy = await getLatestBuy(cust_name, cust_address, product_unit_id, false)
-                    const latest_price = latest_buy.selling_price
-                    const latest_qty = latest_buy.quantity
+                    const latest_price = latest_buy?.selling_price
+                    const latest_qty = latest_buy?.quantity
                     const last_price_el = $(this).find('.last_price')
                     const last_qty_el = $(this).find('.last_qty')
                     if(latest_price) {

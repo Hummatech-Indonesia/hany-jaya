@@ -47,6 +47,14 @@
                             <span class="hide-menu">Data Pengguna</span>
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.buyers.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-user"></i> <!-- Ganti ikon di sini -->
+                            </span>
+                            <span class="hide-menu">Data Pembeli</span>
+                        </a>
+                    </li>
                     
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.suppliers.index') }}" aria-expanded="false">
