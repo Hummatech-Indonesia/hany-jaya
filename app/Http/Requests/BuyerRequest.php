@@ -11,7 +11,7 @@ class BuyerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,10 +22,11 @@ class BuyerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'address' => 'required',
-            'code' => 'required',
+            'name' => 'sometimes|required',
+            'address' => 'sometimes|required',
+            'code' => 'sometimes|required',
             'limit_debt' => 'nullable',
+            'limit_time_debt' => 'nullable',
             'limit_date_debt' => 'nullable'
         ];
     }
@@ -42,6 +43,7 @@ class BuyerRequest extends FormRequest
     public function prepareForValidation()
     {
         if(!$this->limit_debt) $this->merge(['limit_debt' => null]); 
+        if(!$this->limit_time_debt) $this->merge(['limit_time_debt' => null]); 
         if(!$this->limit_date_debt) $this->merge(['limit_date_debt' => null]); 
     }
 }

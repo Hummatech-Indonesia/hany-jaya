@@ -31,7 +31,7 @@ class BaseResponse {
             "status" => 500,
             "message" => $message,
             "data" => null
-        ]);
+        ], 500);
     }
 
     public static function Custom(int $status, string $message, mixed $data){
@@ -39,6 +39,6 @@ class BaseResponse {
             "status" => $status,
             "message" => $message,
             "data" => $data
-        ]);
+        ], $status);
     }
 }

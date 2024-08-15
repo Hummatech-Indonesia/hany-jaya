@@ -129,6 +129,7 @@ class BuyerController extends Controller
     {
         $data = $request->validated();
         $data['limit_debt'] = $data['limit_debt'] ?? $buyer->limit_debt;
+        $data['limit_time_debt'] = $data['limit_time_debt'] ?? $buyer->limit_time_debt;
         $data['limit_date_debt'] = $data['limit_date_debt'] ?? $buyer->limit_date_debt;
 
         $this->buyer->update($buyer->id, $data);

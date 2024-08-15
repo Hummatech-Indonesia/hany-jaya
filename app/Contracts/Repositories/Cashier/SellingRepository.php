@@ -172,6 +172,12 @@ class SellingRepository extends BaseRepository implements SellingInterface
         })
         ->when($request->selling_id, function ($query) use ($request){
             $query->where('id',$request->selling_id);
+        })
+        ->when($request->product_id, function ($query) use ($request){
+            $query->where('product_id',$request->product_id);
+        })
+        ->when($request->buyer_code, function ($query) use ($request){
+            $query->whereRelation('buyer','code',$request->buyer_code);
         });
     }
     

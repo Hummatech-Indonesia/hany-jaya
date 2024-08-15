@@ -185,6 +185,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
     public function getWhereV2(array $data): mixed
     {
         return $this->model->query()
+            ->with('productUnits')
             ->when(count($data) > 0, function ($query) use ($data){ 
                 foreach($data as $item => $value) {
                     $query->where($item, $data[$item]);
