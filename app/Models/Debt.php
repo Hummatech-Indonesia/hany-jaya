@@ -18,7 +18,7 @@ class Debt extends Model implements HasBuyer, HasSelling
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'buyer_id', 'selling_id', 'nominal'
+        'id', 'buyer_id', 'selling_id', 'nominal', 'paid_off'
     ];
 
     /**

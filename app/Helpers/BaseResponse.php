@@ -28,10 +28,10 @@ class BaseResponse {
 
     public static function Error(string $message){
         return response()->json([
-            "status" => 500,
+            "status" => 400,
             "message" => $message,
             "data" => null
-        ], 500);
+        ], 400);
     }
 
     public static function Custom(int $status, string $message, mixed $data){

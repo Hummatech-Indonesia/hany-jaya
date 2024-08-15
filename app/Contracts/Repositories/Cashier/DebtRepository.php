@@ -127,4 +127,22 @@ class DebtRepository extends BaseRepository implements DebtInterface
         "debt" as type')
         ->where('buyer_id', $request->buyer_id);
     }
+
+    /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getWhereV2(array $data): mixed
+    {
+        return $this->model->query()
+            ->when(count($data) > 0, function ($query) use ($data){
+                foreach($data as $index => $value){
+                    $query->where($index, $value);   
+                }
+            })
+            ->orderBy('created_at','ASC')
+            ->get();
+    }
 }

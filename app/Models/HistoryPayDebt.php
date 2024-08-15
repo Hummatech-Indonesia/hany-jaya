@@ -15,7 +15,7 @@ class HistoryPayDebt extends Model implements HasBuyer
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id', 'buyer_id', 'pay_debt'
+        'id', 'buyer_id', 'pay_debt', 'desc'
     ];
 
 

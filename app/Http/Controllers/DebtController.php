@@ -12,6 +12,7 @@ use App\Services\Cashier\DebtService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DebtController extends Controller
 {
@@ -57,9 +58,36 @@ class DebtController extends Controller
         if($buyer->debt < $request->pay_debt){
             return redirect()->back()->with('error','Uang pembayaran hutang melebihi jumlah hutang');
         }
-        $this->historyPayDebt->store($data);
-        $buyer->update(['debt' => $buyer->debt - intval($data['pay_debt'])]);
-        return redirect()->back()->with('success', 'Sukses Membayar Hutang');
+
+        $debts = $this->debt->getWhereV2(['buyer_id' => $buyer->id, 'paid_off' => 0]);
+        $date_limit = null;
+        
+        $pay_debt = $request->pay_debt;
+
+        DB::beginTransaction();
+        try{ 
+            foreach($debts as $debt){
+                if(($debt->remind_debt - $pay_debt) < 0){
+                    $debt->update(['paid_off' => 1, 'remind_debt' => 0]);
+                    $pay_debt -= $debt->remind_debt;
+                }else if(($debt->nominal - $pay_debt) == 0){
+                    $debt->update(['paid_off' => 1, 'remind_debt' => 0]);
+                }else {
+                    $debt->update(['remind_debt' => $debt->remind_debt - $pay_debt]);
+                    $date_limit = $debt->created_at;
+                    break;
+                }
+            }
+    
+            $this->historyPayDebt->store($data);
+            $buyer->update(['debt' => $buyer->debt - intval($data['pay_debt']), 'limit_date_debt' => $date_limit]);
+       
+            DB::commit();
+            return redirect()->back()->with('success', 'Sukses Membayar Hutang');
+        }catch(\Throwable $th){
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal dalam membayar hutang dengan error => '.$th->getMessage());
+        }
     }
 
     /**

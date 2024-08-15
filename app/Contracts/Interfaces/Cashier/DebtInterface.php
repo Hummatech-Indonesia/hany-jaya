@@ -20,4 +20,12 @@ interface DebtInterface extends CustomPaginationInterface, StoreInterface, Updat
 
     public function getDetailDebt(Request $request): mixed;
 
+    /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getWhereV2(array $data): mixed;
+
 }

@@ -14,7 +14,8 @@ class PayDebtRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pay_debt' => 'required|numeric|min:1'
+            'pay_debt' => 'required|numeric|min:1',
+            'desc' => 'nullable'
         ];
     }
 
