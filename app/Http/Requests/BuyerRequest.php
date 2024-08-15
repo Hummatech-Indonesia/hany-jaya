@@ -26,6 +26,7 @@ class BuyerRequest extends FormRequest
             'address' => 'required',
             'code' => 'required',
             'limit_debt' => 'nullable',
+            'limit_time_debt' => 'nullable',
             'limit_date_debt' => 'nullable'
         ];
     }

@@ -21,6 +21,7 @@ class Buyer extends Model implements HasSellings
         'telp',
         'code',
         'limit_debt',
+        'limit_time_debt',
         'limit_date_debt'
     ];
 
