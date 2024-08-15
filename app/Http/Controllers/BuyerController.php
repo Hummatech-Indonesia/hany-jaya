@@ -96,6 +96,11 @@ class BuyerController extends Controller
         return BaseDatatable::Table($data);
     }
 
+    public function index()
+    {
+        return view('dashboard.buyers.index');
+    }
+
     public function create()
     {
 
@@ -110,7 +115,12 @@ class BuyerController extends Controller
         return redirect()->route('admin.buyers.index')->with('success',' Berhasil membuat data');
     }
 
-    public function edit()
+    public function show(Buyer $buyer)
+    {
+
+    }
+
+    public function edit(Buyer $buyer)
     {
 
     }
@@ -124,5 +134,10 @@ class BuyerController extends Controller
         $this->buyer->update($buyer->id, $data);
 
         return redirect()->route('admin.buyers.index')->with('update',' Berhasil mengupdate data');
+    }
+
+    public function delete(Buyer $buyer)
+    {
+
     }
 }
