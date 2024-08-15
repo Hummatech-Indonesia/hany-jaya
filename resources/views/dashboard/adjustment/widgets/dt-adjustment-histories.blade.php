@@ -45,8 +45,11 @@
                     }, {
                         data: "new_stock",
                         title: "Stok Baru",
-                        render: (data, type) => {
-                            return formatNum(data, true)
+                        render: (data, type, row) => {
+                            return `<div>
+                                <td>${formatNum(data, true)}</td>
+                                    ${(row.new_stock > row.old_stock) ? `<td><i class="ti ti-arrow-up text-success"></i></td>` : `<td><i class="ti ti-arrow-down text-danger"></i></td>`}
+                                </div>`;
                         }
                     }, {
                         data: "created_at",

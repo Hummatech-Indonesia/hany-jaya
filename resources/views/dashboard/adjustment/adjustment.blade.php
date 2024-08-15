@@ -67,6 +67,7 @@
                         })
                         select_category_id.clearOptions()
                         select_category_id.addOption(categories)
+                        select_category_id.setValue(categories[0].value)
                     }
                 })
             }
