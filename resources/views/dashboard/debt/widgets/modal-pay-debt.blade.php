@@ -35,6 +35,15 @@
                             <input type="hidden" name="pay_debt">
                         </div>
                     </div>
+
+                    <div class="col-md-3 mb-md-3">
+                        <label for="desc">Keterangan <span class="text-danger">*</span></label>
+                    </div>
+                    <div class="col-md-9 mb-3">
+                        <div class="input-group">
+                            <textarea class="form-control" id="desc" name="desc" required></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
