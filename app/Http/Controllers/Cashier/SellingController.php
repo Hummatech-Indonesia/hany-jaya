@@ -50,9 +50,9 @@ class SellingController extends Controller
      *
      * @return View
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        $buyers = $this->buyer->get();
+        $buyers = $this->buyer->getBuyerCustomLimit($request)->get();
         $products = $this->product->get();
         return view('dashboard.selling.index', compact('buyers', 'products'));
     }
@@ -105,6 +105,13 @@ class SellingController extends Controller
         try{ 
             $service = $this->sellingService->invoiceNumber($data);
             if (is_array($service)) {
+                // checking success invoice
+                if(!$service["success"]){
+                    DB::rollBack();
+                    return BaseResponse::Custom(400, 'Pembeli ini telah melewati limit pembelian, silahkan check ulang!',null);
+                }
+                unset($service["success"]);
+
                 $selling = $this->selling->store($service);
     
                 $debt_price = 0;

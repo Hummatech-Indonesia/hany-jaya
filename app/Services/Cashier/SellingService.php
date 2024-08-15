@@ -80,9 +80,14 @@ class SellingService
 
             $data["buyer_id"] = $buyer->id;
         } else {
+            
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
                 $buyer->update(['debt' => $buyer->debt + $sellingPrice]);
             }
+            
+            if(($buyer->debt + $sellingPrice) > $buyer->limimt_debt) $data['success'] = false;
+            else $data['success'] = true;
+
 
             $data['buyer_id'] = $buyer->id;
         }
