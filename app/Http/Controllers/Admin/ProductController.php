@@ -319,7 +319,8 @@ class ProductController extends Controller
 
     public function updatePriceProduct(ProductPriceRequest $request)
     {
-        $data = $this->product->getWhere(["id" => $request->product_id]);
+        $data = $this->product->getWhereV2(["id" => $request->product_id]);
+        
         if(!$data) return BaseResponse::Custom(404, 'Tidak dapat menemukan data produk', null);
 
         $product = $data->productUnits->first();
