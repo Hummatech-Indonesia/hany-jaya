@@ -1,4 +1,5 @@
 <table class="table align-middle" id="table-adjustment-history"></table>
+@include('components.swal-toast')
 
 @push('custom-style')
     <link href="{{asset('assets/libs/datatablesnet/datatables.min.css')}}" rel="stylesheet">
@@ -17,7 +18,7 @@
                 processing: true,
                 serverSide: true,
                 order: [[5, 'desc']],
-                lengthMenu: [[2, 5, 10, 25, 50, -1], [2, 5, 10, 25, 50, "Semua"]],
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Semua"]],
                 language: {
                     processing: `Memuat...`
                 },
@@ -64,9 +65,10 @@
                             return `<input data-data="${JSON.stringify(product).replace(/"/g, '&quot;')}" class="form-control btn-edit-quantity" value="${product.newQuantity}" />`
                         }
                     }, {
-                        title: "Kererangan",
+                        title: "Keterangan",
                         render: (data, type, row) => {
-                            return `<textarea class="form-control form-control-sm" >-</textarea/>`
+                            let product = products.find(p => p.id === row.id)
+                            return `<textarea data-data="${JSON.stringify(product).replace(/"/g, '&quot;')}" class="form-control form-control-sm input-keterangan" >${product.hasOwnProperty('note') ? product.note : '-'}</textarea/>`
                         },
                     }
                 ]
@@ -76,7 +78,6 @@
                 tb_adjust_history.ajax.url("{{route('data-table.list-product')}}?category_id=" + $('#category_id').val())
                 tb_adjust_history.ajax.reload()
 
-                console.log($('#category_id').val())
             })
 
             $(document).on('change', '.btn-edit-quantity', function () {
@@ -84,6 +85,16 @@
                 products.map(p => {
                     if (p.id === data.id) {
                         p.newQuantity = $(this).val()
+                    }
+                })
+                tb_adjust_history.draw()
+            })
+
+            $(document).on('change', '.input-keterangan', function () {
+                let data = $(this).data('data')
+                products.map(p => {
+                    if (p.id === data.id) {
+                        p.note = $(this).val()
                     }
                 })
                 tb_adjust_history.draw()
@@ -102,10 +113,12 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(data) {
-                            if (data.success) {
-                                toastr.success(data.success)
-                                tb_adjust_history.draw()
-                            }
+                            console.log(data)
+                            Toaster('success', "Berhasil menyesuaikan stok")
+                            tb_adjust_history.draw()
+                            setTimeout(function(){
+                            }, 2000)
+                            window.location.href = "{{ route('admin.adjustments.index') }}"
                         }
                     })
                 }
