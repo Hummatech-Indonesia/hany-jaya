@@ -69,6 +69,8 @@ class SellingService
             $sellingPrice += $data['selling_price'][$i];
         }
 
+        $data["success"] = true;
+
         if ($buyer == null) {
             $telp = null; 
             $code = null; 
@@ -87,6 +89,9 @@ class SellingService
         } else {
             
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
+                if(($buyer->debt + $sellingPrice) > $buyer->limit_debt || date('Y-m-d', $buyer->limit_date_debt) < date('Y-m-d')) $data['success'] = false;
+                else $data['success'] = true;
+
                 $payload = ['debt' => $buyer->debt + $sellingPrice, 'limit_debt' => $limit_debt, 'limit_date_debt' => $limit_date_debt, 'limit_time_debt' => $limit_time_debt];
                 if($buyer->limit_debt) unset($payload['limit_debt']);
                 if($buyer->limit_time_debt) unset($payload['limit_time_debt']);
@@ -95,9 +100,6 @@ class SellingService
                 $buyer->update($payload);
             }
             
-            if(($buyer->debt + $sellingPrice) > $buyer->limimt_debt) $data['success'] = false;
-            else $data['success'] = true;
-
 
             $data['buyer_id'] = $buyer->id;
         }
@@ -105,6 +107,9 @@ class SellingService
         
         if($data['status_payment'] == StatusEnum::SPLIT->value) {
             if((int)($data["debt"] ?? 0) > 0){
+                if(($buyer->debt + $sellingPrice) > $buyer->limit_debt || date('Y-m-d', $buyer->limit_date_debt) < date('Y-m-d')) $data['success'] = false;
+                else $data['success'] = true;
+
                 $payload = ['debt' => $buyer->debt + ($data["debt"] ?? 0), 'limit_debt' => $limit_debt, 'limit_date_debt' => $limit_date_debt, 'limit_time_debt' => $limit_time_debt];
                 if($buyer->limit_debt) unset($payload['limit_debt']);
                 if($buyer->limit_time_debt) unset($payload['limit_time_debt']);

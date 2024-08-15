@@ -17,6 +17,7 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cashier\SellingRequest;
 use App\Models\Selling;
+use App\Models\Store;
 use App\Services\Cashier\SellingService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -54,7 +55,8 @@ class SellingController extends Controller
     {
         $buyers = $this->buyer->getBuyerCustomLimit($request)->get();
         $products = $this->product->get();
-        return view('dashboard.selling.index', compact('buyers', 'products'));
+        $store = Store::first();
+        return view('dashboard.selling.index', compact('buyers', 'products', 'store'));
     }
 
     /**
@@ -120,7 +122,8 @@ class SellingController extends Controller
                     $this->debt->store([
                         'buyer_id' => $service['buyer_id'],
                         'selling_id' => $selling->id,
-                        'nominal' => $serviceSellingPrice['selling_price']
+                        'nominal' => $serviceSellingPrice['selling_price'],
+                        'remind_debt' => $serviceSellingPrice['selling_price']
                     ]);
                 }
 
@@ -129,7 +132,8 @@ class SellingController extends Controller
                     $this->debt->store([
                         'buyer_id' => $service['buyer_id'],
                         'selling_id' => $selling->id,
-                        'nominal' => $service["debt"] ?? 0
+                        'nominal' => $service["debt"] ?? 0,
+                        'remind_debt' => $service["debt"] ?? 0
                     ]);
                 }
     
