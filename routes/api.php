@@ -71,6 +71,8 @@ Route::post('/create-category', [CategoryController::class, 'storeAjax'])->name(
 Route::post('/create-unit', [UnitController::class, 'storeAjax'])->name('api.unit.store.ajax');
 Route::post('/create-cost-category', [CostController::class, 'createCategory'])->name('api.cost.category.store.ajax');
 
+Route::post('/update-product-price', [ProductController::class, 'updateProductPrice'])->name('api.product.update.price.ajax');
+
 // Route for api chart
 Route::name('chart.')->prefix('chart')->group(function () {
     Route::get('/chart-penjualan', [ChartController::class, 'chartPenjualan'])->name('penjualan');

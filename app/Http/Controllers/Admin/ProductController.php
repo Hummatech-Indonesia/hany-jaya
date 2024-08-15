@@ -14,6 +14,7 @@ use App\Helpers\BaseResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Http\Requests\Cashier\ShowProductRequest;
+use App\Http\Requests\ProductPriceRequest;
 use App\Models\Product;
 use App\Models\ProductUnit;
 use App\Services\Admin\ProductService;
@@ -314,5 +315,16 @@ class ProductController extends Controller
             "message" => "Code dapat digunakan",
             "data" => true
         ]);
+    }
+
+    public function updatePriceProduct(ProductPriceRequest $request)
+    {
+        $data = $this->product->getWhere(["id" => $request->product_id]);
+        if(!$data) return BaseResponse::Custom(404, 'Tidak dapat menemukan data produk', null);
+
+        $product = $data->productUnits->first();
+        $product->update(['selling_price' => $request->price]);
+
+        return BaseResponse::Ok('Berhasil menambahkan data',$data);
     }
 }
