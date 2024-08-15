@@ -8,9 +8,10 @@ use App\Contracts\Interfaces\Eloquent\GetWhereInterface;
 use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\SumInterface;
+use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 use Illuminate\Http\Request;
 
-interface BuyerInterface extends StoreInterface, GetWhereInterface, ShowInterface, CustomPaginationInterface, SumInterface, GetInterface
+interface BuyerInterface extends StoreInterface, UpdateInterface, GetWhereInterface, ShowInterface, CustomPaginationInterface, SumInterface, GetInterface
 {
     /**
      * Handle the Get all data event from models.

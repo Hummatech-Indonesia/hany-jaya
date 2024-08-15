@@ -6,8 +6,10 @@ use App\Contracts\Interfaces\Admin\AdjustmentHistoryInterface;
 use App\Contracts\Interfaces\Admin\CategoryInterface;
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Helpers\BaseDatatable;
+use App\Helpers\BaseResponse;
 use App\Http\Requests\Admin\AdjustmentHistoryRequest;
 use App\Models\Product;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -88,28 +90,38 @@ class AdjustmentController extends Controller
      *
      * @return Returntype
      */
-    public function adjustmentStock(Request $request): RedirectResponse
+    public function adjustmentStock(Request $request): JsonResponse
     {
-        dd($request->all());
-        $data = $request->validated();
-        $data["old_stock"] = $product->quantity;
-        $data["user_id"] = auth()->user()->id;
+        $data = [
+            "user_id" => auth()->user()->id,
+            'new_stock' => 0,
+            'old_stock' => 0,
+            'product_id' => ''
+        ];
+        $payload = $request->all();
 
         DB::beginTransaction();
-        try {
-            $test = $this->product->update($product->id, [
-                "quantity" => ($data['new_stock'] ?? $product->quantity),
-                "small_unit_id" => $product->unit_id
-            ]);
-            $test1 = $this->adjustment->store($data);
+        foreach($payload['products'] as $item){
+            try {
+                $data['product_id'] = $item['id'];
+                $data['new_stock'] = $item['newQuantity'];
+                $data['old_stock'] = $item['quantity'];
+                $data['note'] = $item['note'] ?? '-';
 
-            DB::commit();
-            return to_route('admin.adjustments.index')->with('success', trans('alert.update_success'));
-        } catch (\Throwable $th) {
-            dd($th->getMessage());
-            DB::rollBack();
-            return to_route('admin.adjustments.index')->with('error', 'Gagal merubah stock dengan kesalahan => ' . $th->getMessage());
+                $this->product->update($item['id'], [
+                    "quantity" => ($data['new_stock'] ?? $item['quantity']),
+                    "small_unit_id" => $item['unit_id']
+                ]);
+
+                $this->adjustment->store($data);    
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                return BaseResponse::Error('Gagal merubah stock dengan kesalahan => ' . $th->getMessage());
+            }
         }
+
+        DB::commit();
+        return BaseResponse::Ok('Berhasil menyesuaikan data',null);
     }
 
     /**

@@ -55,6 +55,11 @@ class BuyerRepository extends BaseRepository implements BuyerInterface
             ->findOrFail($id);
     }
 
+    public function update(mixed $id, array $data): mixed
+    {
+        return $this->show($id)->update($data);
+    }
+
     /**
      * customPaginate
      *

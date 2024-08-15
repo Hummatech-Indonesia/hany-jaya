@@ -66,7 +66,8 @@ Route::middleware('auth')->group(function () {
             'categories' => CategoryController::class,
             'units' => UnitController::class,
             'adjustments' => AdjustmentController::class,
-            'costs' => CostController::class
+            'costs' => CostController::class,
+            'buyers' => BuyerController::class
         ]);
         Route::prefix('users')->name('users.')->group(function () {
             Route::get('/', [

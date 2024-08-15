@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Helpers\BaseDatatable;
 use App\Helpers\BaseResponse;
+use App\Http\Requests\BuyerRequest;
 use App\Models\Buyer;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -93,5 +94,35 @@ class BuyerController extends Controller
     {
         $data = $this->buyer->getBuyerV2($request);
         return BaseDatatable::Table($data);
+    }
+
+    public function create()
+    {
+
+    }
+
+    public function store(BuyerRequest $request)
+    {
+        $data = $request->validated();
+
+        $this->buyer->store($data);
+
+        return redirect()->route('admin.buyers.index')->with('success',' Berhasil membuat data');
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function update(BuyerRequest $request, Buyer $buyer)
+    {
+        $data = $request->validated();
+        $data['limit_debt'] = $data['limit_debt'] ?? $buyer->limit_debt;
+        $data['limit_date_debt'] = $data['limit_date_debt'] ?? $buyer->limit_date_debt;
+
+        $this->buyer->update($buyer->id, $data);
+
+        return redirect()->route('admin.buyers.index')->with('update',' Berhasil mengupdate data');
     }
 }

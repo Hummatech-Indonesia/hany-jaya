@@ -231,7 +231,20 @@ class ProductRepository extends BaseRepository implements ProductInterface
      */
     public function withElequent(array $data): mixed
     {
-        return $this->model->with($data)->whereRelation('productUnits','is_delete',0)->where('is_delete',0);
+        $payload = [];
+        try{
+            $payload = $data["payload"];
+            unset($data["payload"]);
+        }catch(\Throwable $th){}
+        $payload = collect($payload)->filter(fn ($item) => $item);
+
+        return $this->model->with($data)
+        ->when(count($payload) > 0, function ($query) use ($payload){
+            foreach($payload as $index => $value){
+                $query->where($index,$value);
+            }
+        })
+        ->whereRelation('productUnits','is_delete',0)->where('is_delete',0);
     }
 
     /**

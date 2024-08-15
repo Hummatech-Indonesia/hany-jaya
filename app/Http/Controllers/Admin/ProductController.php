@@ -224,7 +224,7 @@ class ProductController extends Controller
      *
      * @return JsonResponse
      */
-    public function dataTable(): JsonResponse
+    public function dataTable(Request $request): JsonResponse
     {
         $product = $this->product->withElequent(["unit", "category", 
         "supplierProducts" => function ($query) {
@@ -233,7 +233,11 @@ class ProductController extends Controller
         "productUnits" => function($query) {
             $query->with("unit")->where('is_delete',0);
         },
-        "detailPurchases.purchase.supplier"])->get();
+        "detailPurchases.purchase.supplier", 
+        "payload" => [
+            "category_id" => $request->category_id
+        ]
+        ])->get();
         return BaseDatatable::TableV2($product->toArray());
     }
 
