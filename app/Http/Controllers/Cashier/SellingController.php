@@ -110,7 +110,7 @@ class SellingController extends Controller
                 // checking success invoice
                 if(!$service["success"]){
                     DB::rollBack();
-                    return BaseResponse::Custom(400, 'Pembeli ini telah melewati limit pembelian, silahkan check ulang!',null);
+                    return redirect()->back()->with('error', 'Pembeli ini telah melewati limit hutang');
                 }
                 unset($service["success"]);
 
