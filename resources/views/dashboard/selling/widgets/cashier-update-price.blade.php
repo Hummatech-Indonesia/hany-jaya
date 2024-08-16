@@ -37,7 +37,7 @@
             $('#modal-update-product').modal('show')
             setTimeout(() => {
                 $('#modal-update-product #price').focus()
-            }, 100);
+            }, 150);
         })
 
         $(document).on('input', '#modal-update-product #price', function() {
