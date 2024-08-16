@@ -913,7 +913,10 @@
 
                     if(max_price > current_value) {
                         input_unit_price_el.classList.add('is-invalid')
-                        $(input_unit_price_el).tooltip('show')
+                        $(input_unit_price_el).tooltip('hide')
+                        setTimeout(() => {
+                            $(input_unit_price_el).tooltip('show')
+                        }, 150);
                     } else {
                         input_unit_price_el.classList.remove('is-invalid')
                         $(input_unit_price_el).tooltip('hide')
