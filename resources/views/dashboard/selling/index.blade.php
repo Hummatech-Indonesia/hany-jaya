@@ -911,7 +911,7 @@
                     const max_price = parseFloat(input_unit_price_el.getAttribute('data-unit-purchase'))
                     const current_value = unformatNum(input_unit_price_el.value)
 
-                    if(max_price > current_value) {
+                    if(max_price >= current_value) {
                         input_unit_price_el.classList.add('is-invalid')
                         $(input_unit_price_el).tooltip('hide')
                         setTimeout(() => {
