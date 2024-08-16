@@ -79,7 +79,6 @@
                                         <thead>
                                             <tr>
                                                 <th style="width:200px">Produk <span class="text-danger">*</span></th>
-                                                <th style="width:150px">Satuan <span class="text-danger">*</span></th>
                                                 <th style="width:250px">Harga per satuan <span class="text-danger">*</span></th>
                                                 <th style="width:150px">Jumlah <span class="text-danger">*</span></th>
                                                 <th style="width:250px">Total Harga <span class="text-danger">*</span></th>
@@ -194,7 +193,9 @@
                 
                 let str_products = '<option value="" selected disabled>-- pilih produk --</option>'
                 product_list.forEach((data) => {
-                    str_products += `<option value="${data.id}">${data.name} | ${data.code} | ${formatNum(data.quantity, true)} ${data.unit.name}</option>`
+                    console.log(product_list)
+                    str_data = JSON.stringify(data).replaceAll('"', "'")
+                    str_products += `<option value="${data.id}" data-product="${str_data}">${data.name} | ${data.code} | ${formatNum(data.quantity, true)} ${data.unit.name}</option>`
                 })
 
                 let new_tr = `
@@ -204,9 +205,7 @@
                             <input type="hidden" name="buy_price_per_unit[]" required />
                             <input type="hidden" name="quantity[]" required />
                             <input type="hidden" name="buy_price[]" required />
-                        </td>
-                        <td>
-                            <select name="product_unit_id[]" class="form-select" id="product_unit" required>
+                            <select name="product_unit_id[]" class="form-select d-none" id="product_unit" required>
                                 <option value="" selected disabled>-- pilih satuan --</option>
                             </select>
                         </td>
@@ -254,7 +253,7 @@
                         let edit_url = "{{ route('admin.products.edit', 'selected_id') }}"
                         edit_url = edit_url.replace('selected_id', val)
                         $(this['$input'][0].closest('[data-index]')).find('.price-per-unit').attr('data-price', 0)
-                        $(this['$input'][0].closest('[data-index]')).find('.price-per-unit-alert a').attr('href', edit_url)
+                        $(this['$input'][0].closest('[data-index]')).find('.price-per-unit  -alert a').attr('href', edit_url)
                     }
                 })
 
@@ -266,7 +265,6 @@
                 const selectize_unit = tr.find('#product_unit').selectize({
                     create: false,
                     maxItems: 1,
-                    placeholder: "Pilih Satuan",
                     onChange: function (val) {
                         let item = this.options[val]
                         if(item) $(this['$input'][0].closest('[data-index]')).find('.price-per-unit').attr('data-price', item.price)
@@ -294,7 +292,9 @@
                     url: `{{ route('admin.product.unit.index', ['product' => '']) }}/${productId}`,
                     type: "GET",
                     success: function(response) {
-                        response.data.forEach(function(item) {
+                        let selected_value
+                        response.data.forEach(function(item, index) {
+                            if(index === 0) selected_value = item.id
                             options.push({
                                 value: item.id,
                                 text: item.unit,
@@ -303,6 +303,7 @@
                         });
 
                         select_unit_list[index-1].addOption(options)
+                        select_unit_list[index-1].setValue(selected_value)
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
