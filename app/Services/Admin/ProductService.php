@@ -46,7 +46,7 @@ class ProductService
         $old_image = $product->image;
 
         if ($request->hasFile('image')) {
-            $this->remove($old_image);
+            if($old_image) $this->remove($old_image);
             $old_image = $this->upload(UploadDiskEnum::PRODUCT->value, $request->file('image'));
         }
         $data = $request->validated();
