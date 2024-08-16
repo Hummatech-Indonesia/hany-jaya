@@ -135,7 +135,7 @@ class BuyerController extends Controller
 
         $this->buyer->update($buyer->id, $data);
 
-        return redirect()->route('admin.buyers.index')->with('update',' Berhasil mengupdate data');
+        return redirect()->route('admin.buyers.index')->with('success',' Berhasil mengupdate data');
     }
 
     public function delete(Buyer $buyer)
