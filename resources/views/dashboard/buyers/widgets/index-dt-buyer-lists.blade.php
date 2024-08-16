@@ -4,7 +4,6 @@
             <div class="alert alert-warning" role="alert">
                 Sebelum melakukan export / cetak data, pastikan kolom "entries per page" bernilai "semua" agar keseluruhan data tercetak.
             </div>
-            <button type="button" class="btn btn-sm btn-primary" id="btn-open-add-buyer-modal">Tambah</button>
             <table class="table align-middle table-hover w-100" id="buyer-table">
             </table>
         </div>
@@ -44,8 +43,6 @@
             ],
             initComplete: function() {
                 $('.dt-buttons').addClass('btn-group-sm')
-                const btn_open_modal = $('#btn-open-add-buyer-modal').detach()
-                $('.custom-container').append(btn_open_modal)
             },
             language: {
                 processing: `Memuat...`
