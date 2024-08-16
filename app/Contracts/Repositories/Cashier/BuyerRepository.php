@@ -140,7 +140,7 @@ class BuyerRepository extends BaseRepository implements BuyerInterface
         return $this->model->query()
             ->selectRaw('
                 *,
-                IF(limit_date_debt IS NOT NULL AND DATE(limit_date_debt) > DATE(NOW()), TRUE, FALSE) AS has_exceeded_the_limit
+                IF(limit_date_debt IS NOT NULL AND DATE(limit_date_debt) < DATE(NOW()), TRUE, FALSE) AS has_exceeded_the_limit
             ')
             ->when($request->buyer_id, function ($query) use ($request){
                 $query->where('id',$request->buyer_id);
