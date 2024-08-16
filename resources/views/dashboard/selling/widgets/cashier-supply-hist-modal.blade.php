@@ -36,7 +36,7 @@
                 tb_hist_supply = $('#tb-supply-history').DataTable({
                     processing: true,
                     serverSide: true,
-                    pageLength: 2,
+                    pageLength: 3,
                     paging: true,
                     dom: 't',
                     searching: false,
@@ -84,7 +84,7 @@
                 tb_hist_sell = $('#tb-selling-history').DataTable({
                     processing: true,
                     serverSide: true,
-                    pageLength: 2,
+                    pageLength: 3,
                     paging: true,
                     searching: false,
                     dom: 't',
