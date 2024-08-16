@@ -68,9 +68,9 @@ class DebtController extends Controller
         try{ 
             foreach($debts as $debt){
                 if(($debt->remind_debt - $pay_debt) < 0){
-                    $debt->update(['paid_off' => 1, 'remind_debt' => 0]);
                     $pay_debt -= $debt->remind_debt;
-                }else if(($debt->nominal - $pay_debt) == 0){
+                    $debt->update(['paid_off' => 1, 'remind_debt' => 0]);
+                }else if(($debt->remind_debt - $pay_debt) == 0){
                     $debt->update(['paid_off' => 1, 'remind_debt' => 0]);
                 }else {
                     $debt->update(['remind_debt' => $debt->remind_debt - $pay_debt]);
