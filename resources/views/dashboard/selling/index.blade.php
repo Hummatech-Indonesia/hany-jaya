@@ -82,7 +82,7 @@
                                                 <select name="name" class="" id="cust-name" tabindex="1">
                                                     <option value="">Pilih Pembeli</option>
                                                     @foreach ($buyers as $buyer)
-                                                        <option value="{{ $buyer->name }} - {{ $buyer->address }}" data-name="{{ $buyer->name }}" data-code="{{ $buyer->code }}" data-phone="{{$buyer->telp}}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
+                                                        <option value="{{ $buyer->name }} - {{ $buyer->address }}" data-name="{{ $buyer->name }}" data-debt="{{$buyer->debt}}" data-limit-debt="{{$buyer->limit_debt}}" data-has-exceeded-limit="{{$buyer->has_exceeded_the_limit}}" data-code="{{ $buyer->code }}" data-phone="{{$buyer->telp}}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -164,14 +164,6 @@
                                                 </div>
                                             </div>
                                             <div id="code_debt">
-                                                {{-- <div class="row align-items-center mb-3">
-                                                    <div class="col-3">
-                                                        <label for="">Kode Toko</label>
-                                                    </div>
-                                                    <div class="col-9">
-                                                        <input type="text" class="form-control mb-0" name="code_debt" id="">
-                                                    </div>
-                                                </div> --}}
                                                 <div class="row align-items-center mb-3">
                                                     <div class="col-3">
                                                         <label for="">Hutang</label>
@@ -182,6 +174,14 @@
                                                             <input type="text" class="form-control mb-0" placeholder="Hutang" id="formatted_debt" readonly>
                                                             <input type="hidden" name="debt">
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row align-items-center mb-3-" style="display: none">
+                                                    <div class="col-3">
+                                                        <label for="code_debt">Kode Toko</label>
+                                                    </div>
+                                                    <div class="col-9">
+                                                        <input type="text" class="form-control mb-0" name="code_debt" id="code_debt">
                                                     </div>
                                                 </div>
                                             </div>
@@ -904,19 +904,19 @@
             checkIsHasError()
 
             function checkProductPriceMoreThanPurchase() {
-                const tr_el = $('#tb-product [data-index]')
+                const tr_el = document.querySelectorAll('#tb-product [data-index]')
 
-                tr_el.each((index, el) => {
-                    const input_unit_price_el = $(el).find('.input-unit-price')
-                    const max_price = parseFloat(input_unit_price_el.attr('data-unit-purchase'))
-                    const current_value = unformatNum(input_unit_price_el.val())
+                tr_el.forEach((el, index) => {
+                    const input_unit_price_el = el.querySelector('.input-unit-price')
+                    const max_price = parseFloat(input_unit_price_el.getAttribute('data-unit-purchase'))
+                    const current_value = unformatNum(input_unit_price_el.value)
 
                     if(max_price > current_value) {
-                        input_unit_price_el.addClass('is-invalid')
-                        input_unit_price_el.tooltip('show')
+                        input_unit_price_el.classList.add('is-invalid')
+                        $(input_unit_price_el).tooltip('show')
                     } else {
-                        input_unit_price_el.removeClass('is-invalid')
-                        input_unit_price_el.tooltip('hide')
+                        input_unit_price_el.classList.remove('is-invalid')
+                        $(input_unit_price_el).tooltip('hide')
                     }
                 })
             }
@@ -986,16 +986,47 @@
                 }
             }
 
+            let timeout_input
+            $(document).on('input', function() {
+                clearTimeout(timeout_input)
+                timeout_input = setTimeout(() => {
+                    checkIsHasError()
+                }, 300);
+            })
+
             function paymentMethodError() {
+                const data_store_code = "{{$store->code_debt}}"
                 const total_must_paid = unformatNum($('#total_price').html().replace('Rp ', ''))
+                const selected_buyer = select_cust.getValue()
+                const data_buyer = select_cust.options[selected_buyer]
+
+                const limit_debt = (data_buyer ? data_buyer.limitDebt : 1_000_000)
+                const current_debt = (data_buyer ? data_buyer.debt : 0)
+                const alreadyExceededLimit = (data_buyer ? data_buyer.hasExceededLimit : false)
+
                 if(!$('#hutang').is(':checked')) {
                     const money_paid = $('#pay').val()
                     if(total_must_paid > money_paid) {
                         $('#formatted_pay').addClass('is-invalid')
                         return 1
                     }
+                } else {
+                    $('#formatted_pay').removeClass('is-invalid')
+                    const new_debt = parseFloat($('[name=debt]').val()) ? parseFloat($('[name=debt]').val()) : 0
+                    if(
+                        ((limit_debt < (current_debt + new_debt)) || alreadyExceededLimit)
+                    ) {
+                        $('[name=code_debt]').closest('.row').show()
+                        if($('[name=code_debt]').val() === data_store_code) $('[name=code_debt]').removeClass('is-invalid')
+                        else {
+                            $('[name=code_debt]').addClass('is-invalid')
+                            return 1
+                        }
+                    } else {
+                        $('[name=code_debt]').closest('.row').hide()
+                    }
                 }
-                $('#formatted_pay').removeClass('is-invalid')
+
                 return 0
             }
 
