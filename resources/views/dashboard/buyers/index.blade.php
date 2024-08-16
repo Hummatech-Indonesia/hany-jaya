@@ -13,6 +13,7 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Data Pembeli</h4>
                         <p>Daftar pembeli yang ada di toko anda.</p>
+                        <button type="button" class="btn btn-primary" id="btn-open-add-buyer-modal">Tambah</button>
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
