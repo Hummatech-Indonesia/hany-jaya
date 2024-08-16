@@ -89,7 +89,7 @@ class SellingService
         } else {
             
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                if(($buyer->debt + $sellingPrice) > $buyer->limit_debt || date('Y-m-d', $buyer->limit_date_debt) < date('Y-m-d')) $data['success'] = false;
+                if(($buyer->debt + $sellingPrice) > $buyer->limit_debt || date('Y-m-d', $buyer->limit_date_debt ?? now()) < date('Y-m-d')) $data['success'] = false;
                 else $data['success'] = true;
 
                 $payload = ['debt' => $buyer->debt + $sellingPrice, 'limit_debt' => $limit_debt, 'limit_date_debt' => $limit_date_debt, 'limit_time_debt' => $limit_time_debt];
@@ -107,7 +107,7 @@ class SellingService
         
         if($data['status_payment'] == StatusEnum::SPLIT->value) {
             if((int)($data["debt"] ?? 0) > 0){
-                if(($buyer->debt + $sellingPrice) > $buyer->limit_debt || date('Y-m-d', $buyer->limit_date_debt) < date('Y-m-d')) $data['success'] = false;
+                if(($buyer->debt + $sellingPrice) > $buyer->limit_debt || date('Y-m-d', $buyer->limit_date_debt ?? now()) < date('Y-m-d')) $data['success'] = false;
                 else $data['success'] = true;
 
                 $payload = ['debt' => $buyer->debt + ($data["debt"] ?? 0), 'limit_debt' => $limit_debt, 'limit_date_debt' => $limit_date_debt, 'limit_time_debt' => $limit_time_debt];
