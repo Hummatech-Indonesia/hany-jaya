@@ -480,7 +480,7 @@
 
             $(document).on('keydown', 'input', function(e) {
                 if($(this).closest('#modal-update-product').length !== 0) return;
-                if (e.originalEvent.key === 'Enter') {
+                if (e.originalEvent.key === 'Enter' && e.originalEvent.altKey === false) {
                     e.preventDefault();
                     return false;
                 }
@@ -626,8 +626,8 @@
                         });
 
                         const latest_buy = await getLatestBuy($('#cust-name').val(), $('#cust-address').val(), product_unit_id, false)
-                        const latest_price = latest_buy?.selling_price
-                        const latest_qty = latest_buy?.quantity
+                        const latest_price = (latest_buy && latest_buy.selling_price ? latest_buy.selling_price : false)
+                        const latest_qty = (latest_buy && latest_buy.quantity ? latest_buy.quantity : false)
                         const latest_purchase_price = await getLatestPurchase(response.data.id, product_unit_id)
                         var newRow = `
                             <tr data-index="${current_index}" data-id="${response.data.id}" data-product="${str_res}">
@@ -637,8 +637,8 @@
                                     </div>
                                     <input type="hidden" name="product_id[]" value="${response.data.id}"/>
                                     <input type="hidden" name="quantity[]" value="1"/>
-                                    <input type="hidden" name="product_unit_price[]" value="${selected_price}"/>
-                                    <input type="hidden" name="selling_price[]" value="${selected_price}"/>
+                                    <input type="hidden" name="product_unit_price[]" value="${latest_price ? latest_price : selected_price}"/>
+                                    <input type="hidden" name="selling_price[]" value="${latest_price ? latest_price : selected_price}"/>
                                 </td>
                                 <td>
                                     <div class="mb-0 text-start form-control border-0">
@@ -657,20 +657,19 @@
                                         </div>
                                         <button type="button" class="btn btn-sm btn-success p-2 btn-plus">+</button>
                                     </div>
-                                    ${latest_qty ? `<div class="ps-4 text-primary last_qty">${formatNum(latest_qty)}</div>` : ''}
+                                    {{-- ${latest_qty ? `<div class="ps-4 text-primary last_qty">${formatNum(latest_qty)}</div>` : ''} --}}
                                 </td>
                                 <td>
-                                    <input type="text" value="${formatNum(selected_price, true)}" 
+                                    <input type="text" value="${formatNum((latest_price ? latest_price :selected_price), true)}" 
                                         name="formatted_product_unit_price[]"
                                         class="form-control format-number input-unit-price"
                                         tabindex="5" data-unit-purchase="${latest_purchase_price}"
                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                         data-bs-title="Harga kurang dari harga beli" data-bs-trigger="manual"
                                     />
-                                    ${latest_price ? `<div class="text-primary last_price">Rp. ${formatNum(latest_price)}</div>` : '' }
                                 </td>
                                 <td>
-                                    <input type="text" value="${formatNum(selected_price, true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
+                                    <input type="text" value="${formatNum((latest_price ? latest_price : selected_price), true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-center align-items-center gap-1">
@@ -749,8 +748,6 @@
                 row.find('.stock').html(formatNum(stock, true));
                 row.find('.quantity_stock').html(unit);
                 var quantity = row.find('.quantity').val();
-                row.find('.input-unit-price').val(formatNum(selectedPrice));
-                row.find('[name=product_unit_price\\[\\]]').val(selectedPrice);
 
                 let last_price_el = row.find('.last_price')
                 let last_qty_el = row.find('.last_qty')
@@ -759,30 +756,14 @@
                 let product_unit_id = row.find('.product-unit').val()
 
                 const latest_buy = await getLatestBuy(cust_name, cust_address, product_unit_id, false)
-                const latest_price = latest_buy?.selling_price
-                const latest_qty = latest_buy?.quantity
+                const latest_price = (latest_buy && latest_buy.selling_price ? latest_buy.selling_price : false)
+                const latest_qty = (latest_buy && latest_buy.quantity ? latest_buy.quantity : false)
                 const latest_purchase_price = await getLatestPurchase(row.data('id') , product_unit_id)
                 
                 row.find('.input-unit-price').attr('data-unit-purchase', latest_purchase_price)
-
-                if(latest_price) {
-                    if(last_price_el.length < 1) {
-                        row.find('.input-unit-price').parent().append(`<div class="text-primary last_price">Rp ${formatNum(latest_price)}</div>`)
-                    } else {
-                        last_price_el.html('Rp '+formatNum(latest_price))
-                    }
-                } else if(!latest_price && last_price_el.length > 0) {
-                    last_price_el.remove()
-                }
-                if(latest_qty) {
-                    if(last_qty_el.length < 1) {
-                        row.find('.input-quantity').closest('td').append(`<div class="ps-4 text-primary last_qty">${formatNum(latest_qty)}</div>`)
-                    } else {
-                        last_qty_el.html(formatNum(latest_qty))
-                    }
-                } else if(!latest_qty && last_qty_el.length > 0) {
-                    last_qty_el.remove()
-                }
+                row.find('.input-unit-price').val(formatNum((latest_price ? latest_price : selectedPrice), true));
+                row.find('[name=product_unit_price\\[\\]]').val((latest_price ? latest_price : selectedPrice));
+                row.find('.input-selling-price').val(formatNum((latest_price ? latest_price : selectedPrice), true));
                 changeTotalPrice();
                 checkIsHasError()
             });
@@ -808,13 +789,18 @@
             })
 
             async function getLatestBuy(buyer_name, buyer_address, product_unit_id, price_only = true) {
-                axios.get(`{{ route('transaction.find-by-user-product') }}?buyer_name=${buyer_name}&buyer_address=${buyer_address}&product_unit_id=${product_unit_id}`)
-                    .then((res) => {
-                        return (res.data && res.data.data) ? ( price_only ? res.data.data.selling_price : res.data.data) : {}
-                    }).catch((err) => {
-                        return {}
-                    })
+                try {
+                    const res = await axios.get(`{{ route('transaction.find-by-user-product') }}?buyer_name=${buyer_name}&buyer_address=${buyer_address}&product_unit_id=${product_unit_id}`);
+                    if (res.data && res.data.data) {
+                        return price_only ? res.data.data.selling_price : res.data.data;
+                    } else {
+                        return {};
+                    }
+                } catch (err) {
+                    return {};
+                }
             }
+
 
             async function getLatestPurchase(product_id, product_unit_id) {
                 const obj_purchase = await axios.get(`{{ route('find.product.last-purchase') }}?product_id=${product_id}&product_unit_id=${product_unit_id}`)
@@ -827,28 +813,21 @@
                 $('#tb-product tr[data-index]').each(async function(index) {
                     const product_unit_id = $(this).find('.product-unit').val();
                     const latest_buy = await getLatestBuy(cust_name, cust_address, product_unit_id, false)
-                    const latest_price = latest_buy?.selling_price
-                    const latest_qty = latest_buy?.quantity
+                    const latest_price = (latest_buy && latest_buy.selling_price ? latest_buy.selling_price : false)
+                    const latest_qty = (latest_buy && latest_buy.quantity ? latest_buy.quantity : false)
                     const last_price_el = $(this).find('.last_price')
                     const last_qty_el = $(this).find('.last_qty')
-                    if(latest_price) {
-                        if(last_price_el.length < 1) {
-                            $(this).find('.input-unit-price').parent().append(`<div class="text-primary last_price">Rp ${formatNum(latest_price)}</div>`)
-                        } else {
-                            last_price_el.html('Rp '+formatNum(latest_price))
-                        }
-                    } else if(!latest_price && last_price_el.length > 0) {
-                        last_price_el.remove()
-                    }
-                    if(latest_qty) {
-                        if(last_qty_el.length < 1) {
-                            $(this).find('.input-quantity').closest('td').append(`<div class="text-primary ps-4 last_qty">${formatNum(latest_qty)}</div>`)
-                        } else {
-                            last_qty_el.html(formatNum(latest_qty))
-                        }
-                    } else if(!latest_qty && last_qty_el.length > 0) {
-                        last_qty_el.remove()
-                    }
+
+                    const orig_price = $(this).find('.product-unit :selected').data('selling-price')
+                    const price = (latest_price ? latest_price : orig_price)
+                    const qty = $(this).find('[name=quantity\\[\\]]').val()
+                    const total = price * qty
+
+                    $(this).find('.input-unit-price').val(formatNum(price, true))
+                    $(this).find('[name=product_unit_price\\[\\]]').val(price)
+                    $(this).find('[name=selling_price\\[\\]]').val(total)
+                    $(this).find('input-selling-price').val(formatNum(total, true))
+                    changeTotalPrice()
                 })
             }
 
