@@ -59,7 +59,7 @@ class CostService
         $old_image = $cost->image;
 
         if ($request->hasFile('image')) {
-            $this->remove($old_image);
+            if($old_image) $this->remove($old_image);
             $old_image = $this->upload(UploadDiskEnum::COST->value, $request->file('image'));
         }
 
