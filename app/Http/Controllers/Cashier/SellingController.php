@@ -113,6 +113,7 @@ class SellingController extends Controller
                     return redirect()->back()->with('error', 'Pembeli ini telah melewati limit hutang');
                 }
                 unset($service["success"]);
+                unset($service["message"]);
 
                 $selling = $this->selling->store($service);
     
