@@ -8,6 +8,7 @@ use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
 use App\Enums\StatusEnum;
+use App\Models\Store;
 use Illuminate\Http\RedirectResponse;
 use stdClass;
 
@@ -41,6 +42,15 @@ class SellingService
         $limit_debt = 10000000;
         $limit_time_debt = 30;
         $limit_date_debt = now()->addDays($limit_time_debt);
+        
+        $check_code_debt = false;
+        $code_debt = null;
+        try{ 
+            $code_debt = Store::where('code_debt',$data['code_debt'])->first();
+            $code_debt = $data['code_debt'];
+            if($code_debt) $check_code_debt = true;
+        }catch(\Throwable $th){ }
+
 
         $selling_invoice = $this->selling->getInvoice();
         
@@ -70,6 +80,7 @@ class SellingService
         }
 
         $data["success"] = true;
+        $data["message"] = "";
 
         if ($buyer == null) {
             $telp = null; 
@@ -89,7 +100,20 @@ class SellingService
         } else {
             
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                if(($buyer->debt + $sellingPrice) > $buyer->limit_debt || ($buyer->limit_date_debt ? date('Y-m-d', $buyer->limit_date_debt) : date('Y-m-d')) < date('Y-m-d')) $data['success'] = false;
+                $check_limit_total = ($buyer->debt + $sellingPrice) > $buyer->limit_debt;
+                $check_limit_date = ($buyer->limit_date_debt ? date('Y-m-d', strtotime($buyer->limit_date_debt)) : date('Y-m-d')) < date('Y-m-d');
+                if($check_limit_total || $check_limit_date){
+                    if(!$code_debt){
+                        $data['success'] = false;
+                        $data['message'] = "Tidak dapat melakukan transaksi, karena pembeli telah mencapai limit hutangnya!";
+                    } 
+
+                    if(!$check_code_debt) {
+                        $data['success'] = false;
+                        $data['message'] = "Kode toko yang diajukan tidak sesuai silahkan cek kembali kode tokonya untuk melakukan transaksi pembeli!";
+                    }
+                    else $data['success'] = true;
+                }
                 else $data['success'] = true;
 
                 $payload = ['debt' => $buyer->debt + $sellingPrice, 'limit_debt' => $limit_debt, 'limit_date_debt' => $limit_date_debt, 'limit_time_debt' => $limit_time_debt];
@@ -107,8 +131,21 @@ class SellingService
         
         if($data['status_payment'] == StatusEnum::SPLIT->value) {
             if((int)($data["debt"] ?? 0) > 0){
-                if(($buyer->debt + $sellingPrice) > $buyer->limit_debt || ($buyer->limit_date_debt ? date('Y-m-d', $buyer->limit_date_debt) : date('Y-m-d')) < date('Y-m-d')) $data['success'] = false;
-                else $data['success'] = true;
+                $check_limit_total = ($buyer->debt + $sellingPrice) > $buyer->limit_debt;
+                $check_limit_date = ($buyer->limit_date_debt ? date('Y-m-d', strtotime($buyer->limit_date_debt)) : date('Y-m-d')) < date('Y-m-d');
+
+                if($check_limit_total || $check_limit_date){
+                    if(!$code_debt){
+                        $data['success'] = false;
+                        $data['message'] = "Tidak dapat melakukan transaksi, karena pembeli telah mencapai limit hutangnya!";
+                    } 
+
+                    if(!$check_code_debt) {
+                        $data['success'] = false;
+                        $data['message'] = "Kode toko yang diajukan tidak sesuai silahkan cek kembali kode tokonya untuk melakukan transaksi pembeli!";
+                    }
+                    else $data['success'] = true;
+                }else $data['success'] = true;
 
                 $payload = ['debt' => $buyer->debt + ($data["debt"] ?? 0), 'limit_debt' => $limit_debt, 'limit_date_debt' => $limit_date_debt, 'limit_time_debt' => $limit_time_debt];
                 if($buyer->limit_debt) unset($payload['limit_debt']);
