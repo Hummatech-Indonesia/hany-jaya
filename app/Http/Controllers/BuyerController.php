@@ -128,6 +128,7 @@ class BuyerController extends Controller
     public function update(BuyerRequest $request, Buyer $buyer)
     {
         $data = $request->validated();
+        $data['telp'] = $data['telp'] ?? $buyer->telp;
         $data['limit_debt'] = $data['limit_debt'] ?? $buyer->limit_debt;
         $data['limit_time_debt'] = $data['limit_time_debt'] ?? $buyer->limit_time_debt;
         $data['limit_date_debt'] = $data['limit_date_debt'] ?? $buyer->limit_date_debt;

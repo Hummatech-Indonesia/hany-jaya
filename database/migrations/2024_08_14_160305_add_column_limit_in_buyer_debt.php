@@ -13,7 +13,7 @@ return new class extends Migration
     {
         if(!Schema::hasColumn('buyers', 'limit_debt')){
             Schema::table('buyers', function (Blueprint $table) {
-                $table->integer('limit_debt')->nullable();
+                $table->integer('limit_debt')->default(10000000);
             });
         }
         if(!Schema::hasColumn('buyers', 'limit_date_debt')){

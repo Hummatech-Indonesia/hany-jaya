@@ -25,6 +25,7 @@ class BuyerRequest extends FormRequest
             'name' => 'sometimes|required',
             'address' => 'sometimes|required',
             'code' => 'sometimes|required',
+            'telp' => 'nullable',
             'limit_debt' => 'nullable',
             'limit_time_debt' => 'nullable',
             'limit_date_debt' => 'nullable'
