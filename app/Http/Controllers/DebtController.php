@@ -9,6 +9,7 @@ use App\Helpers\BaseDatatable;
 use App\Http\Requests\PayDebtRequest;
 use App\Models\Buyer;
 use App\Services\Cashier\DebtService;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -74,7 +75,9 @@ class DebtController extends Controller
                     $debt->update(['paid_off' => 1, 'remind_debt' => 0]);
                 }else {
                     $debt->update(['remind_debt' => $debt->remind_debt - $pay_debt]);
-                    $date_limit = $debt->created_at;
+                    $date_limit = Carbon::parse($debt->created_at)
+                    ->addDays($buyer->limit_time_debt ?? 30)
+                    ->format('Y-m-d');
                     break;
                 }
             }
