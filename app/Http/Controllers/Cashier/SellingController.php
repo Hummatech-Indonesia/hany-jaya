@@ -69,6 +69,7 @@ class SellingController extends Controller
     {
         $data = $request->validated();
         $data["debt"] = $request->debt;
+        $data['print_type'] = $request->print_type ?? '';
 
         // checking value buyer name
         if(strpos($data["name"],'-')) {
@@ -175,7 +176,7 @@ class SellingController extends Controller
                 }
 
                 DB::commit();
-                $printed = $request?->print_type == 'nota' ? BasePrint::mikePrint($details) : BasePrint::printNota($details);
+                $printed = $data['print_type'] == 'nota' ? BasePrint::mikePrint($details) : BasePrint::printNota($details);
                 if($printed["success"]){
                     return to_route('cashier.index')->with('success', trans('alert.add_success'));
                 } else {
