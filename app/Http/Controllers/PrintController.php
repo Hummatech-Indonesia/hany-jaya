@@ -115,9 +115,11 @@ class PrintController extends Controller
     }
 
     public function printNota(array $products){
-        $connector = new NetworkPrintConnector(env('PRINT_NAME_V2') ?? '127.0.0.1', 80);
-        $printer = new Printer($connector);
         try {
+            $connector = new NetworkPrintConnector(env('PRINT_NAME_V2') ?? '127.0.0.1');
+            
+            $printer = new Printer($connector);
+            
             $printer->initialize();
 
             $this->getText($printer, $products);
@@ -127,8 +129,15 @@ class PrintController extends Controller
             $printer->feedReverse(20);
 
             $printer->close();
-        } finally {
-            $printer -> close();
+            return [
+                "success" => true,
+                "message" => "Berhasil print"
+            ];
+        } catch(Exception $e) {
+            return [
+                "success" => false,
+                "message" => $e->getMessage()
+            ];
         }
     }
 }
