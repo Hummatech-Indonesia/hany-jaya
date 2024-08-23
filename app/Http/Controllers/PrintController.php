@@ -162,7 +162,7 @@ class PrintController extends Controller
         // S:Draw Header Table
         $text = "";
         $text .= $this->addRightPadding('Produk', 19);
-        $text .= $this->addRightPadding('Qty', 7);
+        $text .= $this->addRightPadding('  Qty', 7);
         $text .= $this->addRightPadding('Harga', 12);
         $text .= "Total\n";
         $printer->text($text);
@@ -175,7 +175,7 @@ class PrintController extends Controller
             foreach($product_name as $index => $value) {
                 $text .= $value." ";
                 if($index === 0) {
-                    $text .= $this->addRightPadding(FormatedHelper::formatNumber($product['qty']), 7);
+                    $text .= $this->addRightPadding($this->centerText(FormatedHelper::formatNumber($product['qty']), 6, false), 7);
                     $text .= $this->addRightPadding(FormatedHelper::formatNumber($product['price']), 12);
                     $text .= FormatedHelper::formatNumber($product['price'] * $product['qty']);
                 }
@@ -206,8 +206,9 @@ class PrintController extends Controller
         $printer->text("------------------------------------------------\n");
     }
 
-    public function centerText($text, $length) {
-        return " ".str_pad($text, $length, ' ', STR_PAD_BOTH)."\n";
+    public function centerText($text, $length, bool $withBr = true) {
+        if($withBr) return " ".str_pad($text, $length, ' ', STR_PAD_BOTH)."\n";
+        return " ".str_pad($text, $length, ' ', STR_PAD_BOTH);
     }
 
     function addRightPadding($text, $length, $return_over_text = false) {
