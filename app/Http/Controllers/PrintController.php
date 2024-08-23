@@ -171,9 +171,9 @@ class PrintController extends Controller
 
         foreach($products["details"] as $product) {
             $text = '';
-            $product_name = $this->addRightPadding($product['name'].'asdfjkhasjdfhkjasdfhadsfjk', 18, true);
+            $product_name = $this->addRightPadding($product['name'], 18, true);
             foreach($product_name as $index => $value) {
-                $text .= $value." ";
+                $text .= $this->addRightPadding($value." ", 19);
                 if($index === 0) {
                     $text .= $this->addRightPadding($this->centerText(FormatedHelper::formatNumber($product['qty']), 6, false), 7);
                     $text .= $this->addRightPadding(FormatedHelper::formatNumber($product['price']), 12);
