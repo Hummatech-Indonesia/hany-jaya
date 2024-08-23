@@ -14,6 +14,8 @@ class PrintController extends Controller
     private $full_page = 62;
     private $title_page = 36;
 
+    private $full_struk = 48;
+
     public function print_index(array $products) {
         try {
             $conn =  new WindowsPrintConnector(env('PRINT_NAME') ?? 'localhost');
@@ -114,7 +116,8 @@ class PrintController extends Controller
         return str_pad($text, $length, ' ', STR_PAD_LEFT);
     }
 
-    public function printNotaV2(array $products){
+    public function printStruk(array $products){
+        // dd($products);
         try {
             $connector = new NetworkPrintConnector(env('PRINT_NAME_V2') ?? '127.0.0.1');
             
@@ -126,7 +129,7 @@ class PrintController extends Controller
 
             $printer->feedForm();
             $printer->release();
-            $printer->feedReverse(20);
+            $printer->cut();
 
             $printer->close();
             return [
@@ -142,60 +145,65 @@ class PrintController extends Controller
     }
 
     function getText($printer, array $products) {
-        $printer->setPrintLeftMargin(0);
-
-        $text  = $this->centerText('Hany Jaya', $this->title_page);
-        $printer->text($text);
-        $printer->setPrintLeftMargin(15);
-        $text = $this->centerText('Wilayut, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258', $this->full_page);
-        $text .= $this->centerText('Telp. 0822-4436-5718', $this->full_page)."\n";
-        $text .= $this->addRightPadding(" Nama    : ".$products["buyer_name"], $this->full_page)."\n";
-        $text .= $this->addRightPadding(" Invoice : ".$products["invoice_number"], $this->full_page/2);
-        $text .= $this->addLeftPadding("Tanggal : ".$products["date"], $this->full_page/2)."\n";
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(2, 2);
+        $printer->text("HANY JAYA\n");
+        $printer->setTextSize(1, 1);
+        $printer->text("Wilayut, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258\n");
+        $printer->text("Telp. 0822-4436-5718\n\n");
+        
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text("Nama    : ".$products["buyer_name"]."\n");
+        $printer->text("Invoice : ".$products["invoice_number"]."\n");
+        $printer->text("Tanggal : ".$products["date"]."\n");
+        
+        $this->drawBottomLine($printer);
 
         // S:Draw Header Table
-        $text .= $this->drawBottomLine($this->full_page);
-        $text .= $this->addRightPadding(' Produk', 30);
+        $text = "";
+        $text .= $this->addRightPadding('Produk', 19);
         $text .= $this->addRightPadding('Qty', 7);
-        $text .= $this->addRightPadding('Harga', 14);
+        $text .= $this->addRightPadding('Harga', 12);
         $text .= "Total\n";
-        $text .= $this->drawBottomLine($this->full_page);
+        $printer->text($text);
+        $this->drawBottomLine($printer);
         // E:Draw Header Table
 
         foreach($products["details"] as $product) {
-            $text .= ' ';
-            $product_name = $this->addRightPadding($product['name'], 28, true);
-            $text .= $product_name[0]." ";
-            $text .= $this->addRightPadding(FormatedHelper::formatNumber($product['qty']), 7);
-            $text .= $this->addRightPadding(FormatedHelper::rupiahCurrency($product['price']), 14);
-            $text .= FormatedHelper::rupiahCurrency($product['price'] * $product['qty'])."\n";
-            
-            if($product_name[1]) {
-                $text .= ' ';
-                $text .= $product_name[1]."\n";
+            $text = '';
+            $product_name = $this->addRightPadding($product['name'].'asdfjkhasjdfhkjasdfhadsfjk', 18, true);
+            foreach($product_name as $index => $value) {
+                $text .= $value." ";
+                if($index === 0) {
+                    $text .= $this->addRightPadding(FormatedHelper::formatNumber($product['qty']), 7);
+                    $text .= $this->addRightPadding(FormatedHelper::formatNumber($product['price']), 12);
+                    $text .= FormatedHelper::formatNumber($product['price'] * $product['qty']);
+                }
+                $text .= "\n";
             }
+            $printer->text($text);
         }
 
-        $text .= $this->drawBottomLine($this->full_page);
+        $this->drawBottomLine($printer);
 
-        $text .= $this->addLeftPadding("Total :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["total_price"]), 23)."\n";
-        $text .= $this->addLeftPadding("Bayar :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["pay_price"]), 23)."\n";
-        $text .= $this->addLeftPadding("Kembalian :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["return_price"]), 23)."\n";
-        $text .= $this->addLeftPadding("Hutang :", 40);
-        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["total_debt_price"]), 23)."\n";
+        $printer->setJustification(Printer::JUSTIFY_RIGHT);
+        $printer->text("Total     : ".$this->addSpaceLeft(FormatedHelper::rupiahCurrency($products["total_price"]), 14)."\n");
+        $printer->text("Bayar     : ".$this->addSpaceLeft(FormatedHelper::rupiahCurrency($products["pay_price"]), 14)."\n");
+        $printer->text("Kembalian : ".$this->addSpaceLeft(FormatedHelper::rupiahCurrency($products["return_price"]), 14)."\n");
+        $printer->text("Hutang    : ".$this->addSpaceLeft(FormatedHelper::rupiahCurrency($products["total_debt_price"]), 14)."\n");
 
-        $text .= $this->drawBottomLine($this->full_page);
-
-        $text .= $this->centerText('Terima kasih atas kunjungannya', $this->full_page);
-        $text .= $this->centerText('Selamat berbelanja kembali', $this->full_page);
-        $printer->text($text);
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $this->drawBottomLine($printer);
+        $printer->text("Terima kasih atas kunjungannya\n");
+        $printer->text("Selamat berbelanja kembali\n");
     }
 
-    function drawBottomLine($length):string {
-        return " ".str_pad('', $length, '-', STR_PAD_BOTH)."\n";
+    function addSpaceLeft($text, $maxLength):string {
+        return str_pad($text, $maxLength, ' ', STR_PAD_LEFT);
+    }
+
+    function drawBottomLine($printer) {
+        $printer->text("------------------------------------------------\n");
     }
 
     public function centerText($text, $length) {
@@ -206,9 +214,7 @@ class PrintController extends Controller
         if(!$return_over_text) return str_pad($text, $length, ' ', STR_PAD_RIGHT);
         
         $text_array = str_split($text, $length);
-        $print_text = $text_array[0];
-        unset($text_array[0]);
-        return [str_pad($print_text, $length, ' ', STR_PAD_RIGHT), implode("", $text_array)];
+        return $text_array;
     }
     
     function addLeftPadding($text, $length) {

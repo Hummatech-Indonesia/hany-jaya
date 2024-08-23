@@ -176,7 +176,7 @@ class SellingController extends Controller
                 }
 
                 DB::commit();
-                $printed = $data['print_type'] == 'nota' ? BasePrint::mikePrint($details) : BasePrint::printNota($details);
+                $printed = $data['print_type'] == 'nota' ? BasePrint::mikePrint($details) : BasePrint::printStruk($details);
                 if($printed["success"]){
                     return to_route('cashier.index')->with('success', trans('alert.add_success'));
                 } else {
@@ -363,7 +363,7 @@ class SellingController extends Controller
                 ];
             }
     
-            $printed = $request?->print_type == 'nota' ? BasePrint::mikePrint($details) : BasePrint::printNota($details);
+            $printed = $request?->print_type == 'nota' ? BasePrint::mikePrint($details) : BasePrint::printStruk($details);
             if($printed["success"]){
                 return BaseResponse::Ok("Berhasil melakukan print history transaksi",null);
             } else {
