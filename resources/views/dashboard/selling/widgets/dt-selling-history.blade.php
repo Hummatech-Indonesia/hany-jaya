@@ -199,11 +199,26 @@
                     title: 'Data akan di cetak',
                     text: 'Apakah anda yakin?',
                     showCancelButton: true,
+                    showCloseButton: true,
                     showConfirmButton: true,
+                    confirmButtonText: 'Cetak Struk',
+                    cancelButtonText: 'Cetak Nota',
+                    customClass: {
+                        cancelButton: 'btn btn-info mx-2',
+                        confirmButton: 'btn btn-primary mx-2'
+                    },
+                    buttonsStyling: false
                 }).then(res => {
                     if(res.isConfirmed) {
                         $.ajax({
-                            url: print_url,
+                            url: print_url+'?printer_type=struk',
+                            success: (res) => {
+                                printSwal('success', 'Sukses', res.message)
+                            }
+                        })
+                    } else if(res.isDenied) {
+                        $.ajax({
+                            url: print_url+'?printer_type=nota',
                             success: (res) => {
                                 printSwal('success', 'Sukses', res.message)
                             }
