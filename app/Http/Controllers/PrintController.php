@@ -21,6 +21,107 @@ class PrintController extends Controller
 
             $printer->initialize();
 
+            $this->getTextV2($printer, $products);
+
+            $printer->feedForm();
+            $printer->release();
+            $printer->feedReverse(20);
+
+            $printer->close();
+            return [
+                "success" => true,
+                "message" => "Berhasil print"
+            ];
+        } catch(Exception $e) {
+            return [
+                "success" => false,
+                "message" => $e->getMessage()
+            ];
+        }
+    }
+
+    function getTextV2($printer, array $products) {
+        $printer->setPrintLeftMargin(0);
+
+        $text  = $this->centerText('Hany Jaya', $this->title_page);
+        $printer->text($text);
+        $printer->setPrintLeftMargin(15);
+        $text = $this->centerText('Wilayut, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258', $this->full_page);
+        $text .= $this->centerText('Telp. 0822-4436-5718', $this->full_page)."\n";
+        $text .= $this->addRightPadding(" Nama    : ".$products["buyer_name"], $this->full_page)."\n";
+        $text .= $this->addRightPadding(" Invoice : ".$products["invoice_number"], $this->full_page/2);
+        $text .= $this->addLeftPadding("Tanggal : ".$products["date"], $this->full_page/2)."\n";
+
+        // S:Draw Header Table
+        $text .= $this->drawBottomLine($this->full_page);
+        $text .= $this->addRightPadding(' Produk', 30);
+        $text .= $this->addRightPadding('Qty', 7);
+        $text .= $this->addRightPadding('Harga', 14);
+        $text .= "Total\n";
+        $text .= $this->drawBottomLine($this->full_page);
+        // E:Draw Header Table
+
+        foreach($products["details"] as $product) {
+            $text .= ' ';
+            $product_name = $this->addRightPadding($product['name'], 28, true);
+            $text .= $product_name[0]." ";
+            $text .= $this->addRightPadding(FormatedHelper::formatNumber($product['qty']), 7);
+            $text .= $this->addRightPadding(FormatedHelper::rupiahCurrency($product['price']), 14);
+            $text .= FormatedHelper::rupiahCurrency($product['price'] * $product['qty'])."\n";
+            
+            if($product_name[1]) {
+                $text .= ' ';
+                $text .= $product_name[1]."\n";
+            }
+        }
+
+        $text .= $this->drawBottomLine($this->full_page);
+
+        $text .= $this->addLeftPadding("Total :", 40);
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["total_price"]), 23)."\n";
+        $text .= $this->addLeftPadding("Bayar :", 40);
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["pay_price"]), 23)."\n";
+        $text .= $this->addLeftPadding("Kembalian :", 40);
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["return_price"]), 23)."\n";
+        $text .= $this->addLeftPadding("Hutang :", 40);
+        $text .= $this->addLeftPadding(FormatedHelper::rupiahCurrency($products["total_debt_price"]), 23)."\n";
+
+        $text .= $this->drawBottomLine($this->full_page);
+
+        $text .= $this->centerText('Terima kasih atas kunjungannya', $this->full_page);
+        $text .= $this->centerText('Selamat berbelanja kembali', $this->full_page);
+        $printer->text($text);
+    }
+
+    function drawBottomLineV2($length):string {
+        return " ".str_pad('', $length, '-', STR_PAD_BOTH)."\n";
+    }
+
+    public function centerTextV2($text, $length) {
+        return " ".str_pad($text, $length, ' ', STR_PAD_BOTH)."\n";
+    }
+
+    function addRightPaddingV2($text, $length, $return_over_text = false) {
+        if(!$return_over_text) return str_pad($text, $length, ' ', STR_PAD_RIGHT);
+        
+        $text_array = str_split($text, $length);
+        $print_text = $text_array[0];
+        unset($text_array[0]);
+        return [str_pad($print_text, $length, ' ', STR_PAD_RIGHT), implode("", $text_array)];
+    }
+    
+    function addLeftPaddingV2($text, $length) {
+        return str_pad($text, $length, ' ', STR_PAD_LEFT);
+    }
+
+    public function printNotaV2(array $products){
+        try {
+            $connector = new NetworkPrintConnector(env('PRINT_NAME_V2') ?? '127.0.0.1');
+            
+            $printer = new Printer($connector);
+            
+            $printer->initialize();
+
             $this->getText($printer, $products);
 
             $printer->feedForm();
@@ -112,32 +213,5 @@ class PrintController extends Controller
     
     function addLeftPadding($text, $length) {
         return str_pad($text, $length, ' ', STR_PAD_LEFT);
-    }
-
-    public function printNota(array $products){
-        try {
-            $connector = new NetworkPrintConnector(env('PRINT_NAME_V2') ?? '127.0.0.1');
-            
-            $printer = new Printer($connector);
-            
-            $printer->initialize();
-
-            $this->getText($printer, $products);
-
-            $printer->feedForm();
-            $printer->release();
-            $printer->feedReverse(20);
-
-            $printer->close();
-            return [
-                "success" => true,
-                "message" => "Berhasil print"
-            ];
-        } catch(Exception $e) {
-            return [
-                "success" => false,
-                "message" => $e->getMessage()
-            ];
-        }
     }
 }
