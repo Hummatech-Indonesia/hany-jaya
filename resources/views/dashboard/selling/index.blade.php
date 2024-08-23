@@ -185,6 +185,17 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <label for="print_type">Jenis Cetak (f7) <small class="text-danger">*</small></label>
+                                                </div>
+                                                <div class="col-9">
+                                                    <select name="print_type" id="print_type" class="form-select">
+                                                        <option value="struk">Struk</option>
+                                                        <option value="nota">Nota</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div class="text-end text-primary">(alt+enter)</div>
                                             <button type="button" id="btn-open-modal" data-bs-toggle="modal" data-bs-target="#selling-modal" class="w-100 btn btn-lg btn-success"><i class="ti ti-shopping-cart"></i> Bayar</button>
                                         </div>
@@ -324,6 +335,12 @@
                 onFocus: () => {setSelectizeFocus('cust')}
             })
 
+            const selectize_print_type = $('#print_type').selectize({
+                maxItems: 1
+            })
+
+            const select_print_type = selectize_print_type[0].selectize
+
             const select_cust = selectize_cust[0].selectize
 
             const selectize_product = $('#product-code').selectize({
@@ -363,6 +380,7 @@
                 'f4': function() {$('#telp').focus()},
                 'f5': function() { select_product.focus() },
                 'f6': function() {shortcutChangeMethodHandler()},
+                'f7': function() { select_print_type.focus() },
                 'alt+enter': async function() {
                     const count_error = await checkIsHasError()
                     if(count_error != 0) return 
