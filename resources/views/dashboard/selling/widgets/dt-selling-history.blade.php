@@ -211,14 +211,14 @@
                 }).then(res => {
                     if(res.isConfirmed) {
                         $.ajax({
-                            url: print_url+'?printer_type=struk',
+                            url: print_url+'?print_type=struk',
                             success: (res) => {
                                 printSwal('success', 'Sukses', res.message)
                             }
                         })
-                    } else if(res.isDenied) {
+                    } else if(res.isDismissed && res.dismiss == 'cancel') {
                         $.ajax({
-                            url: print_url+'?printer_type=nota',
+                            url: print_url+'?print_type=nota',
                             success: (res) => {
                                 printSwal('success', 'Sukses', res.message)
                             }
