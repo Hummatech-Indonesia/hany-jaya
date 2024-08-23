@@ -41,4 +41,10 @@ class BasePrint {
         $print = new PrintController();
         return $print->print_index($data);
     }
+
+    public static function printNota(array $data)
+    {
+        $print = new PrintController();
+        return $print->printNota($data);
+    }
 }

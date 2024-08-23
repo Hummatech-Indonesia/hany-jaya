@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
 use App\Helpers\FormatedHelper;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 
 class PrintController extends Controller
 {
@@ -111,5 +112,23 @@ class PrintController extends Controller
     
     function addLeftPadding($text, $length) {
         return str_pad($text, $length, ' ', STR_PAD_LEFT);
+    }
+
+    public function printNota(array $products){
+        $connector = new NetworkPrintConnector(env('PRINT_NAME_V2') ?? '127.0.0.1', 80);
+        $printer = new Printer($connector);
+        try {
+            $printer->initialize();
+
+            $this->getText($printer, $products);
+
+            $printer->feedForm();
+            $printer->release();
+            $printer->feedReverse(20);
+
+            $printer->close();
+        } finally {
+            $printer -> close();
+        }
     }
 }
