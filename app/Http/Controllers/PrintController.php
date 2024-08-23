@@ -117,7 +117,6 @@ class PrintController extends Controller
     }
 
     public function printStruk(array $products){
-        // dd($products);
         try {
             $connector = new NetworkPrintConnector(env('PRINT_NAME_V2') ?? '127.0.0.1');
             
@@ -126,12 +125,7 @@ class PrintController extends Controller
             $printer->initialize();
 
             $this->getText($printer, $products);
-
-            $printer->feedForm();
-            $printer->release();
             $printer->cut();
-
-            $printer->close();
             return [
                 "success" => true,
                 "message" => "Berhasil print"
