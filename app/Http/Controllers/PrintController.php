@@ -117,7 +117,6 @@ class PrintController extends Controller
     }
 
     public function printStruk(array $products){
-        // dd($products);
         try {
             $connector = new NetworkPrintConnector(env('PRINT_NAME_V2') ?? '127.0.0.1');
             
@@ -126,12 +125,7 @@ class PrintController extends Controller
             $printer->initialize();
 
             $this->getText($printer, $products);
-
-            $printer->feedForm();
-            $printer->release();
             $printer->cut();
-
-            $printer->close();
             return [
                 "success" => true,
                 "message" => "Berhasil print"
@@ -162,7 +156,7 @@ class PrintController extends Controller
         // S:Draw Header Table
         $text = "";
         $text .= $this->addRightPadding('Produk', 19);
-        $text .= $this->addRightPadding('Qty', 7);
+        $text .= $this->addRightPadding('  Qty', 7);
         $text .= $this->addRightPadding('Harga', 12);
         $text .= "Total\n";
         $printer->text($text);
@@ -171,11 +165,11 @@ class PrintController extends Controller
 
         foreach($products["details"] as $product) {
             $text = '';
-            $product_name = $this->addRightPadding($product['name'].'asdfjkhasjdfhkjasdfhadsfjk', 18, true);
+            $product_name = $this->addRightPadding($product['name'], 18, true);
             foreach($product_name as $index => $value) {
-                $text .= $value." ";
+                $text .= $this->addRightPadding($value." ", 19);
                 if($index === 0) {
-                    $text .= $this->addRightPadding(FormatedHelper::formatNumber($product['qty']), 7);
+                    $text .= $this->addRightPadding($this->centerText(FormatedHelper::formatNumber($product['qty']), 6, false), 7);
                     $text .= $this->addRightPadding(FormatedHelper::formatNumber($product['price']), 12);
                     $text .= FormatedHelper::formatNumber($product['price'] * $product['qty']);
                 }
@@ -206,8 +200,9 @@ class PrintController extends Controller
         $printer->text("------------------------------------------------\n");
     }
 
-    public function centerText($text, $length) {
-        return " ".str_pad($text, $length, ' ', STR_PAD_BOTH)."\n";
+    public function centerText($text, $length, bool $withBr = true) {
+        if($withBr) return " ".str_pad($text, $length, ' ', STR_PAD_BOTH)."\n";
+        return " ".str_pad($text, $length, ' ', STR_PAD_BOTH);
     }
 
     function addRightPadding($text, $length, $return_over_text = false) {
