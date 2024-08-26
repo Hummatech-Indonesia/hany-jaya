@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Helpers\BaseDatatable;
+use App\Helpers\BasePrint;
 use App\Helpers\BaseResponse;
 use App\Http\Requests\BuyerRequest;
 use App\Models\Buyer;
@@ -141,5 +142,12 @@ class BuyerController extends Controller
     public function delete(Buyer $buyer)
     {
 
+    }
+
+    public function printBuyer(Request $request) 
+    {
+        $data = $this->buyer->getBuyerV2($request)->get();
+        BasePrint::printProduct($data->toArray());
+        return BaseResponse::Ok("Berhasil print product",null);
     }
 }

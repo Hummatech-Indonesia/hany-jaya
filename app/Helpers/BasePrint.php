@@ -47,4 +47,22 @@ class BasePrint {
         $print = new PrintController();
         return $print->printStruk($data);
     }
+
+    public static function printProduct(array $data)
+    {
+        $print = new PrintController();
+        return $print->printProduct($data);
+    }
+
+    public static function printBuyer(array $data)
+    {
+        $print = new PrintController();
+        return $print->printBuyer($data);
+    }
+
+    public static function printOpname(array $data)
+    {
+        $print = new PrintController();
+        return $print->printOpname($data);
+    }
 }

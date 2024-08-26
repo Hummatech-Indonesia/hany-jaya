@@ -10,6 +10,7 @@ use App\Contracts\Interfaces\Admin\UnitInterface;
 use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
 use App\Helpers\ResponseHelper;
 use App\Helpers\BaseDatatable;
+use App\Helpers\BasePrint;
 use App\Helpers\BaseResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
@@ -327,5 +328,43 @@ class ProductController extends Controller
         $product->update(['selling_price' => $request->price]);
 
         return BaseResponse::Ok('Berhasil menambahkan data',$data);
+    }
+
+    public function printProduct(Request $request)
+    {
+        $product = $this->product->withElequent(["unit", "category", 
+        "supplierProducts" => function ($query) {
+            $query->where('is_delete',0);
+        },
+        "productUnits" => function($query) {
+            $query->with("unit")->where('is_delete',0);
+        },
+        "detailPurchases.purchase.supplier", 
+        "payload" => [
+            "category_id" => $request->category_id
+        ]
+        ])->get();
+
+        BasePrint::printProduct($product->toArray());
+        return BaseResponse::Ok("Berhasil print product",null);
+    }
+
+    public function printOpname(Request $request)
+    {
+        $product = $this->product->withElequent(["unit", "category", 
+        "supplierProducts" => function ($query) {
+            $query->where('is_delete',0);
+        },
+        "productUnits" => function($query) {
+            $query->with("unit")->where('is_delete',0);
+        },
+        "detailPurchases.purchase.supplier", 
+        "payload" => [
+            "category_id" => $request->category_id
+        ]
+        ])->get();
+
+        BasePrint::printOpname($product->toArray());
+        return BaseResponse::Ok("Berhasil print stock opname",null);
     }
 }

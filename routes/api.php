@@ -95,4 +95,9 @@ Route::name('find.')->prefix('find')->group(function () {
 });
 
 Route::get('summary/laba-rugi', [CostController::class, 'sumLabaRugi'])->name('laba-rugi');
-Route::get('print/transaction-history/{selling}', [SellingController::class, 'printHistoryTransaction'])->name('print.transaction-history');
+Route::prefix('print')->name('print.')->group(function(){
+    Route::post('product', [ProductController::class, 'printProduct'])->name('product');
+    Route::post('buyer', [ BuyerController::class, 'printBuyer'])->name('buyer');
+    Route::post('stockOpname', [ ProductController::class, 'printOpname'])->name('stock-opname');
+    Route::get('transaction-history/{selling}', [SellingController::class, 'printHistoryTransaction'])->name('transaction-history');
+});
