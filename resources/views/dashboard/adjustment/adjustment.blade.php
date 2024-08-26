@@ -30,6 +30,7 @@
                         <button type="button" class="btn btn-primary" id="btn-update-stock">
                                 Sesuaikan Stok
                         </button>
+                        <button type="button" class="btn btn-info" id="btn-print-data">Cetak</button>
                     </div>
                 </div>
                 @include('dashboard.adjustment.widgets.dt-update-stock')
@@ -46,6 +47,23 @@
     <script src="{{asset('assets/js/number-format.js')}}"></script>
     <script>
         $(document).ready(function() {
+            $(document).on('click', '#btn-print-data', function() {
+                const category_id = $('#category_id').val()
+                $.ajax({
+                    url: '{{ route("print.stock-opname") }}',
+                    method: 'POST',
+                    data: {
+                        category_id
+                    },
+                    success: (res) => {
+                        Toaster('success', res.message)
+                    },
+                    error: (xhr) => {
+                        Toaster('error', 'Terjadi kesalahan saat melakukan cetak')
+                    }
+                })
+            })
+
             getCategories()
 
             const selectize_category_id = $('#category_id').selectize({

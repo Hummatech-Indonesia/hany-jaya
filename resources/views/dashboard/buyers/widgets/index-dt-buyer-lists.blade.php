@@ -43,6 +43,7 @@
             ],
             initComplete: function() {
                 $('.dt-buttons').addClass('btn-group-sm')
+                $('.custom-container').html(`<button type="button" class="btn btn-sm btn-primary" id="btn-print-data">Cetak</button>`)
             },
             language: {
                 processing: `Memuat...`
@@ -105,6 +106,19 @@
                     searchable: false
                 }
             ]
+        })
+
+        $(document).on('click', '#btn-print-data', function() {
+            $.ajax({
+                url: '{{ route("print.buyer") }}',
+                method: 'POST',
+                success: (res) => {
+                    Toaster('success', res.message)
+                },
+                error: (xhr) => {
+                    Toaster('error', 'Terjadi kesalahan saat melakukan cetak')
+                }
+            })
         })
     })
 </script>
