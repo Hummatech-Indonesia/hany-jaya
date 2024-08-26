@@ -19,6 +19,8 @@ class PrintController extends Controller
     private $full_page_v2 = 136;
     private $title_page_v2 = 78;
 
+    private $br_counter = 0;
+
     public function print_index(array $products) {
         try {
             $conn =  new WindowsPrintConnector(env('PRINT_NAME') ?? 'localhost');
@@ -67,16 +69,28 @@ class PrintController extends Controller
         // E:Draw Header Table
 
         foreach($products["details"] as $product) {
+            $hehe = (($this->br_counter - 22) % 32);
+            $count_looping = 0;
+            while(($this->br_counter > 19 && $this->br_counter < 22) || (($this->br_counter - 22 > 2) && ($hehe > 29 && $hehe < 32))) {
+                $count_looping++;
+                $text .= "\n";
+                $this->br_counter++;
+                $hehe = (($this->br_counter - 22) % 32);
+            }
+
             $text .= ' ';
             $product_name = $this->addRightPaddingV2($product['name'], 78, true);
             $text .= $product_name[0]." ";
             $text .= $this->addRightPaddingV2(FormatedHelper::formatNumber($product['qty']), 15);
             $text .= $this->addRightPaddingV2(FormatedHelper::rupiahCurrency($product['price']), 25);
             $text .= FormatedHelper::rupiahCurrency($product['price'] * $product['qty'])."\n";
+
+            $this->br_counter++;
             
             if($product_name[1]) {
                 $text .= ' ';
                 $text .= $product_name[1]."\n";
+                $this->br_counter++;
             }
         }
 

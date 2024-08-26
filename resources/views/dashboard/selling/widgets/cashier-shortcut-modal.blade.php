@@ -39,6 +39,10 @@
                             <td>Ubah metode pembayaran (tunai / hutang)</td>
                         </tr>
                         <tr>
+                            <td><kbd>f7</kbd></td>
+                            <td>Ubah jenis cetak (struk / nota)</td>
+                        </tr>
+                        <tr>
                             <td><kbd><i class="ti ti-arrow-narrow-up"></i></kbd></td>
                             <td>Ke input jumlah produk di atasnya</td>
                         </tr>
