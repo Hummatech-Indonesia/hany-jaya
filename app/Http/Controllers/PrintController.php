@@ -391,8 +391,8 @@ class PrintController extends Controller
         // S:Draw Header Table
         $text .= $this->drawBottomLineV2($this->full_page_v2);
         $text .= $this->addRightPaddingV2(' Produk', 80);
-        $text .= $this->addRightPaddingV2('Satuan', 15);
-        $text .= $this->addRightPaddingV2('Qty', 25);
+        $text .= $this->addRightPaddingV2('Satuan', 25);
+        $text .= $this->addRightPaddingV2('Qty', 15);
         $text .= "Adjust\n";
         $text .= $this->drawBottomLineV2($this->full_page_v2);
         // E:Draw Header Table
@@ -401,9 +401,9 @@ class PrintController extends Controller
             $text .= ' ';
             $product_name = $this->addRightPaddingV2($product['name'], 78, true);
             $text .= $product_name[0]." ";
-            $text .= $this->addRightPaddingV2(FormatedHelper::formatNumber($product['qty']), 15);
-            $text .= $this->addRightPaddingV2(FormatedHelper::rupiahCurrency($product['price']), 25);
-            $text .= FormatedHelper::rupiahCurrency($product['price'] * $product['qty'])."\n";
+            $text .= $this->addRightPaddingV2($product['unit']["name"], 25);
+            $text .= $this->addRightPaddingV2(FormatedHelper::formatNumber($product['quantity']), 15);
+            $text .= '.....'."\n";
             
             if($product_name[1]) {
                 $text .= ' ';
@@ -413,7 +413,7 @@ class PrintController extends Controller
 
         $text .= $this->drawBottomLineV2($this->full_page_v2);
 
-        $text .= $this->centerTextV2('Terima kasih atas kunjungannya', $this->full_page_v2);
+        $text .= $this->centerTextV2('Silahkan melakukan penyesuaian dalam stock anda!', $this->full_page_v2);
         $printer->text($text);
     }
 }
