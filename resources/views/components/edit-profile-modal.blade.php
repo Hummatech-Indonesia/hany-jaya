@@ -31,6 +31,19 @@
                             </div>
                         </div>
                     </div>
+                    @role('admin')
+                        @php
+                            $store = \App\Models\Store::first();
+                        @endphp
+                        <div class="grid col-12">
+                            <div class="row mb-2">
+                                <div class="form-group col-12 mb-3">
+                                    <label class="fw-semibold">Kode Toko</label>
+                                    <input type="text" name="code" class="form-control" placeholder="Kode toko" value="{{ old('code',$store->code_debt) }}">
+                                </div>
+                            </div>
+                        </div>
+                    @endrole
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>

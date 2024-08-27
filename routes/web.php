@@ -50,9 +50,9 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::patch('profile-change-password', [ProfileController::class, 'changePassword'])->name('profile.change.password');
+    Route::get('admin/update-profile', [ProfileController::class, 'index'])->name('admin.profile');
+    Route::patch('admin/update-profile', [ProfileController::class, 'update'])->name('admin.update.profile');
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
-        Route::get('update-profile', [ProfileController::class, 'index'])->name('profile');
-        Route::patch('update-profile', [ProfileController::class, 'update'])->name('update.profile');
         Route::get('supplier-products/{supplier?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
         Route::get('product-units/{product?}', [ProductUnitController::class, 'index'])->name('product.unit.index');
         Route::get('units-ajax', [UnitController::class, 'get'])->name('units.get');

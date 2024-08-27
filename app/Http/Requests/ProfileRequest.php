@@ -25,7 +25,7 @@ class ProfileRequest extends FormRequest
             'name' => "required",
             'email' => 'required',
             'photo' => "nullable",
-
+            'code' => 'nullable'
         ];
     }
     /**

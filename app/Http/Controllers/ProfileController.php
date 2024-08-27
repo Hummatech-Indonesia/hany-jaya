@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Interfaces\ProfileInterface;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\ProfileRequest;
+use App\Models\Store;
 use App\Models\User;
 use App\Services\ProfileService;
 use Illuminate\Http\RedirectResponse;
@@ -33,7 +34,8 @@ class ProfileController extends Controller
      */
     public function index(): View
     {
-        return view('dashboard.profile.index');
+        $store = Store::first();
+        return view('dashboard.profile.index', compact('store'));
     }
     /**
      * Method cashier
@@ -42,7 +44,8 @@ class ProfileController extends Controller
      */
     public function cashier(): View
     {
-        return view('dashboard.profile.cashier');
+        $store = Store::first();
+        return view('dashboard.profile.cashier', compact('store'));
     }
     /**
      * Method update
@@ -55,6 +58,10 @@ class ProfileController extends Controller
     public function update(ProfileRequest $request): RedirectResponse
     {
         $this->profile->update(auth()->user()->id, $this->service->update($request));
+        if(auth()->user()->hasRole('admin')){
+            $store = Store::first();
+            $store->update(['code_debt' => $request->code ?? $store->code_debt]);
+        }
         return back()->with('success', 'Berhasil mengubah profil');
     }
     /**
