@@ -240,7 +240,7 @@ class PrintController extends Controller
 
             $printer->initialize();
 
-            $this->getTextV4($printer, $products);
+            $this->getTextV3($printer, $products);
 
             $printer->feedForm();
             $printer->release();
@@ -270,18 +270,16 @@ class PrintController extends Controller
         
         // S:Draw Header Table
         $text .= $this->drawBottomLineV2($this->full_page_v2);
-        $text .= $this->addRightPaddingV2(' Produk', 63);
+        $text .= $this->addRightPaddingV2(' Nama Produk', 83);
         $text .= "Kode\n";
         $text .= $this->drawBottomLineV2($this->full_page_v2);
         // E:Draw Header Table
 
         foreach($products as $product) {
             $text .= ' ';
-            $product_name = $this->addRightPaddingV2($product['name'], 78, true);
+            $product_name = $this->addRightPaddingV2($product['name'] . "  (". $product['unit']["name"] .")", 81, true);
             $text .= $product_name[0]." ";
-            $text .= $this->addRightPaddingV2(FormatedHelper::formatNumber($product['qty']), 15);
-            $text .= $this->addRightPaddingV2(FormatedHelper::rupiahCurrency($product['price']), 25);
-            $text .= FormatedHelper::rupiahCurrency($product['price'] * $product['qty'])."\n";
+            $text .= $product['code'] ."\n";
             
             if($product_name[1]) {
                 $text .= ' ';
@@ -332,18 +330,16 @@ class PrintController extends Controller
         
         // S:Draw Header Table
         $text .= $this->drawBottomLineV2($this->full_page_v2);
-        $text .= $this->addRightPaddingV2(' Nama Pemebeli', 63);
+        $text .= $this->addRightPaddingV2(' Nama Pemebeli', 83);
         $text .= "Kode\n";
         $text .= $this->drawBottomLineV2($this->full_page_v2);
         // E:Draw Header Table
 
         foreach($buyers as $buyer) {
             $text .= ' ';
-            $buyer_name = $this->addRightPaddingV2($buyer['name'], 78, true);
+            $buyer_name = $this->addRightPaddingV2($buyer['name']. " | " .$buyer['address'] , 81, true);
             $text .= $buyer_name[0]." ";
-            $text .= $this->addRightPaddingV2(FormatedHelper::formatNumber($buyer['qty']), 15);
-            $text .= $this->addRightPaddingV2(FormatedHelper::rupiahCurrency($buyer['price']), 25);
-            $text .= FormatedHelper::rupiahCurrency($buyer['price'] * $buyer['qty'])."\n";
+            $text .= $this->addRightPaddingV2($buyer['code'] . "\n", 0);
             
             if($buyer_name[1]) {
                 $text .= ' ';
@@ -353,7 +349,7 @@ class PrintController extends Controller
 
         $text .= $this->drawBottomLineV2($this->full_page_v2);
 
-        $text .= $this->centerTextV2('Terima kasih atas kunjungannya', $this->full_page_v2);
+        $text .= $this->centerTextV2('Selamat mengingat data ini!', $this->full_page_v2);
         $printer->text($text);
     }
 

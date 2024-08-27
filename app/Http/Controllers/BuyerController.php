@@ -147,7 +147,7 @@ class BuyerController extends Controller
     public function printBuyer(Request $request) 
     {
         $data = $this->buyer->getBuyerV2($request)->get();
-        BasePrint::printProduct($data->toArray());
-        return BaseResponse::Ok("Berhasil print product",null);
+        BasePrint::printBuyer($data->toArray());
+        return BaseResponse::Ok("Berhasil print buyer",null);
     }
 }
