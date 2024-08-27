@@ -35,14 +35,6 @@
                     </select>
                 </div>
                 <div class="row" id="detail-type">
-                    <div class="col" data-type="yearly">
-                        <div class="form-group mb-3">
-                            <label for="year">Tahun</label>
-                            <select name="year" id="year" class="form-select">
-                                <option value="" selected disabled>-- pilih tahun --</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="col" data-type="monthly">
                         <div class="form-group mb-3">
                             <label for="month">Bulan</label>
@@ -63,6 +55,14 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col" data-type="yearly">
+                        <div class="form-group mb-3">
+                            <label for="year">Tahun</label>
+                            <select name="year" id="year" class="form-select">
+                                <option value="" selected disabled>-- pilih tahun --</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,7 +73,8 @@
                 <button type="button" class="btn btn-primary" id="btn-print">Cetak Laporan</button>
             </div>
             <div class="card-body" id="printable-element" style="">
-                <h5 style="text-align: center; font-weight: bold;font-family: sans-serif">Laporan Laba Rugi Hany Jaya</h5>
+                <h5 style="margin-bottom: 0rem; text-align: center; font-weight: bold;font-family: sans-serif">Laporan Laba Rugi Hany Jaya</h5>
+                <h5 style="margin-top: 0rem; text-align: center; font-weight: semibold;font-family: sans-serif" id="periode">Periode</h5>
                 <table class="table" style="width: 100%; border-collapse: collapse;font-family: sans-serif">
                     <tbody id="printable-list">
                     </tbody>
@@ -89,6 +90,18 @@
     <script src="{{asset('assets/libs/selectize/selectize.min.js')}}"></script>
     <script>
         $(document).ready(function() {
+
+            firstInit()
+            function firstInit() {
+                const now = new Date()
+                const year = now.getFullYear()
+                const month = now.getMonth() + 1
+
+                $('[name=type]').val('monthly').trigger('change')
+                $('[name=month]').val(month).trigger('change')
+                $('[name=year]').val(year).trigger('change')
+            }
+            
             initYear()
             let print_title = ''
             function initYear() {
@@ -101,6 +114,7 @@
                         })
 
                         $('[name=year]').html(year_list)
+                        firstInit()
                     }
                 })
             }
@@ -131,11 +145,13 @@
                 if($('[name=type]').val() == 'yearly' && $('[name=year]').val()) {
                     getAccountingReport()
                     print_title = $('[name=year]').val()
+                    $('#periode').text('Periode '+print_title)
                     $('#print-component').show()
                 }
                 else if($('[name=type]').val() == 'monthly' && $('[name=year]').val() && $('[name=month]').val()) {
                     getAccountingReport()
                     print_title = $('[name=month] :selected').html() + ' ' + $('[name=year]').val()
+                    $('#periode').text('Periode '+print_title)
                     $('#print-component').show()
                 } else {
                     $('#print-component').hide()
