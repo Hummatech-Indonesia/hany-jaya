@@ -43,7 +43,7 @@ class CostService
             'loss_category_id' => $data['loss_category_id'],
             'price' => $data['price'],
             'image' => $imageUrl,
-            'date' => $data['date']
+            'date' => $data['date'] ?? date('Y-m-d')
         ];
     }
 

@@ -140,9 +140,9 @@ class CostRepository extends BaseRepository implements CostInterface
         ->leftJoin('loss_categories','costs.loss_category_id','=','loss_categories.id')
         ->when($data, function ($query) use ($data){
             try{
-                if($data["year"]) $query->whereYear('costs.created_at',$data["year"]);
+                if($data["year"]) $query->whereYear('costs.date',$data["year"]);
 
-                if($data["month"]) $query->whereMonth('costs.created_at', $data['month']);
+                if($data["month"]) $query->whereMonth('costs.date', $data['month']);
             }catch(\Throwable $th){}
         })
         ->groupBy('loss_categories.name')
