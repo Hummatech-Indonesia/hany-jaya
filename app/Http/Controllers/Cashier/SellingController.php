@@ -54,7 +54,7 @@ class SellingController extends Controller
     public function create(Request $request): View
     {
         $buyers = $this->buyer->getBuyerCustomLimit($request)->get();
-        $products = $this->product->get();
+        $products = $this->product->with(['unit','productUnits.unit']);
         $store = Store::first();
         return view('dashboard.selling.index', compact('buyers', 'products', 'store'));
     }
