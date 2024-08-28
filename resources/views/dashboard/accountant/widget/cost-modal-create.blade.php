@@ -9,32 +9,32 @@
             <div class="modal-body">
                 <div class="form-group mb-3">
                     <label for="date">Tanggal Pengeluaran <span class="text-danger">*</span></label>
-                    <input type="date" name="date" id="date" placeholder="Tanggal" class="form-control" value='{{ date('Y-m-d') }}' required>
+                    <input type="date" name="date" id="date" placeholder="Tanggal" class="form-control" value='{{ date('Y-m-d') }}' required tabindex="1">
                 </div>
                 <div class="form-group mb-3">
                     <label for="category_id">Kategori Pengeluaran <span class="text-danger">*</span></label>
-                    <select name="loss_category_id" id="category_id" required></select>
+                    <select name="loss_category_id" id="category_id" required tabindex="2"></select>
                 </div>
                 <div class="form-group mb-3">
                     <label for="price">Biaya <span class="text-danger">*</span></label>
                     <input type="hidden" name="price" required>
                     <div class="input-group">
                         <div class="input-group-text">Rp</div>
-                        <input type="text" id="price" placeholder="Harga" class="form-control" required>
+                        <input type="text" id="price" placeholder="Harga" class="form-control" required tabindex="3">
                     </div>
                 </div>
                 <div class="form-group mb-3">
                     <label for="desc">Keterangan <span class="text-danger">*</span></label>
-                    <textarea name="desc" id="desc" placeholder="Keterangan" class="form-control" required></textarea>
+                    <textarea name="desc" id="desc" placeholder="Keterangan" class="form-control" required tabindex="4"></textarea>
                 </div>
                 <div class="form-group mb-3">
                     <label for="image">Foto Nota</label>
-                    <input type="file" name="image" id="iamge" class="form-control" accept=".jpg,.png,.jpeg">
+                    <input type="file" name="image" id="iamge" class="form-control" accept=".jpg,.png,.jpeg" tabindex="5">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" tabindex="6">Tambah</button>
             </div>
         </form>
     </div>
@@ -43,6 +43,11 @@
 @push('custom-script')
     <script>
         $(document).ready(function() {
+            $(document).on('click', "[data-bs-target=\\#addCostModal]", function() {
+                setTimeout(() => {
+                    $('#date').focus()
+                }, 500);
+            })
             const selectize_category = $('#category_id').selectize({
                 create: true,
                 valueField: 'id',

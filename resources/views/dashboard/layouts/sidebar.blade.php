@@ -112,6 +112,14 @@
                                 <span class="hide-menu">Riwayat Pembelian</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('accountant.cost') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cash"></i>
+                                </span>
+                                <span class="hide-menu">Pengeluaran Lainnya</span>
+                            </a>
+                        </li>
                     @endrole
                     <li class="nav-small-cap">
                         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -151,14 +159,6 @@
                             <i class="ti ti-cash"></i>
                         </span>
                         <span class="hide-menu">Laporan Laba Rugi</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('accountant.cost') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-cash"></i>
-                        </span>
-                        <span class="hide-menu">Pengeluaran Lainnya</span>
                     </a>
                 </li>
                 @endrole
