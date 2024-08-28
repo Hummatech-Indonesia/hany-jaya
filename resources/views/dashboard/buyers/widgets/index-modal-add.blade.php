@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="form-group mb-2">
                     <label for="name" class="form-label">Nama <small class="text-danger">*</small></label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Nama Pembeli" required/>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Nama Pembeli" required foc/>
                 </div>
                 <div class="form-group mb-2">
                     <label for="code" class="form-label">Kode <small class="text-danger">*</small></label>
@@ -45,7 +45,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Ubah</button>
+                <button type="submit" class="btn btn-primary">Tambah</button>
             </div>
         </form>
     </div>
@@ -56,6 +56,7 @@
         $(document).ready(function() {
             $(document).on('click', '#btn-open-add-buyer-modal', function(){
                 $('#modal-add-buyer').modal('show')
+                $("#name").trigger('focus');
             })
 
             $(document).on('input', '#modal-add-buyer #limit_debt', function() {
