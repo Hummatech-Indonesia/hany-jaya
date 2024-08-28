@@ -52,4 +52,14 @@ class Category extends Model implements HasProduct, HasProducts, HasDetailSellin
     {
         return $this->hasMany(Product::class, 'category_id','id');
     }
+
+    /**
+     * Method products
+     *
+     * @return HasMany
+     */
+    public function productsActive(): HasMany
+    {
+        return $this->hasMany(Product::class, 'category_id','id')->where('is_delete',0);
+    }
 }

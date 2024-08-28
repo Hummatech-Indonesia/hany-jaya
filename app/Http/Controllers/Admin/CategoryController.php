@@ -107,7 +107,7 @@ class CategoryController extends Controller
      * @return JsonResponse
      */
     public function tableCategory(Request $request){
-        $data = $this->category->with(["products"]);
+        $data = $this->category->with(["productsActive"]);
         return BaseDatatable::TableV2($data->toArray());
     }
     

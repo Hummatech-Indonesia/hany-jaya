@@ -34,7 +34,7 @@
                 data: 'name',
                 title: "Kategori"
             }, {
-                data: "products_count",
+                data: "products_active_count",
                 title: "Total Produk",
                 render: (data, type, full) => {
                     return `<span class="badge bg-primary text-white">${data}</span>`
