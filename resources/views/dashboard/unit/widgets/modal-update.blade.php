@@ -25,7 +25,7 @@
                     </button>
                     <button tabindex="2" type="submit"
                         class="btn btn-primary font-medium waves-effect text-start btn-edit">
-                        Edit
+                        Ubah
                     </button>
                 </div>
             </div>
