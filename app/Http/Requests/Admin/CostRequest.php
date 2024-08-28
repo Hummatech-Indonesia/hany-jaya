@@ -27,7 +27,7 @@ class CostRequest extends FormRequest
             'desc' => 'required',
             'loss_category_id' => 'required',
             'price' => 'required|numeric|min:0',
-            'date' => 'nullable',
+            'date' => 'required',
             'image' => 'nullable'
         ];
     }
@@ -36,6 +36,7 @@ class CostRequest extends FormRequest
     {
         return [
             'desc.required' => 'Keterangan harus diisi',
+            'date.required' => 'Tanggal harus diisi harus diisi',
             'loss_category_id.required' => 'Kategori harus diisi',
             'price.required' => 'Jumlah pengeluaran harus diisi',
             'price.numeric' => 'Pengelaran harus berupa angka',

@@ -8,6 +8,10 @@
             </div>
             <div class="modal-body">
                 <div class="form-group mb-3">
+                    <label for="date">Tanggal Pengeluaran <span class="text-danger">*</span></label>
+                    <input type="date" name="date" id="date" placeholder="Tanggal" class="form-control" value='{{ date('Y-m-d') }}' required>
+                </div>
+                <div class="form-group mb-3">
                     <label for="category_id">Kategori Pengeluaran <span class="text-danger">*</span></label>
                     <select name="loss_category_id" id="category_id" required></select>
                 </div>

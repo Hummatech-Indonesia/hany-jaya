@@ -35,7 +35,7 @@
                         data: "created_at",
                         title: "Tanggal",
                         render: (data, type, row) => {
-                            return moment(data).locale('id').format('LL')
+                            return moment(row['date'] ?? data).locale('id').format('LL')
                         },
                     }, {
                         title: "Aksi",

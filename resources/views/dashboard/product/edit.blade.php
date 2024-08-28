@@ -130,7 +130,7 @@
                             <div class="d-flex mt-3 gap-3">
                                 <a href="{{route('admin.products.index')}}" class="btn btn-light">Kembali</a>
                                 <button class="btn btn-info rounded-md px-4" type="submit">
-                                    Simpan
+                                    Ubah
                                 </button>
                             </div>
                         </form>
