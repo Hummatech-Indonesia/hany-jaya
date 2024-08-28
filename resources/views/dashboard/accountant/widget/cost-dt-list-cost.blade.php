@@ -40,7 +40,6 @@
                     }, {
                         title: "Aksi",
                         mRender: (data, type, row) => {
-                            console.log(row)
                             if(row['image']) return `<div class="d-flex align-items-center justify-content-center w-100">
                                 <a href="/storage/${row['image']}" target="_blank" class="btn btn-primary-light btn-detail">
                                 <i class="ti ti-photo"></i>
