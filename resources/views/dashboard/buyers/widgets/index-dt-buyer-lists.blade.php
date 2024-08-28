@@ -23,16 +23,19 @@
             buttons: [
                 {
                     extend: 'excel',
+                    filename: 'Data Pembeli - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(7))"
                     }
                 }, {
                     extend: 'csv',
+                    filename: 'Data Pembeli - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(7))"
                     }
                 }, {
                     extend: 'pdf',
+                    filename: 'Data Pembeli - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(7))"
                     }, customize: function (doc) {

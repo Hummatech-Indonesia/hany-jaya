@@ -78,16 +78,19 @@
             buttons: [
                 {
                     extend: 'excel',
+                    filename: 'Data Pengguna - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(4))"
                     }
                 }, {
                     extend: 'csv',
+                    filename: 'Data Pengguna - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(4))"
                     }
                 }, {
                     extend: 'pdf',
+                    filename: 'Data Pengguna - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(4))"
                     }, customize: function (doc) {

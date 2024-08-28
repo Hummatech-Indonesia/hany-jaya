@@ -78,16 +78,19 @@
             buttons: [
                 {
                     extend: 'excel',
+                    filename: 'Data Riwayat Pembelian - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(5))"
                     }
                 }, {
                     extend: 'csv',
+                    filename: 'Data Riwayat Pembelian - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(5))"
                     }
                 }, {
                     extend: 'pdf',
+                    filename: 'Data Riwayat Pembelian - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(5))"
                     },

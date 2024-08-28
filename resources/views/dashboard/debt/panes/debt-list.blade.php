@@ -19,16 +19,19 @@
             buttons: [
                 {
                     extend: 'excel',
+                    filename: 'Data Hutang Pembeli - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(5))"
                     }
                 }, {
                     extend: 'csv',
+                    filename: 'Data Hutang Pembeli - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(5))"
                     }
                 }, {
                     extend: 'pdf',
+                    filename: 'Data Hutang Pembeli - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(5))"
                     }, customize: function (doc) {

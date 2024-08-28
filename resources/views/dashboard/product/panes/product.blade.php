@@ -23,16 +23,19 @@
             buttons: [
                 {
                     extend: 'excel',
+                    filename: 'Data Produk - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(5))"
                     }
                 }, {
                     extend: 'csv',
+                    filename: 'Data Produk - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(5))"
                     }
                 }, {
                     extend: 'pdf',
+                    filename: 'Data Produk - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(5))"
                     }, customize: function (doc) {

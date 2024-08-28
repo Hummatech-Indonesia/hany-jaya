@@ -67,16 +67,19 @@
             buttons: [
                 {
                     extend: 'excel',
+                    filename: 'Data Distributor - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(3))"
                     }
                 }, {
                     extend: 'csv',
+                    filename: 'Data Distributor - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(3))"
                     }
                 }, {
                     extend: 'pdf',
+                    filename: 'Data Distributor - Hanny Jaya',
                     exportOptions: {
                         columns: ":not(:eq(3))"
                     }, customize: function (doc) {

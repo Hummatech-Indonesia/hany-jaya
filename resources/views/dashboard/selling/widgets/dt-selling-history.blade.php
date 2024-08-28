@@ -28,16 +28,19 @@
                 buttons: [
                     {
                         extend: 'excel',
+                        filename: 'Data Riwayat Penjualan - Hanny Jaya',
                         exportOptions: {
                             columns: ":not(:eq(6))"
                         }
                     }, {
                         extend: 'csv',
+                        filename: 'Data Riwayat Penjualan - Hanny Jaya',
                         exportOptions: {
                             columns: ":not(:eq(6))"
                         }
                     }, {
                         extend: 'pdf',
+                        filename: 'Data Riwayat Penjualan - Hanny Jaya',
                         exportOptions: {
                             columns: ":not(:eq(6))"
                         },
