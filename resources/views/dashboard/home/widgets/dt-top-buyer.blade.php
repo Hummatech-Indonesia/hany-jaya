@@ -7,7 +7,7 @@
         let dt_top_buyer = $('#tb-top-buyer').DataTable({
             processing: true,
             serverSide: true,
-            order: [[2, 'desc']],
+            order: [[3, 'desc']],
             searching: false,
             paging: false,
             info: false,
@@ -20,19 +20,23 @@
             columns: [
                 {
                     data: "name",
-                    title: "Pelanggan"
+                    title: "Pelanggan",
+                    orderable: false,
                 }, {
                     data: "address",
                     title: "Alamat",
+                    orderable: false,
                 }, {
                     data: "total_price",
                     title: "Nominal Pembelian",
+                    orderable: false,
                     render: (data, type, row) => {
                         return 'Rp '+formatNum(data)
                     }
                 }, {
                     data: "total_transaction",
                     title: "Jumlah Transaksi",
+                    orderable: false,
                     render: (data, type, row) => {
                         return formatNum(data)
                     }
