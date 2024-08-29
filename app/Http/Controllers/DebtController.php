@@ -83,7 +83,7 @@ class DebtController extends Controller
             }
     
             $this->historyPayDebt->store($data);
-            $buyer->update(['debt' => $buyer->debt - intval($data['pay_debt']), 'limit_date_debt' => $date_limit]);
+            $buyer->update(['debt' => $buyer->debt - $request->pay_debt, 'limit_date_debt' => $date_limit]);
        
             DB::commit();
             return redirect()->back()->with('success', 'Sukses Membayar Hutang');
