@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Interfaces\Admin\CostInterface;
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\SellingInterface;
@@ -14,19 +15,21 @@ use Illuminate\Http\Request;
 
 class ChartController extends Controller
 {
-    private $selling, $chartService, $product, $debt;
+    private $selling, $chartService, $product, $debt, $cost;
 
     public function __construct(
         SellingInterface $selling,
         ProductInterface $product,
         DebtInterface $debt,
         ChartService $chartService,
+        CostInterface $cost
     )
     {
         $this->selling = $selling;
         $this->product = $product;
         $this->debt = $debt;
         $this->chartService = $chartService;
+        $this->cost = $cost;
     }
 
     public function chartPenjualan(Request $request): JsonResponse
@@ -65,12 +68,14 @@ class ChartController extends Controller
         $selling_sum = $this->selling->sum(["year" => $request->year ?? date('Y')]);
         $product_count = $this->product->count(["year" => $request->year ?? date('Y')]);
         $debt_sum = $this->debt->sum(["year" => $request->year ?? date('Y')]);
+        $cost_sum = $this->cost->sumCustom(['year' => $request->year ?? date('Y')])->sum('price');
 
         $data = [
             "selling_count" => $selling_count,
             "selling_sum" => $selling_sum,
             "product_count" => $product_count,
-            "debt_sum" => $debt_sum
+            "debt_sum" => $debt_sum,
+            "cost_sum" => $cost_sum
         ];
 
         return BaseResponse::Ok("Berhasil mengambil data",$data);
