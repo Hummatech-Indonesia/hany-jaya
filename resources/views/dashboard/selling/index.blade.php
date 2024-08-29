@@ -525,8 +525,6 @@
             $(document).on('change input', '#cust-name', function() {
                 var selectedValue = select_cust.getValue();
                 var selectedItem = select_cust.options[selectedValue];
-
-                console.log({selectedValue, selectedItem})
                 
                 if(selectedItem) {
                     if(!selectedItem.address) cust_name_val = selectedValue
