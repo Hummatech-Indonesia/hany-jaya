@@ -175,25 +175,32 @@
             function showPrintable(data) {
                 const table = $('#printable-list')
 
-                let printable_data = `<tr>
-                    <th style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa;"></th>
-                    <th style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa; text-align: start">${print_title}</th>
-                </tr>`
+                let printable_data = `
+                    <tr>
+                        <td style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa;">Pendapatan</td>
+                        <td style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa;"></td>
+                    </tr>
+                `
 
                 printable_data += `
                 <tr>
                     <td style="padding:5px; border: 1px solid #aaa;">${data.income_price.category}</td>
                     <th style="padding:5px; border: 1px solid #aaa; text-align: start">Rp ${formatNum(data.income_price.price)}</th>
+                </tr>`
+                printable_data += `
+                <tr>
+                    <td style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa;">Pengeluaran</td>
+                    <td style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa;"></td>
                 </tr>
                 <tr>
                     <td style="padding:5px; border: 1px solid #aaa;">${data.cost_price.category}</td>
                     <th style="padding:5px; border: 1px solid #aaa; text-align: start">Rp ${formatNum(data.cost_price.price)}</th>
                 </tr>
-                <tr>
-                    <td style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa;">${data.gross_price.category}</td>
-                    <th style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa; text-align: start">Rp ${formatNum(data.gross_price.price)}</th>
-                </tr>
                 `
+                // <tr>
+                //     <td style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa;">${data.gross_price.category}</td>
+                //     <th style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa; text-align: start">Rp ${formatNum(data.gross_price.price)}</th>
+                // </tr>
                 data.others_price.map(other => {
                     printable_data += `
                     <tr>
@@ -204,7 +211,7 @@
                 })
                 printable_data += `
                     <tr>
-                        <td style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa;">${data.net_price.category}</td>
+                        <td style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa;">${data.net_price.category.replace('Bersih', '')}</td>
                         <th style="background-color: #ebf3fe; padding:5px; border: 1px solid #aaa; text-align: start">Rp ${formatNum(data.net_price.price)}</th>
                     </tr>
                 `
