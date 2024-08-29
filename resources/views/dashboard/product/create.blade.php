@@ -40,7 +40,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="mb-2" for="name">Nama Produk <small class="text-danger">*</small></label>
-                                    <input type="text" name="name" class="form-control" placeholder="Aqua"
+                                    <input type="text" name="name" class="form-control" placeholder="Aqua" autofocus
                                         value="{{ old('name') }}" />
                                     @error('name')
                                         <div class="text-danger">{{ $message }}</div>
@@ -240,22 +240,66 @@
                 let data_value = unformatNum($(this).val())
                 if(data_value < 0) $(this).val(0)
                 $('[name=selling_price\\[\\]').val(unformatNum($(this).val()))
+
+                let price = $('[name=selling_price\\[\\]]').val()
+
+                if(price < 1) {
+                    $('[name=selling_price\\[\\]]').closest('.form-group').find('.on_error').removeClass('d-none')
+                } else {
+                    $('[name=selling_price\\[\\]]').closest('.form-group').find('.on_error').addClass('d-none')
+                }
+
                 await isCanSubmit()
             })
 
-            $(document).on('input', '[name=code]', async function() {
-                await isCanSubmit(true)
+            let code_timeout;
+
+            $(document).on('input', '[name=code]', function() {
+                let invoice = $('[name=code]').val()
+
+                if(!invoice) {
+                    $('[name=code]').parent().find('.on_error').removeClass('d-none')
+                    $('[name=code]').parent().find('.on_error').html('Kode produk tidak boleh kosong')
+                } else {
+                    $('[name=code]').parent().find('.on_error').addClass('d-none')
+                }
+
+                if(code_timeout) clearTimeout(code_timeout)
+
+                code_timeout = setTimeout(async () => {
+                    await isCanSubmit(true)
+                }, 400);
             })
 
             $(document).on('input', '[name=name]', async function() {
-                await isCanSubmit()
-            })
-            
-            $(document).on('input', '#formatted_price', async function() {
+                let product = $('[name=name]').val()
+                if(!product) {
+                    $('[name=name]').parent().find('.on_error').removeClass('d-none')
+                } else {
+                    $('[name=name]').parent().find('.on_error').addClass('d-none')
+                }
                 await isCanSubmit()
             })
 
-            isCanSubmit()
+            select.small_unit.on('change', function(value) {
+                let small_unit = select.small_unit.getValue()
+                if(!small_unit) {
+                    $('[name=small_unit_id]').parent().find('.on_error').removeClass('d-none')
+                } else {
+                    $('[name=small_unit_id]').parent().find('.on_error').addClass('d-none')
+                }
+            })
+
+            select.category.on('change', function(value) {
+                let category = select.category.getValue()
+                if(!category) {
+                    $('[name=category_id]').parent().find('.on_error').removeClass('d-none')
+                } else {
+                    $('[name=category_id]').parent().find('.on_error').addClass('d-none')
+                }
+            })
+
+            // isCanSubmit()
 
             async function checkCode() {
                 let code = $('[name=code]').val()
@@ -277,36 +321,17 @@
 
                 let count_error = 0
 
-                if(!category) {
-                    $('[name=category_id]').parent().find('.on_error').removeClass('d-none')
-                    count_error++
-                } else {
-                    $('[name=category_id]').parent().find('.on_error').addClass('d-none')
-                }
+                if(!category) count_error++
 
-                if(price < 1) {
-                    $('[name=selling_price\\[\\]]').closest('.form-group').find('.on_error').removeClass('d-none')
-                    count_error++
-                } else {
-                    $('[name=selling_price\\[\\]]').closest('.form-group').find('.on_error').addClass('d-none')
-                }
+                if(price < 1) count_error++
 
-                if(!small_unit) {
-                    $('[name=small_unit_id]').parent().find('.on_error').removeClass('d-none')
-                    count_error++
-                } else {
-                    $('[name=small_unit_id]').parent().find('.on_error').addClass('d-none')
-                }
+                if(!small_unit) count_error++
 
                 let code_error = 0
 
                 if(!invoice) {
-                    $('[name=code]').parent().find('.on_error').removeClass('d-none')
-                    $('[name=code]').parent().find('.on_error').html('Kode produk tidak boleh kosong')
                     count_error++
                     code_error++
-                } else {
-                    $('[name=code]').parent().find('.on_error').addClass('d-none')
                 }
                 
                 if(is_code) {
@@ -320,12 +345,7 @@
                     }
                 }
                 
-                if(!product) {
-                    $('[name=name]').parent().find('.on_error').removeClass('d-none')
-                    count_error++
-                } else {
-                    $('[name=name]').parent().find('.on_error').addClass('d-none')
-                }
+                if(!product) count_error++
 
                 if(count_error) $('[type=submit]').prop('disabled', true)
                 else $('[type=submit]').prop('disabled', false)
