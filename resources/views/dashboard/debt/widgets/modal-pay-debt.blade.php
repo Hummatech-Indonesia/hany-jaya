@@ -68,7 +68,7 @@
             const select_buyer = selectize_buyer[0].selectize
 
             $.ajax({
-                url: "{{ route('buyer.list-search') }}",
+                url: "{{ route('buyer.list-search') }}?debt=true",
                 method: "GET",
                 success: (res) => {
                     res.data.forEach(data => {
