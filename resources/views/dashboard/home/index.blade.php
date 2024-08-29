@@ -18,7 +18,7 @@
                     <div class="card-header text-center bg-primary text-white">
                         <span class="fw-bolder">Jumlah Penjualan Per Kategori Produk</span>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body d-flex justify-content-center align-items-center">
                         @include('dashboard.home.widgets.pie-product')
                     </div>
                 </div>
