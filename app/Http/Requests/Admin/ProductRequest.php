@@ -39,7 +39,7 @@ class ProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'category_id.required' => 'Katergori wajib dipilih',
+            'category_id.required' => 'Kategori wajib dipilih',
             'category_id.exists' => 'Kategori tidak ditemukan',
             'unit_id.required' => 'Satuan wajib dipilih',
             'unit_id.*.required' => 'Satuan wajib dipilih',
