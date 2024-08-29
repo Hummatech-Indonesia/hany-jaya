@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="col-md-3 mb-md-3">
-                        <label for="debt">Total Hutang</label>
+                        <label for="debt">Sisa Hutang</label>
                     </div>
                     <div class="col-md-9 mb-3">
                         <div class="input-group">
@@ -68,7 +68,7 @@
             const select_buyer = selectize_buyer[0].selectize
 
             $.ajax({
-                url: "{{ route('buyer.list-search') }}",
+                url: "{{ route('buyer.list-search') }}?debt=true",
                 method: "GET",
                 success: (res) => {
                     res.data.forEach(data => {

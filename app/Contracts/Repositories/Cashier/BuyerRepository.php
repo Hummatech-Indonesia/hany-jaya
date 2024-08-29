@@ -113,7 +113,11 @@ class BuyerRepository extends BaseRepository implements BuyerInterface
         return $this->model->query()
             ->when($request->search, function ($query) use ($request) {
                 $query->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('address', 'LIKE', '%' . $request->search . '%');
-            })->get();
+            })
+            ->when($request->debt, function ($query) {
+                $query->where('debt','>',0);
+            })
+            ->get();
     }
 
     /**
