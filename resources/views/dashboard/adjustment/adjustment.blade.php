@@ -25,12 +25,12 @@
             <div class="card-body table-responsive">
                 <div class="form-group mb-4">
                     <label for="category_id" class="form-label">Kategori <span class="text-danger">*</span></label>
-                    <div class="d-flex gap-3">
+                    <div class="d-flex gap-2">
                         <select name="category" class="flex-grow-1" id="category_id"></select>
                         <button type="button" class="btn btn-primary" id="btn-update-stock">
                                 Sesuaikan Stok
                         </button>
-                        <button type="button" class="btn btn-info" id="btn-print-data">Cetak</button>
+                        <button type="button" class="btn btn-info d-flex justify-content-center align-items-center gap-1" id="btn-print-data"> <i class="ti ti-printer"></i>Cetak</button>
                     </div>
                 </div>
                 @include('dashboard.adjustment.widgets.dt-update-stock')

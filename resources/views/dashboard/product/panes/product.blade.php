@@ -46,7 +46,7 @@
             ],
             initComplete: function() {
                 $('.dt-buttons').addClass('btn-group-sm')
-                $('.custom-container').html(`<button type="button" class="btn btn-sm btn-primary" id="btn-print-data">Cetak</button>`)
+                $('.custom-container').html(`<button type="button" class="btn btn-sm btn-primary d-flex gap-1 align-items-center" id="btn-print-data"><i class="ti ti-printer"></i>Cetak</button>`)
             },
             language: {
                 processing: `Memuat...`

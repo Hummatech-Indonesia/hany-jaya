@@ -70,7 +70,7 @@
         <div class="card" id="print-component" style="display: none">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5>Laporan</h5>
-                <button type="button" class="btn btn-primary" id="btn-print">Cetak Laporan</button>
+                <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center gap-1" id="btn-print"><i class="ti ti-printer"></i> Cetak Laporan</button>
             </div>
             <div class="card-body" id="printable-element" style="">
                 <h5 style="margin-bottom: 0rem; text-align: center; font-weight: bold;font-family: sans-serif">Laporan Laba Rugi Hany Jaya</h5>
