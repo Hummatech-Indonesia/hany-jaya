@@ -88,11 +88,11 @@ class UnitController extends Controller
         if($check->product_count == 0 && $check->product_unit_count == 0){
             $delete = $this->unit->delete($unit->id);
             if ($delete == false) {
-                return redirect()->route('admin.products.index',['tab' => 'unit'])->withErrors(trans('alert.delete_restrict'));
+                return redirect()->route('admin.products.index',['tab' => 'unit'])->with('error', trans('alert.delete_restrict'));
             }
             return redirect()->route('admin.products.index',['tab' => 'unit'])->with('success', trans('alert.delete_success'));
         } else{
-            return redirect()->route('admin.products.index',['tab' => 'unit'])->withErrors(trans('alert.delete_restrict'));   
+            return redirect()->route('admin.products.index',['tab' => 'unit'])->with('error', trans('alert.delete_restrict'));   
         }
 
     }
