@@ -82,7 +82,7 @@ class DebtRepository extends BaseRepository implements DebtInterface
                     if($data["year"]) $query->whereYear('created_at',$data["year"]);
                 }catch(\Throwable $th){}
             })
-            ->sum('nominal');
+            ->sum('remind_debt');
     }
 
     /**
