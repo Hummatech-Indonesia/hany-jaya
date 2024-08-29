@@ -52,6 +52,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="border-top">
+                                        @dd($buyers)
                                         @foreach ($buyers as $buyer)
                                             <tr>
                                                 <th>
