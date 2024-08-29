@@ -22,6 +22,7 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Hutang Piutang</h4>
                         <p>Hutang piutang oleh <span class="fw-bolder">{{ $buyer->name }} - {{ $buyer->address }}</span>.</p>
+                        <a href="{{ route('cashier.history.debt') }}" class="btn btn-md btn-secondary"><i class="ti ti-arrow-left"></i> Kembali</a>
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">
@@ -34,8 +35,8 @@
         </div>
 
         <div class="card overflow-hidden">
-            <div class="card-body bg-primary py-3 text-light d-flex justify-content-between align-items-center">
-                <div>Sisa Hutang:</div>
+            <div class="card-body bg-primary py-3 text-light d-flex justify-content-center align-items-center flex-column">
+                <div>Sisa Hutang </div>
                 <div class="fw-bolder fs-5">{{ FormatedHelper::rupiahCurrency($buyer->debt) }}</div>
             </div>
         </div>
