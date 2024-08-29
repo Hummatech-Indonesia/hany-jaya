@@ -38,6 +38,14 @@
                                 <hr style="border:1px solid;">
                             </div>
                         </div>
+                        <div class="form-group col-6">
+                            <label for="" class="form-label mb-2 text-black fw-bold fs-4">Kode Toko :</label>
+                            <div class="mb-3">
+
+                                <span class="fs-3">{{ $store->code_debt }}</span>
+                                <hr style="border:1px solid;">
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-end gap-2">
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal"

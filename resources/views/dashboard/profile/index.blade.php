@@ -23,6 +23,10 @@
                         <div class="fw-bolder fs-5">{{ auth()->user()->email }}</div>
                     </div>
                     <div class="mb-3">
+                        <div class="text-muted fw-bolder">Kode Toko</div>
+                        <div class="fw-bolder fs-5">{{ $store->code_debt }}</div>
+                    </div>
+                    <div class="mb-3">
                         <div class="text-muted fw-bolder">Role</div>
                         <div class="fw-bolder fs-5">
                             @foreach(auth()->user()->roles as $role)
