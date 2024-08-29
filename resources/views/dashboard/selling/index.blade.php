@@ -379,10 +379,6 @@
                 $(document).off('keydown', removeFocusSelecProduct)
             })
 
-            $(documnent).on('focus', '.selectize', function() {
-                $(document).on('keydown', removeFocusSelecProduct)
-            })
-
             function productFocus() {
                 select_product.focus()
             }
@@ -529,6 +525,8 @@
             $(document).on('change input', '#cust-name', function() {
                 var selectedValue = select_cust.getValue();
                 var selectedItem = select_cust.options[selectedValue];
+
+                console.log({selectedValue, selectedItem})
                 
                 if(selectedItem) {
                     if(!selectedItem.address) cust_name_val = selectedValue
