@@ -75,7 +75,10 @@ class PrintController extends Controller
                 $count_looping++;
                 $text .= "\n";
                 $this->br_counter++;
-                $hehe = (($this->br_counter - 22) % 32);
+                for($i = 0; $i < $count_looping; $i++){
+                    $text .= "\n";
+                }
+                $hehe = (($this->br_counter - 22) % 32) - $count_looping;
             }
 
             $text .= ' ';
