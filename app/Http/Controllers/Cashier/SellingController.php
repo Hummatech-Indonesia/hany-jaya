@@ -151,6 +151,9 @@ class SellingController extends Controller
                 ];
                 for ($i = 0; $i < count($data['product_id']); $i++) {
                     $productUnit = $this->productUnit->show($data['product_unit_id'][$i]);
+                    $discount = intval($productUnit->selling_price * $data["quantity"][$i]) - intval($data['selling_price'][$i]) > 0 ?
+                    intval($productUnit->selling_price * $data["quantity"][$i]) - intval($data['selling_price'][$i]) : 0;
+                    
                     $this->detailSelling->store([
                         'selling_id' => $selling->id,
                         'product_id' => $data['product_id'][$i],
@@ -158,7 +161,7 @@ class SellingController extends Controller
                         'product_unit_id' => $data['product_unit_id'][$i],
                         'quantity' => $data['quantity'][$i],
                         'selling_price' => $data['selling_price'][$i],
-                        'nominal_discount' => intval($productUnit->selling_price * $data["quantity"][$i]) - intval($data['selling_price'][$i]),
+                        'nominal_discount' => $discount,
                         'selling_price_original' => $productUnit->selling_price
                     ]);
 

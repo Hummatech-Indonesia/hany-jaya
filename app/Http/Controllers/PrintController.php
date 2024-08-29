@@ -69,16 +69,13 @@ class PrintController extends Controller
         // E:Draw Header Table
 
         foreach($products["details"] as $product) {
-            $hehe = (($this->br_counter - 22) % 32);
+            $hehe = (($this->br_counter - 22) % 33);
             $count_looping = 0;
-            while(($this->br_counter > 19 && $this->br_counter < 22) || (($this->br_counter - 22 > 2) && ($hehe > 29 && $hehe < 32))) {
+            while(($this->br_counter > 19 && $this->br_counter < 22) || (($this->br_counter - 22 > 2) && ($hehe > 30 && $hehe < 33))) {
                 $count_looping++;
                 $text .= "\n";
                 $this->br_counter++;
-                for($i = 0; $i < $count_looping; $i++){
-                    $text .= "\n";
-                }
-                $hehe = (($this->br_counter - 22) % 32) - $count_looping;
+                $hehe = (($this->br_counter - 22) % 33);
             }
 
             $text .= ' ';
