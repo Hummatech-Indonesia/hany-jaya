@@ -208,7 +208,7 @@
                                                 <div>
                                                     <select id="product-code" class="select-product form-control" tabindex="3">
                                                         @foreach ($products as $product)
-                                                            <option value="{{ $product->code }}">{{ $product->name }} | {{ $product->code }} | {{ number_format($product->quantity, 0, ',', '.') }} {{ $product->unit->name }}</option>
+                                                            <option value="{{ $product->code }}" data-product="{{ $product }}">{{ $product->name }} | {{ $product->code }} | {{ number_format($product->quantity, 0, ',', '.') }} {{ $product->unit->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -232,7 +232,7 @@
                                                         <tr class="fs-4 fw-semibold">
                                                             <th style="min-width: 180px;">Produk</th>
                                                             <th style="min-width: 150px;">Stok</th>
-                                                            <th style="min-width: 150px;">Jumlah</th>
+                                                            <th style="min-width: 200px;">Jumlah</th>
                                                             <th style="min-width: 150px;">Harga</th>
                                                             <th style="min-width: 150px;">Total</th>
                                                             <th style="min-width: 100px;">Aksi</th>
@@ -347,6 +347,7 @@
                 placeholder: "Pilih produk",
                 allowEmptyOption: true,
                 maxItems: 1,
+                selectOnTab: false,
                 onChange: () => {
                     addNewProduct()
                     productFocus()
@@ -359,7 +360,24 @@
 
             select_product.setValue("")
 
-            select_product.focus()
+            function removeFocusSelecProduct(e) {
+                if(e.originalEvent.key.toLowerCase() == "tab") {
+                    select_product.blur()
+                    $(document).off('keydown', removeFocusSelecProduct)
+                }
+            }
+
+            setTimeout(() => {
+                select_product.focus()
+                $(document).on('keydown', removeFocusSelecProduct)
+            }, 100)
+
+            select_product.$control_input.on('focus', function() {
+                $(document).on('keydown', removeFocusSelecProduct)
+            })
+            select_product.$control_input.on('blur', function() {
+                $(document).off('keydown', removeFocusSelecProduct)
+            })
 
             function productFocus() {
                 select_product.focus()
@@ -598,112 +616,121 @@
                 }
             }
 
-            function addNewProduct() {
+            async function addNewProduct() {
                 const product_code = select_product.getValue()
                 if(!product_code) return;
+                const product_data = select_product.options[product_code].product
 
-                $.ajax({
-                    url: "{{ route('cashier.show.product') }}",
-                    type: "GET",
-                    data: {
-                        code: product_code
-                    },
-                    dataType: 'json',
-                    success: async function(response) {
-                        if(response.data.quantity < 1) {
-                            Toaster('error', 'stok produk kosong')
-                            select_product.setValue("")
-                            return
-                        }
 
-                        let str_res = JSON.stringify(response.data).replaceAll('"', "'");
-                        let data_check_product = {
-                            id: response.data.id,
-                            max: response.data.quantity
-                        }
-                        if(!selected_products.find(prod => prod.id == data_check_product.id)) selected_products.push(data_check_product)
-                        
-                        var product_units = '';
-                        var selected_price = 0;
-                        $('#tb-product tr th').parent().remove()
-                        var latest_index = $('#tb-product tr[data-index]').last().data('index')
-                        var current_index = latest_index ? latest_index+1 : 1
-                        var product_unit_id = 0
-                        
-                        $.each(response.data.product_units, function(index, productUnit) {
-                            var selected = response.data.unit.id === productUnit.unit_id ? 'selected' : '';
-                            if(response.data.unit.id === productUnit.unit_id) product_unit_id = productUnit.id
-                            
-                            if(selected == 'selected') product_unit_id = productUnit.id
-                            product_units += `
-                                <option value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${response.data.quantity}" ${selected}>
-                                    ${productUnit.unit.name}
-                                </option>`;
-                                                    
-                            if(response.data.unit.name === productUnit.unit.name) selected_price = productUnit.selling_price
-                        });
+                if(product_data.quantity < 1) {
+                    Toaster('error', 'stok produk kosong')
+                    select_product.setValue("")
+                    return
+                }
 
-                        const latest_buy = await getLatestBuy($('#cust-name').val(), $('#cust-address').val(), product_unit_id, false)
-                        const latest_price = (latest_buy && latest_buy.selling_price ? latest_buy.selling_price : false)
-                        const latest_qty = (latest_buy && latest_buy.quantity ? latest_buy.quantity : false)
-                        const latest_purchase_price = await getLatestPurchase(response.data.id, product_unit_id)
-                        var newRow = `
-                            <tr data-index="${current_index}" data-id="${response.data.id}" data-product="${str_res}">
-                                <td>
-                                    <div class="fw-semibold mb-0 text-start form-control border-0">
-                                        ${response.data.name} | ${response.data.code}
-                                    </div>
-                                    <input type="hidden" name="product_id[]" value="${response.data.id}"/>
-                                    <input type="hidden" name="quantity[]" value="1"/>
-                                    <input type="hidden" name="product_unit_price[]" value="${latest_price ? latest_price : selected_price}"/>
-                                    <input type="hidden" name="selling_price[]" value="${latest_price ? latest_price : selected_price}"/>
-                                </td>
-                                <td>
-                                    <div class="mb-0 text-start form-control border-0">
-                                        <span class="stock">${formatNum(Math.round(response.data.quantity), true)}</span> <span class="quantity_stock">${response.data.unit.name}</span>
-                                    </div>
-                                    <select name="product_unit_id[]" class="d-none form-control product-unit" tabindex="5">
-                                        ${product_units}
-                                    </select>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-row gap-2">
-                                        <button type="button" class="btn btn-sm btn-danger p-2 btn-minus">-</button>
-                                        <div>
-                                            <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" tabindex="5"/>
+                const is_product_already_exist = $(`#tb-product tr[data-index][data-id=${product_data.id}]`)
+
+                if(is_product_already_exist.length > 0) {
+                    $(is_product_already_exist[0]).find('.btn-plus').trigger('click')
+
+                    let data_check_product = {
+                        id: product_data.id,
+                        max: product_data.quantity
+                    }
+                    if(!selected_products.find(prod => prod.id == product_data.id)) selected_products.push(data_check_product)
+                    select_product.setValue("")
+                    compareQtyWithStock($(is_product_already_exist[0]))
+                    changeTotalPrice()
+                    checkIsHasError()
+                    return ;
+                }
+
+                let str_res = JSON.stringify(product_data).replaceAll('"', "'");
+                let data_check_product = {
+                    id: product_data.id,
+                    max: product_data.quantity
+                }
+                if(!selected_products.find(prod => prod.id == data_check_product.id)) selected_products.push(data_check_product)
+                
+                var product_units = '';
+                var selected_price = 0;
+                $('#tb-product tr th').parent().remove()
+                var latest_index = $('#tb-product tr[data-index]').last().data('index')
+                var current_index = latest_index ? latest_index+1 : 1
+                var product_unit_id = 0
+                
+                $.each(product_data.product_units, function(index, productUnit) {
+                    var selected = product_data.unit.id === productUnit.unit_id ? 'selected' : '';
+                    if(product_data.unit.id === productUnit.unit_id) product_unit_id = productUnit.id
+                    
+                    if(selected == 'selected') product_unit_id = productUnit.id
+                    product_units += `
+                        <option value="${productUnit.id}" data-unit="${productUnit.unit.name}" id="selling-price-${productUnit.id}" data-selling-price="${productUnit.selling_price}" data-quantity-in-small-unit="${productUnit.quantity_in_small_unit}" data-quantity="${product_data.quantity}" ${selected}>
+                            ${productUnit.unit.name}
+                        </option>`;
                                             
-                                        </div>
-                                        <button type="button" class="btn btn-sm btn-success p-2 btn-plus">+</button>
-                                    </div>
-                                    {{-- ${latest_qty ? `<div class="ps-4 text-primary last_qty">${formatNum(latest_qty)}</div>` : ''} --}}
-                                </td>
-                                <td>
-                                    <input type="text" value="${formatNum((latest_price ? latest_price :selected_price), true)}" 
-                                        name="formatted_product_unit_price[]"
-                                        class="form-control format-number input-unit-price"
-                                        tabindex="5" data-unit-purchase="${latest_purchase_price}"
-                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Harga kurang dari harga beli" data-bs-trigger="manual"
-                                    />
-                                </td>
-                                <td>
-                                    <input type="text" value="${formatNum((latest_price ? latest_price : selected_price), true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-center align-items-center gap-1">
-                                        <button type="button" data-id="${current_index}" class="btn btn-danger delete_product"><i class="ti ti-trash"></i></button>
-                                        <button type="button" data-product-id="${response.data.id}" data-bs-toggle="modal" data-bs-target="#modal-supply-history" class="btn btn-info btn-show-history" ><i class="ti ti-list"></i></button>
-                                        <button type="button" data-product-id="${response.data.id}" data-product="${str_res}" class="btn btn-primary btn-show-modal-update"><i class="ti ti-edit"></i></button>
-                                    </div>
-                                </td>
-                            </tr>`;
-                        $('#tb-product').append(newRow);
-                        select_product.setValue("")
-                        compareQtyWithStock($(`#tb-product [data-index=${current_index}]`))
-                        changeTotalPrice()
-                        checkIsHasError()
-                    },
+                    if(product_data.unit.name === productUnit.unit.name) selected_price = productUnit.selling_price
                 });
+
+                const latest_buy = await getLatestBuy($('#cust-name').val(), $('#cust-address').val(), product_unit_id, false)
+                const latest_price = (latest_buy && latest_buy.selling_price ? latest_buy.selling_price : false)
+                const latest_qty = (latest_buy && latest_buy.quantity ? latest_buy.quantity : false)
+                const latest_purchase_price = await getLatestPurchase(product_data.id, product_unit_id)
+                var newRow = `
+                    <tr data-index="${current_index}" data-id="${product_data.id}" data-product="${str_res}">
+                        <td>
+                            <div class="fw-semibold mb-0 text-start form-control border-0">
+                                ${product_data.name} | ${product_data.code}
+                            </div>
+                            <input type="hidden" name="product_id[]" value="${product_data.id}"/>
+                            <input type="hidden" name="quantity[]" value="1"/>
+                            <input type="hidden" name="product_unit_price[]" value="${latest_price ? latest_price : selected_price}"/>
+                            <input type="hidden" name="selling_price[]" value="${latest_price ? latest_price : selected_price}"/>
+                        </td>
+                        <td>
+                            <div class="mb-0 text-start form-control border-0">
+                                <span class="stock">${formatNum(Math.round(product_data.quantity), true)}</span> <span class="quantity_stock">${product_data.unit.name}</span>
+                            </div>
+                            <select name="product_unit_id[]" class="d-none form-control product-unit" tabindex="5">
+                                ${product_units}
+                            </select>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-row gap-2">
+                                <button type="button" class="btn btn-sm btn-danger p-2 btn-minus">-</button>
+                                <div>
+                                    <input type="text" name="formatted_quantity[]" class="form-control format-number input-quantity" placeholder="Jumlah" min="1" value="1" tabindex="5"/>
+                                    
+                                </div>
+                                <button type="button" class="btn btn-sm btn-success p-2 btn-plus">+</button>
+                            </div>
+                            {{-- ${latest_qty ? `<div class="ps-4 text-primary last_qty">${formatNum(latest_qty)}</div>` : ''} --}}
+                        </td>
+                        <td>
+                            <input type="text" value="${formatNum((latest_price ? latest_price :selected_price), true)}" 
+                                name="formatted_product_unit_price[]"
+                                class="form-control format-number input-unit-price"
+                                tabindex="5" data-unit-purchase="${latest_purchase_price}"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                data-bs-title="Harga kurang dari harga beli" data-bs-trigger="manual"
+                            />
+                        </td>
+                        <td>
+                            <input type="text" value="${formatNum((latest_price ? latest_price : selected_price), true)}" name="formatted_selling_price[]" class="form-control format-number input-selling-price" readonly />
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center align-items-center gap-1">
+                                <button type="button" data-id="${current_index}" class="btn btn-danger delete_product"><i class="ti ti-trash"></i></button>
+                                <button type="button" data-product-id="${product_data.id}" data-bs-toggle="modal" data-bs-target="#modal-supply-history" class="btn btn-info btn-show-history" ><i class="ti ti-list"></i></button>
+                                <button type="button" data-product-id="${product_data.id}" data-product="${str_res}" class="btn btn-primary btn-show-modal-update"><i class="ti ti-edit"></i></button>
+                            </div>
+                        </td>
+                    </tr>`;
+                $('#tb-product').append(newRow);
+                select_product.setValue("")
+                compareQtyWithStock($(`#tb-product [data-index=${current_index}]`))
+                changeTotalPrice()
+                checkIsHasError()
             }
 
             $(document).on('input', '.format-number', function() {
