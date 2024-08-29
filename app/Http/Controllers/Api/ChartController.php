@@ -64,11 +64,11 @@ class ChartController extends Controller
 
     public function chartCard(Request $request): JsonResponse
     {
-        $selling_count = $this->selling->count($request->year ? ["year" => $request->year ?? date('Y')] : []);
-        $selling_sum = $this->selling->sum($request->year ? ["year" => $request->year ?? date('Y')] : []);
-        $product_count = $this->product->count($request->year ? ["year" => $request->year ?? date('Y')] : []);
-        $debt_sum = $this->debt->sum($request->year ? ["year" => $request->year ?? date('Y')] : []);
-        $cost_sum = $this->cost->sumCustom($request->year ? ['year' => $request->year ?? date('Y')] : [])->sum('price');
+        $selling_count = $this->selling->count(["year" => $request->year ?? date('Y')]);
+        $selling_sum = $this->selling->sum(["year" => $request->year ?? date('Y')]);
+        $product_count = $this->product->count(["year" => $request->year ?? date('Y')]);
+        $debt_sum = $this->debt->sum(["year" => $request->year ?? date('Y')]);
+        $cost_sum = $this->cost->sumCustom(['year' => $request->year ?? date('Y')])->sum('price');
 
         $data = [
             "selling_count" => $selling_count,
