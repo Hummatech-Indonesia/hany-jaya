@@ -23,62 +23,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Top Performers -->
-            <div class="col-lg-7 d-flex d-none align-items-strech">
-                @if($buyers->isEmpty())
-                    <div class="card align-self-start w-100 bg-light-info shadow-none position-relative overflow-hidden">
-                        <div class="card-body px-4 py-3">
-                            <div class="row align-items-center">
-                                <div class="col-7">
-                                    <h4 class="fw-semibold mb-8">Data Transaksi Masih Kosong</h4>
-                                </div>
-                                <div class="col-5">
-                                    <img src="{{asset('assets/images/backgrounds/piggy.png')}}" alt="" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="card border w-100">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table align-middle table-striped table-hover text-center mb-0">
-                                    <thead>
-                                        <tr class="text-muted text-nowrap fw-semibold">
-                                            <th>Username</th>
-                                            <th>Alamat</th>
-                                            <th>Nominal Pembelian</th>
-                                            <th>Hutang</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="border-top">
-                                        @dd($buyers)
-                                        @foreach ($buyers as $buyer)
-                                            <tr>
-                                                <th>
-                                                    <p class="fs-2 mb-0">{{ $buyer->name }}</p>
-                                                </th>
-                                                <td>
-                                                    <p class="mb-0 fs-3">{{ $buyer->address }}</p>
-                                                </td>
-                                                <td>
-                                                    <p class="mb-0 fs-3">
-                                                        {{ FormatedHelper::rupiahCurrency($buyer->sellings_sum_amount_price) }}
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <p class="fs-3 text-dark mb-0">
-                                                        {{ FormatedHelper::rupiahCurrency($buyer->debt) }}</p>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            </div>
 
             {{-- top buyer --}}
             <div class="col-12 col-lg-7 align-items-strech mb-4">
