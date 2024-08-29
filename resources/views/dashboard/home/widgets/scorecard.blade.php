@@ -11,17 +11,17 @@
         </div>
     </div>
     <div class="col-lg-4 col-xxl">
-        <div class="card bg-info-subtle scorecard p-3 position-relative overflow-hidden">
-            <p class="fs-3">Total Omset</p>
-            <h4 class="fw-semibold fs-7" id="selling_sum">{{ FormatedHelper::rupiahCurrency($selling_sum) }}</h4>
-            <i class="ti ti-chart-line icon-head"></i>
-        </div>
-    </div>
-    <div class="col-lg-4 col-xxl">
         <div class="card bg-success-subtle scorecard p-3 position-relative overflow-hidden">
             <p class="fs-3">Total Produk</p>
             <h4 class="fw-semibold fs-7" id="product_count">{{ $product_count }}</h4>
             <i class="ti ti-package icon-head"></i>
+        </div>
+    </div>
+    <div class="col-lg-4 col-xxl">
+        <div class="card bg-info-subtle scorecard p-3 position-relative overflow-hidden">
+            <p class="fs-3">Total Omset</p>
+            <h4 class="fw-semibold fs-7" id="selling_sum">{{ FormatedHelper::rupiahCurrency($selling_sum) }}</h4>
+            <i class="ti ti-chart-line icon-head"></i>
         </div>
     </div>
     <div class="col-lg-6 col-xxl">
