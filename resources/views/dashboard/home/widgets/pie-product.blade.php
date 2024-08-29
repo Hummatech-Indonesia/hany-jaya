@@ -8,19 +8,11 @@
             width: 300,
             type: 'pie',
         },
+        legend: {
+            position: 'bottom'
+        },
         colors: ["#aaaaaa"],
         labels: ["kosong"],
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }]
     };
     
     var pie_chart = new ApexCharts(document.querySelector("#pieChart"), options);

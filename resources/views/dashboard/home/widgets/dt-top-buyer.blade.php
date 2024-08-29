@@ -36,7 +36,7 @@
                 }, {
                     data: "total_transaction",
                     title: "Jumlah Transaksi",
-                    orderable: false,
+                    orderable: true,
                     render: (data, type, row) => {
                         return formatNum(data)
                     }

@@ -82,7 +82,7 @@
                                                 <select name="name" class="" id="cust-name" tabindex="1">
                                                     <option value="">Pilih Pembeli</option>
                                                     @foreach ($buyers as $buyer)
-                                                        <option value="{{ $buyer->name }} - {{ $buyer->address }}" data-name="{{ $buyer->name }}" data-debt="{{$buyer->debt}}" data-limit-debt="{{$buyer->limit_debt}}" data-has-exceeded-limit="{{$buyer->has_exceeded_the_limit}}" data-code="{{ $buyer->code }}" data-phone="{{$buyer->telp}}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }}</option>
+                                                        <option value="{{ $buyer->name }} - {{ $buyer->address }}" data-name="{{ $buyer->name }}" data-debt="{{$buyer->debt}}" data-limit-debt="{{$buyer->limit_debt}}" data-has-exceeded-limit="{{$buyer->has_exceeded_the_limit}}" data-code="{{ $buyer->code }}" data-phone="{{$buyer->telp}}" data-address="{{ $buyer->address }}" data-id="{{$buyer->id}}">{{ $buyer->name }} - {{ $buyer->address }} ({{ $buyer->code }})</option>
                                                     @endforeach
                                                 </select>
                                             </div>
