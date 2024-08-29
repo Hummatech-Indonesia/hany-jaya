@@ -79,6 +79,7 @@
                                         <thead>
                                             <tr>
                                                 <th style="width:200px">Produk <span class="text-danger">*</span></th>
+                                                <th style="width:250px">Harga Jual</th>
                                                 <th style="width:250px">Harga per satuan <span class="text-danger">*</span></th>
                                                 <th style="width:150px">Jumlah <span class="text-danger">*</span></th>
                                                 <th style="width:250px">Total Harga <span class="text-danger">*</span></th>
@@ -87,9 +88,16 @@
                                         </thead>
                                         <tbody  id="tb-products">
                                             <tr>
-                                                <th colspan="5" class="text-center text-muted text-bold">-- belum ada produk dipilih --</th>
+                                                <th colspan="6" class="text-center text-muted text-bold">-- belum ada produk dipilih --</th>
                                             </tr>
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Total</th>
+                                                <th id="all_total_price">Rp 0</th>
+                                                <th colspan="4"></th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -193,7 +201,6 @@
                 
                 let str_products = '<option value="" selected disabled>-- pilih produk --</option>'
                 product_list.forEach((data) => {
-                    console.log(product_list)
                     str_data = JSON.stringify(data).replaceAll('"', "'")
                     str_products += `<option value="${data.id}" data-product="${str_data}">${data.name} | ${data.code} | ${formatNum(data.quantity, true)} ${data.unit.name}</option>`
                 })
@@ -208,6 +215,9 @@
                             <select name="product_unit_id[]" class="form-select d-none" id="product_unit" required>
                                 <option value="" selected disabled>-- pilih satuan --</option>
                             </select>
+                        </td>
+                        <td>
+                            <div class="form-control border-0 sell_price">Rp 0</div>
                         </td>
                         <td>
                             <input 
@@ -253,7 +263,7 @@
                         let edit_url = "{{ route('admin.products.edit', 'selected_id') }}"
                         edit_url = edit_url.replace('selected_id', val)
                         $(this['$input'][0].closest('[data-index]')).find('.price-per-unit').attr('data-price', 0)
-                        $(this['$input'][0].closest('[data-index]')).find('.price-per-unit  -alert a').attr('href', edit_url)
+                        $(this['$input'][0].closest('[data-index]')).find('.price-per-unit price-per-unit-alert a').attr('href', edit_url)
                     }
                 })
 
@@ -268,6 +278,7 @@
                     onChange: function (val) {
                         let item = this.options[val]
                         if(item) $(this['$input'][0].closest('[data-index]')).find('.price-per-unit').attr('data-price', item.price)
+                        if(item) $(this['$input'][0].closest('[data-index]')).find('.sell_price').html('Rp '+formatNum(item.price, true))
                     }
                 })
 
@@ -333,6 +344,7 @@
                 unformat_input.val(unformatNum($(this).val()))
                 changeTotal($(this))
             })
+
             function changeTotal(el) {
                 let tr = el.parent().parent()
                 let price = unformatNum(tr.find(".price-per-unit").val())
@@ -340,6 +352,18 @@
                 let total = price * qty
                 tr.find('[name=buy_price\\[\\]]').val(total)
                 tr.find('.buy-price').val(formatNum(total))
+
+                changeAllTotal()
+            }
+
+            function changeAllTotal() {
+                let total = 0
+
+                $('#tb-products tr[data-index]').each(function() {
+                    total += unformatNum($(this).find('.buy-price').val())
+                })
+
+                $('#all_total_price').html('Rp '+formatNum(total, true))
             }
 
         })
