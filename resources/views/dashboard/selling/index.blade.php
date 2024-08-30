@@ -1054,10 +1054,11 @@
 
                 if(!$('#hutang').is(':checked')) {
                     const money_paid = $('#pay').val()
-                    if(total_must_paid > money_paid) {
+                    if(total_must_paid > parseFloat(money_paid)) {
                         $('#formatted_pay').addClass('is-invalid')
                         return 1
-                    }
+                    } 
+                    $('#formatted_pay').removeClass('is-invalid')
                 } else {
                     $('#formatted_pay').removeClass('is-invalid')
                     const new_debt = parseFloat($('[name=debt]').val()) ? parseFloat($('[name=debt]').val()) : 0
