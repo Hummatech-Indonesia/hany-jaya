@@ -39,6 +39,7 @@
             type: "GET",
             url: "{{ route('admin.get.category.ajax') }}?year="+year,
             success: function(response) {
+                console.log(response.data)
                 var options = {
                     series: [],
                     chart: {
@@ -67,6 +68,8 @@
                 }
 
                 pie_chart.updateOptions(options)
+            }, error: function(xhr) {
+                console.error(xhr.responseJSON.message)
             }
             
         });
