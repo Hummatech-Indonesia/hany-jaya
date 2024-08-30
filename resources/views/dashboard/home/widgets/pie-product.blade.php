@@ -37,7 +37,7 @@
 
         $.ajax({
             type: "GET",
-            url: "{{ route('admin.get.category.ajax') }}?year="+year,
+            url: "{{ route('get.category.ajax') }}?year="+year,
             success: function(response) {
                 console.log(response.data)
                 var options = {

@@ -52,13 +52,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('profile-change-password', [ProfileController::class, 'changePassword'])->name('profile.change.password');
     Route::get('admin/update-profile', [ProfileController::class, 'index'])->name('admin.profile');
     Route::patch('admin/update-profile', [ProfileController::class, 'update'])->name('admin.update.profile');
+
+    Route::get('getCategoryAjax', [CategoryController::class, 'getCategoryAjax'])->name('get.category.ajax');
+
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
         Route::get('supplier-products/{supplier?}', [SupplierProductController::class, 'index'])->name('supplier.product.index');
         Route::get('product-units/{product?}', [ProductUnitController::class, 'index'])->name('product.unit.index');
         Route::get('units-ajax', [UnitController::class, 'get'])->name('units.get');
 
         Route::post('category-ajax', [CategoryController::class, 'storeAjax'])->name('category.store.ajax');
-        Route::get('getCategoryAjax', [CategoryController::class, 'getCategoryAjax'])->name('get.category.ajax');
+
         Route::post('supplier-ajax', [SupplierController::class, 'storeAjax'])->name('supplier.store.ajax');
         Route::resources([
             'products' => ProductController::class,
