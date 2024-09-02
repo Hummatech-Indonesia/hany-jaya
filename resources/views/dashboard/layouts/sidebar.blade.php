@@ -28,7 +28,7 @@
                     <a class="sidebar-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}"
                         aria-expanded="false">
                         <span>
-                            <i class="ti ti-home"></i> <!-- Ganti ikon di sini -->
+                            <i class="ti ti-home"></i>
                         </span>
                         <span class="hide-menu">Beranda</span>
                     </a>
@@ -42,7 +42,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.users.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-users"></i> <!-- Ganti ikon di sini -->
+                                <i class="ti ti-users"></i>
                             </span>
                             <span class="hide-menu">Data Pengguna</span>
                         </a>
@@ -50,7 +50,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.buyers.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-user"></i> <!-- Ganti ikon di sini -->
+                                <i class="ti ti-user"></i>
                             </span>
                             <span class="hide-menu">Data Pembeli</span>
                         </a>
@@ -59,7 +59,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.suppliers.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-truck"></i> <!-- Ganti ikon di sini -->
+                                <i class="ti ti-truck"></i>
                             </span>
                             <span class="hide-menu">Distributor</span>
                         </a>
@@ -73,7 +73,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-package"></i> <!-- Ganti ikon di sini -->
+                                <i class="ti ti-package"></i>
                             </span>
                             <span class="hide-menu">Produk</span>
                         </a>
@@ -82,7 +82,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link {{ request()->routeIs('admin.adjustments.index') ? 'active' : '' }}" href="{{ route('admin.adjustments.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-package"></i> <!-- Ganti ikon di sini -->
+                                <i class="ti ti-package"></i>
                             </span>
                             <span class="hide-menu">Penyesuaian Stok</span>
                         </a>
@@ -99,15 +99,23 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('admin.purchases.create') }}" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
+                                    <i class="ti ti-shopping-cart"></i>
                                 </span>
                                 <span class="hide-menu">Pembelian Produk</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('return.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-truck-return"></i>
+                                </span>
+                                <span class="hide-menu">Retur Penjualan</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('admin.purchases.index') }}" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-history"></i> <!-- Ganti ikon di sini -->
+                                    <i class="ti ti-history"></i>
                                 </span>
                                 <span class="hide-menu">Riwayat Pembelian</span>
                             </a>
@@ -130,7 +138,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.selling.history') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-chart-line"></i> <!-- Ganti ikon di sini -->
+                                <i class="ti ti-chart-line"></i>
                             </span>
                             <span class="hide-menu">Riwayat Penjualan</span>
                         </a>
@@ -141,7 +149,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('cashier.history.debt') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-list"></i> <!-- Ganti ikon di sini -->
+                                <i class="ti ti-list"></i>
                             </span>
                             <span class="hide-menu">Hutang Piutang</span>
                         </a>
@@ -170,7 +178,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" target="_blank" href="{{ route('cashier.index') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-shopping-cart"></i> <!-- Ganti ikon di sini -->
+                            <i class="ti ti-shopping-cart"></i>
                         </span>
                         <span class="hide-menu">Pindah Akun Kasir</span>
                     </a>

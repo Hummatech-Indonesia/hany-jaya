@@ -122,4 +122,9 @@ Route::middleware('auth')->group(function () {
         // Route::get('list-user-debt', [BuyerController::class, 'listDebt'])->name('list.debt');
         // Route::get('history-pay-debt', [HistoryPayDebtController::class, 'index'])->name('history.pay.debt');
     });
+    Route::prefix('return')->name('return.')->middleware('role:admin|cashier')->group(function() {
+        Route::get('/', function() {
+            return view('dashboard.return.index');
+        })->name('index');
+    });
 });
