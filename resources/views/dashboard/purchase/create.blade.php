@@ -50,6 +50,18 @@
                                     <label for="name" class="mb-2">Kode Invoice <small class="text-danger">*</small></label>
                                     <input type="text" name="invoice_number" class="form-control" placeholder="HSN-2401" id="">
                                 </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="method" class="mb-2">Metode Pembayaran <small class="text-danger">*</small></label>
+                                    <select name="method" id="method" class="form-select">
+                                        <option value="" selected disabled>Pilih Metode Pembayaran</option>
+                                        <option value="cash">Tunai</option>
+                                        <option value="debt">Hutang</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3" id="method-debt">
+                                    <label for="tempo" class="mb-2">Jatuh Tempo <small class="text-danger">*</small></label>
+                                    <input type="date" name="tempo" class="form-control" placeholder="Tanggal Jatuh Tempo Pembayaran" id="tempo">
+                                </div>
                                 <div class="col-md-12 mb-3">
                                     <div class="alert alert-warning" role="alert">
                                         <strong>Informasi</strong>
@@ -140,6 +152,20 @@
             })
             const select_supplier = selectize_supplier[0].selectize
 
+            $(document).on('change', '#method', function() {
+                checkPayMethod()
+            })
+            checkPayMethod()
+
+            function checkPayMethod() {
+                const method = $('#method').val()
+                if(method == 'debt') {
+                    $('#method-debt').show()
+                } else {
+                    $('#method-debt').hide()
+                }
+            }
+
             $(document).on('click', 'button[type=submit]', function() {
                 $('button[type=submit]').addClass('disabled')
             })
@@ -186,13 +212,21 @@
             function isCantAddProduct() {
                 const supplier = select_supplier.getValue()
                 const invoice = $('[name=invoice_number]').val()
-                if(supplier && invoice) return 0
-                return 1
+                const method = $('#method').val()
+
+                let error_count = 0
+
+                if(!supplier) error_count++
+                if(!invoice) error_count++
+                if(!method) error_count++
+                if(method == 'debt' &&!$('#tempo').val()) error_count++
+
+                return error_count
             }
             
             $(document).on("click", "#btn-add-product", function () {
                 if(isCantAddProduct()) {
-                    Toaster('error', 'Supplier dan Kode Invoice harus diisi terlebih dahulu')
+                    Toaster('error', 'Distributor, invoice, dan pembayaran tidak boleh kosong')
                     return;
                 }
                 let last_index = $('#tb-products tr[data-index]').last().data('index')

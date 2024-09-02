@@ -1,6 +1,3 @@
-@php
-    use App\Helpers\FormatedHelper;
-@endphp
 @extends('dashboard.layouts.dashboard')
 @push("title")
     Riwayat Pembelian
@@ -68,7 +65,7 @@
     <script src="{{asset('assets/libs/datatablesnet/datatables.min.js')}}"></script>
     {{-- <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script> --}}
 
-    <script>
+    {{-- <script>
         const tb_purchasing = $('#tb-purchase').DataTable({
             processing: true,
             serverSide: true,
@@ -230,5 +227,5 @@
                     .format('YYYY-MM-DD'));
             });
         });
-    </script>
+    </script> --}}
 @endsection
