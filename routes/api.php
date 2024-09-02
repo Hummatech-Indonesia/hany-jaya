@@ -93,6 +93,7 @@ Route::name('find.')->prefix('find')->group(function () {
         Route::post('/check-code', [ProductController::class, 'checkCodeProduct'])->name('check-code');
     });
     Route::get('purchase', [PurchasesController::class, 'detailPurchaseApi'])->name('purchase-invoice');
+    Route::get('selling', [SellingController::class, 'detailSellingApi'])->name('selling-invoice');
 });
 
 Route::get('summary/laba-rugi', [CostController::class, 'sumLabaRugi'])->name('laba-rugi');

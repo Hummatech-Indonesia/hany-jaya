@@ -147,6 +147,7 @@ class SellingController extends Controller
                     "total_debt_price" => $debt_price,
                     "buyer_name" => $data["name"],
                     "date" => Carbon::parse($selling->created_at)->format("d M Y"),
+                    "open_cash_drawer" => true,
                     "details" => [],
                 ];
                 for ($i = 0; $i < count($data['product_id']); $i++) {
@@ -355,6 +356,7 @@ class SellingController extends Controller
                 "total_debt_price" => $debt,
                 "buyer_name" => $data->buyer->name,
                 "date" => Carbon::parse($data->created_at)->format("d M Y"),
+                "open_cash_drawer" => false,
                 "details" => [],
             ];
     
@@ -376,4 +378,13 @@ class SellingController extends Controller
             return BaseResponse::Error($th->getMessage());
         }
     }
+
+    public function detailSellingApi(Request $request)
+    {
+        $data = $this->selling->withEloquent($request)->first();
+        if(!$data) return BaseResponse::custom(404, 'Data penjualan tidak ditemukan', null);
+        
+        return BaseResponse::Ok('Berhasil megambil data penjualan', $data);
+    }
 }
+

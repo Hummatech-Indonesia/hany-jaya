@@ -178,6 +178,10 @@ class SellingRepository extends BaseRepository implements SellingInterface
         })
         ->when($request->buyer_code, function ($query) use ($request){
             $query->whereRelation('buyer','code',$request->buyer_code);
+        })
+        ->when($request->invoice, function ($query) use ($request){
+            $invoice = ($request->invoice != "") ? $request->invoice : '-';
+            $query->where('invoice_number', $invoice);
         });
     }
     
