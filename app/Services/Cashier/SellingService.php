@@ -100,7 +100,7 @@ class SellingService
         } else {
             
             if ($data['status_payment'] == StatusEnum::DEBT->value) {
-                $check_limit_total = ($buyer->debt + $sellingPrice) > $buyer->limit_debt;
+                $check_limit_total = ($buyer->debt + $sellingPrice) > $buyer->limit_debt && $buyer->limit_debt != 0;
                 $check_limit_date = ($buyer->limit_date_debt ? date('Y-m-d', strtotime($buyer->limit_date_debt)) : date('Y-m-d')) < date('Y-m-d');
                 if($check_limit_total || $check_limit_date){
                     if(!$code_debt){
@@ -131,7 +131,7 @@ class SellingService
         
         if($data['status_payment'] == StatusEnum::SPLIT->value) {
             if((int)($data["debt"] ?? 0) > 0){
-                $check_limit_total = ($buyer->debt + $sellingPrice) > $buyer->limit_debt;
+                $check_limit_total = ($buyer->debt + $sellingPrice) > $buyer->limit_debt && $buyer->limit_debt != 0;
                 $check_limit_date = ($buyer->limit_date_debt ? date('Y-m-d', strtotime($buyer->limit_date_debt)) : date('Y-m-d')) < date('Y-m-d');
 
                 if($check_limit_total || $check_limit_date){

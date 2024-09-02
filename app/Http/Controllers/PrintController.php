@@ -50,11 +50,11 @@ class PrintController extends Controller
     function getTextV2($printer, array $products) {
         $printer->setPrintLeftMargin(0);
 
-        $text  = $this->centerTextV2('Hany Jaya', $this->title_page_v2);
+        $text  = $this->centerTextV2(env('NAMA_TOKO'), $this->title_page_v2);
         $printer->text($text);
         $printer->setPrintLeftMargin(15);
-        $text = $this->centerTextV2('Wilayut, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258', $this->full_page_v2);
-        $text .= $this->centerTextV2('Telp. 0822-4436-5718', $this->full_page_v2)."\n";
+        $text = $this->centerTextV2(env('ALAMAT_TOKO'), $this->full_page_v2);
+        $text .= $this->centerTextV2(env('NOMOR_TELEPON'), $this->full_page_v2)."\n";
         $text .= $this->addRightPaddingV2(" Nama    : ".$products["buyer_name"], $this->full_page_v2)."\n";
         $text .= $this->addRightPaddingV2(" Invoice : ".$products["invoice_number"], $this->full_page_v2/2);
         $text .= $this->addLeftPaddingV2("Tanggal : ".$products["date"], $this->full_page_v2/2)."\n";
@@ -96,7 +96,9 @@ class PrintController extends Controller
 
         $text .= $this->drawBottomLineV2($this->full_page_v2);
 
-        $text .= $this->addLeftPaddingV2("Total :", 114);
+        $text .= '   Tanda Terima                      Hormat Kami';
+        
+        $text .= $this->addLeftPaddingV2("Total :", (114 - 48));
         $text .= $this->addLeftPaddingV2(FormatedHelper::rupiahCurrency($products["total_price"]), 23)."\n";
         $text .= $this->addLeftPaddingV2("Bayar :", 114);
         $text .= $this->addLeftPaddingV2(FormatedHelper::rupiahCurrency($products["pay_price"]), 23)."\n";
@@ -104,6 +106,7 @@ class PrintController extends Controller
         $text .= $this->addLeftPaddingV2(FormatedHelper::rupiahCurrency($products["return_price"]), 23)."\n";
         $text .= $this->addLeftPaddingV2("Hutang :", 114);
         $text .= $this->addLeftPaddingV2(FormatedHelper::rupiahCurrency($products["total_debt_price"]), 23)."\n";
+        $text .= '(.................)               (.................)' . "\n";
 
         $text .= $this->drawBottomLineV2($this->full_page_v2);
 
@@ -143,6 +146,12 @@ class PrintController extends Controller
 
             $this->getText($printer, $products);
             $printer->cut();
+
+            if($products["open_cash_drawer"]) {
+                $printer->pulse();
+            }
+
+            $printer->close();
             return [
                 "success" => true,
                 "message" => "Berhasil print"
@@ -160,8 +169,8 @@ class PrintController extends Controller
         $printer->setTextSize(2, 2);
         $printer->text("HANY JAYA\n");
         $printer->setTextSize(1, 1);
-        $printer->text("Wilayut, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258\n");
-        $printer->text("Telp. 0822-4436-5718\n\n");
+        $printer->text("Jl. Bakalan, Kec. Balongbendo, Kabupaten Sidoarjo, Jawa Timur 61263\n");
+        $printer->text("Telp. 0812-4966-1123\n\n");
         
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text("Nama    : ".$products["buyer_name"]."\n");
@@ -262,11 +271,11 @@ class PrintController extends Controller
     function getTextV3($printer, array $products) {
         $printer->setPrintLeftMargin(0);
 
-        $text  = $this->centerTextV2('Hany Jaya', $this->title_page_v2);
+        $text  = $this->centerTextV2(env('NAMA_TOKO'), $this->title_page_v2);
         $printer->text($text);
         $printer->setPrintLeftMargin(15);
-        $text = $this->centerTextV2('Wilayut, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258', $this->full_page_v2);
-        $text .= $this->centerTextV2('Telp. 0822-4436-5718', $this->full_page_v2)."\n";
+        $text = $this->centerTextV2(env('ALAMAT_TOKO'), $this->full_page_v2);
+        $text .= $this->centerTextV2(env('NOMOR_TELEPON'), $this->full_page_v2)."\n";
         
         // S:Draw Header Table
         $text .= $this->drawBottomLineV2($this->full_page_v2);
@@ -322,11 +331,11 @@ class PrintController extends Controller
     function getTextV4($printer, array $buyers) {
         $printer->setPrintLeftMargin(0);
 
-        $text  = $this->centerTextV2('Hany Jaya', $this->title_page_v2);
+        $text  = $this->centerTextV2(env('NAMA_TOKO'), $this->title_page_v2);
         $printer->text($text);
         $printer->setPrintLeftMargin(15);
-        $text = $this->centerTextV2('Wilayut, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258', $this->full_page_v2);
-        $text .= $this->centerTextV2('Telp. 0822-4436-5718', $this->full_page_v2)."\n";
+        $text = $this->centerTextV2(env('ALAMAT_TOKO'), $this->full_page_v2);
+        $text .= $this->centerTextV2(env('NOMOR_TELEPON'), $this->full_page_v2)."\n";
         
         // S:Draw Header Table
         $text .= $this->drawBottomLineV2($this->full_page_v2);
@@ -382,11 +391,11 @@ class PrintController extends Controller
     function getTextV5($printer, array $products) {
         $printer->setPrintLeftMargin(0);
 
-        $text  = $this->centerTextV2('Hany Jaya', $this->title_page_v2);
+        $text  = $this->centerTextV2(env('NAMA_TOKO'), $this->title_page_v2);
         $printer->text($text);
         $printer->setPrintLeftMargin(15);
-        $text = $this->centerTextV2('Wilayut, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258', $this->full_page_v2);
-        $text .= $this->centerTextV2('Telp. 0822-4436-5718', $this->full_page_v2)."\n";
+        $text = $this->centerTextV2(env('ALAMAT_TOKO'), $this->full_page_v2);
+        $text .= $this->centerTextV2(env('NOMOR_TELEPON'), $this->full_page_v2)."\n";
         
         // S:Draw Header Table
         $text .= $this->drawBottomLineV2($this->full_page_v2);

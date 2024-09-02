@@ -26,6 +26,8 @@ class PurchaseRequest extends FormRequest
             'buy_price.*' => 'required|integer|min:0',
             'quantity' => 'required|array',
             'quantity.*' => 'required|integer|min:0',
+            'pay_date' => 'required',
+            'status' => 'nullable'
         ];
     }
 
@@ -63,5 +65,13 @@ class PurchaseRequest extends FormRequest
             'quantity.*.integer' => 'Setiap Kuantitas harus berupa bilangan bulat.',
             'quantity.*.min' => 'Setiap Kuantitas harus bernilai minimal 0.',
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        if($this->tempo) $this->merge(['pay_date' => $this->tempo]);
+        if(!$this->tempo && $this->pay_date && $this->method == 'paid') $this->merge(['pay_date' => date('Y-m-d')]);
+        if($this->method == "paid") $this->merge(['status' => 'paid']);
+        else $this->merge(['status' => 'unpaid'])
     }
 }

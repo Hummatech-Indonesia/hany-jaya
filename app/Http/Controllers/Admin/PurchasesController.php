@@ -169,4 +169,21 @@ class PurchasesController extends Controller
 
         return BaseResponse::Ok("Berhasil mengambil data", $harga);
     }
+
+    public function paidPurchase(Request $request, Purchase $purchase)
+    {
+        $purchase->update(['status' => 'paid']);
+        return redirect()->back()->with('success', 'Berhasil membayar pembelian!');
+    }
+
+    public function detailPurchaseApi(Request $request)
+    {
+        $data = $this->purchase->withEloquent($request)->first();
+        return BaseResponse::Ok('Berhasil mengambil data', $data);
+    }
+
+    public function returnPurchase(Request $request)
+    {
+        return redirect()->back()->with('success', 'Berhasil mereturn barang');
+    }
 }

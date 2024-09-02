@@ -86,6 +86,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [PurchasesController::class, 'create'])->name('create');
             Route::post('/', [PurchasesController::class, 'store'])->name('store');
             Route::get('history', [PurchasesController::class, 'history'])->name('index');
+            Route::post('returned', [PurchasesController::class, 'returnPurchase'])->name('return');
+            Route::post('paid/{purchase}', [PurchasesController::class, 'paidPurchase'])->name('paid');
         });
         Route::prefix('selling')->name('selling.')->group(function () {
             Route::get('history', [SellingController::class, 'history'])->name('history');

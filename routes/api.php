@@ -92,6 +92,7 @@ Route::name('find.')->prefix('find')->group(function () {
         Route::get('/last-product', [ProductController::class, 'lastProduct'])->name('last-product');
         Route::post('/check-code', [ProductController::class, 'checkCodeProduct'])->name('check-code');
     });
+    Route::get('purchase', [PurchasesController::class, 'detailPurchaseApi'])->name('purchase-invoice');
 });
 
 Route::get('summary/laba-rugi', [CostController::class, 'sumLabaRugi'])->name('laba-rugi');

@@ -79,6 +79,9 @@ class PurchaseRepository extends BaseRepository implements PurchaseInterface
             }else {
                 $query->whereDate('created_at', $request->date);
             }
+        })
+        ->when($request->invoice, function ($query) use ($request){
+            $query->where('invoice_number');
         });
     }
 

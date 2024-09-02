@@ -1,6 +1,7 @@
 <div class="modal modal-lg fade" id="modalAddReturn">
     <div class="modal-dialog">
-        <form action="#" action="POST" class="modal-content">
+        <form action="{{ route('admin.purchases.return') }}" action="POST" class="modal-content">
+            @csrf
             <div class="modal-header">
                 <h5>Tambah Data Retur</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
