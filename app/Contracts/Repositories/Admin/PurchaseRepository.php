@@ -81,7 +81,7 @@ class PurchaseRepository extends BaseRepository implements PurchaseInterface
             }
         })
         ->when($request->invoice, function ($query) use ($request){
-            $query->where('invoice_number');
+            $query->where('invoice_number',$request->invpice);
         });
     }
 
