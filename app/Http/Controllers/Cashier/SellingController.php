@@ -381,6 +381,8 @@ class SellingController extends Controller
 
     public function detailSellingApi(Request $request)
     {
+        if(!$request->invoice) $request->merge(['invoice' => '-']);
+
         $data = $this->selling->withEloquent($request)->first();
         if(!$data) return BaseResponse::custom(404, 'Data penjualan tidak ditemukan', null);
         
