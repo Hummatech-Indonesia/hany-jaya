@@ -10,12 +10,9 @@
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Retur Penjualan</h4>
                         <p>Data retur oleh pelanggan</p>
-                        @role('admin')
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddReturn">
+                        <a href="{{ route('return.create')}}" class="btn btn-primary">
                             Tambah Data Retur
-                        </button>
-                        @endrole
-                        @include('dashboard.return.widgets.index-modal-add-return')
+                        </a>
                     </div>
                     <div class="col-3">
                         <div class="text-center mb-n5">

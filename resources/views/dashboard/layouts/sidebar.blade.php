@@ -105,19 +105,11 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('return.index') }}" aria-expanded="false">
+                            <a class="sidebar-link {{ request()->routeIs('return.*') ? 'active' : '' }}" href="{{ route('return.index') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-truck-return"></i>
                                 </span>
                                 <span class="hide-menu">Retur Penjualan</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('admin.purchases.index') }}" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-history"></i>
-                                </span>
-                                <span class="hide-menu">Riwayat Pembelian</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -133,6 +125,16 @@
                         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                         <span class="hide-menu">Riwayat</span>
                     </li>
+                @endrole
+                @role('admin')
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('admin.purchases.index') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-history"></i>
+                        </span>
+                        <span class="hide-menu">Riwayat Pembelian</span>
+                    </a>
+                </li>
                 @endrole
                 @role(['admin', 'cashier'])
                     <li class="sidebar-item">

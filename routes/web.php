@@ -128,5 +128,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function() {
             return view('dashboard.return.index');
         })->name('index');
+        Route::get('/create', function() {
+            return view('dashboard.return.create');
+        })->name('create');
     });
 });
