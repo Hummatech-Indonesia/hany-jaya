@@ -51,10 +51,10 @@
                                     <input type="text" name="invoice_number" class="form-control" placeholder="HSN-2401" id="">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="method" class="mb-2">Metode Pembayaran <small class="text-danger">*</small></label>
+                                    <label for="method" class="mb-2">Status Pembayaran <small class="text-danger">*</small></label>
                                     <select name="method" id="method" class="form-select">
-                                        <option value="" selected disabled>Pilih Metode Pembayaran</option>
-                                        <option value="cash">Tunai</option>
+                                        <option value="" selected disabled>Pilih Status Pembayaran</option>
+                                        <option value="paid">Lunas</option>
                                         <option value="debt">Hutang</option>
                                     </select>
                                 </div>

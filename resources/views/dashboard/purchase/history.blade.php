@@ -65,7 +65,7 @@
     <script src="{{asset('assets/libs/datatablesnet/datatables.min.js')}}"></script>
     {{-- <script src="https://cdn.datatables.net/v/bs5/dt-2.0.8/datatables.min.js"></script> --}}
 
-    {{-- <script>
+    <script>
         const tb_purchasing = $('#tb-purchase').DataTable({
             processing: true,
             serverSide: true,
@@ -135,6 +135,17 @@
                     title: "Total Harga Beli",
                     render: (data, type, row) => {
                         return 'Rp '+formatNum(data)
+                    }
+                }, {
+                    title: "Status Pembayaran",
+                    mRender: (data, type, row) => {
+                        return '<span class="badge bg-warning">hutang</span>'
+                    }
+                }, {
+                    title: "Tempo",
+                    data: "created_at",
+                    render: (data, type) => {
+                        return moment(data).locale('id').fromNow()
                     }
                 },
                 @role('admin')
@@ -227,5 +238,5 @@
                     .format('YYYY-MM-DD'));
             });
         });
-    </script> --}}
+    </script>
 @endsection
