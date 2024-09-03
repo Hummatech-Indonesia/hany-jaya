@@ -237,5 +237,14 @@ class SellingRepository extends BaseRepository implements SellingInterface
         ->groupBy('buyer_id')
         ->get();
     }
+
+    public function getWhere(array $data): mixed
+    {
+        return $this->model->query()
+        ->with('detailSellings')
+        ->when(count($data) > 0, function ($query) use ($data){
+            foreach($data as $index => $value) $query->where($index, $value);
+        });
+    }
 }
 

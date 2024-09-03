@@ -10,6 +10,7 @@ use App\Contracts\Interfaces\Admin\LossCategoryInterface;
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
 use App\Contracts\Interfaces\Admin\PurchaseInterface;
+use App\Contracts\Interfaces\Admin\ReturnItemInterface;
 use App\Contracts\Interfaces\Admin\RoleInterface;
 use App\Contracts\Interfaces\Admin\SupplierInterface;
 use App\Contracts\Interfaces\Admin\SupplierProductInterface;
@@ -29,6 +30,7 @@ use App\Contracts\Repositories\Admin\LossCategoryRepository;
 use App\Contracts\Repositories\Admin\ProductRepository;
 use App\Contracts\Repositories\Admin\ProductUnitRepository;
 use App\Contracts\Repositories\Admin\PurchaseRepository;
+use App\Contracts\Repositories\Admin\ReturnItemRepository;
 use App\Contracts\Repositories\Admin\SupplierProductRepository;
 use App\Contracts\Repositories\Admin\SupplierRepository;
 use App\Contracts\Repositories\Admin\UnitRepository;
@@ -65,7 +67,8 @@ class AppServiceProvider extends ServiceProvider
         RoleInterface::class => RoleRepository::class,
         AdjustmentHistoryInterface::class => AdjustmentHistoryRepository::class,
         LossCategoryInterface::class => LossCategoryRepository::class,
-        CostInterface::class => CostRepository::class
+        CostInterface::class => CostRepository::class,
+        ReturnItemInterface::class => ReturnItemRepository::class
     ];
 
     /**

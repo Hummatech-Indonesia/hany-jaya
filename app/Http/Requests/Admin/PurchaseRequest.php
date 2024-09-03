@@ -72,6 +72,6 @@ class PurchaseRequest extends FormRequest
         if($this->tempo) $this->merge(['pay_date' => $this->tempo]);
         if(!$this->tempo && $this->pay_date && $this->method == 'paid') $this->merge(['pay_date' => date('Y-m-d')]);
         if($this->method == "paid") $this->merge(['status' => 'paid']);
-        else $this->merge(['status' => 'unpaid'])
+        else $this->merge(['status' => 'unpaid']);
     }
 }

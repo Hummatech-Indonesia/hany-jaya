@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cashier;
 
 use App\Contracts\Interfaces\Admin\ProductInterface;
 use App\Contracts\Interfaces\Admin\ProductUnitInterface;
+use App\Contracts\Interfaces\Admin\ReturnItemInterface;
 use App\Contracts\Interfaces\Cashier\BuyerInterface;
 use App\Contracts\Interfaces\Cashier\DebtInterface;
 use App\Contracts\Interfaces\Cashier\DetailSellingInterface;
@@ -15,6 +16,7 @@ use App\Helpers\BasePrint;
 use App\Helpers\BaseResponse;
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ReturnItemRequest;
 use App\Http\Requests\Cashier\SellingRequest;
 use App\Models\Selling;
 use App\Models\Store;
@@ -34,8 +36,12 @@ class SellingController extends Controller
     private DetailSellingInterface $detailSelling;
     private BuyerInterface $buyer;
     private SellingService $sellingService;
+    private ReturnItemInterface $returItem;
 
-    public function __construct(SellingInterface $selling, DetailSellingInterface $detailSelling, ProductInterface $product, ProductUnitInterface $productUnit, SellingService $sellingService, DebtInterface $debt, BuyerInterface $buyer)
+    public function __construct(SellingInterface $selling, DetailSellingInterface $detailSelling, ProductInterface $product, ProductUnitInterface $productUnit,
+        SellingService $sellingService, DebtInterface $debt, BuyerInterface $buyer,
+        ReturnItemInterface $returItem
+    )
     {
         $this->buyer = $buyer;
         $this->selling = $selling;
@@ -44,6 +50,7 @@ class SellingController extends Controller
         $this->productUnit = $productUnit;
         $this->detailSelling = $detailSelling;
         $this->sellingService = $sellingService;
+        $this->returItem = $returItem;
     }
 
     /**
@@ -387,6 +394,50 @@ class SellingController extends Controller
         if(!$data) return BaseResponse::custom(404, 'Data penjualan tidak ditemukan', null);
         
         return BaseResponse::Ok('Berhasil megambil data penjualan', $data);
+    }
+
+    public function returnSelling(ReturnItemRequest $request)
+    {
+        $data = $request->validated();
+
+        if(count($data['detail_selling_id']) != count($data['qty_return'])) {
+            return redirect()->back()->with('error','Jumlah barang dan jumlah kuantitas tidak valid!');
+        }
+
+        $selling = $this->selling->getWhere(['selling_id' => $data['selling_id']])->first();
+        $detailSelling = $selling->detailSellings;
+
+        DB::beginTransaction();
+        try{
+
+            $total = 0;
+            foreach($data['detail_selling_id'] as $index => $value)
+            {
+                $getDetailSelling = $detailSelling->where('id', $value)->first();
+    
+                $new_quantity = ($getDetailSelling->quantity ?? 0) - $data['qty_return'][$index];
+    
+                $this->returItem->store([
+                    "note" => $data["note"],
+                    "selling_id" => $data["selling_id"],
+                    "detail_selling_id" => $value,
+                    "new_quantity" => $new_quantity,
+                    "old_quantity" => ($getDetailSelling->quantity ?? 0),
+                    "adjust" => $data['qty_return'][$index]      
+                ]);
+    
+                $getDetailSelling->update(['quantity' => $new_quantity, 'selling_price' => $new_quantity * $getDetailSelling->selling_price_original]);
+                $total += $getDetailSelling->selling_price;
+            }
+            
+            $selling->uodate(['amount_price' => $total, "return" => $selling->return == 0 ? $selling->return : ($selling->pay - $total)]);
+
+            DB::commit();
+            return redirect()->route('return.index')->with('success','Berhasil mengembalikan data pembelian');
+        }catch(\Throwable $th){
+            DB::rollBack();
+            return redirect()->back()->withError($th->getMessage());
+        }
     }
 }
 

@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <form action="{{ route('admin.purchases.return') }}" method="POST" class="card" id="add-return-form">
+        <form action="{{ route('admin.selling.return') }}" method="POST" class="card" id="add-return-form">
             @csrf
             <input type="hidden" name="selling_id">
             <input type="hidden" name="invoice_number">
