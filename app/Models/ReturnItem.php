@@ -12,5 +12,5 @@ class ReturnItem extends Model
     public $primaryKey = "id";
     public $incrementing = false;
 
-    protected $guearded = [];
+    protected $guarded = [];
 }

@@ -404,7 +404,7 @@ class SellingController extends Controller
             return redirect()->back()->with('error','Jumlah barang dan jumlah kuantitas tidak valid!');
         }
 
-        $selling = $this->selling->getWhere(['selling_id' => $data['selling_id']])->first();
+        $selling = $this->selling->getWhere(['id' => $data['selling_id']])->first();
         $detailSelling = $selling->detailSellings;
 
         DB::beginTransaction();
@@ -430,7 +430,7 @@ class SellingController extends Controller
                 $total += $getDetailSelling->selling_price;
             }
             
-            $selling->uodate(['amount_price' => $total, "return" => $selling->return == 0 ? $selling->return : ($selling->pay - $total)]);
+            $selling->update(['amount_price' => $total, "return" => $selling->return == 0 ? $selling->return : ($selling->pay - $total)]);
 
             DB::commit();
             return redirect()->route('return.index')->with('success','Berhasil mengembalikan data pembelian');
