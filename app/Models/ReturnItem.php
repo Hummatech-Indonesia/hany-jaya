@@ -10,8 +10,7 @@ class ReturnItem extends Model
     use HasFactory;
 
     public $primaryKey = "id";
-    protected $incrementing = false;
+    public $incrementing = false;
 
     protected $guearded = [];
-    
 }
