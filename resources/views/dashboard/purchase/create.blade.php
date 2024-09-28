@@ -166,7 +166,7 @@
                 }
             }
 
-            $(document).on('click', 'button[type=submit]', function() {
+            $(document).on('submit', 'form', function() {
                 $('button[type=submit]').addClass('disabled')
             })
 
