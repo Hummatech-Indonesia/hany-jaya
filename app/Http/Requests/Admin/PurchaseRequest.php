@@ -64,13 +64,14 @@ class PurchaseRequest extends FormRequest
             'quantity.*.required' => 'Setiap Kuantitas dalam array wajib diisi.',
             'quantity.*.integer' => 'Setiap Kuantitas harus berupa bilangan bulat.',
             'quantity.*.min' => 'Setiap Kuantitas harus bernilai minimal 0.',
+            'pay_date.required' => 'Tanggal Pembayaran harus diisi'
         ];
     }
 
     public function prepareForValidation()
     {
-        if($this->tempo) $this->merge(['pay_date' => $this->tempo]);
-        if(!$this->tempo && $this->pay_date && $this->method == 'paid') $this->merge(['pay_date' => date('Y-m-d')]);
+        if($this->tempo && !$this->pay_date) $this->merge(['pay_date' => $this->tempo]);
+        if(!$this->tempo && !$this->pay_date && $this->method == 'paid') $this->merge(['pay_date' => date('Y-m-d')]);
         if($this->method == "paid") $this->merge(['status' => 'paid']);
         else $this->merge(['status' => 'unpaid']);
     }
