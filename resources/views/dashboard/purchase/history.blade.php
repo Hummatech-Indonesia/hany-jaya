@@ -48,6 +48,10 @@
             </div>
         </div>
     </div>
+
+    <form action="" id="pay_form" class="d-none" method="POST">
+        @csrf
+    </form>
     @include('dashboard.selling.widgets.detail-purchase')
 @endsection
 @section('style')
@@ -139,37 +143,86 @@
                 }, {
                     title: "Status Pembayaran",
                     mRender: (data, type, row) => {
-                        return '<span class="badge bg-warning">hutang</span>'
+                        if(row.status === 'unpaid') return '<span class="badge bg-warning">hutang</span>'
+                        return '<span class="badge bg-success">lunas</span  >'
                     }
                 }, {
                     title: "Tempo",
-                    data: "created_at",
-                    render: (data, type) => {
-                        return moment(data).locale('id').fromNow()
+                    data: "pay_date",
+                    render: (data, type, row) => {
+                        if(row.status === 'unpaid') return moment(data).locale('id').fromNow()
+                        return '-'
                     }
                 },
-                @role('admin')
                 {
                     mRender: (data, type, row) => {
                         let detail_string = JSON.stringify(row['list_products']).replaceAll('"', "'")
-                        return `
-                        <button type="button" class="btn btn-light btn-detail"
-                            data-detail-purchase="${detail_string}"
-                            data-name="${row['user']['name']}"
-                            data-invoice-number="${row['invoice_number']}"
-                            data-price="${row['buy_price']}"
-                            data-status_payment="${row['status_payment']}"
-                            data-date="${row['created_at']}"
-                            data-address="${row['supplier']['address']}"
-                            data-supplier-name="${row['supplier']['name']}"
-                        >
-                            <i class="ti ti-eye"></i>
-                        </button>
-                        `
+
+                        let action_btn = `<div class="d-flex align-items-center gap-2">`
+                        
+                        let pay_action = `{{ route('admin.purchases.paid', 'selected_id') }}`
+                        pay_action = pay_action.replace('selected_id', row['id'])
+
+                        
+                        @role('admin')
+                            action_btn += `
+                                <button type="button" class="btn btn-light btn-detail"
+                                    data-detail-purchase="${detail_string}"
+                                    data-name="${row['user']['name']}"
+                                    data-invoice-number="${row['invoice_number']}"
+                                    data-price="${row['buy_price']}"
+                                    data-status_payment="${row['status_payment']}"
+                                    data-date="${row['created_at']}"
+                                    data-address="${row['supplier']['address']}"
+                                    data-supplier-name="${row['supplier']['name']}"
+                                >
+                                    <i class="ti ti-eye"></i>
+                                </button>
+                            `
+
+                            if(row.status === 'unpaid') {
+                                action_btn += `
+                                    <button type="button" class="btn btn-light btn-pay"
+                                        data-action="${pay_action}"
+                                    >
+                                        <i class="ti ti-credit-card"></i>
+                                    </button>
+                                `
+                            }
+                        @else
+                            if(row.status === 'unpaid') {
+                                action_btn += `
+                                    <button type="button" class="btn btn-light btn-pay"
+                                        data-action="${pay_action}"
+                                    >
+                                        <i class="ti ti-credit-card"></i>
+                                    </button>
+                                `
+                            } else {
+                                action_btn += `-`
+                            }
+                        @endrole
+
+                        action_btn += `</div>`
+                        return action_btn
                     }, title: 'Aksi'
                 }
-                @endrole
             ]
+        })
+
+        $(document).on('click', '.btn-pay', function() {
+            let action = $(this).data('action')
+            $('#pay_form').attr('action', action)
+            
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                icon: 'warning',
+                text: 'Status pembayaran akan diubah menjadi lunas',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#pay_form').submit()
+                }
+            })
         })
 
         function updateDateRange(val) {
