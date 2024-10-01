@@ -28,7 +28,7 @@ class Purchase extends Model implements HasUser, HasProduct, HasSupplier, HasOne
         'supplier_id',
         'invoice_number',
         'buy_price',
-        'pay_debt',
+        'pay_date',
         'status'
     ];
 
