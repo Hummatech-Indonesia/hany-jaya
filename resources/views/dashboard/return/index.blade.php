@@ -36,6 +36,15 @@
         @include('components.swal-message')
     </div>
 @endsection
+@section('style')
+    <link href="{{asset('assets/libs/datatablesnet/datatables.min.css')}}" rel="stylesheet">
+@endsection
 @section('script')
-    <script src="{{ asset('assets/js/number-format.js') }}"></script>
+    <script src="{{asset('assets/libs/momentjs/moment.min.js')}}"></script>
+    <script src="{{asset('assets/libs/momentjs/moment-with-locales.min.js')}}"></script>
+    <script src="{{asset('assets/js/number-format.js')}}"></script>
+    
+    <script src="{{asset('assets/libs/datatablesnet/pdfmake.min.js')}}"></script>
+    <script src="{{asset('assets/libs/datatablesnet/vfs_fonts.js')}}"></script>
+    <script src="{{asset('assets/libs/datatablesnet/datatables.min.js')}}"></script>
 @endsection
