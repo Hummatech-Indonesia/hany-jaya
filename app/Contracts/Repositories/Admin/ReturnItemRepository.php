@@ -79,4 +79,17 @@ class ReturnItemRepository extends BaseRepository implements ReturnItemInterface
     {
         return $this->show($id)->update($data);
     }
+
+    public function groupData(): mixed
+    {
+        return $this->model->query()
+        ->with('selling.buyer','detail')
+        ->latest()
+        ->get();
+    }
+
+    public function latestData(): mixed 
+    {
+        return $this->model->latest()->first();
+    }
 }

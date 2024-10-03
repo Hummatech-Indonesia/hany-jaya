@@ -60,6 +60,7 @@ Route::name('data-table.')->prefix('data-table')->group(function () {
     Route::get('/list-unit', [UnitController::class, 'tableUnit'])->name('list-unit');
     Route::get('/list-cost', [CostController::class, 'tableCost'])->name('list-cost');
     Route::get('/list-buyer', [BuyerController::class, 'tableBuyer'])->name('list-buyer');
+    Route::get('/list-retur', [SellingController::class, 'tableRetur'])->name('list-retur');
 
     // data dashboard
     Route::get('/list-high-transaction', [SellingController::class, 'tableUserHighTransaction'])->name('list-high-transaction');

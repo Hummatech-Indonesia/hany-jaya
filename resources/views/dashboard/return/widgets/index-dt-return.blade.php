@@ -51,19 +51,19 @@
                 buttons: [
                     {
                         extend: 'excel',
-                        filename: 'Data Riwayat Penjualan - Hanny Jaya',
+                        filename: 'Data Retur Penjualan - Hanny Jaya',
                         exportOptions: {
                             columns: ":not(:eq(6))"
                         }
                     }, {
                         extend: 'csv',
-                        filename: 'Data Riwayat Penjualan - Hanny Jaya',
+                        filename: 'Data Retur Penjualan - Hanny Jaya',
                         exportOptions: {
                             columns: ":not(:eq(6))"
                         }
                     }, {
                         extend: 'pdf',
-                        filename: 'Data Riwayat Penjualan - Hanny Jaya',
+                        filename: 'Data Retur Penjualan - Hanny Jaya',
                         exportOptions: {
                             columns: ":not(:eq(6))"
                         },
@@ -80,7 +80,7 @@
                     processing: 'Memuat...'
                 },
                 ajax: {
-                    url: "{{ route('data-table.list-transaction-history') }}"
+                    url: "{{ route('data-table.list-retur') }}"
                 },
                 columns: [
                     {
@@ -90,11 +90,11 @@
                         searchable: false
                     },
                     {
-                        data: "invoice_number",
+                        data: "selling.invoice_number",
                         title: "No. Invoice",
                     },
                     {
-                        data: "created_at",
+                        data: "selling.created_at",
                         title: "Tanggal Beli",
                         render: (data, type, row) => {
                             return moment(data).locale('id').format('LL')
@@ -108,17 +108,10 @@
                         },
                     },
                     {
-                        data: "buyer.name",
+                        data: "selling.buyer.name",
                         title: "Nama Pembeli",
                         render: (data, type, row) => {
-                            return `${row.buyer.name} - ${row.buyer.address}`
-                        }
-                    }, 
-                    {
-                        data: "buyer.name",
-                        title: "Alasan",
-                        render: (data, type, row) => {
-                            return `${row.buyer.name} - ${row.buyer.address}`
+                            return `${row.selling.buyer.name} - ${row.selling.buyer.address}`
                         }
                     }, 
                     {

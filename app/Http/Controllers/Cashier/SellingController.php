@@ -18,6 +18,7 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ReturnItemRequest;
 use App\Http\Requests\Cashier\SellingRequest;
+use App\Models\ReturnItemDetail;
 use App\Models\Selling;
 use App\Models\Store;
 use App\Services\Cashier\SellingService;
@@ -411,15 +412,25 @@ class SellingController extends Controller
         try{
 
             $total = 0;
+            $this->returItem->store([
+                "note" => $data["note"],
+                "selling_id" => $data["selling_id"],
+                "detail_selling_id" => $detailSelling->first()->id,
+                "new_quantity" => 0,
+                "old_quantity" => 0,
+                "adjust" => 0      
+            ]);
+
+            $retur = $this->returItem->latestData();
+            
             foreach($data['detail_selling_id'] as $index => $value)
             {
                 $getDetailSelling = $detailSelling->where('id', $value)->first();
     
                 $new_quantity = ($getDetailSelling->quantity ?? 0) - $data['qty_return'][$index];
-    
-                $this->returItem->store([
-                    "note" => $data["note"],
-                    "selling_id" => $data["selling_id"],
+                ReturnItemDetail::create([
+                    "note" => "-",
+                    "return_item_id" => $retur->id,
                     "detail_selling_id" => $value,
                     "new_quantity" => $new_quantity,
                     "old_quantity" => ($getDetailSelling->quantity ?? 0),
@@ -438,6 +449,13 @@ class SellingController extends Controller
             DB::rollBack();
             return redirect()->back()->withError($th->getMessage());
         }
+    }
+
+    public function tableRetur()
+    {
+        $data = $this->returItem->groupData();
+
+        return BaseDatatable::TableV2($data->toArray());
     }
 }
 
