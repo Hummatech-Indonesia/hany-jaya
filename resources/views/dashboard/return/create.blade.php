@@ -77,6 +77,7 @@
                         invoice: $('#invoice').val(),
                     },
                     success: (res) => {
+                        console.log(res)
                         let product_html = ''
                         $('[name=selling_id]').val(res.data.id)
                         $('[name=invoice_number]').val(res.data.invoice_number)
@@ -87,6 +88,7 @@
                                 <td>${selling.quantity}</td>
                                 <td>
                                     <input type="hidden" name="selling_detail_id[]" value="${selling.id}" />
+                                    <input type="hidden" name="product_id[]" value="${selling.product_id}" />
                                     <input class="form-control bg-white qty-back" data-max="${selling.quantity}" value="0"/>
                                     <input type="hidden" name="qty_return[]" value="0" />
                                 </td>
