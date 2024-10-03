@@ -432,6 +432,7 @@ class SellingController extends Controller
                     "note" => "-",
                     "return_item_id" => $retur->id,
                     "detail_selling_id" => $value,
+                    "product_id" => $getDetailSelling->product_id,
                     "new_quantity" => $new_quantity,
                     "old_quantity" => ($getDetailSelling->quantity ?? 0),
                     "adjust" => $data['qty_return'][$index]      

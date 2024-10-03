@@ -83,7 +83,8 @@ class ReturnItemRepository extends BaseRepository implements ReturnItemInterface
     public function groupData(): mixed
     {
         return $this->model->query()
-        ->with('selling.buyer','detail')
+        ->selectRaw('')
+        ->with('selling.buyer', 'detail.product.unit')
         ->latest()
         ->get();
     }

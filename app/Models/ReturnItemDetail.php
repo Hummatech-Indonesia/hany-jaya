@@ -13,4 +13,9 @@ class ReturnItemDetail extends Model
     public $incrementing = false;
 
     protected $guarded = [];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
