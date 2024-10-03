@@ -77,7 +77,6 @@
                         invoice: $('#invoice').val(),
                     },
                     success: (res) => {
-                        console.log(res)
                         let product_html = ''
                         $('[name=selling_id]').val(res.data.id)
                         $('[name=invoice_number]').val(res.data.invoice_number)

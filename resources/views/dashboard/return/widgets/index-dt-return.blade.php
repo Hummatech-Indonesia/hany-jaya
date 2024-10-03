@@ -25,11 +25,12 @@
                                 <th>Nama Barang</th>
                                 <th>Jumlah Dibeli</th>
                                 <th>Jumlah Dikembalikan</th>
+                                <th>Sisa</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td colspan="4" class="text-center text-muted">-- belum ada data --</td>
+                                <td colspan="5" class="text-center text-muted">-- belum ada data --</td>
                             </tr>
                         </tbody>
                     </table>
@@ -45,7 +46,7 @@
             $('#tb-returns').DataTable({
                 processing: true,
                 serverSide: true,
-                order: [[2, 'desc']],
+                order: [[3, 'desc']],
                 lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Semua']],
                 dom: "<'row mt-2 justify-content-between'<'col-md-auto me-auto'B><'col-md-auto ms-auto input-date-container'>><'row mt-2 justify-content-between'<'col-md-auto me-auto'l><'col-md-auto me-start'f>><'row mt-2 justify-content-md-center'<'col-12'rt>><'row mt-2 justify-content-between'<'col-md-auto me-auto'i><'col-md-auto ms-auto'p>>",
                 buttons: [
@@ -116,13 +117,44 @@
                     }, 
                     {
                         title: "Aksi",
-                        render: (data, type, row) => {
+                        mRender: (data, type, row) => {
+                            const str_detail = JSON.stringify(row.detail).replaceAll('"', '`')
+
                             return `
-                            <button class="btn btn-primary" id="btn-detail" data-bs-toggle="modal" data-bs-target="#modal-detail"><i class="ti ti-eye"></i></button>
+                            <button class="btn btn-primary" id="btn-detail" data-bs-toggle="modal" data-bs-target="#modal-detail" data-note="${row.note}" data-detail="${str_detail}"><i class="ti ti-eye"></i></button>
                             `
                         }
                     }
                 ]
+            })
+
+            $(document).on('click', '#btn-detail', function() {
+                const note = $(this).data('note')
+                const detail = JSON.parse($(this).data('detail').replaceAll('`', '"'))
+
+                let detail_tb = ''
+                if(detail.length > 0) {
+                    detail.forEach((data, index) => {
+                        detail_tb += `
+                            <tr>
+                                <th>${index + 1}</th>
+                                <td>${data.product.code} | ${data.product.name} (${data.product.unit.name})</td>
+                                <td>${formatNum(data.old_quantity, true)}</td>
+                                <td>${formatNum(data.new_quantity, true)}</td>
+                                <td>${formatNum(data.old_quantity - data.new_quantity, true)}</td>
+                            </tr>
+                        `
+                    });
+                } else {
+                    detail_tb += `
+                        <tr>
+                            <td colspan="5" class="text-center">Tidak ada data</td>
+                        </tr>
+                    `
+                }
+
+                $('#modal-detail .form-control').html(note)
+                $('#modal-detail #tb-detail-returns tbody').html(detail_tb)
             })
         })
     </script>
