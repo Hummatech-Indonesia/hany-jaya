@@ -140,8 +140,8 @@
                                 <th>${index + 1}</th>
                                 <td>${data.product.code} | ${data.product.name} (${data.product.unit.name})</td>
                                 <td>${formatNum(data.old_quantity, true)}</td>
-                                <td>${formatNum(data.new_quantity, true)}</td>
                                 <td>${formatNum(data.old_quantity - data.new_quantity, true)}</td>
+                                <td>${formatNum(data.new_quantity, true)}</td>
                             </tr>
                         `
                     });
