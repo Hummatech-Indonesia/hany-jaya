@@ -54,19 +54,19 @@
                         extend: 'excel',
                         filename: 'Data Retur Penjualan - Hanny Jaya',
                         exportOptions: {
-                            columns: ":not(:eq(6))"
+                            columns: ":not(:eq(5))"
                         }
                     }, {
                         extend: 'csv',
                         filename: 'Data Retur Penjualan - Hanny Jaya',
                         exportOptions: {
-                            columns: ":not(:eq(6))"
+                            columns: ":not(:eq(5))"
                         }
                     }, {
                         extend: 'pdf',
                         filename: 'Data Retur Penjualan - Hanny Jaya',
                         exportOptions: {
-                            columns: ":not(:eq(6))"
+                            columns: ":not(:eq(5))"
                         },
                         customize: function (doc) {
                             doc.content[1].table.widths = 
